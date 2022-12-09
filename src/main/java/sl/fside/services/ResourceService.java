@@ -11,7 +11,7 @@ import java.util.*;
 public class ResourceService implements IResourceService {
 
     @SuppressWarnings("FieldCanBeLocal")
-    private final String textsFile = "/bgs/formalspecificationide/texts/texts.json";
+    private final String textsFile = "/sl/fside/texts/texts.json";
 
     private HashMap<String, String> textsDictionary = new HashMap<>();
     private final LoggerService loggerService;

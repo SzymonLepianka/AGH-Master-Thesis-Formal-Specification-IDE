@@ -123,7 +123,7 @@ public class MainWindowController implements IController {
     @FXML
     private void startActivityDiagramClicked() {
         var stage = new Stage();
-//        final var location = getClass().getClassLoader().getResource("bgs/formalspecificationide/ui/editors/activityDiagramEditor/ActivityDiagramEditor.fxml");
+//        final var location = getClass().getClassLoader().getResource("sl/fside/ui/editors/activityDiagramEditor/ActivityDiagramEditor.fxml");
         final var loader = new FXMLLoader(ActivityDiagramEditorController.class.getResource("ActivityDiagramEditor.fxml"));
         final Parent root;
         try {
