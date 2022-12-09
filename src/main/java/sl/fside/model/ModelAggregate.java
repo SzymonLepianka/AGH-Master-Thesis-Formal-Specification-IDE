@@ -1,8 +1,8 @@
 package sl.fside.model;
 
-import bgs.formalspecificationide.events.*;
-import bgs.formalspecificationide.events.modelEvents.*;
-import bgs.formalspecificationide.utilities.*;
+import sl.fside.events.*;
+import sl.fside.events.modelEvents.*;
+import sl.fside.utilities.*;
 
 import java.util.*;
 

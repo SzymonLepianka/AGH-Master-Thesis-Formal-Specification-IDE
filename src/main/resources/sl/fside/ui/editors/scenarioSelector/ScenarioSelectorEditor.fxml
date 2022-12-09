@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="bgs.formalspecificationide.ui.editors.scenarioSelector.ScenarioSelectorEditorController">
+            fx:controller="sl.fside.ui.editors.scenarioSelector.ScenarioSelectorEditorController">
    <ListView id="scenarioListView" prefHeight="340.0" prefWidth="380.0"/>
    <Button id="addScenarioButton" layoutX="97.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0"
            prefWidth="186.0" text="Add an additional scenario"/>

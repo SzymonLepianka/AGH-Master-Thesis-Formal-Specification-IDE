@@ -1,7 +1,7 @@
 package sl.fside.ui;
 
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.editors.useCaseSelector.controls.*;
+import sl.fside.model.*;
+import sl.fside.ui.editors.useCaseSelector.controls.*;
 import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.*;

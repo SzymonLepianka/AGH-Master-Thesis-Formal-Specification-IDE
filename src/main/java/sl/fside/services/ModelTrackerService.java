@@ -1,7 +1,7 @@
 package sl.fside.services;
 
-import bgs.formalspecificationide.events.*;
-import bgs.formalspecificationide.utilities.*;
+import sl.fside.events.*;
+import sl.fside.utilities.*;
 import com.google.inject.*;
 
 public class ModelTrackerService implements IObserver {

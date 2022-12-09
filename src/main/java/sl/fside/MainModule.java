@@ -1,10 +1,12 @@
 package sl.fside;
 
-import sl.fside.factories.*;
-import sl.fside.repositories.*;
+import sl.fside.factories.IModelFactory;
+import sl.fside.factories.ModelFactory;
+import sl.fside.persistence.repositories.RepositoriesModule;
 import sl.fside.services.*;
-import sl.fside.ui.*;
-import com.google.inject.*;
+import sl.fside.ui.UIModule;
+import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 
 public class MainModule extends AbstractModule {
 

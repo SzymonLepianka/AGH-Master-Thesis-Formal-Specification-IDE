@@ -1,6 +1,6 @@
 package sl.fside.utilities;
 
-import bgs.formalspecificationide.events.*;
+import sl.fside.events.*;
 
 public interface IObserver {
 

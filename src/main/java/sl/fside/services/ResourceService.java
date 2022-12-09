@@ -1,6 +1,6 @@
 package sl.fside.services;
 
-import bgs.formalspecificationide.exceptions.*;
+import sl.fside.exceptions.*;
 import com.fasterxml.jackson.core.type.*;
 import com.fasterxml.jackson.databind.*;
 import com.google.inject.*;

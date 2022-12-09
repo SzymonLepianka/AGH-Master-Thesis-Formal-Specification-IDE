@@ -1,14 +1,14 @@
 package sl.fside.ui.editors.scenarioSelector.controls;
 
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
 import com.google.inject.*;
 
 public class ScenarioController implements IController {
 
     private Scenario scenario;
 
-//    public ScenarioController(bgs.formalspecificationide.model.Scenario scenario) {
+//    public ScenarioController(sl.fside.model.Scenario scenario) {
 //        super();
 //        this.scenario = scenario;
 //

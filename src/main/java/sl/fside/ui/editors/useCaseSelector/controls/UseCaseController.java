@@ -1,7 +1,7 @@
 package sl.fside.ui.editors.useCaseSelector.controls;
 
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
 import com.google.inject.*;
 import javafx.beans.property.*;
 import javafx.event.*;
@@ -51,7 +51,7 @@ public class UseCaseController implements IController {
             onRemoveClicked.apply(pane);
     }
 
-    public bgs.formalspecificationide.model.UseCase getUseCase() {
+    public sl.fside.model.UseCase getUseCase() {
         return useCase;
     }
 

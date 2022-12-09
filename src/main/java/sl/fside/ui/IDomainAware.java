@@ -1,6 +1,6 @@
 package sl.fside.ui;
 
-import bgs.formalspecificationide.model.*;
+import sl.fside.model.*;
 
 public interface IDomainAware {
 

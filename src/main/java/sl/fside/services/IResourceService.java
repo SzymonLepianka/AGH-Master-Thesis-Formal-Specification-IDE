@@ -1,6 +1,6 @@
 package sl.fside.services;
 
-import bgs.formalspecificationide.exceptions.*;
+import sl.fside.exceptions.*;
 
 public interface IResourceService {
 

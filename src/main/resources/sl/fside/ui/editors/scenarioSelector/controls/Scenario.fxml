@@ -5,7 +5,7 @@
 
 <AnchorPane prefHeight="50.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="bgs.formalspecificationide.ui.editors.scenarioSelector.controls.ScenarioController">
+            fx:controller="sl.fside.ui.editors.scenarioSelector.controls.ScenarioController">
    <Label id="scenarioNameLabel" layoutX="14.0" layoutY="7.0" prefHeight="37.0" prefWidth="300.0"/>
    <CheckBox id="isMainScenarioCheckBox" layoutX="314.0" layoutY="17.0" mnemonicParsing="false" text="Main?"/>
 </AnchorPane>

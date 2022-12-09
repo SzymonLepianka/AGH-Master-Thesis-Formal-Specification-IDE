@@ -1,6 +1,6 @@
 package sl.fside.factories;
 
-import bgs.formalspecificationide.model.*;
+import sl.fside.model.*;
 import org.jetbrains.annotations.*;
 
 import java.io.*;

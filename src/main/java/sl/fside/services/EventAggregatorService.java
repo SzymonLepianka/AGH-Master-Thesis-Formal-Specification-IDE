@@ -1,6 +1,6 @@
 package sl.fside.services;
 
-import bgs.formalspecificationide.events.*;
+import sl.fside.events.*;
 import com.google.inject.*;
 
 import java.util.*;

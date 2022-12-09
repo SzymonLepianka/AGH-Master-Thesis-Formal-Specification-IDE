@@ -1,10 +1,10 @@
 package sl.fside.ui.editors.useCaseSelector;
 
-import bgs.formalspecificationide.factories.*;
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.services.*;
-import bgs.formalspecificationide.ui.*;
-import bgs.formalspecificationide.ui.events.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.services.*;
+import sl.fside.ui.*;
+import sl.fside.ui.events.*;
 import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;

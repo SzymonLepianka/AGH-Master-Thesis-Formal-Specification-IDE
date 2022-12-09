@@ -1,15 +1,15 @@
 package sl.fside.ui;
 
-import bgs.formalspecificationide.factories.*;
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.persistence.repositories.*;
-import bgs.formalspecificationide.services.*;
-import bgs.formalspecificationide.ui.editors.actionEditor.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.*;
-import bgs.formalspecificationide.ui.editors.imageViewer.*;
-import bgs.formalspecificationide.ui.editors.scenarioSelector.*;
-import bgs.formalspecificationide.ui.editors.useCaseSelector.*;
-import bgs.formalspecificationide.ui.events.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.persistence.repositories.*;
+import sl.fside.services.*;
+import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.activityDiagramEditor.*;
+import sl.fside.ui.editors.imageViewer.*;
+import sl.fside.ui.editors.scenarioSelector.*;
+import sl.fside.ui.editors.useCaseSelector.*;
+import sl.fside.ui.events.*;
 import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.*;

@@ -1,6 +1,6 @@
 package sl.fside.events.modelEvents;
 
-import bgs.formalspecificationide.model.*;
+import sl.fside.model.*;
 
 public class ChildRemovedEvent extends ModelAggregateModifiedEvent{
     public ChildRemovedEvent(ModelAggregate publisher, ModelBase item) {

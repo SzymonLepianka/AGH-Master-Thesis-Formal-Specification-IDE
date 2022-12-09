@@ -1,11 +1,11 @@
 package sl.fside.ui;
 
-import bgs.formalspecificationide.ui.editors.actionEditor.*;
-import bgs.formalspecificationide.ui.editors.actionEditor.controls.*;
-import bgs.formalspecificationide.ui.editors.imageViewer.*;
-import bgs.formalspecificationide.ui.editors.scenarioSelector.*;
-import bgs.formalspecificationide.ui.editors.useCaseSelector.*;
-import bgs.formalspecificationide.ui.editors.useCaseSelector.controls.*;
+import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.actionEditor.controls.*;
+import sl.fside.ui.editors.imageViewer.*;
+import sl.fside.ui.editors.scenarioSelector.*;
+import sl.fside.ui.editors.useCaseSelector.*;
+import sl.fside.ui.editors.useCaseSelector.controls.*;
 import com.google.inject.*;
 
 public class UIModule extends PrivateModule {

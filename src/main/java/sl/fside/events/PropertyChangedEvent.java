@@ -1,6 +1,6 @@
 package sl.fside.events;
 
-import bgs.formalspecificationide.model.*;
+import sl.fside.model.*;
 
 public class PropertyChangedEvent extends Event<ModelBase> {
 

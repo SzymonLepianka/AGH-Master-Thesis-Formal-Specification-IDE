@@ -1,6 +1,6 @@
 package sl.fside.persistence;
 
-import bgs.formalspecificationide.model.*;
+import sl.fside.model.*;
 
 import java.io.*;
 import java.nio.file.*;

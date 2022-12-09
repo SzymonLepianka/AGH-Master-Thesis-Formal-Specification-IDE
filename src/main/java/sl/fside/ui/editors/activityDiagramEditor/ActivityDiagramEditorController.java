@@ -1,12 +1,12 @@
 package sl.fside.ui.editors.activityDiagramEditor;
 
 
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.customskin.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.managers.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.ownImpl.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.resultsEditor.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.selections.*;
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.utils.*;
+import sl.fside.ui.editors.activityDiagramEditor.customskin.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
+import sl.fside.ui.editors.activityDiagramEditor.ownImpl.*;
+import sl.fside.ui.editors.activityDiagramEditor.resultsEditor.*;
+import sl.fside.ui.editors.activityDiagramEditor.selections.*;
+import sl.fside.ui.editors.activityDiagramEditor.utils.*;
 import io.github.eckig.grapheditor.*;
 import io.github.eckig.grapheditor.core.skins.defaults.connection.*;
 import io.github.eckig.grapheditor.core.view.*;

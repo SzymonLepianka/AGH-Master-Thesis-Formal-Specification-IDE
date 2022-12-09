@@ -1,6 +1,6 @@
 package sl.fside.persistence.repositories;
 
-import bgs.formalspecificationide.utilities.*;
+import sl.fside.utilities.*;
 
 import java.util.*;
 

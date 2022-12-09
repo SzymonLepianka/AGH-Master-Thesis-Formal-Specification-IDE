@@ -1,7 +1,7 @@
 package sl.fside.ui.editors.actionEditor.controls;
 
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 

@@ -1,8 +1,8 @@
 package sl.fside.ui.events;
 
-import bgs.formalspecificationide.events.*;
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.*;
+import sl.fside.events.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
 
 public class ProjectLoadedEvent extends Event<IController> {
 

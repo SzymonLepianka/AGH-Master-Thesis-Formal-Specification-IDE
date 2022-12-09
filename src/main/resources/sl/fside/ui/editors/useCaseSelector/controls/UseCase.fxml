@@ -5,7 +5,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="pane" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bgs.formalspecificationide.ui.editors.useCaseSelector.controls.UseCaseController" >
+<AnchorPane fx:id="pane" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sl.fside.ui.editors.useCaseSelector.controls.UseCaseController" >
    <children>
       <CheckBox fx:id="isSelectedCheckBox" layoutX="210.0" layoutY="69.0" mnemonicParsing="false" text="Select" />
       <CheckBox fx:id="isImportedCheckBox" disable="true" layoutX="210.0" layoutY="50.0" mnemonicParsing="false" text="Imported?" />

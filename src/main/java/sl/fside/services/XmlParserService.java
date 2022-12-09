@@ -1,7 +1,7 @@
 package sl.fside.services;
 
-import bgs.formalspecificationide.factories.*;
-import bgs.formalspecificationide.model.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
 import com.google.inject.*;
 import javafx.util.*;
 import org.w3c.dom.*;

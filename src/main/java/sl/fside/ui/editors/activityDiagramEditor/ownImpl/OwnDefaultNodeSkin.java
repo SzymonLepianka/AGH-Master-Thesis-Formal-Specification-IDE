@@ -1,6 +1,6 @@
 package sl.fside.ui.editors.activityDiagramEditor.ownImpl;
 
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.managers.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import io.github.eckig.grapheditor.*;
 import io.github.eckig.grapheditor.core.connectors.*;
 import io.github.eckig.grapheditor.model.*;

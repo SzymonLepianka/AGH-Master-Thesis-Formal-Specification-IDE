@@ -1,7 +1,7 @@
 package sl.fside.model;
 
-import bgs.formalspecificationide.events.*;
-import bgs.formalspecificationide.utilities.*;
+import sl.fside.events.*;
+import sl.fside.utilities.*;
 import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;

@@ -1,8 +1,8 @@
 package sl.fside.persistence.repositories;
 
-import bgs.formalspecificationide.factories.*;
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.persistence.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.persistence.*;
 import com.google.inject.*;
 import org.jetbrains.annotations.*;
 

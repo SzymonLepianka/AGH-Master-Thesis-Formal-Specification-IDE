@@ -4,7 +4,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane onMouseClicked="#onClick" prefHeight="515.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="bgs.formalspecificationide.ui.editors.imageViewer.ImageViewerController">
+<AnchorPane onMouseClicked="#onClick" prefHeight="515.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sl.fside.ui.editors.imageViewer.ImageViewerController">
     <ImageView fx:id="imageView" visible="false" />
     <Button fx:id="addImageButton" layoutX="163.0" layoutY="233.0" text="Add image" />
 </AnchorPane>

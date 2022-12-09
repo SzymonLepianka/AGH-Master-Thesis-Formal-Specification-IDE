@@ -1,8 +1,8 @@
 package sl.fside.persistence;
 
-import bgs.formalspecificationide.factories.*;
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.services.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.services.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.jsontype.*;

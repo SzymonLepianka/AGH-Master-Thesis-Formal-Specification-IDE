@@ -1,6 +1,6 @@
 package sl.fside.ui.editors.activityDiagramEditor.customskin;
 
-import bgs.formalspecificationide.ui.editors.activityDiagramEditor.selections.*;
+import sl.fside.ui.editors.activityDiagramEditor.selections.*;
 import javafx.geometry.*;
 
 /**

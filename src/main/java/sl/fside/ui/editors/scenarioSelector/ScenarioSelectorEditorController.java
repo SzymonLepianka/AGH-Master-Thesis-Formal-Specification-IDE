@@ -1,7 +1,7 @@
 package sl.fside.ui.editors.scenarioSelector;
 
-import bgs.formalspecificationide.model.*;
-import bgs.formalspecificationide.ui.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
 import com.google.inject.*;
 
 public class ScenarioSelectorEditorController implements IController {

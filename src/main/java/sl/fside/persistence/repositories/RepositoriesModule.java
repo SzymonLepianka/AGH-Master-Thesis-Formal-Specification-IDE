@@ -1,6 +1,6 @@
 package sl.fside.persistence.repositories;
 
-import bgs.formalspecificationide.persistence.*;
+import sl.fside.persistence.*;
 import com.google.inject.*;
 
 public class RepositoriesModule extends PrivateModule {
