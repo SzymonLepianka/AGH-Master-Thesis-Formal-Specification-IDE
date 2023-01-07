@@ -544,28 +544,24 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             // usuń zagnieżdżenie jeśli istnieje
             if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") || dropdownComboBox.getValue().equals("atomic_activity_2") || dropdownComboBox.getValue().equals("atomic_activity_3"))) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
-            } else if (parentVBox.getChildren().size() == 2 ) {
+            } else if (parentVBox.getChildren().size() == 2) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
             }
 
             if (dropdownComboBox.getValue().equals("SEQ")) {
-                VBox newSeqBox = createSeqPattern("SEQ", options);
+                VBox newSeqBox = createSeqPattern("", options);
                 parentVBox.getChildren().add(newSeqBox);
-            }
-            else if (dropdownComboBox.getValue().equals("BRANCH")) {
-                VBox newBranchBox = createBranchPattern("BRANCH", options);
+            } else if (dropdownComboBox.getValue().equals("BRANCH")) {
+                VBox newBranchBox = createBranchPattern("", options);
                 parentVBox.getChildren().add(newBranchBox);
-            }
-            else if (dropdownComboBox.getValue().equals("BRANCHRE")) {
-                VBox newBranchReBox = createBranchRePattern("BRANCHRE", options);
+            } else if (dropdownComboBox.getValue().equals("BRANCHRE")) {
+                VBox newBranchReBox = createBranchRePattern("", options);
                 parentVBox.getChildren().add(newBranchReBox);
-            }
-            else if (dropdownComboBox.getValue().equals("COND")) {
-                VBox newCondBox = createCondPattern("COND", options);
+            } else if (dropdownComboBox.getValue().equals("COND")) {
+                VBox newCondBox = createCondPattern("", options);
                 parentVBox.getChildren().add(newCondBox);
-            }
-            else if (dropdownComboBox.getValue().equals("PARA")) {
-                VBox newParaBox = createParaPattern("PARA", options);
+            } else if (dropdownComboBox.getValue().equals("PARA")) {
+                VBox newParaBox = createParaPattern("", options);
                 parentVBox.getChildren().add(newParaBox);
             }
         });

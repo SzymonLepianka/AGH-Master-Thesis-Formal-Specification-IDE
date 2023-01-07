@@ -138,7 +138,7 @@ public class MainWindowController implements IController {
         Font.loadFont(ActivityDiagramEditorController.class.getResource("fontawesome.ttf").toExternalForm(), 12);
 
         stage.setScene(scene);
-        stage.setTitle("Results");
+        stage.setTitle("Activity Diagram Editor");
 
         stage.show();
 
