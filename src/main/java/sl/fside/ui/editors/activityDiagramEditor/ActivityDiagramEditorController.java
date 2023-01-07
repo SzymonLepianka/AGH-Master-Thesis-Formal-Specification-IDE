@@ -1,12 +1,6 @@
 package sl.fside.ui.editors.activityDiagramEditor;
 
 
-import sl.fside.ui.editors.activityDiagramEditor.customskin.*;
-import sl.fside.ui.editors.activityDiagramEditor.managers.*;
-import sl.fside.ui.editors.activityDiagramEditor.ownImpl.*;
-import sl.fside.ui.editors.activityDiagramEditor.resultsEditor.*;
-import sl.fside.ui.editors.activityDiagramEditor.selections.*;
-import sl.fside.ui.editors.activityDiagramEditor.utils.*;
 import io.github.eckig.grapheditor.*;
 import io.github.eckig.grapheditor.core.skins.defaults.connection.*;
 import io.github.eckig.grapheditor.core.view.*;
@@ -23,6 +17,12 @@ import javafx.scene.layout.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
 import org.eclipse.emf.ecore.*;
+import sl.fside.ui.editors.activityDiagramEditor.customskin.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
+import sl.fside.ui.editors.activityDiagramEditor.ownImpl.*;
+import sl.fside.ui.editors.activityDiagramEditor.resultsEditor.*;
+import sl.fside.ui.editors.activityDiagramEditor.selections.*;
+import sl.fside.ui.editors.activityDiagramEditor.utils.*;
 
 import java.io.*;
 import java.util.*;
@@ -120,6 +120,9 @@ public class ActivityDiagramEditorController {
 
         generateSpecification.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
+
+                generateSpecification();
+
 //                final URL location = getClass().getClassLoader().getResource("ResultsEditor.fxml");
                 final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
                 Parent root = null;

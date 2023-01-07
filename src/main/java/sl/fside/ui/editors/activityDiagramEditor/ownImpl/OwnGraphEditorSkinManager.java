@@ -173,8 +173,7 @@ public class OwnGraphEditorSkinManager implements SkinManager {
     public void updateConnectors(final GNode pNode) {
         final GNodeSkin nodeSkin = mNodeSkins.get(pNode);
         if (nodeSkin != null) {
-            final List<GConnectorSkin> nodeConnectorSkins = pNode.getConnectors().stream().map(this::lookupConnector)
-                    .collect(Collectors.toList());
+            final List<GConnectorSkin> nodeConnectorSkins = pNode.getConnectors().stream().map(this::lookupConnector).collect(Collectors.toList());
             nodeSkin.setConnectorSkins(nodeConnectorSkins);
         }
     }
@@ -183,8 +182,7 @@ public class OwnGraphEditorSkinManager implements SkinManager {
     public void updateJoints(final GConnection pConnection) {
         final GConnectionSkin connectionSkin = lookupConnection(pConnection);
         if (connectionSkin != null) {
-            final List<GJointSkin> connectionJointSkins = pConnection.getJoints().stream().map(this::lookupJoint)
-                    .collect(Collectors.toList());
+            final List<GJointSkin> connectionJointSkins = pConnection.getJoints().stream().map(this::lookupJoint).collect(Collectors.toList());
             connectionSkin.setJointSkins(connectionJointSkins);
         }
     }
@@ -280,18 +278,13 @@ public class OwnGraphEditorSkinManager implements SkinManager {
         return skin;
     }
 
-    private GNodeSkin createNodeSkin(final GNode pNode) {
-        GNodeSkin skin = mNodeSkinFactory == null ? null : mNodeSkinFactory.call(pNode);
-        if (skin == null) {
-            skin = new OwnDefaultNodeSkin(pNode);
-        }
+    private OwnDefaultNodeSkin createNodeSkin(final GNode pNode) {
+        OwnDefaultNodeSkin skin = new OwnDefaultNodeSkin(pNode);
         skin.setGraphEditor(mGraphEditor);
         skin.getRoot().setEditorProperties(mGraphEditor.getProperties());
         skin.impl_setOnPositionMoved(mOnPositionMoved);
         skin.initialize();
-        if (!(skin instanceof VirtualSkin)) {
-            mView.add(skin);
-        }
+        mView.add(skin);
         return skin;
     }
 

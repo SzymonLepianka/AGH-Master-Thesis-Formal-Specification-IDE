@@ -1,6 +1,5 @@
 package sl.fside.ui.editors.activityDiagramEditor.ownImpl;
 
-import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import io.github.eckig.grapheditor.*;
 import io.github.eckig.grapheditor.core.connectors.*;
 import io.github.eckig.grapheditor.model.*;
@@ -12,8 +11,10 @@ import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.util.*;
 
@@ -213,22 +214,30 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     private void addSelectionHalo() {
         getRoot().getChildren().add(selectionHalo);
 
+        List<String> atomicActivities = new ArrayList<>(Arrays.asList("atomic_activity_1", "atomic_activity_2", "atomic_activity_3"));
+        List<String> patternNames = new ArrayList<>(Arrays.asList("SEQ", "BRANCH", "BRANCHRE", "CONCUR", "CONCURRE", "COND", "PARA", "LOOP"));
+
         String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
-        ObservableList<String> options = FXCollections.observableArrayList("Option 1", "Option 2", "Option 3");
+        ObservableList<String> options = FXCollections.observableArrayList(atomicActivities);
+        options.addAll(patternNames);
         switch (currentNodeType) {
             case "SEQ" -> {
-                Text type = new Text(currentNodeType);
-                ComboBox<String> A1 = new ComboBox<>(options);
-                A1.setPromptText("a1");
-                ComboBox<String> A2 = new ComboBox<>(options);
-                A2.setPromptText("a2");
-
-                VBox vBox = new VBox();
-                vBox.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(type, A1, A2);
-                getRoot().getChildren().add(vBox);
+                VBox seqVBox = createSeqPattern(currentNodeType, options);
+                getRoot().getChildren().add(seqVBox);
             }
-            case "BRANCH", "BRANCHRE", "CONCUR", "CONCURRE" -> {
+            case "BRANCH" -> {
+                VBox branchVBox = createBranchPattern(currentNodeType, options);
+                getRoot().getChildren().add(branchVBox);
+            }
+            case "BRANCHRE" -> {
+                VBox branchReVBox = createBranchRePattern(currentNodeType, options);
+                getRoot().getChildren().add(branchReVBox);
+            }
+            case "COND" -> {
+                VBox condVBox = createCondPattern(currentNodeType, options);
+                getRoot().getChildren().add(condVBox);
+            }
+            case "CONCUR", "CONCURRE" -> {
                 Text type = new Text(currentNodeType);
                 ComboBox<String> A1 = new ComboBox<>(options);
                 A1.setPromptText("a1");
@@ -242,7 +251,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 vBox.getChildren().addAll(type, A1, A2, A3);
                 getRoot().getChildren().add(vBox);
             }
-            case "COND", "PARA", "LOOP" -> {
+            case "PARA", "LOOP" -> {
                 Text type = new Text(currentNodeType);
                 ComboBox<String> A1 = new ComboBox<>(options);
                 A1.setPromptText("a1");
@@ -268,6 +277,306 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         selectionHalo.setLayoutY(-HALO_OFFSET);
 
         selectionHalo.getStyleClass().add(STYLE_CLASS_SELECTION_HALO);
+    }
+
+    private VBox createSeqPattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+
+        System.out.println(a1vBox.getLayoutX());
+
+        // connection visualization
+        Text line1 = new Text("|");
+        Text line2 = new Text("|");
+        Text line3 = new Text("\\/");
+
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, a2vBox);
+        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
+    private VBox createBranchPattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+
+        // connection visualization
+        Text line1 = new Text("|");
+        Text line2 = new Text("-----------------");
+        Text line3 = new Text("+|                 |-");
+        Text line4 = new Text("\\/                 \\/");
+
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        // a3
+        ComboBox<String> a3Dropdown = new ComboBox<>(options);
+        a3Dropdown.setPromptText("a3");
+        VBox a3vBox = new VBox();
+        a3vBox.setAlignment(Pos.CENTER);
+        a3vBox.getChildren().addAll(type, a3Dropdown);
+//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        HBox a2a3hBox = new HBox();
+        a2a3hBox.setAlignment(Pos.CENTER);
+        a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
+        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox);
+        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
+
+    private VBox createBranchRePattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+
+        // connection visualization
+        Text line1 = new Text("+|                 |-");
+        Text line2 = new Text("|                 |");
+        Text line3 = new Text("-----------------");
+        Text line4 = new Text("         |          ");
+        Text line5 = new Text("        \\/         ");
+
+        // a3
+        ComboBox<String> a3Dropdown = new ComboBox<>(options);
+        a3Dropdown.setPromptText("a3");
+        VBox a3vBox = new VBox();
+        a3vBox.setAlignment(Pos.CENTER);
+        a3vBox.getChildren().addAll(type, a3Dropdown);
+//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        HBox a1a2hBox = new HBox();
+        a1a2hBox.setAlignment(Pos.CENTER);
+        a1a2hBox.getChildren().addAll(a1vBox, a2vBox);
+        vBox.getChildren().addAll(type, a1a2hBox, line1, line2, line3, line4, line5, a3vBox);
+        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
+    private VBox createCondPattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+
+        // connection visualization
+        Text line1 = new Text("|");
+        Text line2 = new Text("-----------------");
+        Text line3 = new Text("+|                 |-");
+        Text line4 = new Text("\\/                 \\/");
+
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        // a3
+        ComboBox<String> a3Dropdown = new ComboBox<>(options);
+        a3Dropdown.setPromptText("a3");
+        VBox a3vBox = new VBox();
+        a3vBox.setAlignment(Pos.CENTER);
+        a3vBox.getChildren().addAll(type, a3Dropdown);
+//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // connection visualization
+        Text line5 = new Text("+|                 |-");
+        Text line6 = new Text("|                 |");
+        Text line7 = new Text("-----------------");
+        Text line8 = new Text("         |          ");
+        Text line9 = new Text("        \\/         ");
+
+        // a4
+        ComboBox<String> a4Dropdown = new ComboBox<>(options);
+        a4Dropdown.setPromptText("a4");
+        VBox a4vBox = new VBox();
+        a4vBox.setAlignment(Pos.CENTER);
+        a4vBox.getChildren().addAll(type, a4Dropdown);
+//        a4vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a4Dropdown, a4vBox, options);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        HBox a2a3hBox = new HBox();
+        a2a3hBox.setAlignment(Pos.CENTER);
+        a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
+        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
+        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
+    private VBox createParaPattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+
+        // connection visualization
+        Text line1 = new Text("|");
+        Text line2 = new Text("-----------------");
+        Text line3 = new Text("+|                 |-");
+        Text line4 = new Text("\\/                 \\/");
+
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        // a3
+        ComboBox<String> a3Dropdown = new ComboBox<>(options);
+        a3Dropdown.setPromptText("a3");
+        VBox a3vBox = new VBox();
+        a3vBox.setAlignment(Pos.CENTER);
+        a3vBox.getChildren().addAll(type, a3Dropdown);
+//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // connection visualization
+        Text line5 = new Text("+|                 |-");
+        Text line6 = new Text("|                 |");
+        Text line7 = new Text("-----------------");
+        Text line8 = new Text("         |          ");
+        Text line9 = new Text("        \\/         ");
+
+        // a4
+        ComboBox<String> a4Dropdown = new ComboBox<>(options);
+        a4Dropdown.setPromptText("a4");
+        VBox a4vBox = new VBox();
+        a4vBox.setAlignment(Pos.CENTER);
+        a4vBox.getChildren().addAll(type, a4Dropdown);
+//        a4vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a4Dropdown, a4vBox, options);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        HBox a2a3hBox = new HBox();
+        a2a3hBox.setAlignment(Pos.CENTER);
+        a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
+        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
+        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
+    private void setDropdownOnAction(ComboBox<String> dropdownComboBox, VBox parentVBox, ObservableList<String> options) {
+        dropdownComboBox.setOnAction(e -> {
+
+            // usuń zagnieżdżenie jeśli istnieje
+            if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") || dropdownComboBox.getValue().equals("atomic_activity_2") || dropdownComboBox.getValue().equals("atomic_activity_3"))) {
+                parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
+            } else if (parentVBox.getChildren().size() == 2 ) {
+                parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
+            }
+
+            if (dropdownComboBox.getValue().equals("SEQ")) {
+                VBox newSeqBox = createSeqPattern("SEQ", options);
+                parentVBox.getChildren().add(newSeqBox);
+            }
+            else if (dropdownComboBox.getValue().equals("BRANCH")) {
+                VBox newBranchBox = createBranchPattern("BRANCH", options);
+                parentVBox.getChildren().add(newBranchBox);
+            }
+            else if (dropdownComboBox.getValue().equals("BRANCHRE")) {
+                VBox newBranchReBox = createBranchRePattern("BRANCHRE", options);
+                parentVBox.getChildren().add(newBranchReBox);
+            }
+            else if (dropdownComboBox.getValue().equals("COND")) {
+                VBox newCondBox = createCondPattern("COND", options);
+                parentVBox.getChildren().add(newCondBox);
+            }
+            else if (dropdownComboBox.getValue().equals("PARA")) {
+                VBox newParaBox = createParaPattern("PARA", options);
+                parentVBox.getChildren().add(newParaBox);
+            }
+        });
+    }
+
+    private Color randomColor() {
+        Random rand = new Random();
+        double r = rand.nextFloat();
+        double g = rand.nextFloat();
+        double b = rand.nextFloat();
+        return new Color(r, g, b, 1);
     }
 
     /**
