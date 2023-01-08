@@ -4,6 +4,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.text.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 public class ResultsEditorController {
 
@@ -30,6 +31,7 @@ public class ResultsEditorController {
     public void initialize() {
         patternTextTitle.setFont(Font.font("FontAwesome", 17));
         patternTextTitle.setText("Pattern Expression");
+        patternTextArea.setText(NodesManager.getInstance().getPatternExpression());
 
         folTextTitle.setFont(Font.font("FontAwesome", 17));
         folTextTitle.setText("First Order Logic");

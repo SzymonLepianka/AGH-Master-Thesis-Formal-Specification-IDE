@@ -68,11 +68,11 @@ public class DefaultSkinController implements SkinController {
         node.getConnectors().add(topInput);
 
         String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
-        if (currentNodeType.equals("BRANCH") || currentNodeType.equals("CONCUR")) {
+        if (currentNodeType.equals("Branch") || currentNodeType.equals("Concur")) {
             final GConnector secondBottomOutput = GraphFactory.eINSTANCE.createGConnector();
             secondBottomOutput.setType(DefaultConnectorTypes.BOTTOM_OUTPUT);
             node.getConnectors().add(secondBottomOutput);
-        } else if (currentNodeType.equals("BRANCHRE") || currentNodeType.equals("CONCURRE")) {
+        } else if (currentNodeType.equals("BranchRe") || currentNodeType.equals("ConcurRe")) {
             final GConnector secondTopInput = GraphFactory.eINSTANCE.createGConnector();
             secondTopInput.setType(DefaultConnectorTypes.TOP_INPUT);
             node.getConnectors().add(secondTopInput);

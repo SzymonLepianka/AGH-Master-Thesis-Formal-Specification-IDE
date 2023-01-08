@@ -227,49 +227,49 @@ public class ActivityDiagramEditorController {
 
     @FXML
     public void addSeq() {
-        NodesManager.getInstance().setCurrentNodeType("SEQ");
+        NodesManager.getInstance().setCurrentNodeType("Seq");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addBranch() {
-        NodesManager.getInstance().setCurrentNodeType("BRANCH");
+        NodesManager.getInstance().setCurrentNodeType("Branch");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addBranchRe() {
-        NodesManager.getInstance().setCurrentNodeType("BRANCHRE");
+        NodesManager.getInstance().setCurrentNodeType("BranchRe");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addConcur() {
-        NodesManager.getInstance().setCurrentNodeType("CONCUR");
+        NodesManager.getInstance().setCurrentNodeType("Concur");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addConcurRe() {
-        NodesManager.getInstance().setCurrentNodeType("CONCURRE");
+        NodesManager.getInstance().setCurrentNodeType("ConcurRe");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addCond() {
-        NodesManager.getInstance().setCurrentNodeType("COND");
+        NodesManager.getInstance().setCurrentNodeType("Cond");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addPara() {
-        NodesManager.getInstance().setCurrentNodeType("PARA");
+        NodesManager.getInstance().setCurrentNodeType("Para");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
     @FXML
     public void addLoop() {
-        NodesManager.getInstance().setCurrentNodeType("LOOP");
+        NodesManager.getInstance().setCurrentNodeType("Loop");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
     }
 
@@ -338,7 +338,58 @@ public class ActivityDiagramEditorController {
 
     @FXML
     public void generateSpecification() {
-        System.out.println(graphEditor.getModel().getNodes());
-        System.out.println(graphEditor.getModel().getConnections().get(0).getSource());
+        VBox main = (VBox) NodesManager.getInstance().getMain();
+        String mainName = NodesManager.getInstance().getMainName();
+
+        StringBuilder patternExpression = new StringBuilder();
+        for (var child : main.getChildren()) {
+            if (child instanceof Text) {
+                String text = ((Text) child).getText();
+                if (text.equals(mainName)) {
+                    patternExpression.append(mainName);
+                    patternExpression.append("(");
+                }
+            } else if (child instanceof VBox || child instanceof HBox) {
+                patternExpression.append(getNestedPatternFromVBox((Pane) child));
+            } else {
+                System.out.println("Nieobsłużone(1): " + child);
+            }
+        }
+        patternExpression.deleteCharAt(patternExpression.length() - 1);
+        patternExpression.append(")");
+        System.out.println("Wyrażenie: " + patternExpression);
+        NodesManager.getInstance().setPatternExpression(patternExpression.toString());
+
+//        System.out.println(graphEditor.getModel().getNodes());
+//        System.out.println(graphEditor.getModel().getConnections().get(0).getSource());
+    }
+
+    private String getNestedPatternFromVBox(Pane vBoxOrHBox) {
+        StringBuilder sb = new StringBuilder();
+        boolean closeStatement = false;
+        for (var child2 : vBoxOrHBox.getChildren()) {
+            if (child2 instanceof ComboBox) {
+                String value = (String) ((ComboBox<?>) child2).getValue();
+                if (value.equals("Seq") || value.equals("Branch") || value.equals("BranchRe") || value.equals("Concur") || value.equals("ConcurRe") || value.equals("Cond") || value.equals("Para") || value.equals("Loop")) {
+                    sb.append(value);
+                    sb.append("(");
+                    closeStatement = true;
+                } else {
+                    sb.append(value);
+                    sb.append(",");
+                }
+            } else if (child2 instanceof VBox || child2 instanceof HBox) {
+                sb.append(getNestedPatternFromVBox((Pane) child2));
+            } else if (child2 instanceof Text) {
+//                System.out.println("Text do olania: " + ((Text) child2).getText());
+            } else {
+                System.out.println("Nieobsłużone3");
+            }
+        }
+        if (closeStatement) {
+            sb.deleteCharAt(sb.length() - 1);
+            sb.append("),");
+        }
+        return sb.toString();
     }
 }

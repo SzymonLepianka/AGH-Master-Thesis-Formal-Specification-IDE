@@ -215,57 +215,71 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         getRoot().getChildren().add(selectionHalo);
 
         List<String> atomicActivities = new ArrayList<>(Arrays.asList("atomic_activity_1", "atomic_activity_2", "atomic_activity_3"));
-        List<String> patternNames = new ArrayList<>(Arrays.asList("SEQ", "BRANCH", "BRANCHRE", "CONCUR", "CONCURRE", "COND", "PARA", "LOOP"));
+        List<String> patternNames = new ArrayList<>(Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop"));
 
         String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
         ObservableList<String> options = FXCollections.observableArrayList(atomicActivities);
         options.addAll(patternNames);
         switch (currentNodeType) {
-            case "SEQ" -> {
+            case "Seq" -> {
                 VBox seqVBox = createSeqPattern(currentNodeType, options);
                 getRoot().getChildren().add(seqVBox);
+                NodesManager.getInstance().setMain(seqVBox);
+                NodesManager.getInstance().setMainName("Seq");
             }
-            case "BRANCH" -> {
+            case "Branch" -> {
                 VBox branchVBox = createBranchPattern(currentNodeType, options);
                 getRoot().getChildren().add(branchVBox);
+                NodesManager.getInstance().setMain(branchVBox);
+                NodesManager.getInstance().setMainName("Branch");
             }
-            case "BRANCHRE" -> {
+            case "BranchRe" -> {
                 VBox branchReVBox = createBranchRePattern(currentNodeType, options);
                 getRoot().getChildren().add(branchReVBox);
+                NodesManager.getInstance().setMain(branchReVBox);
+                NodesManager.getInstance().setMainName("BranchRe");
             }
-            case "COND" -> {
+            case "Cond" -> {
                 VBox condVBox = createCondPattern(currentNodeType, options);
                 getRoot().getChildren().add(condVBox);
+                NodesManager.getInstance().setMain(condVBox);
+                NodesManager.getInstance().setMainName("Cond");
             }
-            case "CONCUR", "CONCURRE" -> {
-                Text type = new Text(currentNodeType);
-                ComboBox<String> A1 = new ComboBox<>(options);
-                A1.setPromptText("a1");
-                ComboBox<String> A2 = new ComboBox<>(options);
-                A2.setPromptText("a2");
-                ComboBox<String> A3 = new ComboBox<>(options);
-                A3.setPromptText("a3");
-
-                VBox vBox = new VBox();
-                vBox.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(type, A1, A2, A3);
-                getRoot().getChildren().add(vBox);
+            case "Para" -> {
+                VBox paraVBox = createParaPattern(currentNodeType, options);
+                getRoot().getChildren().add(paraVBox);
+                NodesManager.getInstance().setMain(paraVBox);
+                NodesManager.getInstance().setMainName("Para");
             }
-            case "PARA", "LOOP" -> {
-                Text type = new Text(currentNodeType);
-                ComboBox<String> A1 = new ComboBox<>(options);
-                A1.setPromptText("a1");
-                ComboBox<String> A2 = new ComboBox<>(options);
-                A2.setPromptText("a2");
-                ComboBox<String> A3 = new ComboBox<>(options);
-                A3.setPromptText("a3");
-                ComboBox<String> A4 = new ComboBox<>(options);
-                A4.setPromptText("a4");
-
-                VBox vBox = new VBox();
-                vBox.setAlignment(Pos.CENTER);
-                vBox.getChildren().addAll(type, A1, A2, A3, A4);
-                getRoot().getChildren().add(vBox);
+            case "Concur", "ConcurRe" -> {
+//                Text type = new Text(currentNodeType);
+//                ComboBox<String> A1 = new ComboBox<>(options);
+//                A1.setPromptText("a1");
+//                ComboBox<String> A2 = new ComboBox<>(options);
+//                A2.setPromptText("a2");
+//                ComboBox<String> A3 = new ComboBox<>(options);
+//                A3.setPromptText("a3");
+//
+//                VBox vBox = new VBox();
+//                vBox.setAlignment(Pos.CENTER);
+//                vBox.getChildren().addAll(type, A1, A2, A3);
+//                getRoot().getChildren().add(vBox);
+            }
+            case "LOOP" -> {
+//                Text type = new Text(currentNodeType);
+//                ComboBox<String> A1 = new ComboBox<>(options);
+//                A1.setPromptText("a1");
+//                ComboBox<String> A2 = new ComboBox<>(options);
+//                A2.setPromptText("a2");
+//                ComboBox<String> A3 = new ComboBox<>(options);
+//                A3.setPromptText("a3");
+//                ComboBox<String> A4 = new ComboBox<>(options);
+//                A4.setPromptText("a4");
+//
+//                VBox vBox = new VBox();
+//                vBox.setAlignment(Pos.CENTER);
+//                vBox.getChildren().addAll(type, A1, A2, A3, A4);
+//                getRoot().getChildren().add(vBox);
             }
         }
 
@@ -548,19 +562,19 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
             }
 
-            if (dropdownComboBox.getValue().equals("SEQ")) {
+            if (dropdownComboBox.getValue().equals("Seq")) {
                 VBox newSeqBox = createSeqPattern("", options);
                 parentVBox.getChildren().add(newSeqBox);
-            } else if (dropdownComboBox.getValue().equals("BRANCH")) {
+            } else if (dropdownComboBox.getValue().equals("Branch")) {
                 VBox newBranchBox = createBranchPattern("", options);
                 parentVBox.getChildren().add(newBranchBox);
-            } else if (dropdownComboBox.getValue().equals("BRANCHRE")) {
+            } else if (dropdownComboBox.getValue().equals("BranchRe")) {
                 VBox newBranchReBox = createBranchRePattern("", options);
                 parentVBox.getChildren().add(newBranchReBox);
-            } else if (dropdownComboBox.getValue().equals("COND")) {
+            } else if (dropdownComboBox.getValue().equals("Cond")) {
                 VBox newCondBox = createCondPattern("", options);
                 parentVBox.getChildren().add(newCondBox);
-            } else if (dropdownComboBox.getValue().equals("PARA")) {
+            } else if (dropdownComboBox.getValue().equals("Para")) {
                 VBox newParaBox = createParaPattern("", options);
                 parentVBox.getChildren().add(newParaBox);
             }
