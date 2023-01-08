@@ -35,9 +35,11 @@ public class ResultsEditorController {
 
         folTextTitle.setFont(Font.font("FontAwesome", 17));
         folTextTitle.setText("First Order Logic");
+        folTextArea.setText(NodesManager.getInstance().getFolLogicalSpecification());
 
         ltlTextTitle.setFont(Font.font("FontAwesome", 17));
         ltlTextTitle.setText("Linear Temporal Logic");
+        ltlTextArea.setText(NodesManager.getInstance().getLtlLogicalSpecification());
 
         temp1.setFont(Font.font("FontAwesome", 5));
     }
