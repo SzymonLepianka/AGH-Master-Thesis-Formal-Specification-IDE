@@ -13,6 +13,9 @@ module sl.fside {
     requires io.github.eckig.grapheditor.core;
     requires org.eclipse.emf.edit;
     requires org.eclipse.emf.ecore.xmi;
+    requires json.simple;
+    requires org.json;
+    requires org.apache.commons.lang3;
 
     opens sl.fside.services to com.google.guice;
     opens sl.fside.persistence to com.google.guice;
