@@ -53,8 +53,9 @@ public class DefaultSkinController implements SkinController {
         node.setX(NODE_INITIAL_X + windowXOffset);
         node.setY(NODE_INITIAL_Y + windowYOffset);
 
-        node.setWidth(180);
-        node.setHeight(150);
+        // ustawia wielkość node
+        node.setWidth(400);
+        node.setHeight(400);
 
         UUID uuid = UUID.randomUUID();
         node.setId(uuid.toString());
