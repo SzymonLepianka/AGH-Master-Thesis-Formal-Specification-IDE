@@ -59,24 +59,22 @@ public class DefaultSkinController implements SkinController {
         UUID uuid = UUID.randomUUID();
         node.setId(uuid.toString());
 
-        final GConnector bottomOutput = GraphFactory.eINSTANCE.createGConnector();
-        bottomOutput.setType(DefaultConnectorTypes.BOTTOM_OUTPUT);
-        node.getConnectors().add(bottomOutput);
-
-        final GConnector topInput = GraphFactory.eINSTANCE.createGConnector();
-        topInput.setType(DefaultConnectorTypes.TOP_INPUT);
-        node.getConnectors().add(topInput);
-
-        String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
-        if (currentNodeType.equals("Branch") || currentNodeType.equals("Concur")) {
-            final GConnector secondBottomOutput = GraphFactory.eINSTANCE.createGConnector();
-            secondBottomOutput.setType(DefaultConnectorTypes.BOTTOM_OUTPUT);
-            node.getConnectors().add(secondBottomOutput);
-        } else if (currentNodeType.equals("BranchRe") || currentNodeType.equals("ConcurRe")) {
-            final GConnector secondTopInput = GraphFactory.eINSTANCE.createGConnector();
-            secondTopInput.setType(DefaultConnectorTypes.TOP_INPUT);
-            node.getConnectors().add(secondTopInput);
-        }
+//        final GConnector bottomOutput = GraphFactory.eINSTANCE.createGConnector();
+//        bottomOutput.setType(DefaultConnectorTypes.BOTTOM_OUTPUT);
+//        node.getConnectors().add(bottomOutput);
+//        final GConnector topInput = GraphFactory.eINSTANCE.createGConnector();
+//        topInput.setType(DefaultConnectorTypes.TOP_INPUT);
+//        node.getConnectors().add(topInput);
+//        String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
+//        if (currentNodeType.equals("Branch") || currentNodeType.equals("Concur")) {
+//            final GConnector secondBottomOutput = GraphFactory.eINSTANCE.createGConnector();
+//            secondBottomOutput.setType(DefaultConnectorTypes.BOTTOM_OUTPUT);
+//            node.getConnectors().add(secondBottomOutput);
+//        } else if (currentNodeType.equals("BranchRe") || currentNodeType.equals("ConcurRe")) {
+//            final GConnector secondTopInput = GraphFactory.eINSTANCE.createGConnector();
+//            secondTopInput.setType(DefaultConnectorTypes.TOP_INPUT);
+//            node.getConnectors().add(secondTopInput);
+//        }
 
         Commands.addNode(graphEditor.getModel(), node);
     }
