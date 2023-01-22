@@ -303,8 +303,8 @@ public class ActivityDiagramEditorController {
      */
     private void initializeMenuBar() {
 
-        final ToggleGroup connectionStyleGroup = new ToggleGroup();
-        connectionStyleGroup.getToggles().addAll(gappedStyleButton, detouredStyleButton);
+//        final ToggleGroup connectionStyleGroup = new ToggleGroup();
+//        connectionStyleGroup.getToggles().addAll(gappedStyleButton, detouredStyleButton);
 
         graphEditor.getProperties().gridVisibleProperty().bind(showGridButton.selectedProperty());
         graphEditor.getProperties().snapToGridProperty().bind(snapToGridButton.selectedProperty());

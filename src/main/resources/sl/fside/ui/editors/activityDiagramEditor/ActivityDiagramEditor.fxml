@@ -42,11 +42,11 @@
             <Menu text="Settings">
                 <RadioMenuItem fx:id="showGridButton" text="Show Grid" selected="true"/>
                 <RadioMenuItem fx:id="snapToGridButton" text="Snap to Grid"/>
-                <Menu fx:id="intersectionStyle" text="Intersection Style  ">
-                    <RadioMenuItem fx:id="detouredStyleButton" text="Detours" onAction="#setDetouredStyle"
-                                   selected="true"/>
-                    <RadioMenuItem fx:id="gappedStyleButton" text="Gaps" onAction="#setGappedStyle"/>
-                </Menu>
+<!--                <Menu fx:id="intersectionStyle" text="Intersection Style  ">-->
+<!--                    <RadioMenuItem fx:id="detouredStyleButton" text="Detours" onAction="#setDetouredStyle"-->
+<!--                                   selected="true"/>-->
+<!--                    <RadioMenuItem fx:id="gappedStyleButton" text="Gaps" onAction="#setGappedStyle"/>-->
+<!--                </Menu>-->
             </Menu>
         </MenuBar>
         <GraphEditorContainer fx:id="graphEditorContainer" minWidth="0" minHeight="0" maxWidth="+Infinity"
