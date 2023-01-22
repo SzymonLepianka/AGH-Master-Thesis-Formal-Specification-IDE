@@ -267,21 +267,11 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 NodesManager.getInstance().setMain(concurReVBox);
                 NodesManager.getInstance().setMainName("ConcurRe");
             }
-            case "LOOP" -> {
-//                Text type = new Text(currentNodeType);
-//                ComboBox<String> A1 = new ComboBox<>(options);
-//                A1.setPromptText("a1");
-//                ComboBox<String> A2 = new ComboBox<>(options);
-//                A2.setPromptText("a2");
-//                ComboBox<String> A3 = new ComboBox<>(options);
-//                A3.setPromptText("a3");
-//                ComboBox<String> A4 = new ComboBox<>(options);
-//                A4.setPromptText("a4");
-//
-//                VBox vBox = new VBox();
-//                vBox.setAlignment(Pos.CENTER);
-//                vBox.getChildren().addAll(type, A1, A2, A3, A4);
-//                getRoot().getChildren().add(vBox);
+            case "Loop" -> {
+                VBox loopVBox = createLoopPattern(currentNodeType, options);
+                getRoot().getChildren().add(loopVBox);
+                NodesManager.getInstance().setMain(loopVBox);
+                NodesManager.getInstance().setMainName("Loop");
             }
         }
 
@@ -823,6 +813,93 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         return vBox;
     }
 
+    private VBox createLoopPattern(String patternTypeName, ObservableList<String> options) {
+        // title
+        Text type = new Text(patternTypeName);
+
+        // a1
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText("a1");
+        VBox a1vBox = new VBox();
+        a1vBox.setAlignment(Pos.CENTER);
+        a1vBox.getChildren().addAll(type, a1Dropdown);
+//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a1Dropdown, a1vBox, options);
+
+        // connection visualization
+        MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
+        myArrow1.setHeadAVisible(false);
+        HBox myArrow_1 = new HBox();
+        myArrow_1.setAlignment(Pos.CENTER);
+        myArrow_1.getChildren().addAll(myArrow1);
+
+        // a2
+        ComboBox<String> a2Dropdown = new ComboBox<>(options);
+        a2Dropdown.setPromptText("a2");
+        VBox a2vBox = new VBox();
+        a2vBox.setAlignment(Pos.CENTER);
+        a2vBox.getChildren().addAll(type, a2Dropdown);
+//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a2Dropdown, a2vBox, options);
+
+        // connection visualization
+        MyArrow myArrow2 = new MyArrow(100, 0, 0, 50);
+        MyArrow myArrow3 = new MyArrow(100, 0, 200, 50);
+        myArrow3.setHeadAVisible(false);
+        HBox myArrow_2 = new HBox();
+        myArrow_2.setAlignment(Pos.CENTER);
+        Text plus = new Text("+");
+        plus.setStyle("-fx-font: 20 arial;");
+        Text minus = new Text("-");
+        minus.setStyle("-fx-font: 23 arial;");
+        myArrow_2.getChildren().addAll(plus, myArrow2, myArrow3, minus);
+        myArrow_2.widthProperty().addListener((observable, oldValue, newValue) -> {
+            myArrow2.setX1(newValue.doubleValue() / 2);
+            myArrow3.setX1(newValue.doubleValue() / 2);
+            myArrow2.setX2(newValue.doubleValue() / 4);
+            myArrow3.setX2(3 * newValue.doubleValue() / 4);
+        });
+
+        // a3
+        ComboBox<String> a3Dropdown = new ComboBox<>(options);
+        a3Dropdown.setPromptText("a3");
+        VBox a3vBox = new VBox();
+        a3vBox.setAlignment(Pos.CENTER);
+        a3vBox.getChildren().addAll(type, a3Dropdown);
+//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // a4
+        ComboBox<String> a4Dropdown = new ComboBox<>(options);
+        a4Dropdown.setPromptText("a4");
+        VBox a4vBox = new VBox();
+        a4vBox.setAlignment(Pos.CENTER);
+        a4vBox.getChildren().addAll(type, a4Dropdown);
+//        a4vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        setDropdownOnAction(a4Dropdown, a4vBox, options);
+
+        // HBox agregujący A3 i A4 były obok siebie
+        HBox a3a4hBox = new HBox();
+        a3a4hBox.setAlignment(Pos.CENTER);
+        a3a4hBox.getChildren().addAll(a3vBox, a4vBox);
+
+        // ustawia podział między A3 i A4 w połowie dostępnego miejsca
+        HBox.setHgrow(a3vBox, Priority.ALWAYS);
+        HBox.setHgrow(a4vBox, Priority.ALWAYS);
+        a3a4hBox.widthProperty().addListener((observable, oldValue, newValue) -> {
+            a3vBox.setMaxWidth(a3a4hBox.getWidth() / 2);
+            a4vBox.setMaxWidth(a3a4hBox.getWidth() / 2);
+        });
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(type, a1vBox, myArrow_1, a2vBox, myArrow_2, a3a4hBox);
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        return vBox;
+    }
+
     private void setDropdownOnAction(ComboBox<String> dropdownComboBox, VBox parentVBox,
                                      ObservableList<String> options) {
         dropdownComboBox.setOnAction(e -> {
@@ -851,12 +928,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             } else if (dropdownComboBox.getValue().equals("Para")) {
                 VBox newParaBox = createParaPattern("", options);
                 parentVBox.getChildren().add(newParaBox);
-            }else if (dropdownComboBox.getValue().equals("Concur")) {
+            } else if (dropdownComboBox.getValue().equals("Concur")) {
                 VBox newConcurBox = createConcurPattern("", options);
                 parentVBox.getChildren().add(newConcurBox);
-            }else if (dropdownComboBox.getValue().equals("ConcurRe")) {
+            } else if (dropdownComboBox.getValue().equals("ConcurRe")) {
                 VBox newConcurReBox = createConcurRePattern("", options);
                 parentVBox.getChildren().add(newConcurReBox);
+            } else if (dropdownComboBox.getValue().equals("Loop")) {
+                VBox newLoopBox = createLoopPattern("", options);
+                parentVBox.getChildren().add(newLoopBox);
             }
         });
     }
