@@ -156,7 +156,8 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     private void performChecks() {
         for (final GConnector connector : getItem().getConnectors()) {
             if (!DefaultConnectorTypes.isValid(connector.getType())) {
-                System.out.println("Connector type '{}' not recognized, setting to 'left-input'." + connector.getType());
+                System.out.println(
+                        "Connector type '{}' not recognized, setting to 'left-input'." + connector.getType());
                 connector.setType(DefaultConnectorTypes.LEFT_INPUT);
             }
         }
@@ -180,7 +181,8 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
      * @param vertical       {@code true} to lay out vertically, {@code false} to lay out horizontally
      * @param offset         the offset in the other dimension that the skins are layed out in
      */
-    private void layoutConnectors(final List<GConnectorSkin> connectorSkins, final boolean vertical, final double offset) {
+    private void layoutConnectors(final List<GConnectorSkin> connectorSkins, final boolean vertical,
+                                  final double offset) {
 
         final int count = connectorSkins.size();
 
@@ -214,8 +216,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     private void addSelectionHalo() {
         getRoot().getChildren().add(selectionHalo);
 
-        List<String> atomicActivities = new ArrayList<>(Arrays.asList("atomic_activity_1", "atomic_activity_2", "atomic_activity_3"));
-        List<String> patternNames = new ArrayList<>(Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop"));
+        List<String> atomicActivities =
+                new ArrayList<>(Arrays.asList("atomic_activity_1", "atomic_activity_2", "atomic_activity_3"));
+        List<String> patternNames = new ArrayList<>(
+                Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop"));
 
         String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
         ObservableList<String> options = FXCollections.observableArrayList(atomicActivities);
@@ -309,9 +313,8 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         System.out.println(a1vBox.getLayoutX());
 
         // connection visualization
-        Text line1 = new Text("|");
-        Text line2 = new Text("|");
-        Text line3 = new Text("\\/");
+        MyArrow myArrow = new MyArrow(0, 0, 0, 100);
+        myArrow.setHeadAVisible(false);
 
         // a2
         ComboBox<String> a2Dropdown = new ComboBox<>(options);
@@ -325,8 +328,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, a2vBox);
-        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        vBox.getChildren().addAll(type, a1vBox, myArrow, a2vBox);
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
@@ -340,14 +344,31 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-//        a1vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        a1vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
-        Text line1 = new Text("|");
-        Text line2 = new Text("-----------------");
-        Text line3 = new Text("+|                 |-");
-        Text line4 = new Text("\\/                 \\/");
+        MyArrow myArrow1 = new MyArrow(100, 0, 0, 50);
+        myArrow1.setHeadAVisible(false);
+        MyArrow myArrow2 = new MyArrow(100, 0, 200, 50);
+        myArrow2.setHeadAVisible(false);
+        HBox myArrow = new HBox();
+        myArrow.setAlignment(Pos.CENTER);
+        Text plus = new Text("+");
+        plus.setStyle("-fx-font: 20 arial;");
+        Text minus = new Text("-");
+        minus.setStyle("-fx-font: 23 arial;");
+        myArrow.getChildren().addAll(plus, myArrow1, myArrow2, minus);
+        myArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
+            myArrow1.setX1(newValue.doubleValue() / 2);
+            myArrow2.setX1(newValue.doubleValue() / 2);
+            myArrow1.setX2(newValue.doubleValue() / 4);
+            myArrow2.setX2(3 * newValue.doubleValue() / 4);
+//            System.out.println("Width (myArrow): " + newValue.doubleValue());
+        });
+        myArrow.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         // a2
         ComboBox<String> a2Dropdown = new ComboBox<>(options);
@@ -355,25 +376,39 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-//        a2vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        a2vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         setDropdownOnAction(a2Dropdown, a2vBox, options);
+
         // a3
         ComboBox<String> a3Dropdown = new ComboBox<>(options);
         a3Dropdown.setPromptText("a3");
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-//        a3vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        a3vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         setDropdownOnAction(a3Dropdown, a3vBox, options);
+
+        // HBox agregujący A2 i A3 były obok siebie
+        HBox a2a3hBox = new HBox();
+        a2a3hBox.setAlignment(Pos.CENTER);
+        a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
+
+        // ustawia podział między A2 i A3 w połowie dostępnego miejsca
+        HBox.setHgrow(a2vBox, Priority.ALWAYS);
+        HBox.setHgrow(a3vBox, Priority.ALWAYS);
+        a2a3hBox.widthProperty().addListener((observable, oldValue, newValue) -> {
+            a2vBox.setMaxWidth(a2a3hBox.getWidth() / 2);
+            a3vBox.setMaxWidth(a2a3hBox.getWidth() / 2);
+        });
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        HBox a2a3hBox = new HBox();
-        a2a3hBox.setAlignment(Pos.CENTER);
-        a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
-        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox);
-        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        vBox.getChildren().addAll(type, a1vBox, myArrow, a2a3hBox);
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
@@ -422,7 +457,8 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         a1a2hBox.setAlignment(Pos.CENTER);
         a1a2hBox.getChildren().addAll(a1vBox, a2vBox);
         vBox.getChildren().addAll(type, a1a2hBox, line1, line2, line3, line4, line5, a3vBox);
-        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
@@ -484,8 +520,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         HBox a2a3hBox = new HBox();
         a2a3hBox.setAlignment(Pos.CENTER);
         a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
-        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
-        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        vBox.getChildren()
+                .addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
@@ -547,16 +585,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         HBox a2a3hBox = new HBox();
         a2a3hBox.setAlignment(Pos.CENTER);
         a2a3hBox.getChildren().addAll(a2vBox, a3vBox);
-        vBox.getChildren().addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
-        vBox.setBorder(new Border(new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        vBox.getChildren()
+                .addAll(type, a1vBox, line1, line2, line3, line4, a2a3hBox, line5, line6, line7, line8, line9, a4vBox);
+        vBox.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
-    private void setDropdownOnAction(ComboBox<String> dropdownComboBox, VBox parentVBox, ObservableList<String> options) {
+    private void setDropdownOnAction(ComboBox<String> dropdownComboBox, VBox parentVBox,
+                                     ObservableList<String> options) {
         dropdownComboBox.setOnAction(e -> {
 
             // usuń zagnieżdżenie jeśli istnieje
-            if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") || dropdownComboBox.getValue().equals("atomic_activity_2") || dropdownComboBox.getValue().equals("atomic_activity_3"))) {
+            if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") ||
+                    dropdownComboBox.getValue().equals("atomic_activity_2") ||
+                    dropdownComboBox.getValue().equals("atomic_activity_3"))) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
             } else if (parentVBox.getChildren().size() == 2) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
