@@ -8,7 +8,6 @@ import io.github.eckig.grapheditor.model.*;
 import javafx.application.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
-import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.*;
 import javafx.scene.*;
@@ -141,32 +140,34 @@ public class ActivityDiagramEditorController {
 
         initializeMenuBar();
 
-        generateSpecification.setOnAction(new EventHandler<ActionEvent>() {
-            public void handle(ActionEvent event) {
+        generateSpecification.setOnAction(event -> {
 
+            try {
                 generateSpecification();
-
-//                final URL location = getClass().getClassLoader().getResource("ResultsEditor.fxml");
-                final FXMLLoader loader =
-                        new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
-                Parent root = null;
-                try {
-                    root = loader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                final Scene scene = new Scene(root, 600, 800);
-                scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
-                Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
-
-                resultsStage.setScene(scene);
-                resultsStage.setTitle(APPLICATION_TITLE);
-                resultsStage.show();
-
-                // close current window
-//                ((Node)(event.getSource())).getScene().getWindow().hide();
+            } catch (Exception e) {
+                e.printStackTrace();
+                showErrorMessage(e.getMessage());
+                return;
             }
+
+            final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
+            Parent root = null;
+            try {
+                root = loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            final Scene scene = new Scene(root, 600, 800);
+            scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
+            Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
+
+            resultsStage.setScene(scene);
+            resultsStage.setTitle(APPLICATION_TITLE);
+            resultsStage.show();
+
+            // close current window
+//                ((Node)(event.getSource())).getScene().getWindow().hide();
         });
     }
 
@@ -387,7 +388,7 @@ public class ActivityDiagramEditorController {
     }
 
     @FXML
-    public void generateSpecification() {
+    public void generateSpecification() throws Exception {
         VBox main = (VBox) NodesManager.getInstance().getMain();
         String mainName = NodesManager.getInstance().getMainName();
 
@@ -416,12 +417,15 @@ public class ActivityDiagramEditorController {
 //        System.out.println(graphEditor.getModel().getConnections().get(0).getSource());
     }
 
-    private String getNestedPatternFromVBox(Pane vBoxOrHBox) {
+    private String getNestedPatternFromVBox(Pane vBoxOrHBox) throws Exception {
         StringBuilder sb = new StringBuilder();
         boolean closeStatement = false;
         for (var child2 : vBoxOrHBox.getChildren()) {
             if (child2 instanceof ComboBox) {
                 String value = (String) ((ComboBox<?>) child2).getValue();
+                if (value == null) {
+                    throw new Exception("Nie wszystkie elementy są wypełnione!");
+                }
                 if (value.equals("Seq") || value.equals("Branch") || value.equals("BranchRe") ||
                         value.equals("Concur") || value.equals("ConcurRe") || value.equals("Cond") ||
                         value.equals("Para") || value.equals("Loop")) {
@@ -445,5 +449,13 @@ public class ActivityDiagramEditorController {
             sb.append("),");
         }
         return sb.toString();
+    }
+
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error during generating specification");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
