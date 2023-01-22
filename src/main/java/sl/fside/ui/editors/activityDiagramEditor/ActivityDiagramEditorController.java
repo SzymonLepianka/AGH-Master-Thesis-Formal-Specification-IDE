@@ -38,7 +38,8 @@ public class ActivityDiagramEditorController {
 
     private static final Stage resultsStage = new Stage();
     private final GraphEditor graphEditor = new OwnDefaultGraphEditor();
-    private final SelectionCopier selectionCopier = new SelectionCopier(graphEditor.getSkinLookup(), graphEditor.getSelectionManager());
+    private final SelectionCopier selectionCopier =
+            new SelectionCopier(graphEditor.getSkinLookup(), graphEditor.getSelectionManager());
     private final ActivityDiagramEditorPersistence graphEditorPersistence = new ActivityDiagramEditorPersistence();
     private final ObjectProperty<DefaultSkinController> activeSkinController = new SimpleObjectProperty<>() {
 
@@ -52,11 +53,33 @@ public class ActivityDiagramEditorController {
 
     };
     @FXML
+    public MenuItem menuItemAddSeq;
+    @FXML
+    public MenuItem menuItemAddBranch;
+    @FXML
+    public MenuItem menuItemAddBranchRe;
+    @FXML
+    public MenuItem menuItemAddConcur;
+    @FXML
+    public MenuItem menuItemAddConcurRe;
+    @FXML
+    public MenuItem menuItemAddCond;
+    @FXML
+    public MenuItem menuItemAddPara;
+    @FXML
+    public MenuItem menuItemAddLoop;
+    @FXML
     private Button generateSpecification;
     @FXML
     private AnchorPane root;
     @FXML
     private MenuBar menuBar;
+    @FXML
+    private Menu menuFile;
+    @FXML
+    private Menu menuEdit;
+    @FXML
+    private Menu menuActions;
     @FXML
     private MenuItem addConnectorButton;
     @FXML
@@ -124,7 +147,8 @@ public class ActivityDiagramEditorController {
                 generateSpecification();
 
 //                final URL location = getClass().getClassLoader().getResource("ResultsEditor.fxml");
-                final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
+                final FXMLLoader loader =
+                        new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
                 Parent root = null;
                 try {
                     root = loader.load();
@@ -223,54 +247,70 @@ public class ActivityDiagramEditorController {
     public void deleteSelection() {
         final List<EObject> selection = new ArrayList<>(graphEditor.getSelectionManager().getSelectedItems());
         graphEditor.delete(selection);
+        if (graphEditor.getModel().getNodes().size() == 0) {
+            NodesManager.getInstance().setMain(null);
+            NodesManager.getInstance().setMainName(null);
+            disableAllOptions(false);
+        } else {
+            System.out.println("Pozostało " + graphEditor.getModel().getNodes().size() +
+                    " node'ów! Sytuacja nie powinna nigdy nastąpić");
+        }
     }
 
     @FXML
     public void addSeq() {
         NodesManager.getInstance().setCurrentNodeType("Seq");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addBranch() {
         NodesManager.getInstance().setCurrentNodeType("Branch");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addBranchRe() {
         NodesManager.getInstance().setCurrentNodeType("BranchRe");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addConcur() {
         NodesManager.getInstance().setCurrentNodeType("Concur");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addConcurRe() {
         NodesManager.getInstance().setCurrentNodeType("ConcurRe");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addCond() {
         NodesManager.getInstance().setCurrentNodeType("Cond");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addPara() {
         NodesManager.getInstance().setCurrentNodeType("Para");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
     public void addLoop() {
         NodesManager.getInstance().setCurrentNodeType("Loop");
         activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
     }
 
     @FXML
@@ -298,14 +338,21 @@ public class ActivityDiagramEditorController {
         graphEditorContainer.getMinimap().visibleProperty().bind(minimapButton.selectedProperty());
     }
 
+    private void disableAllOptions(boolean disable) {
+        menuItemAddSeq.setDisable(disable);
+        menuItemAddBranch.setDisable(disable);
+        menuItemAddBranchRe.setDisable(disable);
+        menuItemAddConcur.setDisable(disable);
+        menuItemAddConcurRe.setDisable(disable);
+        menuItemAddCond.setDisable(disable);
+        menuItemAddPara.setDisable(disable);
+        menuItemAddLoop.setDisable(disable);
+    }
+
     /**
      * Initializes the menu bar.
      */
     private void initializeMenuBar() {
-
-//        final ToggleGroup connectionStyleGroup = new ToggleGroup();
-//        connectionStyleGroup.getToggles().addAll(gappedStyleButton, detouredStyleButton);
-
         graphEditor.getProperties().gridVisibleProperty().bind(showGridButton.selectedProperty());
         graphEditor.getProperties().snapToGridProperty().bind(snapToGridButton.selectedProperty());
 
@@ -319,6 +366,9 @@ public class ActivityDiagramEditorController {
         final SetChangeListener<? super EObject> selectedNodesListener = change -> checkConnectorButtonsToDisable();
         graphEditor.getSelectionManager().getSelectedItems().addListener(selectedNodesListener);
         checkConnectorButtonsToDisable();
+
+        // hide File Menu
+        menuFile.setVisible(false);
     }
 
     /**
@@ -351,6 +401,8 @@ public class ActivityDiagramEditorController {
                 }
             } else if (child instanceof VBox || child instanceof HBox) {
                 patternExpression.append(getNestedPatternFromVBox((Pane) child));
+            } else if (child instanceof MyArrow) {
+                // pomiń strzałki na grafie
             } else {
                 System.out.println("Nieobsłużone(1): " + child);
             }
@@ -370,7 +422,9 @@ public class ActivityDiagramEditorController {
         for (var child2 : vBoxOrHBox.getChildren()) {
             if (child2 instanceof ComboBox) {
                 String value = (String) ((ComboBox<?>) child2).getValue();
-                if (value.equals("Seq") || value.equals("Branch") || value.equals("BranchRe") || value.equals("Concur") || value.equals("ConcurRe") || value.equals("Cond") || value.equals("Para") || value.equals("Loop")) {
+                if (value.equals("Seq") || value.equals("Branch") || value.equals("BranchRe") ||
+                        value.equals("Concur") || value.equals("ConcurRe") || value.equals("Cond") ||
+                        value.equals("Para") || value.equals("Loop")) {
                     sb.append(value);
                     sb.append("(");
                     closeStatement = true;
@@ -380,7 +434,7 @@ public class ActivityDiagramEditorController {
                 }
             } else if (child2 instanceof VBox || child2 instanceof HBox) {
                 sb.append(getNestedPatternFromVBox((Pane) child2));
-            } else if (child2 instanceof Text) {
+            } else if (child2 instanceof Text || child2 instanceof MyArrow) {
 //                System.out.println("Text do olania: " + ((Text) child2).getText());
             } else {
                 System.out.println("Nieobsłużone3");

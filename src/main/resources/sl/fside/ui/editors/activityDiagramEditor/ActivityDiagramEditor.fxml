@@ -8,7 +8,7 @@
     <VBox AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" AnchorPane.topAnchor="0"
           AnchorPane.bottomAnchor="0">
         <MenuBar fx:id="menuBar">
-            <Menu text="File">
+            <Menu text="File" fx:id="menuFile">
                 <MenuItem text="Load File" onAction="#load"/>
                 <Menu text="Load Sample">
                     <MenuItem text="Default Skins - Small" onAction="#loadSample"/>
@@ -19,34 +19,28 @@
                 <SeparatorMenuItem/>
                 <MenuItem text="Exit" onAction="#exit"/>
             </Menu>
-            <Menu text="Edit">
+            <Menu text="Add pattern" fx:id="menuActions">
+                <MenuItem text="Add Seq" fx:id="menuItemAddSeq" onAction="#addSeq" accelerator="Shortcut+Q"/>
+                <MenuItem text="Add Branch" fx:id="menuItemAddBranch" onAction="#addBranch" accelerator="Shortcut+W"/>
+                <MenuItem text="Add BranchRe" fx:id="menuItemAddBranchRe" onAction="#addBranchRe"
+                          accelerator="Shortcut+E"/>
+                <MenuItem text="Add Concur" fx:id="menuItemAddConcur" onAction="#addConcur" accelerator="Shortcut+R"/>
+                <MenuItem text="Add ConcurRe" fx:id="menuItemAddConcurRe" onAction="#addConcurRe"
+                          accelerator="Shortcut+T"/>
+                <MenuItem text="Add Cond" fx:id="menuItemAddCond" onAction="#addCond" accelerator="Shortcut+Y"/>
+                <MenuItem text="Add Para" fx:id="menuItemAddPara" onAction="#addPara" accelerator="Shortcut+U"/>
+                <MenuItem text="Add Loop" fx:id="menuItemAddLoop" onAction="#addLoop" accelerator="Shortcut+I"/>
+            </Menu>
+            <Menu text="Edit" fx:id="menuEdit">
                 <MenuItem text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>
                 <MenuItem text="Redo" onAction="#redo" accelerator="Shortcut+Y"/>
-                <SeparatorMenuItem/>
-                <MenuItem text="Copy" onAction="#copy" accelerator="Shortcut+C"/>
-                <MenuItem text="Paste" onAction="#paste" accelerator="Shortcut+V"/>
                 <SeparatorMenuItem/>
                 <MenuItem text="Select All          " onAction="#selectAll" accelerator="Shortcut+A"/>
                 <MenuItem text="Delete" onAction="#deleteSelection" accelerator="Delete"/>
             </Menu>
-            <Menu text="Actions">
-                <MenuItem text="Add Seq" onAction="#addSeq" accelerator="Shortcut+Q"/>
-                <MenuItem text="Add Branch" onAction="#addBranch" accelerator="Shortcut+W"/>
-                <MenuItem text="Add BranchRe" onAction="#addBranchRe" accelerator="Shortcut+E"/>
-                <MenuItem text="Add Concur" onAction="#addConcur" accelerator="Shortcut+R"/>
-                <MenuItem text="Add ConcurRe" onAction="#addConcurRe" accelerator="Shortcut+T"/>
-                <MenuItem text="Add Cond" onAction="#addCond" accelerator="Shortcut+Y"/>
-                <MenuItem text="Add Para" onAction="#addPara" accelerator="Shortcut+U"/>
-                <MenuItem text="Add Loop" onAction="#addLoop" accelerator="Shortcut+I"/>
-            </Menu>
             <Menu text="Settings">
                 <RadioMenuItem fx:id="showGridButton" text="Show Grid" selected="true"/>
                 <RadioMenuItem fx:id="snapToGridButton" text="Snap to Grid"/>
-<!--                <Menu fx:id="intersectionStyle" text="Intersection Style  ">-->
-<!--                    <RadioMenuItem fx:id="detouredStyleButton" text="Detours" onAction="#setDetouredStyle"-->
-<!--                                   selected="true"/>-->
-<!--                    <RadioMenuItem fx:id="gappedStyleButton" text="Gaps" onAction="#setGappedStyle"/>-->
-<!--                </Menu>-->
             </Menu>
         </MenuBar>
         <GraphEditorContainer fx:id="graphEditorContainer" minWidth="0" minHeight="0" maxWidth="+Infinity"
