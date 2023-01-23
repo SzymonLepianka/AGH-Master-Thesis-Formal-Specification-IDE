@@ -391,6 +391,9 @@ public class ActivityDiagramEditorController {
     public void generateSpecification() throws Exception {
         VBox main = (VBox) NodesManager.getInstance().getMain();
         String mainName = NodesManager.getInstance().getMainName();
+        if (main == null) {
+            throw new Exception("Nie został dodany wzorzec!");
+        }
 
         StringBuilder patternExpression = new StringBuilder();
         for (var child : main.getChildren()) {
