@@ -158,7 +158,7 @@ public class ActivityDiagramEditorController {
                 e.printStackTrace();
             }
 
-            final Scene scene = new Scene(root, 600, 800);
+            final Scene scene = new Scene(root, 600, 700);
             scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
             Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
 

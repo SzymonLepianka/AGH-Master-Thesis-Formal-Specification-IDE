@@ -29,15 +29,15 @@ public class ResultsEditorController {
      * Called by JavaFX when FXML is loaded.
      */
     public void initialize() {
-        patternTextTitle.setFont(Font.font("FontAwesome", 17));
+        patternTextTitle.setFont(Font.font("FontAwesome", 16));
         patternTextTitle.setText("Pattern Expression");
         patternTextArea.setText(NodesManager.getInstance().getPatternExpression());
 
-        folTextTitle.setFont(Font.font("FontAwesome", 17));
+        folTextTitle.setFont(Font.font("FontAwesome", 16));
         folTextTitle.setText("First Order Logic");
         folTextArea.setText(NodesManager.getInstance().getFolLogicalSpecification());
 
-        ltlTextTitle.setFont(Font.font("FontAwesome", 17));
+        ltlTextTitle.setFont(Font.font("FontAwesome", 16));
         ltlTextTitle.setText("Linear Temporal Logic");
         ltlTextArea.setText(NodesManager.getInstance().getLtlLogicalSpecification());
 
