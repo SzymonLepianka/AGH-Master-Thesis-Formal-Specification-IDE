@@ -36,7 +36,7 @@ public class ActivityDiagramEditorController {
     private static final String FONT_AWESOME = "fontawesome.ttf";
 
     private static final Stage resultsStage = new Stage();
-    private final GraphEditor graphEditor = new OwnDefaultGraphEditor();
+    private final OwnDefaultGraphEditor graphEditor = new OwnDefaultGraphEditor();
     private final SelectionCopier selectionCopier =
             new SelectionCopier(graphEditor.getSkinLookup(), graphEditor.getSelectionManager());
     private final ActivityDiagramEditorPersistence graphEditorPersistence = new ActivityDiagramEditorPersistence();
@@ -103,6 +103,8 @@ public class ActivityDiagramEditorController {
     private RadioMenuItem showGridButton;
     @FXML
     private RadioMenuItem snapToGridButton;
+    @FXML
+    private RadioMenuItem showColorsOnDiagramButton;
     @FXML
     private Menu readOnlyMenu;
     @FXML
@@ -356,6 +358,18 @@ public class ActivityDiagramEditorController {
     private void initializeMenuBar() {
         graphEditor.getProperties().gridVisibleProperty().bind(showGridButton.selectedProperty());
         graphEditor.getProperties().snapToGridProperty().bind(snapToGridButton.selectedProperty());
+
+        // showing colors on activity diagram
+        showColorsOnDiagramButton.setOnAction(event -> {
+            Map<Pane, Border> bordersOnActivityDiagram = NodesManager.getInstance().getBordersOnActivityDiagram();
+            if (showColorsOnDiagramButton.isSelected()) {
+                bordersOnActivityDiagram.forEach(Region::setBorder);
+            } else {
+                bordersOnActivityDiagram.forEach((pane, border) -> {
+                    pane.setBorder(null);
+                });
+            }
+        });
 
         for (final EditorElement type : EditorElement.values()) {
             final CheckMenuItem readOnly = new CheckMenuItem(type.name());

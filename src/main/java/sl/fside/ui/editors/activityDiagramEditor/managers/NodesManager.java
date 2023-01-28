@@ -2,6 +2,7 @@ package sl.fside.ui.editors.activityDiagramEditor.managers;
 
 
 import javafx.scene.*;
+import javafx.scene.layout.*;
 import sl.fside.services.logic_formula_generator.*;
 
 import java.io.*;
@@ -9,12 +10,21 @@ import java.util.*;
 
 public class NodesManager {
     private static NodesManager instance;
-//    private final List<Tank> allTanks = new ArrayList<>();
 
     private Node main;
     private String patternExpression;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
+
+    private Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
+
+    public Map<Pane, Border> getBordersOnActivityDiagram() {
+        return bordersOnActivityDiagram;
+    }
+
+    public void addBorderOnActivityDiagram(Pane pane, Border border) {
+        this.bordersOnActivityDiagram.put(pane, border);
+    }
 
     public String getPatternExpression() {
         return patternExpression;

@@ -295,8 +295,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -309,8 +311,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // main vBox
@@ -332,8 +336,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -361,8 +367,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // a3
@@ -371,8 +379,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // HBox agregujący A2 i A3 były obok siebie
@@ -408,8 +418,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // a2
@@ -418,8 +430,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // HBox agregujący A1 i A2 były obok siebie
@@ -456,8 +470,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // main vBox
@@ -479,8 +495,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -508,8 +526,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // a3
@@ -518,8 +538,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // HBox agregujący A2 i A3 były obok siebie
@@ -556,8 +578,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a4vBox = new VBox();
         a4vBox.setAlignment(Pos.CENTER);
         a4vBox.getChildren().addAll(type, a4Dropdown);
-        a4vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a4vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a4vBox.setBorder(a4vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
         setDropdownOnAction(a4Dropdown, a4vBox, options);
 
         // main vBox
@@ -579,8 +603,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -609,8 +635,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // a3
@@ -619,8 +647,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // HBox agregujący A2 i A3 były obok siebie
@@ -662,8 +692,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a4vBox = new VBox();
         a4vBox.setAlignment(Pos.CENTER);
         a4vBox.getChildren().addAll(type, a4Dropdown);
-        a4vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a4vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a4vBox.setBorder(a4vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
         setDropdownOnAction(a4Dropdown, a4vBox, options);
 
         // main vBox
@@ -685,8 +717,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -715,8 +749,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // a3
@@ -725,8 +761,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // HBox agregujący A2 i A3 były obok siebie
@@ -761,8 +799,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // a2
@@ -771,8 +811,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // HBox agregujący A1 i A2 były obok siebie
@@ -814,8 +856,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // main vBox
@@ -837,8 +881,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a1vBox = new VBox();
         a1vBox.setAlignment(Pos.CENTER);
         a1vBox.getChildren().addAll(type, a1Dropdown);
-        a1vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a1vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a1vBox.setBorder(a1vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
         setDropdownOnAction(a1Dropdown, a1vBox, options);
 
         // connection visualization
@@ -854,8 +900,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a2vBox = new VBox();
         a2vBox.setAlignment(Pos.CENTER);
         a2vBox.getChildren().addAll(type, a2Dropdown);
-        a2vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a2vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a2vBox.setBorder(a2vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
         setDropdownOnAction(a2Dropdown, a2vBox, options);
 
         // connection visualization
@@ -882,8 +930,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a3vBox = new VBox();
         a3vBox.setAlignment(Pos.CENTER);
         a3vBox.getChildren().addAll(type, a3Dropdown);
-        a3vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a3vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
         setDropdownOnAction(a3Dropdown, a3vBox, options);
 
         // a4
@@ -892,8 +942,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         VBox a4vBox = new VBox();
         a4vBox.setAlignment(Pos.CENTER);
         a4vBox.getChildren().addAll(type, a4Dropdown);
-        a4vBox.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        Border a4vBoxBorder = new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        a4vBox.setBorder(a4vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
         setDropdownOnAction(a4Dropdown, a4vBox, options);
 
         // HBox agregujący A3 i A4 były obok siebie

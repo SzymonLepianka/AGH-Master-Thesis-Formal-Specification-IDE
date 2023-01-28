@@ -41,6 +41,8 @@
             <Menu text="Settings">
                 <RadioMenuItem fx:id="showGridButton" text="Show Grid" selected="true"/>
                 <RadioMenuItem fx:id="snapToGridButton" text="Snap to Grid"/>
+                <RadioMenuItem fx:id="showColorsOnDiagramButton" text="Show colors on diagram" selected="true"/>
+
             </Menu>
         </MenuBar>
         <GraphEditorContainer fx:id="graphEditorContainer" minWidth="0" minHeight="0" maxWidth="+Infinity"

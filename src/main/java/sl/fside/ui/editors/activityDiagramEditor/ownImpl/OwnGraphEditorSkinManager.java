@@ -19,7 +19,7 @@ import java.util.stream.*;
  * @since 09.02.2016
  */
 public class OwnGraphEditorSkinManager implements SkinManager {
-    private final GraphEditor mGraphEditor;
+    private final OwnDefaultGraphEditor mGraphEditor;
     private final GraphEditorView mView;
     private final Map<GNode, GNodeSkin> mNodeSkins = new HashMap<>();
     private final Map<GConnector, GConnectorSkin> mConnectorSkins = new HashMap<>();
@@ -41,7 +41,7 @@ public class OwnGraphEditorSkinManager implements SkinManager {
      * @param pGraphEditor {@link GraphEditor}
      * @param pView        {@link GraphEditorView}
      */
-    public OwnGraphEditorSkinManager(final GraphEditor pGraphEditor, final GraphEditorView pView) {
+    public OwnGraphEditorSkinManager(final OwnDefaultGraphEditor pGraphEditor, final GraphEditorView pView) {
         mView = pView;
         mGraphEditor = pGraphEditor;
     }
@@ -173,7 +173,8 @@ public class OwnGraphEditorSkinManager implements SkinManager {
     public void updateConnectors(final GNode pNode) {
         final GNodeSkin nodeSkin = mNodeSkins.get(pNode);
         if (nodeSkin != null) {
-            final List<GConnectorSkin> nodeConnectorSkins = pNode.getConnectors().stream().map(this::lookupConnector).collect(Collectors.toList());
+            final List<GConnectorSkin> nodeConnectorSkins =
+                    pNode.getConnectors().stream().map(this::lookupConnector).collect(Collectors.toList());
             nodeSkin.setConnectorSkins(nodeConnectorSkins);
         }
     }
@@ -182,7 +183,8 @@ public class OwnGraphEditorSkinManager implements SkinManager {
     public void updateJoints(final GConnection pConnection) {
         final GConnectionSkin connectionSkin = lookupConnection(pConnection);
         if (connectionSkin != null) {
-            final List<GJointSkin> connectionJointSkins = pConnection.getJoints().stream().map(this::lookupJoint).collect(Collectors.toList());
+            final List<GJointSkin> connectionJointSkins =
+                    pConnection.getJoints().stream().map(this::lookupJoint).collect(Collectors.toList());
             connectionSkin.setJointSkins(connectionJointSkins);
         }
     }
