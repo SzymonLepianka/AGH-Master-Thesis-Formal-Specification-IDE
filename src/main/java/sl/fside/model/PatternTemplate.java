@@ -4,19 +4,24 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
-public class PatternTemplate extends ModelBase {
+public class PatternTemplate   {
 
     private String name;
 
     private int inputs;
 
     private int outputs;
+    private UUID id;
 
     private final HashSet<String> elementaryPatternList;
 
+    public UUID getId() {
+        return id;
+    }
+
     @JsonCreator
     public PatternTemplate(@JsonProperty("id") UUID id,@JsonProperty("name") String name,@JsonProperty("inputs") int inputs,@JsonProperty("outputs") int outputs) {
-        super(id);
+        this.id = id;
         this.name = name;
         this.inputs = inputs;
         this.outputs = outputs;
@@ -25,13 +30,13 @@ public class PatternTemplate extends ModelBase {
 
     public void addElementaryPattern(String elementaryPattern) {
         elementaryPatternList.add(elementaryPattern);
-        propertyChanged("elementaryPatternList");
+//        propertyChanged("elementaryPatternList");
     }
 
-    public void removeElementaryPattern(String elementaryPattern) {
-        if (elementaryPatternList.remove(elementaryPattern))
-            propertyChanged("elementaryPatternList");
-    }
+//    public void removeElementaryPattern(String elementaryPattern) {
+//        if (elementaryPatternList.remove(elementaryPattern))
+//            propertyChanged("elementaryPatternList");
+//    }
 
     public String getName() {
         return name;

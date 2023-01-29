@@ -12,7 +12,7 @@ import javafx.scene.layout.*;
 import java.lang.reflect.*;
 import java.util.function.*;
 
-public class UseCaseController implements IController {
+public class UseCaseController {
 
     private UseCase useCase;
     
@@ -45,7 +45,7 @@ public class UseCaseController implements IController {
     }
 
     public void onRemoveButtonClicked() throws InvocationTargetException, IllegalAccessException {
-        useCase.getParent().ifPresent(x -> x.removeChild(useCase));
+//        useCase.getParent().ifPresent(x -> x.removeChild(useCase));
         
         if (onRemoveClicked != null)
             onRemoveClicked.apply(pane);
@@ -55,22 +55,22 @@ public class UseCaseController implements IController {
         return useCase;
     }
 
-    @Override
-    public void load(ModelBase object) {
-        if (object instanceof UseCase useCase) {
+//    @Override
+    public void load(UseCase useCase) {
+//        if (object instanceof UseCase useCase) {
             this.useCase = useCase;
             useCaseNameTextField.setText(useCase.getUseCaseName());
             isImportedCheckBox.setSelected(useCase.isImported());
             removeButton.setDisable(useCase.isImported());
-        }
-        else
-            throw new IllegalArgumentException();
+//        }
+//        else
+//            throw new IllegalArgumentException();
     }
 
-    @Override
-    public void unload() {
-
-    }
+//    @Override
+//    public void unload() {
+//
+//    }
 
     public void setOnRemoveClicked(Function<AnchorPane, Void> onRemoveClicked) {
         this.onRemoveClicked = onRemoveClicked;

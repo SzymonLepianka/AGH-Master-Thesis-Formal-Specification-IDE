@@ -4,7 +4,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.events.*;
+//import sl.fside.ui.events.*;
 import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
@@ -13,7 +13,7 @@ import javafx.util.*;
 
 import java.util.*;
 
-public class UseCaseSelectorEditorController implements IController {
+public class UseCaseSelectorEditorController   {
 
     @FXML
     private ListView<AnchorPane> useCasesList;
@@ -24,11 +24,11 @@ public class UseCaseSelectorEditorController implements IController {
     @FXML
     private Label currentlySelectedUseCaseLabel;
     
-    @FXML
-    private ComboBox<UseCaseDiagramPresenter> useCaseDiagramComboBox;
+//    @FXML
+//    private ComboBox<UseCaseDiagramPresenter> useCaseDiagramComboBox;
     
     private final IModelFactory modelFactory;
-    private final IUIElementFactory uiElementFactory;
+//    private final IUIElementFactory uiElementFactory;
     private final EventAggregatorService eventAggregatorService;
     
     private Project project;
@@ -40,13 +40,15 @@ public class UseCaseSelectorEditorController implements IController {
 //    }
     
     @Inject
-    public UseCaseSelectorEditorController(IModelFactory modelFactory, IUIElementFactory uiElementFactory, EventAggregatorService eventAggregatorService) {        
+    public UseCaseSelectorEditorController(IModelFactory modelFactory,
+//                                           IUIElementFactory uiElementFactory,
+                                           EventAggregatorService eventAggregatorService) {
         super();
         this.modelFactory = modelFactory;
-        this.uiElementFactory = uiElementFactory;
+//        this.uiElementFactory = uiElementFactory;
         this.eventAggregatorService = eventAggregatorService;
 
-        subscribeToEvents();
+//        subscribeToEvents();
 
 //        var fxmlLoader = new FXMLLoader(getClass().getResource(
 //                "UseCaseSelectorEditor.fxml"));
@@ -64,42 +66,42 @@ public class UseCaseSelectorEditorController implements IController {
 
     }
 
-    private void subscribeToEvents() {
-        eventAggregatorService.subscribe(ProjectLoadedEvent.class, event -> load(event.getProject()));
-    }
+//    private void subscribeToEvents() {
+//        eventAggregatorService.subscribe(ProjectLoadedEvent.class, event -> load(event.getProject()));
+//    }
 
-    public void addUseCaseButtonClicked() {        
+    public void addUseCaseButtonClicked() {
         if (useCaseDiagram != null) {
             var newUseCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(), "New use case", false);
-            var uiElementPair = uiElementFactory.CreateUseCase(newUseCase);
-            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
-            useCasesList.getItems().add(uiElementPair.getKey());
+//            var uiElementPair = uiElementFactory.CreateUseCase(newUseCase);
+//            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
+//            useCasesList.getItems().add(uiElementPair.getKey());
         }
     }
 
-    @Override
-    public void load(ModelBase object) {
-        if (object instanceof Project project) {
-            this.project = project;
-            useCaseDiagramComboBox.getItems().clear();
-            useCaseDiagramComboBox.getItems().addAll(project.getUseCaseDiagramList().stream().map(UseCaseDiagramPresenter::new).toList());
-        }
-        else
-            throw new UnsupportedOperationException();
-    }
+//    @Override
+//    public void load(ModelBase object) {
+//        if (object instanceof Project project) {
+//            this.project = project;
+//            useCaseDiagramComboBox.getItems().clear();
+//            useCaseDiagramComboBox.getItems().addAll(project.getUseCaseDiagramList().stream().map(UseCaseDiagramPresenter::new).toList());
+//        }
+//        else
+//            throw new UnsupportedOperationException();
+//    }
 
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
     
     @FXML
     private void useCaseDiagramSelectionChanged() {
-        this.useCaseDiagram = useCaseDiagramComboBox.getSelectionModel().getSelectedItem().useCaseDiagram();
-        useCasesList.getItems().clear();
-        var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementFactory::CreateUseCase).toList();
-        useCasePairs.stream().map(Pair::getValue).forEach(useCaseController -> useCaseController.setOnRemoveClicked(this::removeUseCase));
-        useCasesList.getItems().addAll(useCasePairs.stream().map(Pair::getKey).toList());
+//        this.useCaseDiagram = useCaseDiagramComboBox.getSelectionModel().getSelectedItem().useCaseDiagram();
+//        useCasesList.getItems().clear();
+//        var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementFactory::CreateUseCase).toList();
+//        useCasePairs.stream().map(Pair::getValue).forEach(useCaseController -> useCaseController.setOnRemoveClicked(this::removeUseCase));
+//        useCasesList.getItems().addAll(useCasePairs.stream().map(Pair::getKey).toList());
     }
 
     private Void removeUseCase(AnchorPane pane) {
@@ -107,11 +109,11 @@ public class UseCaseSelectorEditorController implements IController {
         return null;
     }
     
-    private record UseCaseDiagramPresenter(UseCaseDiagram useCaseDiagram) {
-        @Override
-        public String toString() {
-            return useCaseDiagram.getId().toString();
-        }
-    }
+//    private record UseCaseDiagramPresenter(UseCaseDiagram useCaseDiagram) {
+//        @Override
+//        public String toString() {
+//            return useCaseDiagram.getId().toString();
+//        }
+//    }
     
 }

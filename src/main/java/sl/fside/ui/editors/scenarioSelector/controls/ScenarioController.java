@@ -4,7 +4,7 @@ import sl.fside.model.*;
 import sl.fside.ui.*;
 import com.google.inject.*;
 
-public class ScenarioController implements IController {
+public class ScenarioController   {
 
     private Scenario scenario;
 
@@ -29,13 +29,13 @@ public class ScenarioController implements IController {
         
     }
 
-    @Override
-    public void load(ModelBase object) {
-        // TODO
-    }
-
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void load(ModelBase object) {
+//        // TODO
+//    }
+//
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
 }

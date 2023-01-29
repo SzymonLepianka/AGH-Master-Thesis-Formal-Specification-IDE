@@ -4,24 +4,26 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
-public class ActivityDiagram extends ModelAggregate{
+public class ActivityDiagram {
 
+    private UUID id;
+    private List<Pattern> patternList = new ArrayList<>();
 
     @JsonCreator
     public ActivityDiagram(@JsonProperty("id")UUID id){
-        super(id);
+        this.id = id;
     }
 
     public List<Pattern> getPatternList() {
-        return getChildrenOfType(Pattern.class);
+        return patternList;
     }
 
     public void addPatternList(Pattern pattern) {
-        addChild(pattern);
+        patternList.add(pattern);
     }
 
     public void removePatternList(Pattern pattern) {
-        removeChild(pattern);
+        patternList.remove(pattern);
     }
 
 }

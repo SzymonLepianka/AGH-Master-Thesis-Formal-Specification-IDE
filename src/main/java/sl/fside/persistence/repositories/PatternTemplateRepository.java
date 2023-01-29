@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
 import java.util.*;
 import java.util.function.*;
 
-public class PatternTemplateRepository implements IPatternTemplateRepository{
+public class PatternTemplateRepository {
 
     private final IPersistenceHelper persistenceHelper;
 
@@ -26,27 +26,27 @@ public class PatternTemplateRepository implements IPatternTemplateRepository{
             patternTemplateCollection = modelFactory.createPatternTemplateCollection();
     }
 
-    @Override
+//    @Override
     public Optional<PatternTemplateCollection> getById(UUID id) {
         return Optional.of(patternTemplateCollection);
     }
 
-    @Override
+//    @Override
     public void add(@NotNull PatternTemplateCollection item) {
         throw new IllegalArgumentException("Only one pattern template collection can exist.");
     }
 
-    @Override
+//    @Override
     public List<PatternTemplateCollection> getAll() {
         return Arrays.stream((new PatternTemplateCollection[] {patternTemplateCollection})).toList();
     }
 
-    @Override
+//    @Override
     public List<PatternTemplateCollection> get(Predicate<PatternTemplateCollection> predicate) {
         return getAll().stream().filter(predicate).toList();
     }
 
-    @Override
+//    @Override
     public void remove(@NotNull PatternTemplateCollection item) {
         //persistenceHelper.removeFile(persistenceHelper.getPatternTemplatesFile());
         //patternTemplateCollections.remove(item);
@@ -55,13 +55,13 @@ public class PatternTemplateRepository implements IPatternTemplateRepository{
             patternTemplateCollection = modelFactory.createPatternTemplateCollection();
     }
 
-    @Override
+//    @Override
     public void saveAll() {
         // For now only one collection exists, so only one is saved
         save(patternTemplateCollection);
     }
 
-    @Override
+//    @Override
     public void save(@NotNull PatternTemplateCollection item) {
         if (item == patternTemplateCollection)
             persistenceHelper.saveFile(persistenceHelper.getPatternTemplatesFile().toPath(), patternTemplateCollection);

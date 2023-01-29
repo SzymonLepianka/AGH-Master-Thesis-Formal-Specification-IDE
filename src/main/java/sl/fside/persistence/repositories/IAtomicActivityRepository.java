@@ -4,7 +4,7 @@ import sl.fside.model.*;
 
 import java.util.*;
 
-public interface IAtomicActivityRepository extends IAggregateRepository<AtomicActivityCollection> {
+public interface IAtomicActivityRepository {
 
     void saveByProject(Project project);
 

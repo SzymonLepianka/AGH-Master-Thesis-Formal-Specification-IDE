@@ -5,18 +5,18 @@ import sl.fside.ui.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 
-public class ActionController implements IController {
+public class ActionController   {
     
     @FXML
     public TextField textFiled;
 
-    @Override
-    public void load(ModelBase object) {
-        // TODO
-    }
-
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void load(ModelBase object) {
+//        // TODO
+//    }
+//
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
 }

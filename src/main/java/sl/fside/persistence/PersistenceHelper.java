@@ -36,7 +36,7 @@ class PersistenceHelper implements IPersistenceHelper {
         this.loggerService = loggerService;
 
         var polymorphicTypeValidator = BasicPolymorphicTypeValidator.builder()
-                .allowIfBaseType(ModelBase.class)
+//                .allowIfBaseType(ModelBase.class)
                 .allowIfBaseType(List.class)
                 .allowIfBaseType(Map.class)
                 .build();
@@ -79,14 +79,14 @@ class PersistenceHelper implements IPersistenceHelper {
 
     @Override
     public void saveProjectFile(Project project) {
-        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getId().toString()), project))
-            loggerService.logInfo("Saved project %s".formatted(project.getId()));
+        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project))
+            loggerService.logInfo("Saved project %s".formatted(project.getProjectId()));
     }
 
     @Override
     public void saveAtomicActivityCollectionFile(AtomicActivityCollection atomicActivityCollection) {
-        if (saveFile(generatePathToJson(atomicActivityCollectionsDirectory.toString(), atomicActivityCollection.getId().toString()), atomicActivityCollection))
-            loggerService.logInfo("Saved Atomic Activity Collection %s".formatted(atomicActivityCollection.getId().toString()));
+        if (saveFile(generatePathToJson(atomicActivityCollectionsDirectory.toString(), atomicActivityCollection.getAtomicActivityCollectionId().toString()), atomicActivityCollection))
+            loggerService.logInfo("Saved Atomic Activity Collection %s".formatted(atomicActivityCollection.getAtomicActivityCollectionId().toString()));
     }
 
     @Override

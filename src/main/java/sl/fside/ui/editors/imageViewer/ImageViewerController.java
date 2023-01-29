@@ -6,7 +6,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 
-public class ImageViewerController implements IController {
+public class ImageViewerController {
 
     @FXML
     private Button addImageButton;
@@ -18,13 +18,13 @@ public class ImageViewerController implements IController {
         // TODO
     }
     
-    @Override
-    public void load(ModelBase object) {
-        // TODO
-    }
-
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void load(ModelBase object) {
+//        // TODO
+//    }
+//
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
 }

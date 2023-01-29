@@ -4,7 +4,7 @@ import sl.fside.model.*;
 import sl.fside.ui.*;
 import com.google.inject.*;
 
-public class ScenarioSelectorEditorController implements IController {
+public class ScenarioSelectorEditorController   {
     
     private UseCase useCase;
     
@@ -28,17 +28,17 @@ public class ScenarioSelectorEditorController implements IController {
         
     }
     
-    @Override
-    public void load(ModelBase object) {
-        if (object instanceof UseCase useCase)
+//    @
+    public void load(UseCase useCase) {
+//        if (object instanceof UseCase useCase)
             this.useCase = useCase;
-        else 
-            throw new UnsupportedOperationException("Unsupported type");
+//        else
+//            throw new UnsupportedOperationException("Unsupported type");
     }
 
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
 
 }

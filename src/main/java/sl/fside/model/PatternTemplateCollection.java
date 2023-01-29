@@ -4,18 +4,22 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
-public class PatternTemplateCollection extends ModelRootAggregate {
+public class PatternTemplateCollection {
+
+    private final UUID id;
+    private List<PatternTemplate> patternTemplates = new ArrayList<>();
 
     @JsonCreator
     public PatternTemplateCollection(@JsonProperty("id") UUID id) {
-        super(id);
+        this.id = id;
     }
 
     public List<PatternTemplate> getPatternTemplates() {
-        return getChildren().stream().filter(x -> x instanceof PatternTemplate).map(x -> (PatternTemplate)x).toList();
+        return patternTemplates;
+//        return getChildren().stream().filter(x -> x instanceof PatternTemplate).map(x -> (PatternTemplate) x).toList();
     }
 
     public Optional<PatternTemplate> getPatternTemplateById(UUID id) {
-        return getPatternTemplates().stream().filter(x -> x.getId().equals(id)).findFirst();
+        return patternTemplates.stream().filter(x -> x.getId().equals(id)).findFirst();
     }
 }

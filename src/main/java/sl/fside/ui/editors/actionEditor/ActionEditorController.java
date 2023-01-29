@@ -4,8 +4,8 @@ import sl.fside.model.*;
 import sl.fside.ui.*;
 import com.google.inject.*;
 
-public class ActionEditorController implements IController {
-    
+public class ActionEditorController {
+
 //    public ActionEditorController() {
 //        super();
 //
@@ -26,13 +26,13 @@ public class ActionEditorController implements IController {
         
     }
     
-    @Override
-    public void load(ModelBase object) {
-        // TODO
-    }
-
-    @Override
-    public void unload() {
-        // TODO
-    }
+//    @Override
+//    public void load(ModelBase object) {
+//        // TODO
+//    }
+//
+//    @Override
+//    public void unload() {
+//        // TODO
+//    }
 }

@@ -1,4 +1,4 @@
-package sl.fside.ui;
-
-public interface IController extends IDomainAware {
-}
+//package sl.fside.ui;
+//
+//public interface IController extends IDomainAware {
+//}

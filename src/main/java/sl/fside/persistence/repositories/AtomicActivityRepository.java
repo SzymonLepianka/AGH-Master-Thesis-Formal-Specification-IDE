@@ -25,9 +25,9 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
         this.persistenceHelper = persistenceHelper;
     }
 
-    @Override
+//    @Override
     public Optional<AtomicActivityCollection> getById(UUID id) {
-        var loaded = atomicActivityCollections.stream().filter(x -> x.getId().equals(id)).findFirst();
+        var loaded = atomicActivityCollections.stream().filter(x -> x.getAtomicActivityCollectionId().equals(id)).findFirst();
         if (loaded.isPresent())
             return loaded;
         return loadAtomicActivitiesCollection(id);
@@ -35,7 +35,7 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
 
     @Override
     public void saveByProject(Project project) {
-        saveByProjectId(project.getId());
+        saveByProjectId(project.getProjectId());
     }
 
     @Override
@@ -51,8 +51,9 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
 
     @Override
     public List<AtomicActivity> getAllAtomicActivitiesInProject(UUID projectId) {
-        var project = projectRepository.getById(projectId);
-        return project.map(this::getAllAtomicActivitiesInProject).orElse(new ArrayList<>());
+//        var project = projectRepository.getById(projectId);
+//        return project.map(this::getAllAtomicActivitiesInProject).orElse(new ArrayList<>());
+        return null;
     }
 
     @Override
@@ -65,30 +66,30 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
 
     @Override
     public Optional<AtomicActivity> getAtomicActivityById(UUID projectId, UUID atomicActivityId) {
-        var project = projectRepository.getById(projectId);
-        if (project.isPresent())
-            return getAtomicActivityById(project.get(), atomicActivityId);
+//        var project = projectRepository.getById(projectId);
+//        if (project.isPresent())
+//            return getAtomicActivityById(project.get(), atomicActivityId);
         return Optional.empty();
     }
 
     @Override
     public void removeAtomicActivity(Project project, AtomicActivity atomicActivity) {
         var collection = getById(project.getAtomicActivityCollectionId());
-        collection.ifPresent(atomicActivityCollection -> atomicActivityCollection.removeChild(atomicActivity));
+//        collection.ifPresent(atomicActivityCollection -> atomicActivityCollection.removeChild(atomicActivity));
     }
 
     @Override
     public void removeAtomicActivity(UUID projectId, AtomicActivity atomicActivity) {
-        var project = projectRepository.getById(projectId);
-        project.ifPresent(value -> removeAtomicActivity(value, atomicActivity));
+//        var project = projectRepository.getById(projectId);
+//        project.ifPresent(value -> removeAtomicActivity(value, atomicActivity));
     }
 
-    @Override
+//    @Override
     public void add(@NotNull AtomicActivityCollection item) {
         atomicActivityCollections.add(item);
     }
 
-    @Override
+//    @Override
     public List<AtomicActivityCollection> getAll() {
         for (var file : persistenceHelper.getAllAtomicActivityCollectionFiles()) {
             loadAtomicActivitiesCollection(file);
@@ -97,31 +98,31 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
         return atomicActivityCollections.stream().toList();
     }
 
-    @Override
+//    @Override
     public List<AtomicActivityCollection> get(Predicate<AtomicActivityCollection> predicate) {
         return getAll().stream().filter(predicate).toList();
     }
 
-    @Override
+//    @Override
     public void remove(@NotNull AtomicActivityCollection item) {
-        var id = item.getId();
+        var id = item.getAtomicActivityCollectionId();
         var file = persistenceHelper.getAllAtomicActivityCollectionFiles().stream().filter(x -> id.equals(UUID.fromString(IPersistenceHelper.getFileNameWithoutExtension(x)))).findFirst();
         file.ifPresent(persistenceHelper::removeFile);
         atomicActivityCollections.remove(item);
     }
 
-    @Override
+//    @Override
     public void saveAll() {
         for (var atomicActivitiesCollection : atomicActivityCollections)
             save(atomicActivitiesCollection);
     }
 
-    @Override
+//    @Override
     public void save(@NotNull AtomicActivityCollection item) {
-        if (item.isDirty()) {
-            persistenceHelper.saveAtomicActivityCollectionFile(item);
-            item.clearIsDirty();
-        }
+//        if (item.isDirty()) {
+//            persistenceHelper.saveAtomicActivityCollectionFile(item);
+//            item.clearIsDirty();
+//        }
     }
 
     private Optional<AtomicActivityCollection> loadAtomicActivitiesCollection(UUID id) {
@@ -131,7 +132,7 @@ class AtomicActivityRepository implements IAtomicActivityRepository {
 
     private AtomicActivityCollection loadAtomicActivitiesCollection(File file) {
         var collectionId = UUID.fromString(IPersistenceHelper.getFileNameWithoutExtension(file));
-        var collection = atomicActivityCollections.stream().filter(x -> x.getId().equals(collectionId)).findFirst();
+        var collection = atomicActivityCollections.stream().filter(x -> x.getAtomicActivityCollectionId().equals(collectionId)).findFirst();
         if (collection.isPresent()) {
             return collection.get();
         }

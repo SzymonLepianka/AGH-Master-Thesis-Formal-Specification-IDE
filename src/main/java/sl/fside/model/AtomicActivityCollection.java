@@ -4,25 +4,34 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
-public class AtomicActivityCollection extends ModelRootAggregate {
+public class AtomicActivityCollection {
 
     private final UUID projectId;
+    private final UUID atomicActivityCollectionId;
+    private final List<AtomicActivity> atomicActivities = new ArrayList<>();
 
     @JsonCreator
-    public AtomicActivityCollection(@JsonProperty("id") UUID id, @JsonProperty("projectId") UUID projectId) {
-        super(id);
+    public AtomicActivityCollection(@JsonProperty("atomicActivityCollectionId") UUID atomicActivityCollectionId,
+                                    @JsonProperty("projectId") UUID projectId) {
+        this.atomicActivityCollectionId = atomicActivityCollectionId;
         this.projectId = projectId;
     }
 
     public List<AtomicActivity> getAtomicActivities() {
-        return getChildren().stream().filter(x -> x instanceof AtomicActivity).map(x -> (AtomicActivity)x).toList();
+        return atomicActivities;
     }
 
+    // TODO adding atomic activity
+
     public Optional<AtomicActivity> getAtomicActivityById(UUID id) {
-        return getAtomicActivities().stream().filter(x -> x.getId().equals(id)).findFirst();
+        return atomicActivities.stream().filter(x -> x.getId().equals(id)).findFirst();
     }
 
     public UUID getProjectId() {
         return projectId;
+    }
+
+    public UUID getAtomicActivityCollectionId() {
+        return atomicActivityCollectionId;
     }
 }

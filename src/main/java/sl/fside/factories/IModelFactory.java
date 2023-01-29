@@ -29,5 +29,5 @@ public interface IModelFactory {
 
     PatternTemplateCollection createPatternTemplateCollection();
 
-    void registerInModelTracker(@NotNull ModelBase item);
+//    void registerInModelTracker(@NotNull ModelBase item);
 }
