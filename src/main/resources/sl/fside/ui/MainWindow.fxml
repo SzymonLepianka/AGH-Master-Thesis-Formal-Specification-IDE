@@ -14,16 +14,16 @@
         </Menu>
     </MenuBar>
     
-    <AnchorPane layoutY="25.0">
+    <AnchorPane layoutY="25.0" prefWidth="360.0" >
         <fx:include fx:id="useCaseSelectorEditor" source="editors/useCaseSelector/UseCaseSelectorEditor.fxml" />
     </AnchorPane>
     <AnchorPane layoutY="530.0" prefHeight="515.0" prefWidth="400.0" >
         <fx:include fx:id="imageViewer" source="editors/imageViewer/ImageViewer.fxml" />
     </AnchorPane>
-    <AnchorPane layoutX="300.0" layoutY="25.0">
+    <AnchorPane layoutX="360.0" layoutY="25.0">
         <fx:include fx:id="scenarioSelectorEditor" source="editors/scenarioSelector/ScenarioSelectorEditor.fxml" />
     </AnchorPane>
-    <AnchorPane layoutX="300.0" layoutY="425.0">
+    <AnchorPane layoutX="360.0" layoutY="425.0">
         <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml" />
     </AnchorPane>
     <AnchorPane layoutX="700.0">

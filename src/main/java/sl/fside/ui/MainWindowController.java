@@ -123,10 +123,16 @@ public class MainWindowController {
 
         // TODO tu skończyłem
         var project = modelFactory.createProject(projectName);
+        System.out.println("begin createUseCaseDiagram");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID(), null);
+        System.out.println("begin parseXml");
         xmlParserService.parseXml(useCaseDiagram, file);
+        System.out.println(useCaseDiagram.getUseCaseList());
+        System.out.println("Xml parsed");
 
         load(project);
+
+        useCaseSelectorEditorController.setUseCaseDiagramSelection(useCaseDiagram);
     }
 
     @FXML

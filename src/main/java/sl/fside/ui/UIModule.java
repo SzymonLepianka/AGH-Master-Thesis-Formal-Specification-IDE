@@ -14,7 +14,7 @@ public class UIModule extends PrivateModule {
     protected void configure() {
         
         // Factories
-//        bind(IUIElementFactory.class).to(UIElementsFactory.class).in(Scopes.SINGLETON);
+        bind(UIElementsFactory.class).in(Scopes.SINGLETON);
         
         // Controllers
         bind(MainWindowController.class).in(Scopes.SINGLETON);
@@ -26,7 +26,7 @@ public class UIModule extends PrivateModule {
         bind(ImageViewerController.class);
 
         // Expose
-//        expose(IUIElementFactory.class);
+        expose(UIElementsFactory.class);
         expose(MainWindowController.class);
         expose(UseCaseSelectorEditorController.class);
         expose(UseCaseController.class);
