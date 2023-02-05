@@ -226,7 +226,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         options.addAll(patternNames);
         switch (currentNodeType) {
             case "Seq" -> {
-                VBox seqVBox = createSeqPattern(currentNodeType, options);
+                VBox seqVBox = createSeqPattern(currentNodeType, options, false);
                 getRoot().getChildren().add(seqVBox);
                 NodesManager.getInstance().setMain(seqVBox);
                 NodesManager.getInstance().setMainName("Seq");
@@ -285,37 +285,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         selectionHalo.getStyleClass().add(STYLE_CLASS_SELECTION_HALO);
     }
 
-    private VBox createSeqPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern) {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow = new MyArrow(0, 0, 0, 100);
         myArrow.setHeadAVisible(false);
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // main vBox
         VBox vBox = new VBox();
@@ -326,21 +310,61 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         return vBox;
     }
 
+    private ComboBox<String> createDropdownMenu(String formulaName, ObservableList<String> options) {
+        ComboBox<String> a1Dropdown = new ComboBox<>(options);
+        a1Dropdown.setPromptText(formulaName);
+        a1Dropdown.setButtonCell(new ListCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(formulaName);
+                } else {
+                    setText(item);
+                }
+            }
+        });
+        return a1Dropdown;
+    }
+
+    private void addContextMenuToPatternFormula(Pane pane, String patternName, String formulaName) {
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem clearItem = new MenuItem("Clear " + patternName + " " + formulaName);
+        contextMenu.getItems().addAll(clearItem);
+
+        // showing context menu (to clear formula)
+        pane.setOnContextMenuRequested(event -> {
+            Node target = (Node) event.getTarget();
+            if (target == pane) {
+                contextMenu.show(pane, event.getScreenX(), event.getScreenY());
+                pane.setStyle("-fx-background-color: lightgray;");
+                pane.setDisable(true);
+            }
+        });
+        contextMenu.setOnHidden(event -> {
+            pane.setStyle("");
+            pane.setDisable(false);
+        });
+
+        // clearing selected formula (ex. "A1")
+        clearItem.setOnAction(event -> {
+            for (Node child : pane.getChildren()) {
+                if (child instanceof ComboBox<?>) {
+                    ((ComboBox<?>) child).setValue(null);
+                    break;
+                }
+            }
+        });
+    }
+
     private VBox createBranchPattern(String patternTypeName, ObservableList<String> options) {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(100, 0, 0, 50);
@@ -362,28 +386,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -412,29 +418,13 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // HBox agregujący A1 i A2 były obok siebie
         HBox a1a2hBox = new HBox();
@@ -465,16 +455,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // main vBox
         VBox vBox = new VBox();
@@ -485,21 +466,29 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         return vBox;
     }
 
+    private VBox createFormulaVBox(String patternTypeName, String formulaName, ObservableList<String> options,
+                                   Color borderColor) {
+        ComboBox<String> dropdown = createDropdownMenu(formulaName, options);
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().addAll(dropdown);
+        Border a3vBoxBorder = new Border(
+                new BorderStroke(borderColor, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        vBox.setBorder(a3vBoxBorder);
+        NodesManager.getInstance().addBorderOnActivityDiagram(vBox, a3vBoxBorder);
+        setDropdownOnAction(dropdown, vBox, options);
+        addContextMenuToPatternFormula(vBox, patternTypeName, formulaName);
+        return vBox;
+    }
+
     private VBox createCondPattern(String patternTypeName, ObservableList<String> options) {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(100, 0, 0, 50);
@@ -521,28 +510,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -573,16 +544,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a4
-        ComboBox<String> a4Dropdown = new ComboBox<>(options);
-        a4Dropdown.setPromptText("a4");
-        VBox a4vBox = new VBox();
-        a4vBox.setAlignment(Pos.CENTER);
-        a4vBox.getChildren().addAll(type, a4Dropdown);
-        Border a4vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a4vBox.setBorder(a4vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
-        setDropdownOnAction(a4Dropdown, a4vBox, options);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
 
         // main vBox
         VBox vBox = new VBox();
@@ -597,17 +559,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -630,28 +585,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -687,16 +624,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a4
-        ComboBox<String> a4Dropdown = new ComboBox<>(options);
-        a4Dropdown.setPromptText("a4");
-        VBox a4vBox = new VBox();
-        a4vBox.setAlignment(Pos.CENTER);
-        a4vBox.getChildren().addAll(type, a4Dropdown);
-        Border a4vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a4vBox.setBorder(a4vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
-        setDropdownOnAction(a4Dropdown, a4vBox, options);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
 
         // main vBox
         VBox vBox = new VBox();
@@ -711,17 +639,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -744,28 +665,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -793,29 +696,13 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // HBox agregujący A1 i A2 były obok siebie
         HBox a1a2hBox = new HBox();
@@ -851,16 +738,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // main vBox
         VBox vBox = new VBox();
@@ -875,17 +753,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // title
         Text type = new Text(patternTypeName);
 
+        Color borderColor = randomColor();
+
         // a1
-        ComboBox<String> a1Dropdown = new ComboBox<>(options);
-        a1Dropdown.setPromptText("a1");
-        VBox a1vBox = new VBox();
-        a1vBox.setAlignment(Pos.CENTER);
-        a1vBox.getChildren().addAll(type, a1Dropdown);
-        Border a1vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a1vBox.setBorder(a1vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a1vBox, a1vBoxBorder);
-        setDropdownOnAction(a1Dropdown, a1vBox, options);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -895,16 +766,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_1.getChildren().addAll(myArrow1);
 
         // a2
-        ComboBox<String> a2Dropdown = new ComboBox<>(options);
-        a2Dropdown.setPromptText("a2");
-        VBox a2vBox = new VBox();
-        a2vBox.setAlignment(Pos.CENTER);
-        a2vBox.getChildren().addAll(type, a2Dropdown);
-        Border a2vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a2vBox.setBorder(a2vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a2vBox, a2vBoxBorder);
-        setDropdownOnAction(a2Dropdown, a2vBox, options);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
 
         // connection visualization
         MyArrow myArrow2 = new MyArrow(100, 0, 0, 50);
@@ -925,28 +787,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         });
 
         // a3
-        ComboBox<String> a3Dropdown = new ComboBox<>(options);
-        a3Dropdown.setPromptText("a3");
-        VBox a3vBox = new VBox();
-        a3vBox.setAlignment(Pos.CENTER);
-        a3vBox.getChildren().addAll(type, a3Dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a3vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a3vBox, a3vBoxBorder);
-        setDropdownOnAction(a3Dropdown, a3vBox, options);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
 
         // a4
-        ComboBox<String> a4Dropdown = new ComboBox<>(options);
-        a4Dropdown.setPromptText("a4");
-        VBox a4vBox = new VBox();
-        a4vBox.setAlignment(Pos.CENTER);
-        a4vBox.getChildren().addAll(type, a4Dropdown);
-        Border a4vBoxBorder = new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        a4vBox.setBorder(a4vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(a4vBox, a4vBoxBorder);
-        setDropdownOnAction(a4Dropdown, a4vBox, options);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
 
         // HBox agregujący A3 i A4 były obok siebie
         HBox a3a4hBox = new HBox();
@@ -974,6 +818,12 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                                      ObservableList<String> options) {
         dropdownComboBox.setOnAction(e -> {
 
+            // przypadek po wyczyszczeniu formuły (za pomocą ContextMenu)
+            if (dropdownComboBox.getValue() == null) {
+                parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
+                return;
+            }
+
             // usuń zagnieżdżenie jeśli istnieje
             if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") ||
                     dropdownComboBox.getValue().equals("atomic_activity_2") ||
@@ -984,28 +834,28 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             }
 
             if (dropdownComboBox.getValue().equals("Seq")) {
-                VBox newSeqBox = createSeqPattern("", options);
+                VBox newSeqBox = createSeqPattern("Seq", options, true);
                 parentVBox.getChildren().add(newSeqBox);
             } else if (dropdownComboBox.getValue().equals("Branch")) {
-                VBox newBranchBox = createBranchPattern("", options);
+                VBox newBranchBox = createBranchPattern("Branch", options);
                 parentVBox.getChildren().add(newBranchBox);
             } else if (dropdownComboBox.getValue().equals("BranchRe")) {
-                VBox newBranchReBox = createBranchRePattern("", options);
+                VBox newBranchReBox = createBranchRePattern("BranchRe", options);
                 parentVBox.getChildren().add(newBranchReBox);
             } else if (dropdownComboBox.getValue().equals("Cond")) {
-                VBox newCondBox = createCondPattern("", options);
+                VBox newCondBox = createCondPattern("Cond", options);
                 parentVBox.getChildren().add(newCondBox);
             } else if (dropdownComboBox.getValue().equals("Para")) {
-                VBox newParaBox = createParaPattern("", options);
+                VBox newParaBox = createParaPattern("Para", options);
                 parentVBox.getChildren().add(newParaBox);
             } else if (dropdownComboBox.getValue().equals("Concur")) {
-                VBox newConcurBox = createConcurPattern("", options);
+                VBox newConcurBox = createConcurPattern("Concur", options);
                 parentVBox.getChildren().add(newConcurBox);
             } else if (dropdownComboBox.getValue().equals("ConcurRe")) {
-                VBox newConcurReBox = createConcurRePattern("", options);
+                VBox newConcurReBox = createConcurRePattern("ConcurRe", options);
                 parentVBox.getChildren().add(newConcurReBox);
             } else if (dropdownComboBox.getValue().equals("Loop")) {
-                VBox newLoopBox = createLoopPattern("", options);
+                VBox newLoopBox = createLoopPattern("Loop", options);
                 parentVBox.getChildren().add(newLoopBox);
             }
         });
