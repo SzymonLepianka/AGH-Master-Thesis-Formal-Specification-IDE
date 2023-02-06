@@ -16,6 +16,7 @@ module sl.fside {
     requires json.simple;
     requires org.json;
     requires org.apache.commons.lang3;
+    requires fontawesomefx;
 
     opens sl.fside.services to com.google.guice;
     opens sl.fside.persistence to com.google.guice;

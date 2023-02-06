@@ -1,5 +1,7 @@
 package sl.fside.ui.editors.activityDiagramEditor.ownImpl;
 
+import de.jensd.fx.glyphs.*;
+import de.jensd.fx.glyphs.fontawesome.*;
 import io.github.eckig.grapheditor.*;
 import io.github.eckig.grapheditor.core.connectors.*;
 import io.github.eckig.grapheditor.model.*;
@@ -226,49 +228,49 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         options.addAll(patternNames);
         switch (currentNodeType) {
             case "Seq" -> {
-                VBox seqVBox = createSeqPattern(currentNodeType, options, false);
+                VBox seqVBox = createSeqPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(seqVBox);
                 NodesManager.getInstance().setMain(seqVBox);
                 NodesManager.getInstance().setMainName("Seq");
             }
             case "Branch" -> {
-                VBox branchVBox = createBranchPattern(currentNodeType, options);
+                VBox branchVBox = createBranchPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(branchVBox);
                 NodesManager.getInstance().setMain(branchVBox);
                 NodesManager.getInstance().setMainName("Branch");
             }
             case "BranchRe" -> {
-                VBox branchReVBox = createBranchRePattern(currentNodeType, options);
+                VBox branchReVBox = createBranchRePattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(branchReVBox);
                 NodesManager.getInstance().setMain(branchReVBox);
                 NodesManager.getInstance().setMainName("BranchRe");
             }
             case "Cond" -> {
-                VBox condVBox = createCondPattern(currentNodeType, options);
+                VBox condVBox = createCondPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(condVBox);
                 NodesManager.getInstance().setMain(condVBox);
                 NodesManager.getInstance().setMainName("Cond");
             }
             case "Para" -> {
-                VBox paraVBox = createParaPattern(currentNodeType, options);
+                VBox paraVBox = createParaPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(paraVBox);
                 NodesManager.getInstance().setMain(paraVBox);
                 NodesManager.getInstance().setMainName("Para");
             }
             case "Concur" -> {
-                VBox concurVBox = createConcurPattern(currentNodeType, options);
+                VBox concurVBox = createConcurPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(concurVBox);
                 NodesManager.getInstance().setMain(concurVBox);
                 NodesManager.getInstance().setMainName("Concur");
             }
             case "ConcurRe" -> {
-                VBox concurReVBox = createConcurRePattern(currentNodeType, options);
+                VBox concurReVBox = createConcurRePattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(concurReVBox);
                 NodesManager.getInstance().setMain(concurReVBox);
                 NodesManager.getInstance().setMainName("ConcurRe");
             }
             case "Loop" -> {
-                VBox loopVBox = createLoopPattern(currentNodeType, options);
+                VBox loopVBox = createLoopPattern(currentNodeType, options, false, null);
                 getRoot().getChildren().add(loopVBox);
                 NodesManager.getInstance().setMain(loopVBox);
                 NodesManager.getInstance().setMainName("Loop");
@@ -285,11 +287,23 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         selectionHalo.getStyleClass().add(STYLE_CLASS_SELECTION_HALO);
     }
 
-    private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern) {
+    private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                  String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -304,7 +318,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow, a2vBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2vBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
@@ -327,41 +341,73 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         return a1Dropdown;
     }
 
-    private void addContextMenuToPatternFormula(Pane pane, String patternName, String formulaName) {
+    private void addContextMenuToButton(Button button, String patternName, String formulaName,
+                                        ObservableList<String> options, Color borderColor) {
         ContextMenu contextMenu = new ContextMenu();
         MenuItem clearItem = new MenuItem("Clear " + patternName + " " + formulaName);
         contextMenu.getItems().addAll(clearItem);
 
         // showing context menu (to clear formula)
-        pane.setOnContextMenuRequested(event -> {
+        button.setOnAction(event -> {
+            contextMenu.show(button, Side.TOP, 0, 0);
             Node target = (Node) event.getTarget();
-            if (target == pane) {
-                contextMenu.show(pane, event.getScreenX(), event.getScreenY());
-                pane.setStyle("-fx-background-color: lightgray;");
-                pane.setDisable(true);
+            Parent parentVBox =
+                    target.getParent().getParent(); // button is inside HBox inside VBox ; contains whole formula
+            parentVBox.setStyle("-fx-background-color: lightgray;");
+            if (!(parentVBox instanceof VBox)) {
+                System.out.println("Parent should be VBox, but is: " + parentVBox);
+                return;
             }
-        });
-        contextMenu.setOnHidden(event -> {
-            pane.setStyle("");
-            pane.setDisable(false);
-        });
+            if (!(parentVBox.getParent() instanceof VBox)) {
+                System.out.println("ParentParent should be VBox, but is: " + parentVBox);
+                return;
+            }
+            if (!(parentVBox.getParent().getParent() instanceof VBox)) {
+                System.out.println("ParentParentParent should be VBox, but is: " + parentVBox);
+                return;
+            }
 
-        // clearing selected formula (ex. "A1")
-        clearItem.setOnAction(event -> {
-            for (Node child : pane.getChildren()) {
-                if (child instanceof ComboBox<?>) {
-                    ((ComboBox<?>) child).setValue(null);
-                    break;
-                }
-            }
+            // return to base background color
+            contextMenu.setOnHidden(event2 -> {
+                parentVBox.setStyle("");
+            });
+
+            // clearing selected formula (ex. "A1")
+            clearItem.setOnAction(event3 -> {
+
+                // nowy VBox, zawierający nowy dropdown ; zastąpi stary VBox
+                VBox newVBox = createFormulaVBox(patternName, formulaName, options, borderColor);
+
+                // podmiana koloru borderu, aby zgadzał się z obecnym
+                Border parentBorder = ((VBox) parentVBox.getParent()).getBorder();
+                newVBox.setBorder(parentBorder);
+                NodesManager.getInstance().addBorderOnActivityDiagram(newVBox, parentBorder);
+
+                // podmiana starego VBox na nowy
+                VBox parentOfParentVBox = (VBox) parentVBox.getParent().getParent();
+                int oldVBoxIndex = parentOfParentVBox.getChildren().indexOf(parentVBox.getParent());
+                parentOfParentVBox.getChildren().set(oldVBoxIndex, newVBox);
+            });
         });
     }
 
-    private VBox createBranchPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createBranchPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                     String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -407,18 +453,30 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow, a2a3hBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
 
-    private VBox createBranchRePattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createBranchRePattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                       String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -460,7 +518,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1a2hBox, myArrow, a3vBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1a2hBox, myArrow, a3vBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
@@ -477,15 +535,27 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         vBox.setBorder(a3vBoxBorder);
         NodesManager.getInstance().addBorderOnActivityDiagram(vBox, a3vBoxBorder);
         setDropdownOnAction(dropdown, vBox, options);
-        addContextMenuToPatternFormula(vBox, patternTypeName, formulaName);
+//        addContextMenuToPatternFormula(vBox, patternTypeName, formulaName);
         return vBox;
     }
 
-    private VBox createCondPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createCondPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                   String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -549,17 +619,29 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
-    private VBox createParaPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createParaPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                   String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -629,17 +711,29 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
-    private VBox createConcurPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createConcurPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                     String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -686,17 +780,29 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow, a2a3hBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
-    private VBox createConcurRePattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createConcurRePattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                       String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -743,17 +849,29 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1a2hBox, myArrow, a3vBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1a2hBox, myArrow, a3vBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
     }
 
-    private VBox createLoopPattern(String patternTypeName, ObservableList<String> options) {
+    private VBox createLoopPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                   String outerFormulaName) {
         // title
-        Text type = new Text(patternTypeName);
+        Text type = new Text("        " + patternTypeName + " ");
 
         Color borderColor = randomColor();
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, options, borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
         VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
@@ -808,7 +926,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
-        vBox.getChildren().addAll(type, a1vBox, myArrow_1, a2vBox, myArrow_2, a3a4hBox);
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow_1, a2vBox, myArrow_2, a3a4hBox);
 //        vBox.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         return vBox;
@@ -834,29 +952,39 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             }
 
             if (dropdownComboBox.getValue().equals("Seq")) {
-                VBox newSeqBox = createSeqPattern("Seq", options, true);
+                VBox newSeqBox = createSeqPattern("Seq", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newSeqBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("Branch")) {
-                VBox newBranchBox = createBranchPattern("Branch", options);
+                VBox newBranchBox = createBranchPattern("Branch", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newBranchBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("BranchRe")) {
-                VBox newBranchReBox = createBranchRePattern("BranchRe", options);
+                VBox newBranchReBox =
+                        createBranchRePattern("BranchRe", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newBranchReBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("Cond")) {
-                VBox newCondBox = createCondPattern("Cond", options);
+                VBox newCondBox = createCondPattern("Cond", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newCondBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("Para")) {
-                VBox newParaBox = createParaPattern("Para", options);
+                VBox newParaBox = createParaPattern("Para", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newParaBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("Concur")) {
-                VBox newConcurBox = createConcurPattern("Concur", options);
+                VBox newConcurBox = createConcurPattern("Concur", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newConcurBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("ConcurRe")) {
-                VBox newConcurReBox = createConcurRePattern("ConcurRe", options);
+                VBox newConcurReBox =
+                        createConcurRePattern("ConcurRe", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newConcurReBox);
+                parentVBox.getChildren().remove(0);
             } else if (dropdownComboBox.getValue().equals("Loop")) {
-                VBox newLoopBox = createLoopPattern("Loop", options);
+                VBox newLoopBox = createLoopPattern("Loop", options, true, dropdownComboBox.getPromptText());
                 parentVBox.getChildren().add(newLoopBox);
+                parentVBox.getChildren().remove(0);
             }
         });
     }
