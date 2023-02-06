@@ -289,10 +289,20 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                   String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -301,9 +311,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -382,6 +392,13 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
                 // podmiana koloru borderu, aby zgadzał się z obecnym
                 Border parentBorder = ((VBox) parentVBox.getParent()).getBorder();
+                if (parentBorder == null) {
+                    parentBorder = NodesManager.getInstance().getBordersOnActivityDiagram()
+                            .get(((VBox) parentVBox.getParent()));
+                    newVBox.setBorder(null);
+                } else {
+                    newVBox.setBorder(parentBorder);
+                }
                 newVBox.setBorder(parentBorder);
                 NodesManager.getInstance().addBorderOnActivityDiagram(newVBox, parentBorder);
 
@@ -395,10 +412,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createBranchPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                      String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -407,9 +435,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -465,10 +493,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createBranchRePattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                        String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -477,9 +516,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -538,17 +577,31 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 new BorderStroke(borderColor, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
         vBox.setBorder(a3vBoxBorder);
         NodesManager.getInstance().addBorderOnActivityDiagram(vBox, a3vBoxBorder);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            vBox.setBorder(null);
+        }
+
         setDropdownOnAction(dropdown, vBox, options, patternTypeName);
-//        addContextMenuToPatternFormula(vBox, patternTypeName, formulaName);
         return vBox;
     }
 
     private VBox createCondPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                    String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -557,9 +610,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -632,10 +685,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createParaPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                    String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -644,9 +708,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -725,10 +789,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createConcurPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                      String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -737,9 +812,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -795,10 +870,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createConcurRePattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                        String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -807,9 +893,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
@@ -865,10 +951,21 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
     private VBox createLoopPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                    String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
         // title
         Text type = new Text("        " + patternTypeName + " ");
-
-        Color borderColor = randomColor();
 
         // clear button
         Button clearFormulaButton = new Button();
@@ -877,9 +974,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 borderColor);
         clearFormulaButton.setDisable(!isInnerPattern);
 
-        // hBox for title and clear button
+        // hBox for rectangle, title and clear button
         HBox hBoxTitleAndClearButton = new HBox();
-        hBoxTitleAndClearButton.getChildren().addAll(type, clearFormulaButton);
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1

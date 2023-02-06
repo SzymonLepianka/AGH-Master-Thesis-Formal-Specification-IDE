@@ -3,9 +3,10 @@ package sl.fside.ui.editors.activityDiagramEditor.managers;
 
 import javafx.scene.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
+import javafx.scene.shape.*;
 import sl.fside.services.logic_formula_generator.*;
 
-import java.io.*;
 import java.util.*;
 
 public class NodesManager {
@@ -16,62 +17,11 @@ public class NodesManager {
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
 
-    private Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
-
-    public Map<Pane, Border> getBordersOnActivityDiagram() {
-        return bordersOnActivityDiagram;
-    }
-
-    public void addBorderOnActivityDiagram(Pane pane, Border border) {
-        this.bordersOnActivityDiagram.put(pane, border);
-    }
-
-    public String getPatternExpression() {
-        return patternExpression;
-    }
-
-    public String getFolLogicalSpecification() {
-        return folLogicalSpecification;
-    }
-
-    public String getLtlLogicalSpecification() {
-        return ltlLogicalSpecification;
-    }
-
-    public void setPatternExpression(String patternExpression) {
-        this.patternExpression = patternExpression;
-
-        String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
-        String patternRulesLtlFile = "./pattern_rules/pattern_rules_LTL.json"; // Linear Temporal Logic
-        try {
-            List<WorkflowPatternTemplate> folPatternPropertySet = WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
-            List<WorkflowPatternTemplate> ltlPatternPropertySet = WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
-            this.folLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""), folPatternPropertySet);
-            this.ltlLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""), ltlPatternPropertySet);
-        } catch (Exception e){
-            e.printStackTrace();
-        }
-    }
-
-    public String getMainName() {
-        return mainName;
-    }
-
-    public void setMainName(String mainName) {
-        this.mainName = mainName;
-    }
-
+    private final Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
+    private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private String mainName;
-
-    public Node getMain() {
-        return main;
-    }
-
-    public void setMain(Node main) {
-        this.main = main;
-    }
-
     private String currentNodeType;
+    private boolean showColorsOnDiagram;
 
     public static NodesManager getInstance() {
         var result = instance;
@@ -84,6 +34,79 @@ public class NodesManager {
             }
             return instance;
         }
+    }
+
+    public boolean isShowColorsOnDiagram() {
+        return showColorsOnDiagram;
+    }
+
+    public void setShowColorsOnDiagram(boolean showColorsOnDiagram) {
+        this.showColorsOnDiagram = showColorsOnDiagram;
+    }
+
+    public Map<Pane, Border> getBordersOnActivityDiagram() {
+        return bordersOnActivityDiagram;
+    }
+
+    public void addBorderOnActivityDiagram(Pane pane, Border border) {
+        this.bordersOnActivityDiagram.put(pane, border);
+    }
+
+    public Map<Rectangle, Color> getColorsOnActivityDiagram() {
+        return colorsOnActivityDiagram;
+    }
+
+    public void addColorOnActivityDiagram(Rectangle rectangle, Color color) {
+        this.colorsOnActivityDiagram.put(rectangle, color);
+    }
+
+    public String getPatternExpression() {
+        return patternExpression;
+    }
+
+    public void setPatternExpression(String patternExpression) {
+        this.patternExpression = patternExpression;
+
+        String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
+        String patternRulesLtlFile = "./pattern_rules/pattern_rules_LTL.json"; // Linear Temporal Logic
+        try {
+            List<WorkflowPatternTemplate> folPatternPropertySet =
+                    WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
+            List<WorkflowPatternTemplate> ltlPatternPropertySet =
+                    WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
+            this.folLogicalSpecification =
+                    GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""),
+                            folPatternPropertySet);
+            this.ltlLogicalSpecification =
+                    GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""),
+                            ltlPatternPropertySet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getFolLogicalSpecification() {
+        return folLogicalSpecification;
+    }
+
+    public String getLtlLogicalSpecification() {
+        return ltlLogicalSpecification;
+    }
+
+    public String getMainName() {
+        return mainName;
+    }
+
+    public void setMainName(String mainName) {
+        this.mainName = mainName;
+    }
+
+    public Node getMain() {
+        return main;
+    }
+
+    public void setMain(Node main) {
+        this.main = main;
     }
 
     public String getCurrentNodeType() {

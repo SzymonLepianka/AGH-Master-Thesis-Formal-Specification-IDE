@@ -13,6 +13,8 @@ import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import javafx.scene.paint.*;
+import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
 import org.eclipse.emf.ecore.*;
@@ -362,11 +364,19 @@ public class ActivityDiagramEditorController {
         // showing colors on activity diagram
         showColorsOnDiagramButton.setOnAction(event -> {
             Map<Pane, Border> bordersOnActivityDiagram = NodesManager.getInstance().getBordersOnActivityDiagram();
+            Map<Rectangle, Color> colorsOnActivityDiagram = NodesManager.getInstance().getColorsOnActivityDiagram();
+            NodesManager.getInstance().setShowColorsOnDiagram(showColorsOnDiagramButton.isSelected());
             if (showColorsOnDiagramButton.isSelected()) {
                 bordersOnActivityDiagram.forEach(Region::setBorder);
+                colorsOnActivityDiagram.forEach(Shape::setFill);
+                colorsOnActivityDiagram.forEach((k,v)->k.setWidth(10));
+                colorsOnActivityDiagram.forEach((k,v)->k.setHeight(10));
             } else {
                 bordersOnActivityDiagram.forEach((pane, border) -> {
                     pane.setBorder(null);
+                    colorsOnActivityDiagram.forEach((k,v)->k.setFill(null));
+                    colorsOnActivityDiagram.forEach((k,v)->k.setWidth(0));
+                    colorsOnActivityDiagram.forEach((k,v)->k.setHeight(0));
                 });
             }
         });
