@@ -371,11 +371,13 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 return;
             }
             if (!(parentVBox.getParent() instanceof VBox)) {
-                System.out.println("ParentParent should be VBox, but is: " + parentVBox);
+                System.out.println("ParentParent should be VBox, but is: " + parentVBox.getParent());
                 return;
             }
-            if (!(parentVBox.getParent().getParent() instanceof VBox)) {
-                System.out.println("ParentParentParent should be VBox, but is: " + parentVBox);
+            if (!(parentVBox.getParent().getParent() instanceof VBox) &&
+                    !(parentVBox.getParent().getParent() instanceof HBox)) {
+                System.out.println(
+                        "ParentParentParent should be VBox or HBox, but is: " + parentVBox.getParent().getParent());
                 return;
             }
 
@@ -403,9 +405,9 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 NodesManager.getInstance().addBorderOnActivityDiagram(newVBox, parentBorder);
 
                 // podmiana starego VBox na nowy
-                VBox parentOfParentVBox = (VBox) parentVBox.getParent().getParent();
-                int oldVBoxIndex = parentOfParentVBox.getChildren().indexOf(parentVBox.getParent());
-                parentOfParentVBox.getChildren().set(oldVBoxIndex, newVBox);
+                Pane parentOfParentPane = (Pane) parentVBox.getParent().getParent();
+                int oldVBoxIndex = parentOfParentPane.getChildren().indexOf(parentVBox.getParent());
+                parentOfParentPane.getChildren().set(oldVBoxIndex, newVBox);
             });
         });
     }

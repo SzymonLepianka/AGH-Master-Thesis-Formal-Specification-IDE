@@ -21,7 +21,7 @@ public class NodesManager {
     private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private String mainName;
     private String currentNodeType;
-    private boolean showColorsOnDiagram;
+    private boolean showColorsOnDiagram = true;
 
     public static NodesManager getInstance() {
         var result = instance;
