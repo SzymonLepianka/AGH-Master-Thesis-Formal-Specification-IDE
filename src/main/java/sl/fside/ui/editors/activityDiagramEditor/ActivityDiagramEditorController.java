@@ -404,63 +404,71 @@ public class ActivityDiagramEditorController {
     @FXML
     public void generateSpecification() throws Exception {
         VBox main = (VBox) NodesManager.getInstance().getMain();
-        String mainName = NodesManager.getInstance().getMainName();
         if (main == null) {
             throw new Exception("Nie został dodany wzorzec!");
         }
 
         StringBuilder patternExpression = new StringBuilder();
         for (var child : main.getChildren()) {
-            if (child instanceof Text) {
-                String text = ((Text) child).getText();
-                if (text.equals(mainName)) {
-                    patternExpression.append(mainName);
-                    patternExpression.append("(");
-                }
-            } else if (child instanceof VBox || child instanceof HBox) {
+
+            // nazwa wzorca znajduje się wewnątrz pierwszego HBox
+            if (child instanceof HBox && main.getChildren().indexOf(child) == 0) {
+                String text = ((Text) (((HBox) child).getChildren().get(0))).getText().replaceAll("\\s", "");
+                patternExpression.append(text);
+                patternExpression.append("(");
+
+                // elementy grafu w zagnieżdżonych elementach VBox i HBox
+            } else if (child instanceof VBox || (child instanceof HBox && main.getChildren().indexOf(child) != 0)) {
                 patternExpression.append(getNestedPatternFromVBox((Pane) child));
-            } else if (child instanceof MyArrow) {
+
                 // pomiń strzałki na grafie
+            } else if (child instanceof MyArrow) {
             } else {
                 System.out.println("Nieobsłużone(1): " + child);
             }
         }
+
+        // usuwa ostatni znak (przecinek) i zamyka wyrażenie wzorcowe
         patternExpression.deleteCharAt(patternExpression.length() - 1);
         patternExpression.append(")");
         System.out.println("Wyrażenie: " + patternExpression);
         NodesManager.getInstance().setPatternExpression(patternExpression.toString());
-
-//        System.out.println(graphEditor.getModel().getNodes());
-//        System.out.println(graphEditor.getModel().getConnections().get(0).getSource());
     }
 
     private String getNestedPatternFromVBox(Pane vBoxOrHBox) throws Exception {
         StringBuilder sb = new StringBuilder();
         boolean closeStatement = false;
         for (var child2 : vBoxOrHBox.getChildren()) {
+
+            // Combobox zawiera atomiczne aktywności
             if (child2 instanceof ComboBox) {
                 String value = (String) ((ComboBox<?>) child2).getValue();
                 if (value == null) {
                     throw new Exception("Nie wszystkie elementy są wypełnione!");
                 }
-                if (value.equals("Seq") || value.equals("Branch") || value.equals("BranchRe") ||
-                        value.equals("Concur") || value.equals("ConcurRe") || value.equals("Cond") ||
-                        value.equals("Para") || value.equals("Loop")) {
-                    sb.append(value);
-                    sb.append("(");
-                    closeStatement = true;
-                } else {
-                    sb.append(value);
-                    sb.append(",");
-                }
-            } else if (child2 instanceof VBox || child2 instanceof HBox) {
+                sb.append(value);
+                sb.append(",");
+
+                // elementy grafu w zagnieżdżonych elementach VBox i HBox
+            } else if (child2 instanceof VBox ||
+                    (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) != 0)) {
                 sb.append(getNestedPatternFromVBox((Pane) child2));
+
+                // nazwy zagnieżdżonych (wewnętrznych) wzorców
+            } else if (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) == 0) {
+                String text = ((Text) (((HBox) child2).getChildren().get(0))).getText().replaceAll("\\s", "");
+                sb.append(text);
+                sb.append("(");
+                closeStatement = true;
+
+                // elementy pomijane
             } else if (child2 instanceof Text || child2 instanceof MyArrow) {
-//                System.out.println("Text do olania: " + ((Text) child2).getText());
             } else {
-                System.out.println("Nieobsłużone3");
+                System.out.println("Nieobsłużone(2): " + child2);
             }
         }
+
+        // domknięcie zagnieżdżonego wzorca
         if (closeStatement) {
             sb.deleteCharAt(sb.length() - 1);
             sb.append("),");
