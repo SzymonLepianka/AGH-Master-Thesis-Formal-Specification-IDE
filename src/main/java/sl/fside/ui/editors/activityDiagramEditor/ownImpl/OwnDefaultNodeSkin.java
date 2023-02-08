@@ -351,7 +351,6 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // dodaje VBox z linią na początek
         vBox.getChildren().add(0, vBoxWithLine);
 
-
         // przypadek zagnieżdżonego wzorca
         if (vBox.getChildren().get(1) instanceof VBox) {
             vBox.heightProperty().addListener((observable, oldValue, newValue) -> {
@@ -1314,7 +1313,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         dropdownComboBox.setOnAction(e -> {
 
             // usuń ComboBox jeśli wybrano zagnieżdżenie
-            if (!dropdownComboBox.getValue().equals("atomic_activity_1") &&
+            if (parentVBox.getChildren().size() == 2 && !dropdownComboBox.getValue().equals("atomic_activity_1") &&
                     !dropdownComboBox.getValue().equals("atomic_activity_2") &&
                     !dropdownComboBox.getValue().equals("atomic_activity_3")) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
