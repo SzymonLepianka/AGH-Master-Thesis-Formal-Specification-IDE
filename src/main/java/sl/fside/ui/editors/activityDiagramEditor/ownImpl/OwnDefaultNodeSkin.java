@@ -317,22 +317,170 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow = new MyArrow(0, 0, 0, 100);
         myArrow.setHeadAVisible(false);
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, false);
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2vBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
+    }
+
+    // pionowa linia uzupełniająca pustą przestrzeń, gdy formuła obok ma większą wysokość
+    private void addFillingSpaceLine(VBox vBox) {
+        Line verticalLine = new Line(0, 0, 0, 5);
+
+        VBox vBoxWithLine = new VBox();
+        vBoxWithLine.setAlignment(Pos.CENTER);
+        vBoxWithLine.getChildren().add(verticalLine);
+
+        // dodaje VBox z linią na początek
+        vBox.getChildren().add(0, vBoxWithLine);
+
+
+        // przypadek zagnieżdżonego wzorca
+        if (vBox.getChildren().get(1) instanceof VBox) {
+            vBox.heightProperty().addListener((observable, oldValue, newValue) -> {
+                double parentVBoxHeight = vBox.getHeight();
+                double childVBoxHeight = ((VBox) vBox.getChildren().get(1)).getHeight();
+                if (parentVBoxHeight > 10 && childVBoxHeight >
+                        10) { // zapobiega przypadkowi, gdy któryś VBox wynosi 0 (bezpośrednio po stworzeniu)
+                    double lineLength =
+                            (parentVBoxHeight - childVBoxHeight > 20) ? parentVBoxHeight - childVBoxHeight - 10 : 0;
+                    vBoxWithLine.getChildren().set(0, new Line(0, 0, 0, lineLength));
+                }
+            });
+
+            ((VBox) vBox.getChildren().get(1)).heightProperty().addListener((observable, oldValue, newValue) -> {
+                double parentVBoxHeight = vBox.getHeight();
+                double childVBoxHeight = ((VBox) vBox.getChildren().get(1)).getHeight();
+                if (parentVBoxHeight > 10 && childVBoxHeight > 10) {
+                    double lineLength =
+                            (parentVBoxHeight - childVBoxHeight > 20) ? parentVBoxHeight - childVBoxHeight - 10 : 0;
+                    vBoxWithLine.getChildren().set(0, new Line(0, 0, 0, lineLength));
+                }
+            });
+
+            // przypadek atomicznego wyboru
+        } else if (vBox.getChildren().get(1) instanceof ComboBox<?>) {
+            vBox.heightProperty().addListener((observable, oldValue, newValue) -> {
+                if (vBox.getChildren().size() >= 2 && vBox.getChildren().get(1) instanceof ComboBox<?>) {
+                    double parentVBoxHeight = vBox.getHeight();
+                    double childVBoxHeight = ((ComboBox<?>) vBox.getChildren().get(1)).getHeight();
+                    if (parentVBoxHeight > 10 && childVBoxHeight > 10) {
+                        double lineLength =
+                                (parentVBoxHeight - childVBoxHeight > 20) ? parentVBoxHeight - childVBoxHeight - 10 : 0;
+                        vBoxWithLine.getChildren().set(0, new Line(0, 0, 0, lineLength));
+                    }
+                }
+            });
+
+            ((ComboBox<?>) vBox.getChildren().get(1)).heightProperty().addListener((observable, oldValue, newValue) -> {
+                if (vBox.getChildren().size() >= 2 && vBox.getChildren().get(1) instanceof ComboBox<?>) {
+                    double parentVBoxHeight = vBox.getHeight();
+                    double childVBoxHeight = ((ComboBox<?>) vBox.getChildren().get(1)).getHeight();
+                    if (parentVBoxHeight > 10 && childVBoxHeight > 10) {
+                        double lineLength =
+                                (parentVBoxHeight - childVBoxHeight > 20) ? parentVBoxHeight - childVBoxHeight - 10 : 0;
+                        vBoxWithLine.getChildren().set(0, new Line(0, 0, 0, lineLength));
+                    }
+                }
+            });
+        } else {
+            System.out.println("Inny przypadek!");
+        }
+    }
+
+    private void addBorderToVBox(VBox vBox, Color borderColor) {
+        Border border = new Border(
+                new BorderStroke(borderColor, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+        vBox.setBorder(border);
+        NodesManager.getInstance().addBorderOnActivityDiagram(vBox, border);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            vBox.setBorder(null);
+        }
+    }
+
+    private boolean addEntryArrow(Pane vBox, String outerPatternName, String outerFormulaName) {
+        if (outerPatternName.equals("Seq") && outerFormulaName.equals("a2")) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
+        } else if ((outerPatternName.equals("Branch") || outerPatternName.equals("Concur")) &&
+                (outerFormulaName.equals("a2") || outerFormulaName.equals("a3"))) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
+        } else if ((outerPatternName.equals("BranchRe") || outerPatternName.equals("ConcurRe")) &&
+                outerFormulaName.equals("a3")) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
+        } else if ((outerPatternName.equals("Cond") || outerPatternName.equals("Para")) &&
+                (outerFormulaName.equals("a2") || outerFormulaName.equals("a3") || outerFormulaName.equals("a4"))) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
+        } else if (outerPatternName.equals("Loop") &&
+                (outerFormulaName.equals("a2") || outerFormulaName.equals("a3") || outerFormulaName.equals("a4"))) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
+        }
+        return false;
+    }
+
+    private boolean addOutArrow(Pane vBox, String outerPatternName, String outerFormulaName) {
+        if (outerPatternName.equals("Seq") && outerFormulaName.equals("a1")) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        } else if ((outerPatternName.equals("Branch") || outerPatternName.equals("Concur")) &&
+                outerFormulaName.equals("a1")) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        } else if ((outerPatternName.equals("BranchRe") || outerPatternName.equals("ConcurRe")) &&
+                (outerFormulaName.equals("a1") || outerFormulaName.equals("a2"))) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        } else if ((outerPatternName.equals("Cond") || outerPatternName.equals("Para")) &&
+                (outerFormulaName.equals("a1") || outerFormulaName.equals("a2") || outerFormulaName.equals("a3"))) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        } else if (outerPatternName.equals("Loop") &&
+                (outerFormulaName.equals("a1") || outerFormulaName.equals("a2") || outerFormulaName.equals("a4"))) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        }
+        return false;
     }
 
     private ComboBox<String> createDropdownMenu(String formulaName, ObservableList<String> options) {
@@ -390,24 +538,28 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             clearItem.setOnAction(event3 -> {
 
                 // nowy VBox, zawierający nowy dropdown ; zastąpi stary VBox
-                VBox newVBox = createFormulaVBox(patternName, formulaName, options, borderColor);
+                VBox newVBox = createFormulaVBox(outerPatternName, formulaName, options, borderColor, true);
+                HBox.setHgrow(newVBox, Priority.ALWAYS);
 
                 // podmiana koloru borderu, aby zgadzał się z obecnym
-                Border parentBorder = ((VBox) parentVBox.getParent()).getBorder();
-                if (parentBorder == null) {
-                    parentBorder = NodesManager.getInstance().getBordersOnActivityDiagram()
-                            .get(((VBox) parentVBox.getParent()));
-                    newVBox.setBorder(null);
-                } else {
-                    newVBox.setBorder(parentBorder);
-                }
-                newVBox.setBorder(parentBorder);
+                Border parentBorder =
+                        NodesManager.getInstance().getBordersOnActivityDiagram().get(((VBox) parentVBox.getParent()));
                 NodesManager.getInstance().addBorderOnActivityDiagram(newVBox, parentBorder);
+                if (NodesManager.getInstance().isShowColorsOnDiagram()) {
+                    newVBox.setBorder(parentBorder);
+                } else {
+                    newVBox.setBorder(null);
+                }
 
                 // podmiana starego VBox na nowy
                 Pane parentOfParentPane = (Pane) parentVBox.getParent().getParent();
                 int oldVBoxIndex = parentOfParentPane.getChildren().indexOf(parentVBox.getParent());
                 parentOfParentPane.getChildren().set(oldVBoxIndex, newVBox);
+                if (parentOfParentPane instanceof HBox) {
+                    parentOfParentPane.widthProperty().addListener((observable, oldValue, newValue) -> {
+                        newVBox.setMaxWidth(parentOfParentPane.getWidth() / 2);
+                    });
+                }
             });
         });
     }
@@ -443,7 +595,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(100, 0, 0, 50);
@@ -460,15 +612,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
             myArrow1.setX1(newValue.doubleValue() / 2);
             myArrow2.setX1(newValue.doubleValue() / 2);
-            myArrow1.setX2(newValue.doubleValue() / 4);
-            myArrow2.setX2(3 * newValue.doubleValue() / 4);
+            myArrow1.setX2(newValue.doubleValue() / 4.0 - 32.0);
+            myArrow2.setX2(3.0 * newValue.doubleValue() / 4.0 + 32.0);
         });
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, true);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -486,12 +638,69 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addTwoOutArrows(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
+    private void addTwoOutArrows(VBox vBox, String outerPatternName, String outerFormulaName) {
+        VBox vboxWithLeftOutArrow = new VBox();
+        vboxWithLeftOutArrow.setAlignment(Pos.CENTER);
+        if (addOutArrow(vboxWithLeftOutArrow, outerPatternName, outerFormulaName)) {
+            VBox vboxWithRightOutArrow = new VBox();
+            vboxWithRightOutArrow.setAlignment(Pos.CENTER);
+            addOutArrow(vboxWithRightOutArrow, outerPatternName, outerFormulaName);
+
+            Line horizontalLine = new Line(0, 0, 100, 0);
+
+            HBox hBoxWithOutArrows = new HBox();
+            hBoxWithOutArrows.setAlignment(Pos.CENTER);
+            hBoxWithOutArrows.getChildren().addAll(vboxWithLeftOutArrow, vboxWithRightOutArrow);
+
+            HBox.setHgrow(vboxWithLeftOutArrow, Priority.ALWAYS);
+            HBox.setHgrow(vboxWithRightOutArrow, Priority.ALWAYS);
+
+            hBoxWithOutArrows.widthProperty().addListener((observable, oldValue, newValue) -> {
+                vboxWithLeftOutArrow.setMaxWidth(hBoxWithOutArrows.getWidth() / 2);
+                vboxWithRightOutArrow.setMaxWidth(hBoxWithOutArrows.getWidth() / 2);
+                horizontalLine.setEndX(hBoxWithOutArrows.getWidth() / 2);
+            });
+            vBox.getChildren().addAll(hBoxWithOutArrows, horizontalLine);
+        }
+    }
+
+    private void addTwoEntryArrows(VBox vBox, String outerPatternName, String outerFormulaName) {
+        VBox vboxWithLeftEntryArrow = new VBox();
+        vboxWithLeftEntryArrow.setAlignment(Pos.CENTER);
+        if (addEntryArrow(vboxWithLeftEntryArrow, outerPatternName, outerFormulaName)) {
+            VBox vboxWithRightEntryArrow = new VBox();
+            vboxWithRightEntryArrow.setAlignment(Pos.CENTER);
+            addEntryArrow(vboxWithRightEntryArrow, outerPatternName, outerFormulaName);
+
+            Line horizontalLine = new Line(0, 0, 100, 0);
+
+            HBox hBoxWithEntryArrows = new HBox();
+            hBoxWithEntryArrows.setAlignment(Pos.CENTER);
+            hBoxWithEntryArrows.getChildren().addAll(vboxWithLeftEntryArrow, vboxWithRightEntryArrow);
+
+            HBox.setHgrow(vboxWithLeftEntryArrow, Priority.ALWAYS);
+            HBox.setHgrow(vboxWithRightEntryArrow, Priority.ALWAYS);
+
+            hBoxWithEntryArrows.widthProperty().addListener((observable, oldValue, newValue) -> {
+                vboxWithLeftEntryArrow.setMaxWidth(hBoxWithEntryArrows.getWidth() / 2);
+                vboxWithRightEntryArrow.setMaxWidth(hBoxWithEntryArrows.getWidth() / 2);
+                horizontalLine.setEndX(hBoxWithEntryArrows.getWidth() / 2);
+            });
+            vBox.getChildren().addAll(horizontalLine, hBoxWithEntryArrows);
+        }
+    }
 
     private VBox createBranchRePattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
                                        String outerFormulaName, String outerPatternName) {
@@ -524,10 +733,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, true);
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // HBox agregujący A1 i A2 były obok siebie
         HBox a1a2hBox = new HBox();
@@ -551,37 +760,43 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow.setAlignment(Pos.CENTER);
         myArrow.getChildren().addAll(myArrow1, myArrow2);
         myArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
-            myArrow1.setX1(newValue.doubleValue() / 4);
-            myArrow2.setX1(3 * newValue.doubleValue() / 4);
+            myArrow1.setX1(newValue.doubleValue() / 4.0 - 30.0);
+            myArrow2.setX1(3.0 * newValue.doubleValue() / 4.0 + 30.0);
             myArrow1.setX2(newValue.doubleValue() / 2);
             myArrow2.setX2(newValue.doubleValue() / 2);
         });
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, false);
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addTwoEntryArrows(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1a2hBox, myArrow, a3vBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
     private VBox createFormulaVBox(String patternTypeName, String formulaName, ObservableList<String> options,
-                                   Color borderColor) {
+                                   Color borderColor, boolean addFillingSpaceLine) {
         ComboBox<String> dropdown = createDropdownMenu(formulaName, options);
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
         vBox.getChildren().addAll(dropdown);
-        Border a3vBoxBorder = new Border(
-                new BorderStroke(borderColor, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
-        vBox.setBorder(a3vBoxBorder);
-        NodesManager.getInstance().addBorderOnActivityDiagram(vBox, a3vBoxBorder);
-        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
-            vBox.setBorder(null);
-        }
+        if (addFillingSpaceLine) addFillingSpaceLine(vBox);
+//        Border a3vBoxBorder = new Border(
+//                new BorderStroke(borderColor, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2)));
+//        vBox.setBorder(a3vBoxBorder);
+//        NodesManager.getInstance().addBorderOnActivityDiagram(vBox, a3vBoxBorder);
+//        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+//            vBox.setBorder(null);
+//        }
 
         setDropdownOnAction(dropdown, vBox, options, patternTypeName);
         return vBox;
@@ -618,7 +833,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(100, 0, 0, 50);
@@ -635,15 +850,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow.widthProperty().addListener((observable, oldValue, newValue) -> {
             myArrow1.setX1(newValue.doubleValue() / 2);
             myArrow2.setX1(newValue.doubleValue() / 2);
-            myArrow1.setX2(newValue.doubleValue() / 4);
-            myArrow2.setX2(3 * newValue.doubleValue() / 4);
+            myArrow1.setX2(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow2.setX2(3.0 * newValue.doubleValue() / 4.0 + 35.0);
         });
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, true);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -667,21 +882,26 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_2.setAlignment(Pos.CENTER);
         myArrow_2.getChildren().addAll(myArrow3, myArrow4);
         myArrow_2.widthProperty().addListener((observable, oldValue, newValue) -> {
-            myArrow3.setX1(newValue.doubleValue() / 4);
-            myArrow4.setX1(3 * newValue.doubleValue() / 4);
+            myArrow3.setX1(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow4.setX1(3.0 * newValue.doubleValue() / 4.0 + 35.0);
             myArrow3.setX2(newValue.doubleValue() / 2);
             myArrow4.setX2(newValue.doubleValue() / 2);
         });
 
         // a4
-        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor, false);
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
@@ -716,7 +936,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -734,15 +954,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_2_3.widthProperty().addListener((observable, oldValue, newValue) -> {
             myArrow2.setX1(newValue.doubleValue() / 2);
             myArrow3.setX1(newValue.doubleValue() / 2);
-            myArrow2.setX2(newValue.doubleValue() / 4);
-            myArrow3.setX2(3 * newValue.doubleValue() / 4);
+            myArrow2.setX2(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow3.setX2(3.0 * newValue.doubleValue() / 4.0 + 35.0);
         });
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, true);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -771,21 +991,26 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_2.setAlignment(Pos.CENTER);
         myArrow_2.getChildren().addAll(myArrow_5_6, myArrow7);
         myArrow_5_6.widthProperty().addListener((observable, oldValue, newValue) -> {
-            myArrow5.setX1(newValue.doubleValue() / 4);
-            myArrow6.setX1(3 * newValue.doubleValue() / 4);
+            myArrow5.setX1(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow6.setX1(3.0 * newValue.doubleValue() / 4.0 + 35.0);
             myArrow5.setX2(newValue.doubleValue() / 2);
             myArrow6.setX2(newValue.doubleValue() / 2);
         });
 
         // a4
-        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor, false);
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox, myArrow_2, a4vBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
@@ -820,7 +1045,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -838,15 +1063,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_2_3.widthProperty().addListener((observable, oldValue, newValue) -> {
             myArrow2.setX1(newValue.doubleValue() / 2);
             myArrow3.setX1(newValue.doubleValue() / 2);
-            myArrow2.setX2(newValue.doubleValue() / 4);
-            myArrow3.setX2(3 * newValue.doubleValue() / 4);
+            myArrow2.setX2(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow3.setX2(3.0 * newValue.doubleValue() / 4.0 + 35.0);
         });
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, true);
 
         // HBox agregujący A2 i A3 były obok siebie
         HBox a2a3hBox = new HBox();
@@ -864,9 +1089,14 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow, a2a3hBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addTwoOutArrows(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
@@ -901,10 +1131,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, true);
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, true);
 
         // HBox agregujący A1 i A2 były obok siebie
         HBox a1a2hBox = new HBox();
@@ -933,21 +1163,26 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow.setAlignment(Pos.CENTER);
         myArrow.getChildren().addAll(myArrow_1_2, myArrow3);
         myArrow_1_2.widthProperty().addListener((observable, oldValue, newValue) -> {
-            myArrow1.setX1(newValue.doubleValue() / 4);
-            myArrow2.setX1(3 * newValue.doubleValue() / 4);
+            myArrow1.setX1(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow2.setX1(3.0 * newValue.doubleValue() / 4.0 + 35.0);
             myArrow1.setX2(newValue.doubleValue() / 2);
             myArrow2.setX2(newValue.doubleValue() / 2);
         });
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, false);
 
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addTwoEntryArrows(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1a2hBox, myArrow, a3vBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
@@ -982,7 +1217,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
 
         // a1
-        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor);
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow1 = new MyArrow(0, 0, 0, 70);
@@ -992,7 +1227,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_1.getChildren().addAll(myArrow1);
 
         // a2
-        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor);
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, false);
 
         // connection visualization
         MyArrow myArrow2 = new MyArrow(100, 0, 0, 50);
@@ -1008,15 +1243,15 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         myArrow_2.widthProperty().addListener((observable, oldValue, newValue) -> {
             myArrow2.setX1(newValue.doubleValue() / 2);
             myArrow3.setX1(newValue.doubleValue() / 2);
-            myArrow2.setX2(newValue.doubleValue() / 4);
-            myArrow3.setX2(3 * newValue.doubleValue() / 4);
+            myArrow2.setX2(newValue.doubleValue() / 4.0 - 35.0);
+            myArrow3.setX2(3.0 * newValue.doubleValue() / 4.0 + 35.0);
         });
 
         // a3
-        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor);
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, true);
 
         // a4
-        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor);
+        VBox a4vBox = createFormulaVBox(patternTypeName, "a4", options, borderColor, true);
 
         // HBox agregujący A3 i A4 były obok siebie
         HBox a3a4hBox = new HBox();
@@ -1034,9 +1269,43 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         // main vBox
         VBox vBox = new VBox();
         vBox.setAlignment(Pos.CENTER);
+
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
         vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow_1, a2vBox, myArrow_2, a3a4hBox);
-//        vBox.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        if (isInnerPattern) {
+            if (addOutArrow(new VBox(), outerPatternName, outerFormulaName)) {
+                MyArrow outArrow = new MyArrow(100, 0, 0, 50);
+                outArrow.setHeadAVisible(false);
+
+                VBox vboxWithLeftOutArrow = new VBox();
+                vboxWithLeftOutArrow.setAlignment(Pos.CENTER);
+
+                VBox vboxWithRightOutArrow = new VBox();
+                vboxWithRightOutArrow.setAlignment(Pos.CENTER_LEFT);
+                vboxWithRightOutArrow.getChildren().add(outArrow);
+
+                HBox hBoxWithOutArrows = new HBox();
+                hBoxWithOutArrows.setAlignment(Pos.CENTER);
+                hBoxWithOutArrows.getChildren().addAll(vboxWithLeftOutArrow, vboxWithRightOutArrow);
+
+                HBox.setHgrow(vboxWithLeftOutArrow, Priority.ALWAYS);
+                HBox.setHgrow(vboxWithRightOutArrow, Priority.ALWAYS);
+
+                hBoxWithOutArrows.widthProperty().addListener((observable, oldValue, newValue) -> {
+                    vboxWithLeftOutArrow.setMaxWidth(hBoxWithOutArrows.getWidth() / 2);
+                    vboxWithRightOutArrow.setMaxWidth(hBoxWithOutArrows.getWidth() / 2);
+                });
+
+                hBoxWithOutArrows.widthProperty().addListener((observable, oldValue, newValue) -> {
+                    outArrow.setX1(3.0 * newValue.doubleValue() / 4.0 + 35.0);
+                    outArrow.setX2(newValue.doubleValue() / 2);
+                });
+                vBox.getChildren().addAll(hBoxWithOutArrows);
+            }
+        }
+        addBorderToVBox(vBox, borderColor);
         return vBox;
     }
 
@@ -1044,18 +1313,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                                      String patternTypeName) {
         dropdownComboBox.setOnAction(e -> {
 
-            // przypadek po wyczyszczeniu formuły (za pomocą ContextMenu)
-            if (dropdownComboBox.getValue() == null) {
-                parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
-                return;
-            }
-
-            // usuń zagnieżdżenie jeśli istnieje
-            if (parentVBox.getChildren().size() == 2 && (dropdownComboBox.getValue().equals("atomic_activity_1") ||
-                    dropdownComboBox.getValue().equals("atomic_activity_2") ||
-                    dropdownComboBox.getValue().equals("atomic_activity_3"))) {
-                parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
-            } else if (parentVBox.getChildren().size() == 2) {
+            // usuń ComboBox jeśli wybrano zagnieżdżenie
+            if (!dropdownComboBox.getValue().equals("atomic_activity_1") &&
+                    !dropdownComboBox.getValue().equals("atomic_activity_2") &&
+                    !dropdownComboBox.getValue().equals("atomic_activity_3")) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
             }
 
@@ -1064,41 +1325,49 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                         createSeqPattern("Seq", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newSeqBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("Branch")) {
                 VBox newBranchBox =
                         createBranchPattern("Branch", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newBranchBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("BranchRe")) {
                 VBox newBranchReBox = createBranchRePattern("BranchRe", options, true, dropdownComboBox.getPromptText(),
                         patternTypeName);
                 parentVBox.getChildren().add(newBranchReBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("Cond")) {
                 VBox newCondBox =
                         createCondPattern("Cond", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newCondBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("Para")) {
                 VBox newParaBox =
                         createParaPattern("Para", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newParaBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("Concur")) {
                 VBox newConcurBox =
                         createConcurPattern("Concur", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newConcurBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("ConcurRe")) {
                 VBox newConcurReBox = createConcurRePattern("ConcurRe", options, true, dropdownComboBox.getPromptText(),
                         patternTypeName);
                 parentVBox.getChildren().add(newConcurReBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             } else if (dropdownComboBox.getValue().equals("Loop")) {
                 VBox newLoopBox =
                         createLoopPattern("Loop", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newLoopBox);
                 parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
             }
         });
     }
