@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-
-<AnchorPane onMouseClicked="#onClick" prefHeight="515.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sl.fside.ui.editors.imageViewer.ImageViewerController">
-    <ImageView fx:id="imageView" visible="false" />
-    <Button fx:id="addImageButton" layoutX="163.0" layoutY="233.0" text="Add image" />
+<AnchorPane fx:id="imageViewerRoot" prefHeight="530.0" prefWidth="360.0"
+            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sl.fside.ui.editors.imageViewer.ImageViewerController">
+    <Button fx:id="addButton" layoutX="143.0" layoutY="14.0" onAction="#addImageClicked" text="Add image"/>
+    <Button fx:id="removeButton" layoutX="143.0" layoutY="14.0" onAction="#removeImageClicked" text="Remove image" visible="false"/>
+    <AnchorPane fx:id="imageViewerAnchorPane" layoutX="5.0" layoutY="55.0" prefHeight="475.0" prefWidth="350.0"/>
 </AnchorPane>
