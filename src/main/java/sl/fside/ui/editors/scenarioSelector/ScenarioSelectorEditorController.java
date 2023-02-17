@@ -28,7 +28,6 @@ public class ScenarioSelectorEditorController {
     public Button addScenarioButton;
     private UseCase useCase;
 
-
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory) {
         this.modelFactory = modelFactory;

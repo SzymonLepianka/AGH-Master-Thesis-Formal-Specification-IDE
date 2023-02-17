@@ -2,32 +2,31 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
-<fx:root fx:id="mainWindowRoot" prefHeight="1000.0" prefWidth="1400.0" type="javafx.scene.layout.AnchorPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+<fx:root fx:id="mainWindowRoot" prefHeight="1000.0" prefWidth="1400.0" type="javafx.scene.layout.AnchorPane"
+         xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="sl.fside.ui.MainWindowController">
-    
+
     <MenuBar prefHeight="25.0" prefWidth="1400.0">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Save" onAction="#saveClicked" />
-            <MenuItem mnemonicParsing="false" text="Load" onAction="#loadClicked" />
-            <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXml" />
+            <MenuItem mnemonicParsing="false" text="Save" onAction="#saveClicked"/>
+            <MenuItem mnemonicParsing="false" text="Load" onAction="#loadClicked"/>
+            <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXml"/>
         </Menu>
     </MenuBar>
-    
-    <AnchorPane layoutY="25.0" prefWidth="360.0" >
-        <fx:include fx:id="useCaseSelectorEditor" source="editors/useCaseSelector/UseCaseSelectorEditor.fxml" />
+
+    <AnchorPane layoutY="25.0" prefWidth="360.0">
+        <fx:include fx:id="useCaseSelectorEditor" source="editors/useCaseSelector/UseCaseSelectorEditor.fxml"/>
     </AnchorPane>
-    <AnchorPane layoutY="500.0" prefWidth="360.0" >
-        <fx:include fx:id="imageViewer" source="editors/imageViewer/ImageViewer.fxml" />
+    <AnchorPane layoutY="500.0" prefWidth="360.0">
+        <fx:include fx:id="imageViewer" source="editors/imageViewer/ImageViewer.fxml"/>
     </AnchorPane>
     <AnchorPane layoutX="360.0" layoutY="25.0">
-        <fx:include fx:id="scenarioSelectorEditor" source="editors/scenarioSelector/ScenarioSelectorEditor.fxml" />
+        <fx:include fx:id="scenarioSelectorEditor" source="editors/scenarioSelector/ScenarioSelectorEditor.fxml"/>
     </AnchorPane>
-<!--    <AnchorPane layoutX="360.0" layoutY="425.0">-->
-<!--        <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml" />-->
-<!--    </AnchorPane>-->
+    <AnchorPane layoutX="360.0" layoutY="500.0">
+        <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml"/>
+    </AnchorPane>
     <AnchorPane layoutX="700.0">
-<!--        <fx:include source="editors/activityDiagramEditor/ActivityDiagramEditor.fxml" />-->
-        <Button text="Start Activity Diagram" onAction="#startActivityDiagramClicked" />
+        <Button text="Start Activity Diagram" onAction="#startActivityDiagramClicked"/>
     </AnchorPane>
 </fx:root>
