@@ -53,6 +53,10 @@ public class Scenario {
         }
     }
 
+    public UUID getId() {
+        return id;
+    }
+
     public ArrayList<String> getActions() {
         return actions;
     }

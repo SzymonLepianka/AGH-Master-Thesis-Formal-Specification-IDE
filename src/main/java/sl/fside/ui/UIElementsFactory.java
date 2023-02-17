@@ -1,41 +1,41 @@
 package sl.fside.ui;
 
-import sl.fside.model.*;
-import sl.fside.ui.editors.useCaseSelector.controls.*;
-import com.google.inject.*;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.layout.*;
-import javafx.util.*;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.AnchorPane;
+import javafx.util.Pair;
+import sl.fside.model.Scenario;
+import sl.fside.model.UseCase;
+import sl.fside.ui.editors.scenarioSelector.controls.ScenarioController;
+import sl.fside.ui.editors.useCaseSelector.controls.UseCaseController;
 
-import java.io.*;
+import java.io.IOException;
 
-public class UIElementsFactory   {
+public class UIElementsFactory {
 
     private final Injector injector;
 
-//    private final FXMLLoader fxmlLoader;
-
     private final String editorsPath = "editors/";
-
     private final String useCaseSelectorControlsPath = editorsPath + "useCaseSelector/controls/";
+    private final String scenarioSelectorControlsPath = editorsPath + "scenarioSelector/controls/";
 
     @Inject
     public UIElementsFactory(Injector injector) {
-
         this.injector = injector;
     }
 
-//    @Override
     public Pair<AnchorPane, UseCaseController> createUseCase(UseCase useCase) {
         var pair = this.<AnchorPane, UseCaseController>loadFromFxmnl(useCaseSelectorControlsPath + "UseCase.fxml");
         pair.getValue().load(useCase);
         return pair;
     }
 
-//    @Override
-    public Pair<AnchorPane, UseCaseController> createUseCase() {
-        return loadFromFxmnl(useCaseSelectorControlsPath + "UseCase.fxml");
+    public Pair<AnchorPane, ScenarioController> createScenario(Scenario scenario) {
+        var pair = this.<AnchorPane, ScenarioController>loadFromFxmnl(scenarioSelectorControlsPath + "Scenario.fxml");
+        pair.getValue().load(scenario);
+        return pair;
     }
 
     private <TUIElement extends Node, TController> Pair<TUIElement, TController> loadFromFxmnl(String path) {
@@ -49,6 +49,5 @@ public class UIElementsFactory   {
         } catch (IOException e) {
             throw new RuntimeException(e); // TODO
         }
-
     }
 }

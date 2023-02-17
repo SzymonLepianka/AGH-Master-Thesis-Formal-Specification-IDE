@@ -1,41 +1,39 @@
 package sl.fside.ui.editors.scenarioSelector.controls;
 
-import sl.fside.model.*;
-import sl.fside.ui.*;
-import com.google.inject.*;
+import com.google.inject.Inject;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import sl.fside.model.Scenario;
 
-public class ScenarioController   {
+import java.util.Random;
 
+public class ScenarioController {
+    public CheckBox isMainScenarioCheckBox;
+    public Label scenarioNameLabel;
+    @FXML
+    public AnchorPane scenarioRoot;
     private Scenario scenario;
-
-//    public ScenarioController(sl.fside.model.Scenario scenario) {
-//        super();
-//        this.scenario = scenario;
-//
-//        var fxmlLoader = new FXMLLoader(getClass().getResource(
-//                "Scenario.fxml"));
-//        fxmlLoader.setController(this);
-//
-//        try {
-//            var result = fxmlLoader.<AnchorPane>load();
-//            this.getChildren().add(result);
-//        } catch (IOException exception) {
-//            throw new RuntimeException(exception);
-//        }
-//    }
 
     @Inject
     public ScenarioController() {
-        
     }
 
-//    @Override
-//    public void load(ModelBase object) {
-//        // TODO
-//    }
-//
-//    @Override
-//    public void unload() {
-//        // TODO
-//    }
+    public void load(Scenario scenario) {
+        this.scenario = scenario;
+        scenarioNameLabel.setText(scenario.getId().toString());
+        isMainScenarioCheckBox.setSelected(scenario.isMainScenario());
+        scenarioRoot.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+    }
+
+    private Color randomColor() {
+        Random rand = new Random();
+        double r = rand.nextFloat();
+        double g = rand.nextFloat();
+        double b = rand.nextFloat();
+        return new Color(r, g, b, 1);
+    }
 }

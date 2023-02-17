@@ -23,9 +23,9 @@
     <AnchorPane layoutX="360.0" layoutY="25.0">
         <fx:include fx:id="scenarioSelectorEditor" source="editors/scenarioSelector/ScenarioSelectorEditor.fxml" />
     </AnchorPane>
-    <AnchorPane layoutX="360.0" layoutY="425.0">
-        <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml" />
-    </AnchorPane>
+<!--    <AnchorPane layoutX="360.0" layoutY="425.0">-->
+<!--        <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml" />-->
+<!--    </AnchorPane>-->
     <AnchorPane layoutX="700.0">
 <!--        <fx:include source="editors/activityDiagramEditor/ActivityDiagramEditor.fxml" />-->
         <Button text="Start Activity Diagram" onAction="#startActivityDiagramClicked" />
