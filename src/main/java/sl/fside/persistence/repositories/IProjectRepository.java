@@ -9,23 +9,26 @@ import java.util.function.*;
 public interface IProjectRepository {
 //    List<String> getProjectNames();
 
-//    @Override
+    //    @Override
     void add(@NotNull Project item);
 
-//    @Override
+    //    @Override
     List<Project> getAll();
 
-//    @Override
+    //    @Override
     List<Project> get(Predicate<Project> predicate);
 
     Optional<Project> getByName(String name);
 
-//    @Override
+    //    @Override
     void remove(@NotNull Project item);
 
-//    @Override
+    //    @Override
     void saveAll();
 
-//    @Override
+    //    @Override
     void save(@NotNull Project item);
+
+    Project getById(UUID projectId);
+
 }

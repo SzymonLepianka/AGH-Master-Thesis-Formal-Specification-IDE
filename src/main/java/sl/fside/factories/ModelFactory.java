@@ -87,7 +87,7 @@ public class ModelFactory implements IModelFactory {
     @Override
     public UseCaseDiagram createUseCaseDiagram(Project parent, UUID id, UUID imageID){
         UseCaseDiagram useCaseDiagram = new UseCaseDiagram(id, imageID);
-//        parent.addChild(useCaseDiagram);
+        parent.addUseCaseDiagram(useCaseDiagram);
 
 //        registerInModelTracker(useCaseDiagram);
         return useCaseDiagram;

@@ -9,7 +9,7 @@
     <MenuBar prefHeight="25.0" prefWidth="1400.0">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" text="Save" onAction="#saveClicked"/>
-            <MenuItem mnemonicParsing="false" text="Load" onAction="#loadClicked"/>
+            <MenuItem mnemonicParsing="false" text="Open" onAction="#openProjectClicked"/>
             <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXml"/>
         </Menu>
     </MenuBar>

@@ -35,10 +35,11 @@ class PersistenceHelper implements IPersistenceHelper {
     public PersistenceHelper(LoggerService loggerService, IModelFactory modelFactory) {
         this.loggerService = loggerService;
 
+        // TODO czy na pewno tu git
         var polymorphicTypeValidator = BasicPolymorphicTypeValidator.builder()
-//                .allowIfBaseType(ModelBase.class)
-                .allowIfBaseType(List.class)
-                .allowIfBaseType(Map.class)
+//                .allowIfBaseType(List.class)
+//                .allowIfBaseType(Map.class)
+                .allowIfSubType(Object.class)
                 .build();
 
 
@@ -79,8 +80,11 @@ class PersistenceHelper implements IPersistenceHelper {
 
     @Override
     public void saveProjectFile(Project project) {
-        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project))
+        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project)){
             loggerService.logInfo("Saved project %s".formatted(project.getProjectId()));
+        } else {
+            loggerService.logInfo("Project not saved %s".formatted(project.getProjectId()));
+        }
     }
 
     @Override
@@ -149,7 +153,8 @@ class PersistenceHelper implements IPersistenceHelper {
         try {
             return objectMapper.readValue(file, type);
         } catch (IOException e) {
-            loggerService.logError("Couldn't read a file.");
+            e.printStackTrace();
+            loggerService.logError("Couldn't read a file. " + e.getMessage());
             return null;
         }
     }

@@ -1,10 +1,10 @@
 package sl.fside.persistence.repositories;
 
+import com.google.inject.*;
+import org.jetbrains.annotations.*;
 import sl.fside.model.*;
 import sl.fside.persistence.*;
 import sl.fside.services.*;
-import com.google.inject.*;
-import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,6 @@ import java.util.function.*;
 class ProjectRepository implements IProjectRepository {
 
     private final IPersistenceHelper persistenceHelper;
-//    private final IProjectNameRepository projectNameRepository;
     private final LoggerService loggerService;
 
     private final Set<Project> projects;
@@ -43,7 +42,6 @@ class ProjectRepository implements IProjectRepository {
         for (var file : persistenceHelper.getAllProjectFiles()) {
             loadProject(file);
         }
-
         return projects.stream().toList();
     }
 
@@ -54,6 +52,7 @@ class ProjectRepository implements IProjectRepository {
 
     /**
      * Gets a project by name.
+     *
      * @param name The project name.
      * @return The project or null if not found.
      */
@@ -85,30 +84,25 @@ class ProjectRepository implements IProjectRepository {
     }
 
     @Override
-    public void save(@NotNull Project item) {
+    public void save(@NotNull Project project) {
 //        if (item.isDirty()) {
-//            persistenceHelper.saveProjectFile(item);
+        persistenceHelper.saveProjectFile(project);
 //            item.clearIsDirty();
 //        }
     }
 
-    private Project loadProject(File file) {
+    private void loadProject(File file) {
         var projectId = IPersistenceHelper.getFileNameWithoutExtension(file);
-//        if (projects.stream().anyMatch(x -> x.getId().toString().equals(projectId))) {
-//            //noinspection OptionalGetWithoutIsPresent
-//            return projects.stream().filter(x -> x.getId().toString().equals(projectId)).findFirst().get();
-//        }
-        var newProject = persistenceHelper.loadFile(file, Project.class);
-
-        loggerService.logInfo("Successfully loaded a project.");
-
+        if (projects.stream().anyMatch(x -> x.getProjectId().toString().equals(projectId))) {
+            return;
+        }
+        var newProject = persistenceHelper.loadFile(file, Project.class); // odczyt projektu z pliku
         projects.add(newProject);
-        return newProject;
+        loggerService.logInfo("Successfully loaded a project.");
     }
 
-//    @Override
-//    public Optional<Project> getById(UUID id) {
-//        return getAll().stream().filter(x -> x.getId().equals(id)).findFirst();
-//        return null;
-//    }
+    @Override
+    public Project getById(UUID projectId) {
+        return getAll().stream().filter(x -> x.getProjectId().equals(projectId)).findFirst().orElseThrow();
+    }
 }

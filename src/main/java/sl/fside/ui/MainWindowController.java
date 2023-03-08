@@ -26,7 +26,6 @@ public class MainWindowController {
     private final XmlParserService xmlParserService;
     private final IModelFactory modelFactory;
     private final IProjectRepository projectRepository;
-//    private final IProjectNameRepository projectNameRepository;
     private final EventAggregatorService eventAggregatorService;
 
     @FXML
@@ -43,21 +42,27 @@ public class MainWindowController {
 
     @Inject
     public MainWindowController(XmlParserService xmlParserService, IModelFactory modelFactory,
-                                IProjectRepository projectRepository,
-//                                IProjectNameRepository projectNameRepository,
-                                EventAggregatorService eventAggregatorService) {
+                                IProjectRepository projectRepository, EventAggregatorService eventAggregatorService) {
 
         this.xmlParserService = xmlParserService;
         this.modelFactory = modelFactory;
         this.projectRepository = projectRepository;
-//        this.projectNameRepository = projectNameRepository;
         this.eventAggregatorService = eventAggregatorService;
     }
 
-//    @Override
+    //    @Override
     public void load(Project project) {
 //        if (object instanceof Project project) {
-            this.project = project;
+        this.project = project;
+        useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram());
+
+        // TODO ładowanie pozostałych komponentów
+        System.out.println("load:" + project);
+        System.out.println("load:" + project.getUseCaseDiagram());
+        System.out.println("load:" + project.getProjectId());
+        System.out.println("load:" + project.getAtomicActivityCollectionId());
+        System.out.println("load:" + project.getProjectName());
+
 //            eventAggregatorService.publish(new ProjectLoadedEvent(this, project));
 //        } else throw new UnsupportedOperationException();
     }
@@ -71,26 +76,55 @@ public class MainWindowController {
     @FXML
     private void saveClicked() {
         projectRepository.save(project);
-//        projectNameRepository.saveAll();
+    }
+
+    public void initialize() {
+        chooseProjectOnStart();
+    }
+
+    private void chooseProjectOnStart() {
+
+        // pomiń dialog, jeśli nie ma żadnego projektu w repository
+        if (projectRepository.getAll().isEmpty()) {
+            return;
+        }
+
+        var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
+        projectChooserDialog.getItems()
+                .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
+        projectChooserDialog.setTitle("Formal Specification IDE");
+        projectChooserDialog.setHeaderText("Open a project");
+        projectChooserDialog.setContentText("Select:");
+        projectChooserDialog.showAndWait();
+
+        var result = projectChooserDialog.getResult();
+        if (result == null) return;
+
+        var project = projectRepository.getById(result.project().getProjectId());
+        load(project);
+
     }
 
     @FXML
-    private void loadClicked() {
+    private void openProjectClicked() {
+        System.out.println("project:" + project);
+        System.out.println("all projects: " + projectRepository.getAll());
 
 
-//        var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
-//        projectChooserDialog.getItems()
-//                .addAll(projectNameRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
-//        projectChooserDialog.setTitle("Load a project");
-//        projectChooserDialog.setContentText("Select:");
-//        projectChooserDialog.showAndWait();
-//
-//        var result = projectChooserDialog.getResult();
-//        if (result == null) return;
-//
-//        var project = projectRepository.getById(result.projectName().getProjectId());
-//
-//        project.ifPresent(this::load);
+        var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
+        projectChooserDialog.getItems()
+                .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
+        projectChooserDialog.setTitle("Open a project");
+        projectChooserDialog.setHeaderText("Choose a project");
+        projectChooserDialog.setContentText("Select:");
+        projectChooserDialog.showAndWait();
+
+        var result = projectChooserDialog.getResult();
+        if (result == null) return;
+
+        var project = projectRepository.getById(result.project().getProjectId());
+        load(project);
+
     }
 
     @FXML
@@ -121,18 +155,17 @@ public class MainWindowController {
         var projectName = projectNameInputDialog.getResult();
         if (projectName == null) return;
 
-        // TODO tu skończyłem
         var project = modelFactory.createProject(projectName);
+
         System.out.println("begin createUseCaseDiagram");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID(), null);
+        System.out.println("begin createUseCaseDiagram");
+
         System.out.println("begin parseXml");
         xmlParserService.parseXml(useCaseDiagram, file);
-        System.out.println(useCaseDiagram.getUseCaseList());
         System.out.println("Xml parsed");
 
         load(project);
-
-        useCaseSelectorEditorController.setUseCaseDiagramSelection(useCaseDiagram);
     }
 
     @FXML
@@ -162,10 +195,10 @@ public class MainWindowController {
         controller.panToCenter();
     }
 
-//    private record ProjectNamePresenter(ProjectName projectName) {
-//        @Override
-//        public String toString() {
-//            return projectName.getProjectName();
-//        }
-//    }
+    private record ProjectNamePresenter(Project project) {
+        @Override
+        public String toString() {
+            return project.getProjectName();
+        }
+    }
 }
