@@ -17,7 +17,6 @@ import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
-//import sl.fside.ui.events.*;
 
 import java.io.*;
 import java.util.*;
@@ -55,6 +54,7 @@ public class MainWindowController {
 //        if (object instanceof Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram());
+        imageViewerController.setProjectSelection(project);
 
         // TODO ładowanie pozostałych komponentów
         System.out.println("load:" + project);

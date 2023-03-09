@@ -3,12 +3,15 @@ package sl.fside.ui.editors.imageViewer;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.*;
+import sl.fside.model.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class ImageViewerController {
@@ -19,7 +22,7 @@ public class ImageViewerController {
     public Button addButton;
     @FXML
     public Button removeButton;
-
+    private Project project;
     @FXML
     private AnchorPane imageViewerRoot;
 
@@ -55,6 +58,22 @@ public class ImageViewerController {
         if (selectedFile == null) return;
         Image image = new Image(selectedFile.toURI().toString());
 
+        // save file extension to file
+        String filename = selectedFile.getName();
+        String selectedFileExtension = filename.substring(filename.lastIndexOf(".") + 1);
+        project.setImageFileExtension(selectedFileExtension);
+
+        // save image to project
+        try {
+            byte[] fileContent = Files.readAllBytes(selectedFile.toPath());
+            String imageBase64 = Base64.getEncoder().encodeToString(fileContent);
+            project.addImage(imageBase64);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorMessage(e.getMessage());
+            return;
+        }
+
         // scale and display image
         ImageView imageView = scaleImage(image);
         addImageViewToPane(imageView);
@@ -64,10 +83,27 @@ public class ImageViewerController {
         removeButton.setVisible(true);
     }
 
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error during adding image");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
     private ImageView scaleImage(Image image) {
+
+        // podczas ładowania projektu przy starcie, na tym etapie width i height == 0.0
+        double imageViewerAnchorPaneWidth =
+                imageViewerAnchorPane.getWidth() == 0.0 ? imageViewerAnchorPane.getPrefWidth() :
+                        imageViewerAnchorPane.getWidth();
+        double imageViewerAnchorPaneHeight =
+                imageViewerAnchorPane.getHeight() == 0.0 ? imageViewerAnchorPane.getPrefHeight() :
+                        imageViewerAnchorPane.getHeight();
+
         ImageView imageView = new ImageView();
-        double v1 = imageViewerAnchorPane.getWidth() / image.getWidth();
-        double v2 = imageViewerAnchorPane.getHeight() / image.getHeight();
+        double v1 = imageViewerAnchorPaneWidth / image.getWidth();
+        double v2 = imageViewerAnchorPaneHeight / image.getHeight();
         double newWidth;
         double newHeight;
         if (v1 < v2) {
@@ -80,8 +116,8 @@ public class ImageViewerController {
         imageView.setFitWidth(newWidth - 10);
         imageView.setFitHeight(newHeight - 10);
 
-        imageView.setX((imageViewerAnchorPane.getWidth() - imageView.getBoundsInParent().getWidth()) / 2);
-        imageView.setY((imageViewerAnchorPane.getHeight() - imageView.getBoundsInParent().getHeight()) / 2);
+        imageView.setX((imageViewerAnchorPaneWidth - imageView.getBoundsInParent().getWidth()) / 2);
+        imageView.setY((imageViewerAnchorPaneHeight - imageView.getBoundsInParent().getHeight()) / 2);
 
         imageView.setImage(image);
         return imageView;
@@ -103,8 +139,16 @@ public class ImageViewerController {
 
         imageViewerAnchorPane.getChildren().add(borderPane);
 
-        AnchorPane.setLeftAnchor(borderPane, 0.5 * (imageViewerAnchorPane.getWidth() - imageView.getFitWidth() - 5));
-        AnchorPane.setTopAnchor(borderPane, 0.5 * (imageViewerAnchorPane.getHeight() - imageView.getFitHeight() - 5));
+        // podczas ładowania projektu przy starcie, na tym etapie width i height == 0.0
+        double imageViewerAnchorPaneWidth =
+                imageViewerAnchorPane.getWidth() == 0.0 ? imageViewerAnchorPane.getPrefWidth() :
+                        imageViewerAnchorPane.getWidth();
+        double imageViewerAnchorPaneHeight =
+                imageViewerAnchorPane.getHeight() == 0.0 ? imageViewerAnchorPane.getPrefHeight() :
+                        imageViewerAnchorPane.getHeight();
+
+        AnchorPane.setLeftAnchor(borderPane, 0.5 * (imageViewerAnchorPaneWidth - imageView.getFitWidth() - 5));
+        AnchorPane.setTopAnchor(borderPane, 0.5 * (imageViewerAnchorPaneHeight - imageView.getFitHeight() - 5));
     }
 
     private void showImageDetailsView(ImageView imageView, BorderPane borderPane) {
@@ -187,5 +231,24 @@ public class ImageViewerController {
         // hide add-button and show remove-button
         removeButton.setVisible(false);
         addButton.setVisible(true);
+    }
+
+    public void setProjectSelection(Project project) {
+        this.project = project;
+
+        // ustawia obraz, jeśli projekt go posiada
+        if (project.getImage() != null) {
+
+            // get image from project
+            byte[] imageBytes = Base64.getDecoder().decode(project.getImage()); // działa bez "data:image/png;base64,"
+
+            // scale and display image
+            ImageView imageView = scaleImage(new Image(new ByteArrayInputStream(imageBytes)));
+            addImageViewToPane(imageView);
+
+            // hide add-button and show remove-button
+            addButton.setVisible(false);
+            removeButton.setVisible(true);
+        }
     }
 }
