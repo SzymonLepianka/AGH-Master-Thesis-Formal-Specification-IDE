@@ -12,6 +12,6 @@
                 layoutX="9.0" layoutY="370.0" mnemonicParsing="false" onAction="#addUseCaseButtonClicked" prefHeight="25.0"
                 prefWidth="338.0" text="Add an optional Use Case"/>
         <Label fx:id="currentlySelectedUseCaseLabel" alignment="CENTER" layoutX="9.0" layoutY="410.0" prefHeight="25.0"
-               prefWidth="338.0" text="placeholder_text"/>
+               prefWidth="338.0" text="No UseCase is selected"/>
     </AnchorPane>
 </TitledPane>

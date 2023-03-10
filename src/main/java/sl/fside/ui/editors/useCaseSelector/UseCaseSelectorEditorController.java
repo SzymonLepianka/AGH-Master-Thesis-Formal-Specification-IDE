@@ -9,6 +9,8 @@ import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.ui.*;
+import sl.fside.ui.editors.scenarioSelector.*;
+import sl.fside.ui.editors.useCaseSelector.controls.*;
 
 import java.util.*;
 
@@ -18,7 +20,9 @@ public class UseCaseSelectorEditorController {
     private final UIElementsFactory uiElementsFactory;
     @FXML
     public TitledPane useCaseSelectorEditorRoot;
-    @FXML public AnchorPane useCaseSelectorEditorAnchorPane;
+    @FXML
+    public AnchorPane useCaseSelectorEditorAnchorPane;
+    private ScenarioSelectorEditorController scenarioSelectorEditorController;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
@@ -118,13 +122,45 @@ public class UseCaseSelectorEditorController {
 //    }
 
     //    @FXML
-    public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram) {
+    public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram,
+                                           ScenarioSelectorEditorController scenarioSelectorEditorController) {
         this.useCaseDiagram = useCaseDiagram;
+        this.scenarioSelectorEditorController = scenarioSelectorEditorController;
+
         useCasesList.getItems().clear();
         var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementsFactory::createUseCase).toList();
         useCasePairs.stream().map(Pair::getValue)
                 .forEach(useCaseController -> useCaseController.setOnRemoveClicked(this::removeUseCase));
         useCasesList.getItems().addAll(useCasePairs.stream().map(Pair::getKey).toList());
+
+        // capturing change of the selected UseCase
+        useCasesList.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() != -1) {
+
+                // A new item has been selected
+                // wyciągnij UseCase z zaznaczonego Pane (trzeba go ustawić w panelu ze scenariuszami)
+                AnchorPane selectedItem = useCasesList.getSelectionModel().getSelectedItem();
+                UseCaseController useCaseController =
+                        useCasePairs.stream().filter(ucp -> ucp.getKey().equals(selectedItem)).findFirst().orElseThrow()
+                                .getValue();
+                UseCase useCase = useCaseController.getUseCase();
+
+                // ustawia kontrolny tekst w panelu z UseCase'ami
+                currentlySelectedUseCaseLabel.setText("Selected UC name: " + useCase.getUseCaseName());
+
+                // Set selected UseCase to scenarioSelectorPanel
+                scenarioSelectorEditorController.setUseCaseSelection(useCase);
+
+                // set checkbox in UseCasesPanel to selected UseCase
+                useCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));
+                useCaseController.setIsSelectedCheckBox(true);
+
+            } else {
+                // No item is selected
+                System.out.println("No item is selected.");
+                System.out.println("Tu nie powinien się nigdy znaleźć");
+            }
+        });
     }
 
     private Void removeUseCase(AnchorPane pane) {

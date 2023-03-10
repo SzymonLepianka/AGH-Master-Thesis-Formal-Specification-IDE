@@ -5,12 +5,13 @@
 <AnchorPane fx:id="useCaseRoot" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.useCaseSelector.controls.UseCaseController">
-    <CheckBox fx:id="isSelectedCheckBox" layoutX="210.0" layoutY="69.0" mnemonicParsing="false" text="Select"/>
+    <CheckBox fx:id="isSelectedCheckBox" disable="true" layoutX="210.0" layoutY="69.0" mnemonicParsing="false"
+              text="Select"/>
     <CheckBox fx:id="isImportedCheckBox" disable="true" layoutX="210.0" layoutY="50.0" mnemonicParsing="false"
-              text="Imported?"/>
+              text="isImported?"/>
     <TextField fx:id="useCaseNameTextField" layoutX="15.0" layoutY="14.0" prefHeight="25.0" prefWidth="270.0"
                onKeyTyped="#useCaseNameChanged"/>
     <Button fx:id="removeButton" layoutX="15.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0"
-            prefWidth="26.0"
-            text="-" onAction="#onRemoveButtonClicked"/>
+            prefWidth="62.0"
+            text="Remove" onAction="#onRemoveButtonClicked"/>
 </AnchorPane>

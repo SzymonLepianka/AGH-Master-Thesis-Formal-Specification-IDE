@@ -1,8 +1,6 @@
 package sl.fside.ui.editors.useCaseSelector.controls;
 
 import com.google.inject.*;
-import javafx.beans.property.*;
-import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -42,8 +40,13 @@ public class UseCaseController {
         isImportedCheckBox.setDisable(true);
     }
 
-    public ObjectProperty<EventHandler<ActionEvent>> onIsSelectedChanged() {
-        return isSelectedCheckBox.onActionProperty();
+//    public ObjectProperty<EventHandler<ActionEvent>> onIsSelectedChanged() {
+//        return isSelectedCheckBox.onActionProperty();
+//    }
+
+
+    public void setIsSelectedCheckBox(boolean isSelectedCheckBox) {
+        this.isSelectedCheckBox.setSelected(isSelectedCheckBox);
     }
 
     public void onRemoveButtonClicked() throws InvocationTargetException, IllegalAccessException {
