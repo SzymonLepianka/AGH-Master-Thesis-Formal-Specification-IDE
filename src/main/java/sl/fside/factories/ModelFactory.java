@@ -1,10 +1,10 @@
 package sl.fside.factories;
 
+import com.google.inject.*;
+import org.jetbrains.annotations.*;
 import sl.fside.model.*;
 import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
-import com.google.inject.*;
-import org.jetbrains.annotations.*;
 
 import java.io.*;
 import java.util.*;
@@ -13,7 +13,7 @@ public class ModelFactory implements IModelFactory {
 
     private final ModelTrackerService modelTrackerService;
     private final IProjectRepository projectRepository;
-//    private final IProjectNameRepository projectNameRepository;
+    //    private final IProjectNameRepository projectNameRepository;
     private final IImageRepository imageRepository;
     private final IAtomicActivityRepository atomicActivityRepository;
     private final LoggerService loggerService;
@@ -21,7 +21,8 @@ public class ModelFactory implements IModelFactory {
     @Inject
     public ModelFactory(ModelTrackerService modelTrackerService, IProjectRepository projectRepository,
 //                        IProjectNameRepository projectNameRepository,
-                        IImageRepository imageRepository, IAtomicActivityRepository atomicActivityRepository, LoggerService loggerService) {
+                        IImageRepository imageRepository, IAtomicActivityRepository atomicActivityRepository,
+                        LoggerService loggerService) {
         this.modelTrackerService = modelTrackerService;
         this.projectRepository = projectRepository;
 //        this.projectNameRepository = projectNameRepository;
@@ -63,7 +64,8 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection, String atomicActivity) {
+    public AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection,
+                                               String atomicActivity) {
         var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivity);
 //        registerInModelTracker(newAtomicActivity);
 //        atomicActivityCollection.addChild(newAtomicActivity);
@@ -85,7 +87,7 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public UseCaseDiagram createUseCaseDiagram(Project parent, UUID id, UUID imageID){
+    public UseCaseDiagram createUseCaseDiagram(Project parent, UUID id, UUID imageID) {
         UseCaseDiagram useCaseDiagram = new UseCaseDiagram(id, imageID);
         parent.addUseCaseDiagram(useCaseDiagram);
 
@@ -94,7 +96,7 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public UseCase createUseCase(UseCaseDiagram useCaseDiagram, UUID id, String name, boolean isImported){
+    public UseCase createUseCase(UseCaseDiagram useCaseDiagram, UUID id, String name, boolean isImported) {
         UseCase useCase = new UseCase(id, name, isImported);
         useCaseDiagram.addUseCase(useCase);
 
@@ -106,16 +108,16 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public Scenario createScenario(UseCase parent, UUID id, boolean isMain){
+    public Scenario createScenario(UseCase useCase, UUID id, boolean isMain) {
         Scenario scenario = new Scenario(id, isMain);
-//        parent.addChild(scenario);
+        useCase.addScenario(scenario);
 
 //        registerInModelTracker(scenario);
         return scenario;
     }
 
     @Override
-    public ActivityDiagram createActivityDiagram(Scenario parent, UUID id){
+    public ActivityDiagram createActivityDiagram(Scenario parent, UUID id) {
         ActivityDiagram activityDiagram = new ActivityDiagram(id);
 //        parent.addChild(activityDiagram);
 
@@ -124,7 +126,7 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId){
+    public Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId) {
         Pattern pattern = new Pattern(id, name, patternTemplateId);
 //        parent.addChild(parent);
 

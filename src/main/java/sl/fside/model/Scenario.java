@@ -7,10 +7,10 @@ import java.util.*;
 public class Scenario {
 
     private final ArrayList<String> actions;
-    private final boolean isMainScenario;
-    Set<UUID> atomicActivities;
     private final UUID id;
     private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
+    private Set<UUID> atomicActivities;
+    private boolean isMainScenario;
 
     @JsonCreator
     public Scenario(@JsonProperty("id") UUID id, @JsonProperty("isMainScenario") boolean isMainScenario) {
@@ -65,9 +65,11 @@ public class Scenario {
         return isMainScenario;
     }
 
+    public void setIsMainScenario(boolean isMainScenario) {
+        this.isMainScenario = isMainScenario;
+    }
+
     public Set<UUID> getAtomicActivities() {
         return atomicActivities;
     }
-
-
 }

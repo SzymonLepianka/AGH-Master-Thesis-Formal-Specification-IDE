@@ -8,15 +8,10 @@ public class UseCase {
 
     private final boolean isImported;
     private final HashMap<UUID, ArrayList<RelationEnum>> relations;
+    private final List<Scenario> scenarioList = new ArrayList<>();
+    private final UUID id;
     private String useCaseName; // np.: create_order
     private String useCasePrettyName; // np.: Create Order
-    private final List<Scenario> scenarioList = new ArrayList<>();
-
-    private final UUID id;
-
-    public UUID getId() {
-        return id;
-    }
 
     @JsonCreator
     public UseCase(@JsonProperty("id") UUID id, @JsonProperty("useCaseName") String useCaseName,
@@ -25,6 +20,10 @@ public class UseCase {
         this.useCaseName = useCaseName;
         this.isImported = isImported;
         this.relations = new HashMap<>();
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public void setName(String name) {
