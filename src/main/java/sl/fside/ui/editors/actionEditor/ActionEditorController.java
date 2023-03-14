@@ -72,14 +72,14 @@ public class ActionEditorController {
 
                 // creating new action
                 Action newAction = modelFactory.createAction(scenario, UUID.randomUUID(), actionContent);
-                var uiElementPair = uiElementsFactory.createAction(newAction);
+                Pair<AnchorPane, ActionController> uiElementPair = uiElementsFactory.createAction(newAction);
                 uiElementActionPairs.add(uiElementPair);
 
                 // add listener to actionContent, to define atomic activities
                 addListenerToUiElementActionPair(uiElementPair);
 
-                // TODO usuwanie akcji
-//            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
+                // usuwanie Action
+                uiElementPair.getValue().setOnRemoveClicked(this::removeAction);
 
                 // dodaje nową akcję do obecnych
                 actionsList.getItems().add(uiElementPair.getKey());
@@ -133,9 +133,8 @@ public class ActionEditorController {
         // add listener to actionContent, to define atomic activities
         actionPairs.forEach(this::addListenerToUiElementActionPair);
 
-        // TODO usuwanie akcji
-//        scenarioPairs.stream().map(Pair::getValue)
-//                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));
+        // usuwanie Action
+        uiElementActionPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeAction));
 
         // add new actions to list
         actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
@@ -177,6 +176,12 @@ public class ActionEditorController {
         alert.setHeaderText(null);
         alert.setContentText(scenario.showAtomicActivities());
         alert.showAndWait();
+    }
+
+    private Void removeAction(Pair<AnchorPane, ActionController> pair) {
+        actionsList.getItems().remove(pair.getKey());
+        scenario.removeAction(pair.getValue().getAction());
+        return null;
     }
 
     // the purpose of this class is to block the visual selection of Action from the list in the panel

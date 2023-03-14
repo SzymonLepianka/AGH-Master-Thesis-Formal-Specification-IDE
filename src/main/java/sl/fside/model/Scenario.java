@@ -65,10 +65,8 @@ public class Scenario {
 //        propertyChanged("actions");
     }
 
-    public void removeActions(String action) {
-        if (this.actions.remove(action)) {
-//            propertyChanged("actions");
-        }
+    public void removeAction(Action action) {
+        this.actions.remove(action);
     }
 
     public UUID getId() {

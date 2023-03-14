@@ -3,12 +3,15 @@ package sl.fside.ui.editors.actionEditor.controls;
 import com.google.inject.*;
 import javafx.collections.*;
 import javafx.fxml.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.text.*;
+import javafx.util.*;
 import sl.fside.model.*;
 
 import java.util.*;
+import java.util.function.*;
 
 
 public class ActionController {
@@ -17,8 +20,13 @@ public class ActionController {
     @FXML
     public AnchorPane actionRoot;
     @FXML
+    public ScrollPane actionScrollPans;
+    @FXML
+    public Button removeButton;
+    @FXML
     private TextFlow textFlow;
     private Action action;
+    private Function<Pair<AnchorPane, ActionController>, Void> onRemoveClicked;
 
     @Inject
     public ActionController() {
@@ -90,5 +98,18 @@ public class ActionController {
 
     public void addBoldedWord(String wordToBold) {
         boldedWords.add(wordToBold);
+    }
+
+    @FXML
+    public void onRemoveActionButtonClicked() {
+        if (onRemoveClicked != null) onRemoveClicked.apply(new Pair<>(actionRoot, this));
+    }
+
+    public void setOnRemoveClicked(Function<Pair<AnchorPane, ActionController>, Void> onRemoveClicked) {
+        this.onRemoveClicked = onRemoveClicked;
+    }
+
+    public Action getAction() {
+        return action;
     }
 }
