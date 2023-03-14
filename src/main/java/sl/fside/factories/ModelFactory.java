@@ -56,21 +56,14 @@ public class ModelFactory implements IModelFactory {
         return img;
     }
 
-    @Override
-    public AtomicActivity createAtomicActivity(Project project, String atomicActivity) {
-        //noinspection OptionalGetWithoutIsPresent
-//        return createAtomicActivity(atomicActivityRepository.getById(project.getAtomicActivityCollectionId()).get(), atomicActivity);
-        return null;
-    }
-
-    @Override
-    public AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection,
-                                               String atomicActivity) {
-        var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivity);
+//    @Override
+//    public AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection,
+//                                               String atomicActivity) {
+//        var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivity);
 //        registerInModelTracker(newAtomicActivity);
 //        atomicActivityCollection.addChild(newAtomicActivity);
-        return newAtomicActivity;
-    }
+//        return newAtomicActivity;
+//    }
 
     @Override
     public PatternTemplate createPatternTemplate(String name, int inputs, int outputs) {
@@ -122,6 +115,13 @@ public class ModelFactory implements IModelFactory {
 
 //        registerInModelTracker(scenario);
         return action;
+    }
+
+    @Override
+    public AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent) {
+        var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivityContent);
+        scenario.addAtomicActivity(newAtomicActivity);
+        return newAtomicActivity;
     }
 
     @Override

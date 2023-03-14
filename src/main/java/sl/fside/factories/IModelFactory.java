@@ -23,9 +23,10 @@ public interface IModelFactory {
 
     Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId);
 
-    AtomicActivity createAtomicActivity(Project project, String atomicActivity);
+//    AtomicActivity createAtomicActivity(Project project, String atomicActivity);
+    AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent);
 
-    AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection, String atomicActivity);
+//    AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection, String atomicActivity);
 
     PatternTemplate createPatternTemplate(String name, int inputs, int outputs);
 

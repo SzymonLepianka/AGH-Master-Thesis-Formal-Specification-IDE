@@ -69,7 +69,8 @@ public class ActionController {
 
     public void boldExistingAtomicActivities(String atomicActivity) {
         for (var node : textFlow.getChildren()) {
-            if (((Text) node).getText().equals(atomicActivity + " ")) { // TODO zrobić coś ze spacjami ; co jak atomic activity zawiera spację?
+            if (((Text) node).getText().equals(atomicActivity +
+                    " ")) { // TODO zrobić coś ze spacjami ; co jak atomic activity zawiera spację?
                 node.setStyle("-fx-font-weight: bold");
             }
         }
@@ -85,5 +86,9 @@ public class ActionController {
 
     public ObservableList<String> getBoldedWords() {
         return boldedWords;
+    }
+
+    public void addBoldedWord(String wordToBold) {
+        boldedWords.add(wordToBold);
     }
 }

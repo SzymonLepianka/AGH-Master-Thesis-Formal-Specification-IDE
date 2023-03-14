@@ -4,22 +4,23 @@ import com.fasterxml.jackson.annotation.*;
 
 import java.util.*;
 
-public class AtomicActivity   {
+public class AtomicActivity {
 
-    private final String atomicActivity;
-    private UUID id;
+    private final String atomicActivityContent;
+    private final UUID id;
+
+    @JsonCreator
+    public AtomicActivity(@JsonProperty("id") UUID id,
+                          @JsonProperty("atomicActivityContent") String atomicActivityContent) {
+        this.id = id;
+        this.atomicActivityContent = atomicActivityContent;
+    }
 
     public UUID getId() {
         return id;
     }
 
-    @JsonCreator
-    public AtomicActivity(@JsonProperty("id") UUID id, @JsonProperty("atomicActivity") String atomicActivity) {
-        this.id = id;
-        this.atomicActivity = atomicActivity;
-    }
-
-    public String getAtomicActivity() {
-        return atomicActivity;
+    public String getContent() {
+        return atomicActivityContent;
     }
 }

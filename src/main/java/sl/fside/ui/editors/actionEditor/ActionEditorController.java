@@ -95,6 +95,7 @@ public class ActionEditorController {
                 if (change.wasAdded()) {
                     change.getAddedSubList().forEach(c -> {
                         uiElementActionPairs.forEach(pair -> pair.getValue().boldExistingAtomicActivities(c));
+                        modelFactory.createAtomicActivity(scenario, c);
                     });
                 }
 
@@ -102,6 +103,7 @@ public class ActionEditorController {
                 if (change.wasRemoved()) {
                     change.getRemoved().forEach(c -> {
                         uiElementActionPairs.forEach(pair -> pair.getValue().unBoldExistingAtomicActivities(c));
+                        scenario.removeAtomicActivity(c);
                     });
                 }
             }
@@ -117,6 +119,14 @@ public class ActionEditorController {
         var actionPairs = scenario.getActions().stream().map(uiElementsFactory::createAction).toList();
         uiElementActionPairs.clear();
         uiElementActionPairs.addAll(actionPairs);
+
+        // show existing atomic activities
+        for (AtomicActivity atomicActivity : scenario.getAtomicActivities()) {
+            uiElementActionPairs.forEach(pair -> {
+                pair.getValue().boldExistingAtomicActivities(atomicActivity.getContent());
+                pair.getValue().addBoldedWord(atomicActivity.getContent());
+            });
+        }
 
         // add listener to actionContent, to define atomic activities
         actionPairs.forEach(this::addListenerToUiElementActionPair);

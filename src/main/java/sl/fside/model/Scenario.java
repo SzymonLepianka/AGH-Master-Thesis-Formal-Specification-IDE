@@ -6,17 +6,17 @@ import java.util.*;
 
 public class Scenario {
 
-    private final ArrayList<Action> actions;
+    private final List<Action> actions = new ArrayList<>();
     private final UUID id;
     private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
-    private Set<UUID> atomicActivities;
+    private final List<AtomicActivity> atomicActivities = new ArrayList<>();
+
     private boolean isMainScenario;
 
     @JsonCreator
     public Scenario(@JsonProperty("id") UUID id, @JsonProperty("isMainScenario") boolean isMainScenario) {
         this.id = id;
         this.isMainScenario = isMainScenario;
-        this.actions = new ArrayList<>();
     }
 
     public List<ActivityDiagram> getActivityDiagram() {
@@ -31,15 +31,23 @@ public class Scenario {
         activityDiagramList.remove(activityDiagram);
     }
 
-    public void addAtomicActivity(UUID atomicId) {
-        this.atomicActivities.add(atomicId);
-//        propertyChanged("atomicActivities");
+
+    public void addAtomicActivity(AtomicActivity atomicActivity) {
+        this.atomicActivities.add(atomicActivity);
     }
 
-    public void removeAtomicActivity(UUID atomicId) {
-        if (this.atomicActivities.remove(atomicId)) {
-//            propertyChanged("atomicActivities");
-        }
+    public void removeAtomicActivity(String atomicActivityContent) {
+        var atomicActivitiesToRemove =
+                this.atomicActivities.stream().filter(aa -> aa.getContent().equals(atomicActivityContent)).toList();
+        this.atomicActivities.removeAll(atomicActivitiesToRemove);
+    }
+
+    public List<AtomicActivity> getAtomicActivities() {
+        return atomicActivities;
+    }
+
+    public void clearAtomicActivitiesList() {
+        this.atomicActivities.clear();
     }
 
     public void addAction(Action action) {
@@ -57,7 +65,7 @@ public class Scenario {
         return id;
     }
 
-    public ArrayList<Action> getActions() {
+    public List<Action> getActions() {
         return actions;
     }
 
@@ -69,7 +77,4 @@ public class Scenario {
         this.isMainScenario = isMainScenario;
     }
 
-    public Set<UUID> getAtomicActivities() {
-        return atomicActivities;
-    }
 }
