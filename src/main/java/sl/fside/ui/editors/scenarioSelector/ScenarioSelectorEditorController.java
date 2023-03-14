@@ -127,6 +127,9 @@ public class ScenarioSelectorEditorController {
         // ustawia kontrolny tekst w panelu z Scenario'ami - bez zaznaczeń
         currentlySelectedScenarioLabel.setText("No Scenario is selected");
 
+        // usuwa ewentualne poprzednie zaznaczenie Scenario
+        actionEditorController.removeScenarioSelection();
+
         // TODO usuwanie scenariusza
 //        scenarioPairs.stream().map(Pair::getValue)
 //                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));

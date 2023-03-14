@@ -6,8 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
-import sl.fside.model.Scenario;
-import sl.fside.model.UseCase;
+import sl.fside.model.*;
 import sl.fside.ui.editors.actionEditor.controls.ActionController;
 import sl.fside.ui.editors.scenarioSelector.controls.ScenarioController;
 import sl.fside.ui.editors.useCaseSelector.controls.UseCaseController;
@@ -40,7 +39,7 @@ public class UIElementsFactory {
         return pair;
     }
 
-    public Pair<AnchorPane, ActionController> createAction(String action) {
+    public Pair<AnchorPane, ActionController> createAction(Action action) {
         var pair = this.<AnchorPane, ActionController>loadFromFxmnl(actionEditorControlsPath + "Action.fxml");
         pair.getValue().load(action);
         return pair;

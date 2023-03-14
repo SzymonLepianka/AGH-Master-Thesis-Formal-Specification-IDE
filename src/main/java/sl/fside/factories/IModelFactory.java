@@ -17,6 +17,8 @@ public interface IModelFactory {
 
     Scenario createScenario(UseCase parent, UUID id, boolean isMain);
 
+    Action createAction(Scenario parent, UUID id, String actionContent);
+
     ActivityDiagram createActivityDiagram(Scenario parent, UUID id);
 
     Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId);

@@ -101,7 +101,6 @@ public class ModelFactory implements IModelFactory {
         useCaseDiagram.addUseCase(useCase);
 
         var mainScenario = createScenario(useCase, UUID.randomUUID(), true);
-        useCase.addScenario(mainScenario);
 
 //        registerInModelTracker(useCase);
         return useCase;
@@ -114,6 +113,15 @@ public class ModelFactory implements IModelFactory {
 
 //        registerInModelTracker(scenario);
         return scenario;
+    }
+
+    @Override
+    public Action createAction(Scenario scenario, UUID id, String actionContent) {
+        Action action = new Action(id, actionContent);
+        scenario.addAction(action);
+
+//        registerInModelTracker(scenario);
+        return action;
     }
 
     @Override

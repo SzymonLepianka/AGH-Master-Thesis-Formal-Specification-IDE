@@ -65,15 +65,16 @@ public class ActionEditorController {
     @FXML
     public void addActionButtonClicked() {
         String actionContent = showActionContentDialog();
-        if (!actionContent.isEmpty()) {
+        if (actionContent != null && !actionContent.isEmpty()) {
             if (scenario != null) {
 
-                // adds new action directly to scenario - I will be String
-                scenario.addAction(actionContent);
-
-                // creating new uiElement for new action
-                var uiElementPair = uiElementsFactory.createAction(actionContent);
+                // creating new action
+                Action newAction = modelFactory.createAction(scenario, UUID.randomUUID(), actionContent);
+                var uiElementPair = uiElementsFactory.createAction(newAction);
                 uiElementActionPairs.add(uiElementPair);
+
+                // add listener to actionContent, to define atomic activities
+                addListenerToUiElementActionPair(uiElementPair);
 
                 // TODO usuwanie akcji
 //            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
@@ -86,6 +87,27 @@ public class ActionEditorController {
         }
     }
 
+    private void addListenerToUiElementActionPair(Pair<AnchorPane, ActionController> uiElementPair) {
+        uiElementPair.getValue().getBoldedWords().addListener((ListChangeListener<String>) change -> {
+            while (change.next()) {
+
+                // jeśli dodano element do listy
+                if (change.wasAdded()) {
+                    change.getAddedSubList().forEach(c -> {
+                        uiElementActionPairs.forEach(pair -> pair.getValue().boldExistingAtomicActivities(c));
+                    });
+                }
+
+                // jeśli usunięto element z listy
+                if (change.wasRemoved()) {
+                    change.getRemoved().forEach(c -> {
+                        uiElementActionPairs.forEach(pair -> pair.getValue().unBoldExistingAtomicActivities(c));
+                    });
+                }
+            }
+        });
+    }
+
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
         updateActionEditor();
@@ -96,12 +118,22 @@ public class ActionEditorController {
         uiElementActionPairs.clear();
         uiElementActionPairs.addAll(actionPairs);
 
+        // add listener to actionContent, to define atomic activities
+        actionPairs.forEach(this::addListenerToUiElementActionPair);
+
         // TODO usuwanie akcji
 //        scenarioPairs.stream().map(Pair::getValue)
 //                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));
 
         // add new actions to list
         actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
+    }
+
+    public void removeScenarioSelection() {
+        this.scenario = null;
+        updateActionEditor();
+        actionsList.getItems().clear();
+        uiElementActionPairs.clear();
     }
 
     private void updateActionEditor() {
@@ -126,7 +158,7 @@ public class ActionEditorController {
         return actionContentInputDialog.getResult();
     }
 
-
+    // the purpose of this class is to block the visual selection of Action from the list in the panel
     public static class NoSelectionModel<T> extends MultipleSelectionModel<T> {
 
         @Override

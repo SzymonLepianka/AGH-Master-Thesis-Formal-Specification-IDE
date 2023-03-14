@@ -6,7 +6,7 @@ import java.util.*;
 
 public class Scenario {
 
-    private final ArrayList<String> actions;
+    private final ArrayList<Action> actions;
     private final UUID id;
     private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
     private Set<UUID> atomicActivities;
@@ -42,7 +42,7 @@ public class Scenario {
         }
     }
 
-    public void addAction(String action) {
+    public void addAction(Action action) {
         this.actions.add(action);
 //        propertyChanged("actions");
     }
@@ -57,7 +57,7 @@ public class Scenario {
         return id;
     }
 
-    public ArrayList<String> getActions() {
+    public ArrayList<Action> getActions() {
         return actions;
     }
 
