@@ -112,8 +112,8 @@ public class ScenarioSelectorEditorController {
 
     public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController) {
         this.useCase = useCase;
-        updateScenarioSelectorEditor();
         this.actionEditorController = actionEditorController;
+        updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
 
         // create new scenarios

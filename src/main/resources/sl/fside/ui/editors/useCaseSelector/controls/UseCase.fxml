@@ -6,7 +6,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.useCaseSelector.controls.UseCaseController">
     <CheckBox fx:id="isSelectedCheckBox" disable="true" layoutX="210.0" layoutY="69.0" mnemonicParsing="false"
-              text="Select"/>
+              text="selected"/>
     <CheckBox fx:id="isImportedCheckBox" disable="true" layoutX="210.0" layoutY="50.0" mnemonicParsing="false"
               text="isImported?"/>
     <TextField fx:id="useCaseNameTextField" layoutX="15.0" layoutY="14.0" prefHeight="25.0" prefWidth="270.0"

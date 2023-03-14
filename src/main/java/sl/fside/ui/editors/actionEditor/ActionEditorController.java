@@ -1,23 +1,25 @@
 package sl.fside.ui.editors.actionEditor;
 
-import com.google.inject.Inject;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
+import com.google.inject.*;
+import javafx.collections.*;
+import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.util.Pair;
-import sl.fside.factories.IModelFactory;
-import sl.fside.model.Scenario;
-import sl.fside.ui.UIElementsFactory;
+import javafx.scene.paint.*;
+import javafx.util.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.ui.*;
+import sl.fside.ui.editors.actionEditor.controls.*;
 
-import java.util.Random;
+import java.util.*;
 
 public class ActionEditorController {
 
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
+    private final List<Pair<AnchorPane, ActionController>> uiElementActionPairs = new ArrayList<>();
+
     @FXML
     public TitledPane actionEditorRoot;
     @FXML
@@ -48,6 +50,8 @@ public class ActionEditorController {
 
         addActionButton.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        updateActionEditor();
     }
 
     private Color randomColor() {
@@ -63,30 +67,46 @@ public class ActionEditorController {
         String actionContent = showActionContentDialog();
         if (!actionContent.isEmpty()) {
             if (scenario != null) {
+
+                // adds new action directly to scenario - I will be String
+                scenario.addAction(actionContent);
+
+                // creating new uiElement for new action
                 var uiElementPair = uiElementsFactory.createAction(actionContent);
+                uiElementActionPairs.add(uiElementPair);
 
                 // TODO usuwanie akcji
 //            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
 
+                // dodaje nową akcję do obecnych
                 actionsList.getItems().add(uiElementPair.getKey());
             } else {
-                //TODO usunąć to
-                var uiElementPair = uiElementsFactory.createAction(actionContent);
-                actionsList.getItems().add(uiElementPair.getKey());
+                System.out.println("addActionButtonClicked - Nigdy nie powinien się tu znaleźć");
             }
         }
     }
 
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
+        updateActionEditor();
         actionsList.getItems().clear();
+
+        // create new actions
         var actionPairs = scenario.getActions().stream().map(uiElementsFactory::createAction).toList();
+        uiElementActionPairs.clear();
+        uiElementActionPairs.addAll(actionPairs);
 
         // TODO usuwanie akcji
 //        scenarioPairs.stream().map(Pair::getValue)
 //                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));
 
+        // add new actions to list
         actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
+    }
+
+    private void updateActionEditor() {
+        // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
+        actionEditorRoot.setDisable(scenario == null);
     }
 
     private String showActionContentDialog() {

@@ -42,7 +42,7 @@ public class Scenario {
         }
     }
 
-    public void addActions(String action) {
+    public void addAction(String action) {
         this.actions.add(action);
 //        propertyChanged("actions");
     }
