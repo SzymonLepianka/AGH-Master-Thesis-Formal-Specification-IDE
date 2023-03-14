@@ -54,7 +54,7 @@ public class MainWindowController {
 //        if (object instanceof Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
-                scenarioSelectorEditorController);
+                scenarioSelectorEditorController, actionEditorController);
         imageViewerController.setProjectSelection(project);
 
         // TODO ładowanie pozostałych komponentów

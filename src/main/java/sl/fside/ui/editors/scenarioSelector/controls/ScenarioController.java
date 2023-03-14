@@ -52,4 +52,8 @@ public class ScenarioController {
     public CheckBox getIsMainScenarioCheckBox() {
         return isMainScenarioCheckBox;
     }
+
+    public Scenario getScenario() {
+        return scenario;
+    }
 }

@@ -9,6 +9,7 @@ import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.ui.*;
+import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
 
@@ -23,6 +24,7 @@ public class UseCaseSelectorEditorController {
     @FXML
     public AnchorPane useCaseSelectorEditorAnchorPane;
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
+    private ActionEditorController actionEditorController;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
@@ -123,9 +125,11 @@ public class UseCaseSelectorEditorController {
 
     //    @FXML
     public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram,
-                                           ScenarioSelectorEditorController scenarioSelectorEditorController) {
+                                           ScenarioSelectorEditorController scenarioSelectorEditorController,
+                                           ActionEditorController actionEditorController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
+        this.actionEditorController = actionEditorController;
 
         useCasesList.getItems().clear();
         var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementsFactory::createUseCase).toList();
@@ -149,7 +153,7 @@ public class UseCaseSelectorEditorController {
                 currentlySelectedUseCaseLabel.setText("Selected UC name: " + useCase.getUseCaseName());
 
                 // Set selected UseCase to scenarioSelectorPanel
-                scenarioSelectorEditorController.setUseCaseSelection(useCase);
+                scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
                 useCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));

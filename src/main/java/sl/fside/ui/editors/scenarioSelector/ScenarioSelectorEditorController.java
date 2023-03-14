@@ -9,6 +9,7 @@ import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.ui.*;
+import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 
 import java.util.*;
@@ -25,7 +26,10 @@ public class ScenarioSelectorEditorController {
     public ListView<AnchorPane> scenarioList;
     @FXML
     public Button addScenarioButton;
+    @FXML
+    private Label currentlySelectedScenarioLabel;
     private UseCase useCase;
+    private ActionEditorController actionEditorController;
 
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory) {
@@ -45,6 +49,11 @@ public class ScenarioSelectorEditorController {
 
         addScenarioButton.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        currentlySelectedScenarioLabel.setBorder(new Border(
+                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        updateScenarioSelectorEditor();
     }
 
     private Color randomColor() {
@@ -91,8 +100,6 @@ public class ScenarioSelectorEditorController {
     }
 
     private void handleCheckboxSelected(ScenarioController mainScenarioController) {
-        System.out.println("size" + uiElementScenarioPairs.size());
-
         for (var scenarioPair : uiElementScenarioPairs) {
             ScenarioController sc = scenarioPair.getValue();
 
@@ -103,8 +110,10 @@ public class ScenarioSelectorEditorController {
         }
     }
 
-    public void setUseCaseSelection(UseCase useCase) {
+    public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController) {
         this.useCase = useCase;
+        updateScenarioSelectorEditor();
+        this.actionEditorController = actionEditorController;
         scenarioList.getItems().clear();
 
         // create new scenarios
@@ -115,11 +124,43 @@ public class ScenarioSelectorEditorController {
         // add listener to scenario's checkboxes, to define main scenario
         scenarioPairs.forEach(this::addListenerToUiElementScenarioPair);
 
+        // ustawia kontrolny tekst w panelu z Scenario'ami - bez zaznaczeń
+        currentlySelectedScenarioLabel.setText("No Scenario is selected");
+
         // TODO usuwanie scenariusza
 //        scenarioPairs.stream().map(Pair::getValue)
 //                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));
 
         // add new scenarios to list
         scenarioList.getItems().addAll(scenarioPairs.stream().map(Pair::getKey).toList());
+
+        // capturing change of the selected Scenario
+        scenarioList.getSelectionModel().selectedIndexProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue.intValue() != -1) {
+
+                // A new item has been selected
+                // wyciągnij Scenario z zaznaczonego Pane (trzeba go ustawić w panelu z akcjami)
+                AnchorPane selectedItem = scenarioList.getSelectionModel().getSelectedItem();
+                ScenarioController scenarioController =
+                        uiElementScenarioPairs.stream().filter(sp -> sp.getKey().equals(selectedItem)).findFirst()
+                                .orElseThrow().getValue();
+                Scenario scenario = scenarioController.getScenario();
+
+                // ustawia kontrolny tekst w panelu z Scenario'ami
+                currentlySelectedScenarioLabel.setText("Selected Scenario name: " + scenario.getId());
+
+                // Set selected Scenario to actionEditorPanel
+                actionEditorController.setScenarioSelection(scenario);
+
+            } else {
+                // No item is selected
+                System.out.println("No item (Scenario) is selected.");
+            }
+        });
+    }
+
+    private void updateScenarioSelectorEditor() {
+        // setting disable property of the scenarioSelectorEditorRoot TitledPane based on the value of the useCase variable
+        scenarioSelectorEditorRoot.setDisable(useCase == null);
     }
 }
