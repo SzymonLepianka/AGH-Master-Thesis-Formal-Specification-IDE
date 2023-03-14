@@ -28,6 +28,8 @@ public class ActionEditorController {
     public ListView<AnchorPane> actionsList;
     @FXML
     public Button addActionButton;
+    @FXML
+    public Button showCurrentAtomicActivitiesButton;
     private Scenario scenario;
 
     @Inject
@@ -166,6 +168,15 @@ public class ActionEditorController {
 
         // get action content from input dialog
         return actionContentInputDialog.getResult();
+    }
+
+    @FXML
+    public void showCurrentAtomicActivitiesButtonClicked() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
+        alert.setHeaderText(null);
+        alert.setContentText(scenario.showAtomicActivities());
+        alert.showAndWait();
     }
 
     // the purpose of this class is to block the visual selection of Action from the list in the panel

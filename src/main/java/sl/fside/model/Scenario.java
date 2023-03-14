@@ -46,6 +46,16 @@ public class Scenario {
         return atomicActivities;
     }
 
+    public String showAtomicActivities() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Atomic activities:\n");
+        for (AtomicActivity aa : this.atomicActivities) {
+            sb.append(" - ").append(aa.getContent()).append("\n");
+        }
+        return sb.toString();
+    }
+
+
     public void clearAtomicActivitiesList() {
         this.atomicActivities.clear();
     }

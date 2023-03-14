@@ -15,5 +15,9 @@
                 layoutX="9.0" layoutY="420.0" mnemonicParsing="false" onAction="#addActionButtonClicked"
                 prefHeight="25.0"
                 prefWidth="338.0" text="Add an action"/>
+        <Button fx:id="showCurrentAtomicActivitiesButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="455.0" mnemonicParsing="false" onAction="#showCurrentAtomicActivitiesButtonClicked"
+                prefHeight="25.0"
+                prefWidth="338.0" text="Show current atomic activities"/>
     </AnchorPane>
 </TitledPane>
