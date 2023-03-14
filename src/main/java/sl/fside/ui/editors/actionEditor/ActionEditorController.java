@@ -181,6 +181,19 @@ public class ActionEditorController {
     private Void removeAction(Pair<AnchorPane, ActionController> pair) {
         actionsList.getItems().remove(pair.getKey());
         scenario.removeAction(pair.getValue().getAction());
+        uiElementActionPairs.remove(pair);
+
+        // checking if in removed action there was atomic activity not used in other actions
+        ArrayList<AtomicActivity> atomicActivitiesToRemove = new ArrayList<>();
+        for (AtomicActivity atomicActivity : scenario.getAtomicActivities()) {
+            boolean removeAtomicActivity = uiElementActionPairs.stream().noneMatch(
+                    actionPair -> actionPair.getValue().isAtomicActivityInAction(atomicActivity.getContent()));
+            if (removeAtomicActivity) {
+                atomicActivitiesToRemove.add(atomicActivity);
+            }
+        }
+        scenario.removeAtomicActivities(atomicActivitiesToRemove);
+
         return null;
     }
 

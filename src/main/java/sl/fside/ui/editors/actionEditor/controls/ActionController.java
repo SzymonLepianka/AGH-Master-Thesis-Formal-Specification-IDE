@@ -92,6 +92,15 @@ public class ActionController {
         }
     }
 
+    public boolean isAtomicActivityInAction(String atomicActivity) {
+        for (var node : textFlow.getChildren()) {
+            if (((Text) node).getText().equals(atomicActivity + " ")) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public ObservableList<String> getBoldedWords() {
         return boldedWords;
     }

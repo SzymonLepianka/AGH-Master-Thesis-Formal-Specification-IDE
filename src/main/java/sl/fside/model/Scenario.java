@@ -42,6 +42,10 @@ public class Scenario {
         this.atomicActivities.removeAll(atomicActivitiesToRemove);
     }
 
+    public void removeAtomicActivities(List<AtomicActivity> atomicActivitiesToRemove) {
+        this.atomicActivities.removeAll(atomicActivitiesToRemove);
+    }
+
     public List<AtomicActivity> getAtomicActivities() {
         return atomicActivities;
     }
