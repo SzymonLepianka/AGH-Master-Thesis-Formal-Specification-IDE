@@ -76,18 +76,22 @@ public class ScenarioSelectorEditorController {
             // add listener to scenario's checkbox, to define main scenario
             addListenerToUiElementScenarioPair(uiElementPair);
 
-            // TODO usuwanie scenariusza
-//            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
+            // usuwanie Scenario
+            uiElementPair.getValue().setOnRemoveClicked(this::removeScenario);
 
             // dodaje nowy scenariusz do obecnych
             scenarioList.getItems().add(uiElementPair.getKey());
 
         } else {
-            //TODO usunąć to
-            var newScenario = modelFactory.createScenario(null, UUID.randomUUID(), false);
-            var uiElementPair = uiElementsFactory.createScenario(newScenario);
-            scenarioList.getItems().add(uiElementPair.getKey());
+            System.out.println("Nigdy nie powinien się tu znaleźć (addScenarioButtonClicked)");
         }
+    }
+
+    private Void removeScenario(Pair<AnchorPane, ScenarioController> pair) {
+        scenarioList.getItems().remove(pair.getKey());
+        useCase.removeScenario(pair.getValue().getScenario());
+        uiElementScenarioPairs.remove(pair);
+        return null;
     }
 
     private void addListenerToUiElementScenarioPair(Pair<AnchorPane, ScenarioController> uiElementPair) {
@@ -130,9 +134,8 @@ public class ScenarioSelectorEditorController {
         // usuwa ewentualne poprzednie zaznaczenie Scenario
         actionEditorController.removeScenarioSelection();
 
-        // TODO usuwanie scenariusza
-//        scenarioPairs.stream().map(Pair::getValue)
-//                .forEach(scenarioController -> scenarioController.setOnRemoveClicked(this::removeUseCase));
+        // usuwanie Scenario
+        scenarioPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeScenario));
 
         // add new scenarios to list
         scenarioList.getItems().addAll(scenarioPairs.stream().map(Pair::getKey).toList());

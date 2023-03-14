@@ -6,5 +6,8 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.scenarioSelector.controls.ScenarioController">
     <Label fx:id="scenarioNameLabel" layoutX="7.0" layoutY="7.0" prefHeight="36.0" prefWidth="220.0"/>
-    <CheckBox fx:id="isMainScenarioCheckBox" layoutX="245.0" layoutY="17.0" mnemonicParsing="false" text="isMain?"/>
+    <CheckBox fx:id="isMainScenarioCheckBox" layoutX="245.0" layoutY="4.0" mnemonicParsing="false" text="isMain?"/>
+    <Button fx:id="removeScenarioButton" layoutX="245.0" layoutY="25.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="62.0"
+            text="Remove" onAction="#onRemoveScenarioButtonClicked"/>
 </AnchorPane>

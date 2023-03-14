@@ -5,9 +5,11 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.util.*;
 import sl.fside.model.*;
 
 import java.util.*;
+import java.util.function.*;
 
 public class ScenarioController {
 
@@ -15,8 +17,12 @@ public class ScenarioController {
     @FXML
     public AnchorPane scenarioRoot;
     @FXML
+    public Button removeScenarioButton;
+    @FXML
     private CheckBox isMainScenarioCheckBox;
     private Scenario scenario;
+    private Function<Pair<AnchorPane, ScenarioController>, Void> onRemoveClicked;
+
 
     @Inject
     public ScenarioController() {
@@ -29,14 +35,16 @@ public class ScenarioController {
         scenarioRoot.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        // if scenario is main, checkbox should be disabled
+        // if scenario is main, checkbox and removeButton should be disabled
         if (scenario.isMainScenario()) {
             isMainScenarioCheckBox.setDisable(true);
+            removeScenarioButton.setDisable(true);
         }
 
         // if the checkBox is checked, it should be blocked from unchecking, because there must be one main scenario
         isMainScenarioCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
             isMainScenarioCheckBox.setDisable(newValue);
+            removeScenarioButton.setDisable(newValue);
             scenario.setIsMainScenario(newValue);
         });
     }
@@ -55,5 +63,14 @@ public class ScenarioController {
 
     public Scenario getScenario() {
         return scenario;
+    }
+
+    @FXML
+    public void onRemoveScenarioButtonClicked() {
+        if (onRemoveClicked != null) onRemoveClicked.apply(new Pair<>(scenarioRoot, this));
+    }
+
+    public void setOnRemoveClicked(Function<Pair<AnchorPane, ScenarioController>, Void> onRemoveClicked) {
+        this.onRemoveClicked = onRemoveClicked;
     }
 }
