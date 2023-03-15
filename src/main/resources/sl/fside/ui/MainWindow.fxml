@@ -2,11 +2,11 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<fx:root fx:id="mainWindowRoot" prefHeight="1000.0" prefWidth="1400.0" type="javafx.scene.layout.AnchorPane"
+<fx:root fx:id="mainWindowRoot" prefHeight="890.0" prefWidth="1400.0" type="javafx.scene.layout.AnchorPane"
          xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="sl.fside.ui.MainWindowController">
 
-    <MenuBar prefHeight="25.0" prefWidth="1400.0">
+    <MenuBar prefHeight="25.0" prefWidth="${mainWindowRoot.width}">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" text="Save" onAction="#saveClicked"/>
             <MenuItem mnemonicParsing="false" text="Open" onAction="#openProjectClicked"/>
@@ -23,7 +23,7 @@
     <AnchorPane layoutX="360.0" layoutY="25.0">
         <fx:include fx:id="scenarioSelectorEditor" source="editors/scenarioSelector/ScenarioSelectorEditor.fxml"/>
     </AnchorPane>
-    <AnchorPane layoutX="360.0" layoutY="500.0">
+    <AnchorPane layoutX="360.0" layoutY="350.0">
         <fx:include fx:id="actionEditor" source="editors/actionEditor/ActionEditor.fxml"/>
     </AnchorPane>
     <AnchorPane layoutX="700.0">
