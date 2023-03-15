@@ -8,9 +8,9 @@
 
     <MenuBar prefHeight="25.0" prefWidth="${mainWindowRoot.width}">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Save" onAction="#saveClicked"/>
-            <MenuItem mnemonicParsing="false" text="Open" onAction="#openProjectClicked"/>
-            <MenuItem mnemonicParsing="false" text="Import from XML" onAction="#importXml"/>
+            <MenuItem mnemonicParsing="false" text="New project" onAction="#newProjectClicked"/>
+            <MenuItem mnemonicParsing="false" text="Open project" onAction="#openProjectClicked"/>
+            <MenuItem mnemonicParsing="false" text="Save project" onAction="#saveProjectClicked"/>
         </Menu>
     </MenuBar>
 

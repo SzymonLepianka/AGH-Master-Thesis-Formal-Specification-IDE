@@ -8,6 +8,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import sl.fside.services.*;
+import sl.fside.ui.*;
 
 public class FormalSpecificationIde extends Application {
 
@@ -17,10 +18,19 @@ public class FormalSpecificationIde extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        stage.setTitle(resourceService.getText("ApplicationTitle"));
-
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ui/MainWindow.fxml"));
-        fxmlLoader.setControllerFactory(injector::getInstance);
+        fxmlLoader.setControllerFactory((Class<?> type) -> {
+            try {
+                Object controller = injector.getInstance(type);
+                if (controller instanceof MainWindowController) {
+                    ((MainWindowController) controller).setPrimaryStage(stage);
+                }
+                return controller;
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         var root = new AnchorPane();
         fxmlLoader.setRoot(root);
         fxmlLoader.<AnchorPane>load();

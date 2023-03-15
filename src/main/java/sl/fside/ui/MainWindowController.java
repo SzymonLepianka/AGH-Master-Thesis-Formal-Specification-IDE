@@ -27,7 +27,6 @@ public class MainWindowController {
     private final IModelFactory modelFactory;
     private final IProjectRepository projectRepository;
     private final EventAggregatorService eventAggregatorService;
-
     @FXML
     public AnchorPane mainWindowRoot;
     @FXML
@@ -37,6 +36,7 @@ public class MainWindowController {
     @FXML
     public ImageViewerController imageViewerController;
     private Project project;
+    private Stage stage;
     @FXML
     private UseCaseSelectorEditorController useCaseSelectorEditorController;
 
@@ -58,15 +58,17 @@ public class MainWindowController {
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
                 scenarioSelectorEditorController, actionEditorController);
         imageViewerController.setProjectSelection(project);
+        stage.setTitle("Formal Specification IDE - " + project.getProjectName());
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());
     }
 
     @FXML
-    private void saveClicked() {
+    private void saveProjectClicked() {
         projectRepository.save(project);
     }
 
     public void initialize() {
+        stage.setTitle("Formal Specification IDE - No project selected");
         chooseProjectOnStart();
     }
 
@@ -90,7 +92,6 @@ public class MainWindowController {
 
         var project = projectRepository.getById(result.project().getProjectId());
         load(project);
-
     }
 
     @FXML
@@ -112,11 +113,10 @@ public class MainWindowController {
 
         var project = projectRepository.getById(result.project().getProjectId());
         load(project);
-
     }
 
     @FXML
-    private void importXml() {
+    private void newProjectClicked() {
         loggerService.logInfo("Creating new project...");
 
         var fileChooser = new FileChooser();
@@ -182,6 +182,10 @@ public class MainWindowController {
 
         final ActivityDiagramEditorController controller = loader.getController();
         controller.panToCenter();
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.stage = primaryStage;
     }
 
     private record ProjectNamePresenter(Project project) {
