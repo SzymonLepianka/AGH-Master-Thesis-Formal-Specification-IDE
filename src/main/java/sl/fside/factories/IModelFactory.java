@@ -11,7 +11,7 @@ public interface IModelFactory {
 
     Image createImage(UUID id, File file);
 
-    UseCaseDiagram createUseCaseDiagram(Project parent, UUID id, UUID imageID);
+    UseCaseDiagram createUseCaseDiagram(Project parent, UUID useCaseDiagramId);
 
     UseCase createUseCase(UseCaseDiagram parent, UUID id, String name, boolean isImported);
 

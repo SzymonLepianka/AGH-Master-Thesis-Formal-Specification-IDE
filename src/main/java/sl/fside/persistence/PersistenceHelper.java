@@ -1,12 +1,12 @@
 package sl.fside.persistence;
 
-import sl.fside.factories.*;
-import sl.fside.model.*;
-import sl.fside.services.*;
 import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.jsontype.*;
 import com.google.inject.*;
+import sl.fside.factories.*;
+import sl.fside.model.*;
+import sl.fside.services.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -21,7 +21,8 @@ class PersistenceHelper implements IPersistenceHelper {
 
     private final Path imageDirectory = persistenceDirectory.resolve("images").toAbsolutePath();
 
-    private final Path atomicActivityCollectionsDirectory = persistenceDirectory.resolve("atomicActivityCollections").toAbsolutePath();
+    private final Path atomicActivityCollectionsDirectory =
+            persistenceDirectory.resolve("atomicActivityCollections").toAbsolutePath();
 
     private final Path projectNamesFile = persistenceDirectory.resolve("projectNames.json").toAbsolutePath();
 
@@ -39,14 +40,14 @@ class PersistenceHelper implements IPersistenceHelper {
         var polymorphicTypeValidator = BasicPolymorphicTypeValidator.builder()
 //                .allowIfBaseType(List.class)
 //                .allowIfBaseType(Map.class)
-                .allowIfSubType(Object.class)
-                .build();
+                .allowIfSubType(Object.class).build();
 
 
         objectMapper = new ObjectMapper();
         objectMapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.NONE);
         objectMapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
-        objectMapper.activateDefaultTyping(polymorphicTypeValidator, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        objectMapper.activateDefaultTyping(polymorphicTypeValidator, ObjectMapper.DefaultTyping.NON_FINAL,
+                JsonTypeInfo.As.PROPERTY);
 
         objectMapper.registerModule(new JsonModule(modelFactory));
 
@@ -80,7 +81,7 @@ class PersistenceHelper implements IPersistenceHelper {
 
     @Override
     public void saveProjectFile(Project project) {
-        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project)){
+        if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project)) {
             loggerService.logInfo("Saved project %s".formatted(project.getProjectId()));
         } else {
             loggerService.logInfo("Project not saved %s".formatted(project.getProjectId()));
@@ -89,27 +90,28 @@ class PersistenceHelper implements IPersistenceHelper {
 
     @Override
     public void saveAtomicActivityCollectionFile(AtomicActivityCollection atomicActivityCollection) {
-        if (saveFile(generatePathToJson(atomicActivityCollectionsDirectory.toString(), atomicActivityCollection.getAtomicActivityCollectionId().toString()), atomicActivityCollection))
-            loggerService.logInfo("Saved Atomic Activity Collection %s".formatted(atomicActivityCollection.getAtomicActivityCollectionId().toString()));
+        if (saveFile(generatePathToJson(atomicActivityCollectionsDirectory.toString(),
+                atomicActivityCollection.getAtomicActivityCollectionId().toString()), atomicActivityCollection))
+            loggerService.logInfo("Saved Atomic Activity Collection %s".formatted(
+                    atomicActivityCollection.getAtomicActivityCollectionId().toString()));
     }
 
     @Override
     public void saveProjectNames(ProjectNameList projectNames) {
-        if (saveFile(projectNamesFile, projectNames))
-            loggerService.logInfo("Saved Project Names");
+        if (saveFile(projectNamesFile, projectNames)) loggerService.logInfo("Saved Project Names");
     }
 
     @Override
     public void savePatternTemplateFile(PatternTemplateCollection patternTemplateCollection) {
-        if (saveFile(patternTemplatesFile, patternTemplateCollection))
-            loggerService.logInfo("Saved Pattern Templates");
+        if (saveFile(patternTemplatesFile, patternTemplateCollection)) loggerService.logInfo("Saved Pattern Templates");
     }
 
     @Override
     public Optional<File> saveImage(File imageFile, UUID id) {
         File newFile;
         try {
-            var newPath = Files.copy(imageFile.toPath(), Path.of(imageDirectory.toString(), "%s.%s".formatted(id.toString(), IPersistenceHelper.getFileExtension(imageFile))));
+            var newPath = Files.copy(imageFile.toPath(), Path.of(imageDirectory.toString(),
+                    "%s.%s".formatted(id.toString(), IPersistenceHelper.getFileExtension(imageFile))));
             newFile = newPath.toFile();
         } catch (IOException e) {
             loggerService.logError("Couldn't copy image.");
@@ -144,8 +146,9 @@ class PersistenceHelper implements IPersistenceHelper {
 
     /**
      * Reads file and converts it to Java Object.
+     *
      * @param file File.
-     * @param <T> Type to be returned.
+     * @param <T>  Type to be returned.
      * @return Returns the new Java Object or null in case of failure.
      */
     @Override
@@ -168,7 +171,8 @@ class PersistenceHelper implements IPersistenceHelper {
      * Checks and creates directories used by the persistence layer.
      */
     private void setupDirectories() {
-        var paths = Arrays.asList(persistenceDirectory, projectDirectory, imageDirectory, atomicActivityCollectionsDirectory);
+        var paths = Arrays.asList(persistenceDirectory, projectDirectory, imageDirectory,
+                atomicActivityCollectionsDirectory);
 
         for (var path : paths) {
             if (!Files.isDirectory(path)) {
@@ -186,6 +190,7 @@ class PersistenceHelper implements IPersistenceHelper {
     }
 
     private Stream<File> getAllFilesInDirectory(Path directory, String... extensions) {
-        return getAllFilesInDirectory(directory).filter(file -> file.isFile() && Arrays.stream(extensions).anyMatch(x -> IPersistenceHelper.getFileExtension(file).equals(x)));
+        return getAllFilesInDirectory(directory).filter(file -> file.isFile() &&
+                Arrays.stream(extensions).anyMatch(x -> IPersistenceHelper.getFileExtension(file).equals(x)));
     }
 }

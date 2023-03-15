@@ -18,22 +18,15 @@ class ProjectRepository implements IProjectRepository {
     private final Set<Project> projects;
 
     @Inject
-    public ProjectRepository(IPersistenceHelper persistenceHelper,
-//                             IProjectNameRepository projectNameRepository,
-                             LoggerService loggerService) {
+    public ProjectRepository(IPersistenceHelper persistenceHelper, LoggerService loggerService) {
         this.persistenceHelper = persistenceHelper;
-//        this.projectNameRepository = projectNameRepository;
         this.loggerService = loggerService;
         projects = new HashSet<>();
     }
 
-//    @Override
-//    public List<String> getProjectNames() {
-//        return projectNameRepository.getAll().stream().map(ProjectName::getProjectName).toList();
-//    }
-
     @Override
     public void add(@NotNull Project item) {
+        loggerService.logInfo("Project added - " + item.getProjectId());
         projects.add(item);
     }
 
@@ -58,6 +51,7 @@ class ProjectRepository implements IProjectRepository {
      */
     @Override
     public Optional<Project> getByName(String name) {
+        loggerService.logError("Not implemented! (getByName)");
 //        var projectId = projectNameRepository.get(x -> x.getProjectName().equals(name)).stream().findFirst();
 //        if (projectId.isEmpty())
 //            return Optional.empty();
@@ -65,11 +59,12 @@ class ProjectRepository implements IProjectRepository {
 //        var projectFiles = persistenceHelper.getAllProjectFiles();
 //        var foundProjectFile = projectFiles.stream().filter(x -> x.getName().equals(projectId.get().toString())).findFirst();
 //        return foundProjectFile.map(this::loadProject);
-        return null;
+        return Optional.empty();
     }
 
     @Override
     public void remove(@NotNull Project item) {
+        loggerService.logError("Not implemented! (remove)");
 //        var projectId = item.getId().toString();
 //        var file = persistenceHelper.getAllProjectFiles().stream().filter(x -> projectId.equals(IPersistenceHelper.getFileNameWithoutExtension(x))).findFirst();
 //        file.ifPresent(persistenceHelper::removeFile);
@@ -85,20 +80,18 @@ class ProjectRepository implements IProjectRepository {
 
     @Override
     public void save(@NotNull Project project) {
-//        if (item.isDirty()) {
         persistenceHelper.saveProjectFile(project);
-//            item.clearIsDirty();
-//        }
     }
 
     private void loadProject(File file) {
         var projectId = IPersistenceHelper.getFileNameWithoutExtension(file);
         if (projects.stream().anyMatch(x -> x.getProjectId().toString().equals(projectId))) {
+            loggerService.logWarning("Project already loaded - " + projectId);
             return;
         }
         var newProject = persistenceHelper.loadFile(file, Project.class); // odczyt projektu z pliku
         projects.add(newProject);
-        loggerService.logInfo("Successfully loaded a project.");
+        loggerService.logInfo("Successfully loaded a project - " + projectId);
     }
 
     @Override

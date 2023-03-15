@@ -7,16 +7,15 @@ import java.util.*;
 public class UseCaseDiagram {
 
     private UUID imageID;
-    private final UUID id;
+    private final UUID useCaseDiagramId;
     private final List<UseCase> useCaseList = new ArrayList<>();
 
     @JsonIgnore
     private Map<String, Map<String, List<String>>> useCasesRaw;
 
     @JsonCreator
-    public UseCaseDiagram(@JsonProperty("id") UUID id, @JsonProperty("imageID") UUID imageID) {
-        this.id = id;
-        this.imageID = imageID;
+    public UseCaseDiagram(@JsonProperty("useCaseDiagramId") UUID useCaseDiagramId) {
+        this.useCaseDiagramId = useCaseDiagramId;
     }
 
     public List<UseCase> getUseCaseList() {
@@ -51,5 +50,9 @@ public class UseCaseDiagram {
             this.useCasesRaw = useCasesRaw;
 //            propertyChanged("useCasesRaw");
         }
+    }
+
+    public UUID getUseCaseDiagramId() {
+        return useCaseDiagramId;
     }
 }

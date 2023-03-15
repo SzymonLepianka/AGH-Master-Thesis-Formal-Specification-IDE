@@ -23,6 +23,7 @@ import java.util.*;
 
 public class MainWindowController {
     private final XmlParserService xmlParserService;
+    private final LoggerService loggerService;
     private final IModelFactory modelFactory;
     private final IProjectRepository projectRepository;
     private final EventAggregatorService eventAggregatorService;
@@ -40,10 +41,12 @@ public class MainWindowController {
     private UseCaseSelectorEditorController useCaseSelectorEditorController;
 
     @Inject
-    public MainWindowController(XmlParserService xmlParserService, IModelFactory modelFactory,
-                                IProjectRepository projectRepository, EventAggregatorService eventAggregatorService) {
+    public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService,
+                                IModelFactory modelFactory, IProjectRepository projectRepository,
+                                EventAggregatorService eventAggregatorService) {
 
         this.xmlParserService = xmlParserService;
+        this.loggerService = loggerService;
         this.modelFactory = modelFactory;
         this.projectRepository = projectRepository;
         this.eventAggregatorService = eventAggregatorService;
@@ -51,28 +54,12 @@ public class MainWindowController {
 
     //    @Override
     public void load(Project project) {
-//        if (object instanceof Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
                 scenarioSelectorEditorController, actionEditorController);
         imageViewerController.setProjectSelection(project);
-
-        // TODO ładowanie pozostałych komponentów
-        System.out.println("load:" + project);
-        System.out.println("load:" + project.getUseCaseDiagram());
-        System.out.println("load:" + project.getProjectId());
-        System.out.println("load:" + project.getAtomicActivityCollectionId());
-        System.out.println("load:" + project.getProjectName());
-
-//            eventAggregatorService.publish(new ProjectLoadedEvent(this, project));
-//        } else throw new UnsupportedOperationException();
+        loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());
     }
-
-//    @Override
-//    public void unload() {
-//        project = null;
-//        // TODO Publish new event - ProjectUnloaded
-//    }
 
     @FXML
     private void saveClicked() {
@@ -130,6 +117,8 @@ public class MainWindowController {
 
     @FXML
     private void importXml() {
+        loggerService.logInfo("Creating new project...");
+
         var fileChooser = new FileChooser();
         fileChooser.setTitle("Select an input XML file");
 
@@ -139,7 +128,10 @@ public class MainWindowController {
 
         // Show open file dialog, with MainWindow blocked
         var file = fileChooser.showOpenDialog(mainWindowRoot.getScene().getWindow());
-        if (file == null) return;
+        if (file == null) {
+            loggerService.logInfo("Abort creating new project... (No file selected)");
+            return;
+        }
 
         // Show input project name dialog
         var projectNameInputDialog = new TextInputDialog("project_name");
@@ -154,18 +146,14 @@ public class MainWindowController {
 
         // get project name from input dialog
         var projectName = projectNameInputDialog.getResult();
-        if (projectName == null) return;
+        if (projectName == null) {
+            loggerService.logInfo("Abort creating new project... (No project name selected)");
+            return;
+        }
 
         var project = modelFactory.createProject(projectName);
-
-        System.out.println("begin createUseCaseDiagram");
-        var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID(), null);
-        System.out.println("begin createUseCaseDiagram");
-
-        System.out.println("begin parseXml");
+        var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, file);
-        System.out.println("Xml parsed");
-
         load(project);
     }
 

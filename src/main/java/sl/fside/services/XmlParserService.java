@@ -15,10 +15,12 @@ import java.util.*;
 public class XmlParserService {
 
     private final IModelFactory modelFactory;
+    private final LoggerService loggerService;
 
     @Inject
-    XmlParserService(IModelFactory modelFactory) {
+    XmlParserService(IModelFactory modelFactory, LoggerService loggerService) {
         this.modelFactory = modelFactory;
+        this.loggerService = loggerService;
     }
 
     public Map<String, Map<String, List<String>>> parseXml(UseCaseDiagram useCaseDiagram, File xmlFile) {
@@ -40,6 +42,7 @@ public class XmlParserService {
 
             var useCases = findUseCases(doc);
             createUseCaseObjects(useCases, useCaseDiagram);
+            loggerService.logInfo("XML parsed");
             return useCases;
 
         } catch (ParserConfigurationException | SAXException | IOException e) {

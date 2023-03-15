@@ -1,5 +1,6 @@
 package sl.fside.ui.editors.imageViewer;
 
+import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -7,8 +8,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.stage.Stage;
 import javafx.stage.*;
 import sl.fside.model.*;
+import sl.fside.services.*;
 
 import java.io.*;
 import java.nio.file.*;
@@ -16,6 +19,7 @@ import java.util.*;
 
 public class ImageViewerController {
 
+    private final LoggerService loggerService;
     @FXML
     public AnchorPane imageViewerAnchorPane;
     @FXML
@@ -26,11 +30,18 @@ public class ImageViewerController {
     @FXML
     private AnchorPane imageViewerRoot;
 
+    @Inject
+    public ImageViewerController(LoggerService loggerService) {
+        this.loggerService = loggerService;
+    }
+
     public void initialize() {
         imageViewerRoot.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
         imageViewerAnchorPane.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        updateImageViewer();
     }
 
     private Color randomColor() {
@@ -47,9 +58,9 @@ public class ImageViewerController {
         fileChooser.setTitle("Select an image file");
 
         // Set extension filter
-        FileChooser.ExtensionFilter pngExtFilter = new FileChooser.ExtensionFilter("PNG images", "*.png");
-        FileChooser.ExtensionFilter jpgExtFilter = new FileChooser.ExtensionFilter("JPG images", "*.jpg");
-        fileChooser.getExtensionFilters().addAll(pngExtFilter, jpgExtFilter);
+        FileChooser.ExtensionFilter imageExtFilter =
+                new FileChooser.ExtensionFilter("PNG/JPG images", "*.png", "*.jpg");
+        fileChooser.getExtensionFilters().addAll(imageExtFilter);
 
         // show file chooser
         File selectedFile = fileChooser.showOpenDialog(imageViewerRoot.getScene().getWindow());
@@ -81,6 +92,8 @@ public class ImageViewerController {
         // hide add-button and show remove-button
         addButton.setVisible(false);
         removeButton.setVisible(true);
+
+        loggerService.logInfo("Image added to project - " + project.getProjectId());
     }
 
     private void showErrorMessage(String message) {
@@ -227,14 +240,18 @@ public class ImageViewerController {
     @FXML
     public void removeImageClicked() {
         imageViewerAnchorPane.getChildren().clear();
+        project.removeImage();
 
         // hide add-button and show remove-button
         removeButton.setVisible(false);
         addButton.setVisible(true);
+
+        loggerService.logInfo("Image removed from project - " + project.getProjectId());
     }
 
     public void setProjectSelection(Project project) {
         this.project = project;
+        updateImageViewer();
 
         // ustawia obraz, jeśli projekt go posiada
         if (project.getImage() != null) {
@@ -249,6 +266,13 @@ public class ImageViewerController {
             // hide add-button and show remove-button
             addButton.setVisible(false);
             removeButton.setVisible(true);
+
+            loggerService.logInfo("Image set to ImageViewer");
         }
+    }
+
+    private void updateImageViewer() {
+        // setting disable property of the imageViewerRoot TitledPane based on the value of the project variable
+        imageViewerRoot.setDisable(project == null);
     }
 }

@@ -5,32 +5,27 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.util.*;
 import sl.fside.model.*;
 
-import java.lang.reflect.*;
 import java.util.*;
 import java.util.function.*;
 
 public class UseCaseController {
 
     private UseCase useCase;
+    private Function<Pair<AnchorPane, UseCaseController>, Void> onRemoveClicked;
 
     @FXML
     private AnchorPane useCaseRoot;
-
     @FXML
     private TextField useCaseNameTextField;
-
     @FXML
     private CheckBox isSelectedCheckBox;
-
     @FXML
     private CheckBox isImportedCheckBox;
-
     @FXML
     private Button removeButton;
-
-    private Function<AnchorPane, Void> onRemoveClicked;
 
     @Inject
     public UseCaseController() {
@@ -49,19 +44,11 @@ public class UseCaseController {
         this.isSelectedCheckBox.setSelected(isSelectedCheckBox);
     }
 
-    public void onRemoveButtonClicked() throws InvocationTargetException, IllegalAccessException {
-//        useCase.getParent().ifPresent(x -> x.removeChild(useCase));
-
-        if (onRemoveClicked != null) onRemoveClicked.apply(useCaseRoot);
-    }
-
     public sl.fside.model.UseCase getUseCase() {
         return useCase;
     }
 
-    //    @Override
     public void load(UseCase useCase) {
-//        if (object instanceof UseCase useCase) {
         this.useCase = useCase;
         useCaseNameTextField.setText(useCase.getUseCaseName());
         isImportedCheckBox.setSelected(useCase.isImported());
@@ -69,16 +56,8 @@ public class UseCaseController {
 
         useCaseRoot.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-//        }
-//        else
-//            throw new IllegalArgumentException();
     }
 
-    //    @Override
-//    public void unload() {
-//
-//    }
     private Color randomColor() {
         Random rand = new Random();
         double r = rand.nextFloat();
@@ -87,7 +66,12 @@ public class UseCaseController {
         return new Color(r, g, b, 1);
     }
 
-    public void setOnRemoveClicked(Function<AnchorPane, Void> onRemoveClicked) {
+    @FXML
+    public void onRemoveUseCaseButtonClicked() {
+        if (onRemoveClicked != null) onRemoveClicked.apply(new Pair<>(useCaseRoot, this));
+    }
+
+    public void setOnRemoveClicked(Function<Pair<AnchorPane, UseCaseController>, Void> onRemoveClicked) {
         this.onRemoveClicked = onRemoveClicked;
     }
 

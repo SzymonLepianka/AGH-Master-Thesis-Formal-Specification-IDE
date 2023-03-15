@@ -33,19 +33,11 @@ public class ModelFactory implements IModelFactory {
 
     @Override
     public Project createProject(@NotNull String name) {
-
-        System.out.println("begin create project");
-
         var project = new Project(UUID.randomUUID(), name);
-//        project.setDirty();
-
-//        createProjectName(project.getProjectId(), name);
-
         var atomicActivityCollection = createAtomicActivityCollection(project.getProjectId());
-//        atomicActivityCollection.setDirty();
         project.setAtomicActivityCollectionId(atomicActivityCollection.getAtomicActivityCollectionId());
-//        registerInModelTracker(project);
         projectRepository.add(project);
+        loggerService.logInfo("New project created - " + project.getProjectId());
         return project;
     }
 
@@ -80,11 +72,10 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
-    public UseCaseDiagram createUseCaseDiagram(Project parent, UUID id, UUID imageID) {
-        UseCaseDiagram useCaseDiagram = new UseCaseDiagram(id, imageID);
+    public UseCaseDiagram createUseCaseDiagram(Project parent, UUID useCaseDiagramId) {
+        UseCaseDiagram useCaseDiagram = new UseCaseDiagram(useCaseDiagramId);
         parent.addUseCaseDiagram(useCaseDiagram);
-
-//        registerInModelTracker(useCaseDiagram);
+        loggerService.logInfo("New UseCaseDiagram created - " + useCaseDiagram.getUseCaseDiagramId());
         return useCaseDiagram;
     }
 

@@ -8,6 +8,7 @@ import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
+import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
@@ -17,6 +18,7 @@ import java.util.*;
 public class ScenarioSelectorEditorController {
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
+    private final LoggerService loggerService;
     private final List<Pair<AnchorPane, ScenarioController>> uiElementScenarioPairs = new ArrayList<>();
     @FXML
     public TitledPane scenarioSelectorEditorRoot;
@@ -32,8 +34,10 @@ public class ScenarioSelectorEditorController {
     private ActionEditorController actionEditorController;
 
     @Inject
-    public ScenarioSelectorEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory) {
+    public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
+                                            UIElementsFactory uiElementsFactory) {
         this.modelFactory = modelFactory;
+        this.loggerService = loggerService;
         this.uiElementsFactory = uiElementsFactory;
     }
 
@@ -82,8 +86,9 @@ public class ScenarioSelectorEditorController {
             // dodaje nowy scenariusz do obecnych
             scenarioList.getItems().add(uiElementPair.getKey());
 
+            loggerService.logInfo("New scenario added - " + newScenario.getId());
         } else {
-            System.out.println("Nigdy nie powinien się tu znaleźć (addScenarioButtonClicked)");
+            loggerService.logError("Nigdy nie powinien się tu znaleźć (addScenarioButtonClicked)");
         }
     }
 
@@ -91,6 +96,7 @@ public class ScenarioSelectorEditorController {
         scenarioList.getItems().remove(pair.getKey());
         useCase.removeScenario(pair.getValue().getScenario());
         uiElementScenarioPairs.remove(pair);
+        loggerService.logInfo("Scenario removed - " + pair.getValue().getScenario().getId());
         return null;
     }
 
@@ -163,6 +169,8 @@ public class ScenarioSelectorEditorController {
                 System.out.println("No item (Scenario) is selected.");
             }
         });
+
+        loggerService.logInfo("UseCase set to ScenarioSelectorEditor - " + useCase.getId());
     }
 
     private void updateScenarioSelectorEditor() {

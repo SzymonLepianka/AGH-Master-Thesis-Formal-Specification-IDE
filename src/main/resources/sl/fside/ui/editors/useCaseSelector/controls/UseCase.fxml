@@ -13,5 +13,5 @@
                onKeyTyped="#useCaseNameChanged"/>
     <Button fx:id="removeButton" layoutX="15.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0"
             prefWidth="62.0"
-            text="Remove" onAction="#onRemoveButtonClicked"/>
+            text="Remove" onAction="#onRemoveUseCaseButtonClicked"/>
 </AnchorPane>
