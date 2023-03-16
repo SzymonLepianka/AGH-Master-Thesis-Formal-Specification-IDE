@@ -38,7 +38,6 @@ public class UseCaseSelectorEditorController {
     @FXML
     private Label currentlySelectedUseCaseLabel;
     //    private final EventAggregatorService eventAggregatorService;
-    private Project project;
 
     private UseCaseDiagram useCaseDiagram;
 
@@ -69,6 +68,8 @@ public class UseCaseSelectorEditorController {
 
         currentlySelectedUseCaseLabel.setBorder(new Border(
                 new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        updateUseCaseSelectorEditor();
     }
 
     private Color randomColor() {
@@ -96,6 +97,7 @@ public class UseCaseSelectorEditorController {
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
         this.actionEditorController = actionEditorController;
         useCasesList.getItems().clear();
+        updateUseCaseSelectorEditor();
 
         // create new useCases
         var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementsFactory::createUseCase).toList();
@@ -146,5 +148,10 @@ public class UseCaseSelectorEditorController {
         uiElementUseCasePairs.remove(pair);
         loggerService.logInfo("UseCase removed - " + pair.getValue().getUseCase().getId());
         return null;
+    }
+
+    private void updateUseCaseSelectorEditor() {
+        // setting disable property of the useCaseSelectorEditorRoot TitledPane based on the value of the useCaseDiagram variable
+        useCaseSelectorEditorRoot.setDisable(useCaseDiagram == null);
     }
 }
