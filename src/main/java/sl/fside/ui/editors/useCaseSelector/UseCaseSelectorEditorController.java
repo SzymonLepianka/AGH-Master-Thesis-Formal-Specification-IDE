@@ -80,13 +80,24 @@ public class UseCaseSelectorEditorController {
         return new Color(r, g, b, 1);
     }
 
-    // TODO
+    @FXML
     public void addUseCaseButtonClicked() {
         if (useCaseDiagram != null) {
-            var newUseCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(), "New use case", false);
-//            var uiElementPair = uiElementFactory.CreateUseCase(newUseCase);
-//            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
-//            useCasesList.getItems().add(uiElementPair.getKey());
+
+            // creating new UseCase
+            UseCase newUseCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(), "New use case", false);
+            Pair<AnchorPane, UseCaseController> uiElementPair = uiElementsFactory.createUseCase(newUseCase);
+            uiElementUseCasePairs.add(uiElementPair);
+
+            // usuwanie UseCase
+            uiElementPair.getValue().setOnRemoveClicked(this::removeUseCase);
+
+            // dodaje nowy UseCase do obecnych
+            useCasesList.getItems().add(uiElementPair.getKey());
+
+            loggerService.logInfo("New UseCase added - " + newUseCase.getId());
+        } else {
+            loggerService.logError("Nigdy nie powinien się tu znaleźć (addUseCaseButtonClicked)");
         }
     }
 
@@ -118,8 +129,8 @@ public class UseCaseSelectorEditorController {
                 // wyciągnij UseCase z zaznaczonego Pane (trzeba go ustawić w panelu ze scenariuszami)
                 AnchorPane selectedItem = useCasesList.getSelectionModel().getSelectedItem();
                 UseCaseController useCaseController =
-                        useCasePairs.stream().filter(ucp -> ucp.getKey().equals(selectedItem)).findFirst().orElseThrow()
-                                .getValue();
+                        uiElementUseCasePairs.stream().filter(ucp -> ucp.getKey().equals(selectedItem)).findFirst()
+                                .orElseThrow().getValue();
                 UseCase useCase = useCaseController.getUseCase();
 
                 // ustawia kontrolny tekst w panelu z UseCase'ami
@@ -129,7 +140,7 @@ public class UseCaseSelectorEditorController {
                 scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
-                useCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));
+                uiElementUseCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));
                 useCaseController.setIsSelectedCheckBox(true);
 
             } else {
