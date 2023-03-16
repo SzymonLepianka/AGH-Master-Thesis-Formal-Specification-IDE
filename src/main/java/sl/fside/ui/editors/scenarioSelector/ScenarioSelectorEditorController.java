@@ -11,6 +11,7 @@ import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 
 import java.util.*;
@@ -32,6 +33,7 @@ public class ScenarioSelectorEditorController {
     private Label currentlySelectedScenarioLabel;
     private UseCase useCase;
     private ActionEditorController actionEditorController;
+    private ActivityDiagramPanelController activityDiagramPanelController;
 
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
@@ -120,9 +122,11 @@ public class ScenarioSelectorEditorController {
         }
     }
 
-    public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController) {
+    public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
+                                    ActivityDiagramPanelController activityDiagramPanelController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
+        this.activityDiagramPanelController = activityDiagramPanelController;
         updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
 
@@ -139,6 +143,7 @@ public class ScenarioSelectorEditorController {
 
         // usuwa ewentualne poprzednie zaznaczenie Scenario
         actionEditorController.removeScenarioSelection();
+        activityDiagramPanelController.removeScenarioSelection();
 
         // usuwanie Scenario
         scenarioPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeScenario));
@@ -161,8 +166,9 @@ public class ScenarioSelectorEditorController {
                 // ustawia kontrolny tekst w panelu z Scenario'ami
                 currentlySelectedScenarioLabel.setText("Selected Scenario name: " + scenario.getId());
 
-                // Set selected Scenario to actionEditorPanel
+                // Set selected Scenario to actionEditorPanel and activityDiagramPanel
                 actionEditorController.setScenarioSelection(scenario);
+                activityDiagramPanelController.setScenarioSelection(scenario);
 
             } else {
                 // No item is selected

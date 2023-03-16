@@ -11,6 +11,7 @@ import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
 
@@ -29,6 +30,7 @@ public class UseCaseSelectorEditorController {
     public AnchorPane useCaseSelectorEditorAnchorPane;
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
     private ActionEditorController actionEditorController;
+    private ActivityDiagramPanelController activityDiagramPanelController;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
@@ -103,10 +105,12 @@ public class UseCaseSelectorEditorController {
 
     public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram,
                                            ScenarioSelectorEditorController scenarioSelectorEditorController,
-                                           ActionEditorController actionEditorController) {
+                                           ActionEditorController actionEditorController,
+                                           ActivityDiagramPanelController activityDiagramPanelController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
         this.actionEditorController = actionEditorController;
+        this.activityDiagramPanelController = activityDiagramPanelController;
         useCasesList.getItems().clear();
         updateUseCaseSelectorEditor();
 
@@ -137,7 +141,8 @@ public class UseCaseSelectorEditorController {
                 currentlySelectedUseCaseLabel.setText("Selected UC name: " + useCase.getUseCaseName());
 
                 // Set selected UseCase to scenarioSelectorPanel
-                scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController);
+                scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
+                        activityDiagramPanelController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
                 uiElementUseCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));

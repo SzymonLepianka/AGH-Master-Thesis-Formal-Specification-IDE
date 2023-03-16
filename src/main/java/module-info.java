@@ -34,11 +34,12 @@ module sl.fside {
     opens sl.fside.ui to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.useCaseSelector to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.useCaseSelector.controls to javafx.fxml, com.google.guice;
+    opens sl.fside.ui.editors.imageViewer to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.scenarioSelector to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.scenarioSelector.controls to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.actionEditor to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.actionEditor.controls to javafx.fxml, com.google.guice;
-    opens sl.fside.ui.editors.imageViewer to javafx.fxml, com.google.guice;
+    opens sl.fside.ui.editors.activityDiagramPanel to javafx.fxml, com.google.guice;
 
     exports sl.fside;
 }

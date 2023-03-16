@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<TitledPane fx:id="activityDiagramPanelRoot" animated="false" collapsible="false" prefHeight="100.0" prefWidth="360.0"
+            text="Activity Diagram" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sl.fside.ui.editors.activityDiagramPanel.ActivityDiagramPanelController">
+    <AnchorPane fx:id="activityDiagramPanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="99.0"
+                prefWidth="358.0">
+        <Button fx:id="openActivityDiagramEditorButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="20.0" mnemonicParsing="false" onAction="#openActivityDiagramEditorButtonClicked"
+                prefHeight="25.0"
+                prefWidth="338.0" text="Start Activity Diagram"/>
+    </AnchorPane>
+</TitledPane>

@@ -14,6 +14,7 @@ import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
+import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
@@ -30,15 +31,18 @@ public class MainWindowController {
     @FXML
     public AnchorPane mainWindowRoot;
     @FXML
+    private UseCaseSelectorEditorController useCaseSelectorEditorController;
+    @FXML
+    public ImageViewerController imageViewerController;
+    @FXML
     public ScenarioSelectorEditorController scenarioSelectorEditorController;
     @FXML
     public ActionEditorController actionEditorController;
     @FXML
-    public ImageViewerController imageViewerController;
+    public ActivityDiagramPanelController activityDiagramPanelController;
     private Project project;
     private Stage stage;
-    @FXML
-    private UseCaseSelectorEditorController useCaseSelectorEditorController;
+
 
     @Inject
     public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService,
@@ -55,7 +59,7 @@ public class MainWindowController {
     public void load(Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
-                scenarioSelectorEditorController, actionEditorController);
+                scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());
@@ -167,33 +171,6 @@ public class MainWindowController {
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, file);
         load(project);
-    }
-
-    @FXML
-    private void startActivityDiagramClicked() {
-        var stage = new Stage();
-//        final var location = getClass().getClassLoader().getResource("sl/fside/ui/editors/activityDiagramEditor/ActivityDiagramEditor.fxml");
-        final var loader =
-                new FXMLLoader(ActivityDiagramEditorController.class.getResource("ActivityDiagramEditor.fxml"));
-        final Parent root;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        final Scene scene = new Scene(root, 830, 630);
-
-        scene.getStylesheets().add(ActivityDiagramEditorController.class.getResource("demo.css").toExternalForm());
-        Font.loadFont(ActivityDiagramEditorController.class.getResource("fontawesome.ttf").toExternalForm(), 12);
-
-        stage.setScene(scene);
-        stage.setTitle("Activity Diagram Editor");
-
-        stage.show();
-
-        final ActivityDiagramEditorController controller = loader.getController();
-        controller.panToCenter();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
