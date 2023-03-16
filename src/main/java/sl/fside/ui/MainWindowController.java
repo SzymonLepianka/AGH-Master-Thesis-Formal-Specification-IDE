@@ -52,7 +52,6 @@ public class MainWindowController {
         this.eventAggregatorService = eventAggregatorService;
     }
 
-    //    @Override
     public void load(Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
@@ -76,6 +75,7 @@ public class MainWindowController {
 
         // pomiń dialog, jeśli nie ma żadnego projektu w repository
         if (projectRepository.getAll().isEmpty()) {
+            loggerService.logInfo("No projects in repository");
             return;
         }
 
@@ -88,7 +88,10 @@ public class MainWindowController {
         projectChooserDialog.showAndWait();
 
         var result = projectChooserDialog.getResult();
-        if (result == null) return;
+        if (result == null) {
+            loggerService.logInfo("No project selected");
+            return;
+        }
 
         var project = projectRepository.getById(result.project().getProjectId());
         load(project);
@@ -96,10 +99,6 @@ public class MainWindowController {
 
     @FXML
     private void openProjectClicked() {
-        System.out.println("project:" + project);
-        System.out.println("all projects: " + projectRepository.getAll());
-
-
         var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
         projectChooserDialog.getItems()
                 .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
@@ -111,8 +110,21 @@ public class MainWindowController {
         var result = projectChooserDialog.getResult();
         if (result == null) return;
 
-        var project = projectRepository.getById(result.project().getProjectId());
-        load(project);
+        var selectedProject = projectRepository.getById(result.project().getProjectId());
+        if (selectedProject.equals(this.project)) {
+            showWarningMessage("Selected project is currently loaded!");
+            loggerService.logWarning("Selected project is currently loaded! - " + selectedProject.getProjectId());
+        } else {
+            load(selectedProject);
+        }
+    }
+
+    private void showWarningMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Formal Specification IDE");
+        alert.setHeaderText("Warning");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
