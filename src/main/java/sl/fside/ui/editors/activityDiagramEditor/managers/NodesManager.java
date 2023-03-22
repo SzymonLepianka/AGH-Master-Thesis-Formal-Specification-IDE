@@ -17,6 +17,8 @@ public class NodesManager {
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
 
+    private List<String> currentAtomicActivities = new ArrayList<>();
+
     private final Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
     private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private String mainName;
@@ -115,6 +117,14 @@ public class NodesManager {
 
     public void setCurrentNodeType(String nodeType) {
         currentNodeType = nodeType;
+    }
+
+    public List<String> getCurrentAtomicActivities() {
+        return currentAtomicActivities;
+    }
+
+    public void setCurrentAtomicActivities(List<String> currentAtomicActivities) {
+        this.currentAtomicActivities = currentAtomicActivities;
     }
 
     //    public void addTank(Tank tank) {
