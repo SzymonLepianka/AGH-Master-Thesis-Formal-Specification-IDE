@@ -52,9 +52,13 @@ public class Scenario {
 
     public String showAtomicActivities() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Atomic activities:\n");
-        for (AtomicActivity aa : this.atomicActivities) {
-            sb.append(" - ").append(aa.getContent()).append("\n");
+        if (this.atomicActivities.isEmpty()){
+            sb.append("No atomic activities!");
+        } else {
+            sb.append("Atomic activities:\n");
+            for (AtomicActivity aa : this.atomicActivities) {
+                sb.append(" - ").append(aa.getContent()).append("\n");
+            }
         }
         return sb.toString();
     }
