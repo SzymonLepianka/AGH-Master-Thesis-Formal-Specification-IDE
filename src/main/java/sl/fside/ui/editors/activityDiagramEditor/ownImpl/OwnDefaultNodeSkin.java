@@ -218,8 +218,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     private void addSelectionHalo() {
         getRoot().getChildren().add(selectionHalo);
 
-        List<String> atomicActivities =
-                new ArrayList<>(Arrays.asList("atomic_activity_1", "atomic_activity_2", "atomic_activity_3"));
+        List<String> atomicActivities = NodesManager.getInstance().getCurrentAtomicActivities();
         List<String> patternNames = new ArrayList<>(
                 Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop"));
 
@@ -1313,9 +1312,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         dropdownComboBox.setOnAction(e -> {
 
             // usuń ComboBox jeśli wybrano zagnieżdżenie
-            if (parentVBox.getChildren().size() == 2 && !dropdownComboBox.getValue().equals("atomic_activity_1") &&
-                    !dropdownComboBox.getValue().equals("atomic_activity_2") &&
-                    !dropdownComboBox.getValue().equals("atomic_activity_3")) {
+            if (parentVBox.getChildren().size() == 2 && !isAtomicActivityChosen(dropdownComboBox.getValue())) {
                 parentVBox.getChildren().remove(parentVBox.getChildren().size() - 1);
             }
 
@@ -1369,6 +1366,16 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 addFillingSpaceLine(parentVBox);
             }
         });
+    }
+
+    private boolean isAtomicActivityChosen(String dropdownValue) {
+        List<String> currentAtomicActivities = NodesManager.getInstance().getCurrentAtomicActivities();
+        for (String aa : currentAtomicActivities) {
+            if (dropdownValue.equals(aa)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private Color randomColor() {
