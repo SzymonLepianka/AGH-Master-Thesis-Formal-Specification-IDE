@@ -13,6 +13,7 @@ import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.io.*;
 import java.util.*;
@@ -79,6 +80,21 @@ public class ActivityDiagramPanelController {
     }
 
     public void openActivityDiagramEditorButtonClicked() {
+
+        // kontrola czy diagram aktywności może być uruchomiony
+        if (scenario == null) {
+            showWarningMessage("Scenario is not selected (It should never occur)");
+            return;
+        }
+        if (scenario.getAtomicActivities().isEmpty()) {
+            showWarningMessage("No atomic activities defined!");
+            return;
+        }
+
+        // ustawia atomiczne aktywności dla edytora diagramu aktywności
+        NodesManager.getInstance().setCurrentAtomicActivities(
+                scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList());
+
         var stage = new Stage();
         final var loader =
                 new FXMLLoader(ActivityDiagramEditorController.class.getResource("ActivityDiagramEditor.fxml"));
@@ -101,5 +117,13 @@ public class ActivityDiagramPanelController {
 
         final ActivityDiagramEditorController controller = loader.getController();
         controller.panToCenter();
+    }
+
+    private void showWarningMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Formal Specification IDE");
+        alert.setHeaderText("Warning");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
