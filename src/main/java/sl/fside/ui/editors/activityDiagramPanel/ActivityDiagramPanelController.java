@@ -133,6 +133,15 @@ public class ActivityDiagramPanelController {
             }
         });
 
+        // save generated results in scenario
+        stage.setOnHidden(event -> {
+            if (NodesManager.getInstance().wasSpecificationGenerated()) {
+                scenario.setPatternExpression(NodesManager.getInstance().getPatternExpression());
+                scenario.setFolLogicalSpecification(NodesManager.getInstance().getFolLogicalSpecification());
+                scenario.setLtlLogicalSpecification(NodesManager.getInstance().getLtlLogicalSpecification());
+            }
+        });
+
         stage.setScene(scene);
         stage.setTitle("Formal Specification IDE - Activity Diagram Editor");
 

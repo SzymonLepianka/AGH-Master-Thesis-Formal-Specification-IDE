@@ -16,6 +16,7 @@ public class NodesManager {
     private String patternExpression;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
+    private boolean wasSpecificationGenerated;
 
     private List<String> currentAtomicActivities = new ArrayList<>();
 
@@ -36,6 +37,14 @@ public class NodesManager {
             }
             return instance;
         }
+    }
+
+    public boolean wasSpecificationGenerated() {
+        return wasSpecificationGenerated;
+    }
+
+    public void setWasSpecificationGenerated(boolean wasSpecificationGenerated) {
+        this.wasSpecificationGenerated = wasSpecificationGenerated;
     }
 
     public boolean isShowColorsOnDiagram() {

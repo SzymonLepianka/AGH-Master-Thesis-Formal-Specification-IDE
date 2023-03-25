@@ -444,6 +444,7 @@ public class ActivityDiagramEditorController {
         patternExpression.append(")");
         System.out.println("Wyrażenie: " + patternExpression);
         NodesManager.getInstance().setPatternExpression(patternExpression.toString());
+        NodesManager.getInstance().setWasSpecificationGenerated(true);
     }
 
     private String getNestedPatternFromVBox(Pane vBoxOrHBox) throws Exception {

@@ -10,13 +10,39 @@ public class Scenario {
     private final UUID id;
     private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
-
+    private String patternExpression;
+    private String folLogicalSpecification;
+    private String ltlLogicalSpecification;
     private boolean isMainScenario;
 
     @JsonCreator
     public Scenario(@JsonProperty("id") UUID id, @JsonProperty("isMainScenario") boolean isMainScenario) {
         this.id = id;
         this.isMainScenario = isMainScenario;
+    }
+
+    public String getPatternExpression() {
+        return patternExpression;
+    }
+
+    public void setPatternExpression(String patternExpression) {
+        this.patternExpression = patternExpression;
+    }
+
+    public String getFolLogicalSpecification() {
+        return folLogicalSpecification;
+    }
+
+    public void setFolLogicalSpecification(String folLogicalSpecification) {
+        this.folLogicalSpecification = folLogicalSpecification;
+    }
+
+    public String getLtlLogicalSpecification() {
+        return ltlLogicalSpecification;
+    }
+
+    public void setLtlLogicalSpecification(String ltlLogicalSpecification) {
+        this.ltlLogicalSpecification = ltlLogicalSpecification;
     }
 
     public List<ActivityDiagram> getActivityDiagram() {
@@ -52,7 +78,7 @@ public class Scenario {
 
     public String showAtomicActivities() {
         StringBuilder sb = new StringBuilder();
-        if (this.atomicActivities.isEmpty()){
+        if (this.atomicActivities.isEmpty()) {
             sb.append("No atomic activities!");
         } else {
             sb.append("Atomic activities:\n");
