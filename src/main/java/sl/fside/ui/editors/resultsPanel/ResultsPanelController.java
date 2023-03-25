@@ -60,15 +60,41 @@ public class ResultsPanelController {
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
         updateResultsPanel();
+        showResults();
     }
 
     public void removeScenarioSelection() {
         this.scenario = null;
         updateResultsPanel();
+        removeResults();
     }
 
     private void updateResultsPanel() {
         // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
         resultsPanelRoot.setDisable(scenario == null);
+    }
+
+    public void showResults() {
+        if (scenario.getPatternExpression() != null) {
+            patternExpressionTextArea.setText(scenario.getPatternExpression());
+        } else {
+            patternExpressionTextArea.setText("");
+        }
+        if (scenario.getFolLogicalSpecification() != null) {
+            folTextArea.setText(scenario.getFolLogicalSpecification());
+        } else {
+            folTextArea.setText("");
+        }
+        if (scenario.getLtlLogicalSpecification() != null) {
+            ltlTextArea.setText(scenario.getLtlLogicalSpecification());
+        } else {
+            ltlTextArea.setText("");
+        }
+    }
+
+    private void removeResults() {
+        patternExpressionTextArea.setText("");
+        folTextArea.setText("");
+        ltlTextArea.setText("");
     }
 }

@@ -172,7 +172,7 @@ public class ScenarioSelectorEditorController {
 
                 // Set selected Scenario to actionEditorPanel and activityDiagramPanel
                 actionEditorController.setScenarioSelection(scenario);
-                activityDiagramPanelController.setScenarioSelection(scenario);
+                activityDiagramPanelController.setScenarioSelection(scenario, resultsPanelController);
                 resultsPanelController.setScenarioSelection(scenario);
 
             } else {

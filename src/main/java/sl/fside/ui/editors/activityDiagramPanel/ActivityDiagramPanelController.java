@@ -7,14 +7,15 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.text.*;
-import javafx.stage.*;
 import javafx.stage.Stage;
+import javafx.stage.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
+import sl.fside.ui.editors.resultsPanel.*;
 
 import java.io.*;
 import java.util.*;
@@ -32,8 +33,8 @@ public class ActivityDiagramPanelController {
     @FXML
     public Button openActivityDiagramEditorButton;
 
-
     private Scenario scenario;
+    private ResultsPanelController resultsPanelController;
 
     @Inject
     public ActivityDiagramPanelController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
@@ -65,8 +66,9 @@ public class ActivityDiagramPanelController {
         return new Color(r, g, b, 1);
     }
 
-    public void setScenarioSelection(Scenario scenario) {
+    public void setScenarioSelection(Scenario scenario, ResultsPanelController resultsPanelController) {
         this.scenario = scenario;
+        this.resultsPanelController = resultsPanelController;
         updateActivityDiagramPanel();
     }
 
@@ -139,6 +141,7 @@ public class ActivityDiagramPanelController {
                 scenario.setPatternExpression(NodesManager.getInstance().getPatternExpression());
                 scenario.setFolLogicalSpecification(NodesManager.getInstance().getFolLogicalSpecification());
                 scenario.setLtlLogicalSpecification(NodesManager.getInstance().getLtlLogicalSpecification());
+                resultsPanelController.showResults();
             }
         });
 
