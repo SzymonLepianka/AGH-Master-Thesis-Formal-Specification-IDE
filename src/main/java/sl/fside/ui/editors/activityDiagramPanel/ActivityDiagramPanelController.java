@@ -114,6 +114,25 @@ public class ActivityDiagramPanelController {
         // Make the stage modal (it disables clicking other windows)
         stage.initModality(Modality.APPLICATION_MODAL);
 
+        // show confirmation dialog on closing window
+        stage.setOnCloseRequest(event -> {
+            // Create a new confirmation dialog
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirm Exit");
+            alert.setHeaderText("Are you sure you want to exit?");
+            alert.setContentText("Any unsaved changes will be lost.");
+
+            // Show the dialog and wait for a response
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // If the user clicked OK, close the window
+                stage.close();
+            } else {
+                // If the user clicked Cancel or closed the dialog, consume the event
+                event.consume();
+            }
+        });
+
         stage.setScene(scene);
         stage.setTitle("Formal Specification IDE - Activity Diagram Editor");
 
