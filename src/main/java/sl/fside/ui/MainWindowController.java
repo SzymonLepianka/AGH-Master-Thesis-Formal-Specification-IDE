@@ -2,10 +2,8 @@ package sl.fside.ui;
 
 import com.google.inject.*;
 import javafx.fxml.*;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.stage.*;
 import sl.fside.factories.*;
@@ -13,14 +11,12 @@ import sl.fside.model.*;
 import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
 import sl.fside.ui.editors.actionEditor.*;
-import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
 
-import java.io.*;
 import java.util.*;
 
 public class MainWindowController {
@@ -32,8 +28,6 @@ public class MainWindowController {
     @FXML
     public AnchorPane mainWindowRoot;
     @FXML
-    private UseCaseSelectorEditorController useCaseSelectorEditorController;
-    @FXML
     public ImageViewerController imageViewerController;
     @FXML
     public ScenarioSelectorEditorController scenarioSelectorEditorController;
@@ -43,6 +37,8 @@ public class MainWindowController {
     public ActivityDiagramPanelController activityDiagramPanelController;
     @FXML
     public ResultsPanelController resultsPanelController;
+    @FXML
+    private UseCaseSelectorEditorController useCaseSelectorEditorController;
     private Project project;
     private Stage stage;
 
@@ -62,7 +58,8 @@ public class MainWindowController {
     public void load(Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
-                scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController);
+                scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController,
+                resultsPanelController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());

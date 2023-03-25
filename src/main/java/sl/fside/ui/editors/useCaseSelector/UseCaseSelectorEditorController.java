@@ -12,6 +12,7 @@ import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
 
@@ -31,6 +32,7 @@ public class UseCaseSelectorEditorController {
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
+    private ResultsPanelController resultsPanelController;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
@@ -106,11 +108,13 @@ public class UseCaseSelectorEditorController {
     public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram,
                                            ScenarioSelectorEditorController scenarioSelectorEditorController,
                                            ActionEditorController actionEditorController,
-                                           ActivityDiagramPanelController activityDiagramPanelController) {
+                                           ActivityDiagramPanelController activityDiagramPanelController,
+                                           ResultsPanelController resultsPanelController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
+        this.resultsPanelController = resultsPanelController;
         useCasesList.getItems().clear();
         updateUseCaseSelectorEditor();
 
@@ -142,7 +146,7 @@ public class UseCaseSelectorEditorController {
 
                 // Set selected UseCase to scenarioSelectorPanel
                 scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
-                        activityDiagramPanelController);
+                        activityDiagramPanelController, resultsPanelController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
                 uiElementUseCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));

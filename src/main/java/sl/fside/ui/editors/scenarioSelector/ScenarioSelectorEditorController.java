@@ -12,6 +12,7 @@ import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 
 import java.util.*;
@@ -34,6 +35,7 @@ public class ScenarioSelectorEditorController {
     private UseCase useCase;
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
+    private ResultsPanelController resultsPanelController;
 
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
@@ -123,10 +125,11 @@ public class ScenarioSelectorEditorController {
     }
 
     public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
-                                    ActivityDiagramPanelController activityDiagramPanelController) {
+                                    ActivityDiagramPanelController activityDiagramPanelController, ResultsPanelController resultsPanelController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
+        this.resultsPanelController = resultsPanelController;
         updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
 
@@ -144,6 +147,7 @@ public class ScenarioSelectorEditorController {
         // usuwa ewentualne poprzednie zaznaczenie Scenario
         actionEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
+        resultsPanelController.removeScenarioSelection();
 
         // usuwanie Scenario
         scenarioPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeScenario));
@@ -169,6 +173,7 @@ public class ScenarioSelectorEditorController {
                 // Set selected Scenario to actionEditorPanel and activityDiagramPanel
                 actionEditorController.setScenarioSelection(scenario);
                 activityDiagramPanelController.setScenarioSelection(scenario);
+                resultsPanelController.setScenarioSelection(scenario);
 
             } else {
                 // No item is selected
