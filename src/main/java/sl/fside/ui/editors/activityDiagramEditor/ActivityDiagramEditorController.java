@@ -22,23 +22,15 @@ import org.eclipse.emf.ecore.*;
 import sl.fside.ui.editors.activityDiagramEditor.customskin.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import sl.fside.ui.editors.activityDiagramEditor.ownImpl.*;
-import sl.fside.ui.editors.activityDiagramEditor.resultsEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.selections.*;
 import sl.fside.ui.editors.activityDiagramEditor.utils.*;
 
-import java.io.*;
 import java.util.*;
 
 /**
  * Controller for the {@link ActivityDiagramEditor} application.
  */
 public class ActivityDiagramEditorController {
-
-    private static final String APPLICATION_TITLE = "Results";
-    private static final String DEMO_STYLESHEET = "demo.css";
-    private static final String FONT_AWESOME = "fontawesome.ttf";
-
-    private static final Stage resultsStage = new Stage();
     private final OwnDefaultGraphEditor graphEditor = new OwnDefaultGraphEditor();
     private final SelectionCopier selectionCopier =
             new SelectionCopier(graphEditor.getSkinLookup(), graphEditor.getSelectionManager());
@@ -395,22 +387,6 @@ public class ActivityDiagramEditorController {
         // Close the current window (with ActivityDiagramEditor)
         Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
         currentStage.close();
-
-        final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
-        Parent root = null;
-        try {
-            root = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        final Scene scene = new Scene(root, 600, 700);
-        scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
-        Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
-
-        resultsStage.setScene(scene);
-        resultsStage.setTitle(APPLICATION_TITLE);
-        resultsStage.show();
     }
 
     public void generateSpecification() throws Exception {
