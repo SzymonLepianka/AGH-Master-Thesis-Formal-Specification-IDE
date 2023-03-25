@@ -61,6 +61,7 @@ public class ResultsPanelController {
         this.scenario = scenario;
         updateResultsPanel();
         showResults();
+        loggerService.logInfo("Scenario set to ResultsPanel - " + scenario.getId());
     }
 
     public void removeScenarioSelection() {

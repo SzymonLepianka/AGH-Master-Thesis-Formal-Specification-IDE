@@ -70,6 +70,7 @@ public class ActivityDiagramPanelController {
         this.scenario = scenario;
         this.resultsPanelController = resultsPanelController;
         updateActivityDiagramPanel();
+        loggerService.logInfo("Scenario set to ActivityDiagramPanel - " + scenario.getId());
     }
 
     public void removeScenarioSelection() {
@@ -152,6 +153,8 @@ public class ActivityDiagramPanelController {
 
         final ActivityDiagramEditorController controller = loader.getController();
         controller.panToCenter();
+
+        loggerService.logInfo("ActivityDiagramEditor opened (scenarioId=" + scenario.getId());
     }
 
     private void showWarningMessage(String message) {

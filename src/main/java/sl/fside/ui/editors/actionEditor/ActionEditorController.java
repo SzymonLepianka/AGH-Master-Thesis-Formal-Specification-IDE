@@ -9,6 +9,7 @@ import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
+import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.controls.*;
 
@@ -18,6 +19,7 @@ public class ActionEditorController {
 
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
+    private final LoggerService loggerService;
     private final List<Pair<AnchorPane, ActionController>> uiElementActionPairs = new ArrayList<>();
 
     @FXML
@@ -33,9 +35,10 @@ public class ActionEditorController {
     private Scenario scenario;
 
     @Inject
-    public ActionEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory) {
+    public ActionEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory, LoggerService loggerService) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
+        this.loggerService = loggerService;
     }
 
     public void initialize() {
@@ -138,6 +141,8 @@ public class ActionEditorController {
 
         // add new actions to list
         actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
+
+        loggerService.logInfo("Scenario set to ActionEditor - " + scenario.getId());
     }
 
     public void removeScenarioSelection() {
@@ -193,7 +198,7 @@ public class ActionEditorController {
             }
         }
         scenario.removeAtomicActivities(atomicActivitiesToRemove);
-
+        loggerService.logInfo("Action removed - " + pair.getValue().getAction().getId());
         return null;
     }
 
