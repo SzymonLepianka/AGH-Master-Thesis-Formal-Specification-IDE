@@ -8,6 +8,7 @@ import io.github.eckig.grapheditor.model.*;
 import javafx.application.*;
 import javafx.beans.property.*;
 import javafx.collections.*;
+import javafx.event.*;
 import javafx.fxml.*;
 import javafx.geometry.*;
 import javafx.scene.*;
@@ -70,7 +71,7 @@ public class ActivityDiagramEditorController {
     @FXML
     public MenuItem menuItemAddLoop;
     @FXML
-    private Button generateSpecification;
+    private Button generateSpecificationButton;
     @FXML
     private AnchorPane root;
     @FXML
@@ -143,36 +144,6 @@ public class ActivityDiagramEditorController {
         selectionCopier.initialize(model);
 
         initializeMenuBar();
-
-        generateSpecification.setOnAction(event -> {
-
-            try {
-                generateSpecification();
-            } catch (Exception e) {
-                e.printStackTrace();
-                showErrorMessage(e.getMessage());
-                return;
-            }
-
-            final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
-            Parent root = null;
-            try {
-                root = loader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            final Scene scene = new Scene(root, 600, 700);
-            scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
-            Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
-
-            resultsStage.setScene(scene);
-            resultsStage.setTitle(APPLICATION_TITLE);
-            resultsStage.show();
-
-            // close current window
-//                ((Node)(event.getSource())).getScene().getWindow().hide();
-        });
     }
 
     /**
@@ -369,14 +340,14 @@ public class ActivityDiagramEditorController {
             if (showColorsOnDiagramButton.isSelected()) {
                 bordersOnActivityDiagram.forEach(Region::setBorder);
                 colorsOnActivityDiagram.forEach(Shape::setFill);
-                colorsOnActivityDiagram.forEach((k,v)->k.setWidth(10));
-                colorsOnActivityDiagram.forEach((k,v)->k.setHeight(10));
+                colorsOnActivityDiagram.forEach((k, v) -> k.setWidth(10));
+                colorsOnActivityDiagram.forEach((k, v) -> k.setHeight(10));
             } else {
                 bordersOnActivityDiagram.forEach((pane, border) -> {
                     pane.setBorder(null);
-                    colorsOnActivityDiagram.forEach((k,v)->k.setFill(null));
-                    colorsOnActivityDiagram.forEach((k,v)->k.setWidth(0));
-                    colorsOnActivityDiagram.forEach((k,v)->k.setHeight(0));
+                    colorsOnActivityDiagram.forEach((k, v) -> k.setFill(null));
+                    colorsOnActivityDiagram.forEach((k, v) -> k.setWidth(0));
+                    colorsOnActivityDiagram.forEach((k, v) -> k.setHeight(0));
                 });
             }
         });
@@ -412,6 +383,36 @@ public class ActivityDiagramEditorController {
     }
 
     @FXML
+    public void generateSpecificationButtonClicked(ActionEvent actionEvent) {
+        try {
+            generateSpecification();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage(e.getMessage());
+            return;
+        }
+
+        // Close the current window (with ActivityDiagramEditor)
+        Stage currentStage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+        currentStage.close();
+
+        final FXMLLoader loader = new FXMLLoader(ResultsEditorController.class.getResource("ResultsEditor.fxml"));
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        final Scene scene = new Scene(root, 600, 700);
+        scene.getStylesheets().add(ResultsEditorController.class.getResource(DEMO_STYLESHEET).toExternalForm());
+        Font.loadFont(ResultsEditorController.class.getResource(FONT_AWESOME).toExternalForm(), 12);
+
+        resultsStage.setScene(scene);
+        resultsStage.setTitle(APPLICATION_TITLE);
+        resultsStage.show();
+    }
+
     public void generateSpecification() throws Exception {
         VBox main = (VBox) NodesManager.getInstance().getMain();
         if (main == null) {
