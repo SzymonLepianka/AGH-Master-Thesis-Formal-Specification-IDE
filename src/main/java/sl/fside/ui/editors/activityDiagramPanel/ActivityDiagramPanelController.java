@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.text.*;
+import javafx.stage.*;
 import javafx.stage.Stage;
 import sl.fside.factories.*;
 import sl.fside.model.*;
@@ -110,8 +111,11 @@ public class ActivityDiagramPanelController {
         scene.getStylesheets().add(ActivityDiagramEditorController.class.getResource("demo.css").toExternalForm());
         Font.loadFont(ActivityDiagramEditorController.class.getResource("fontawesome.ttf").toExternalForm(), 12);
 
+        // Make the stage modal (it disables clicking other windows)
+        stage.initModality(Modality.APPLICATION_MODAL);
+
         stage.setScene(scene);
-        stage.setTitle("Activity Diagram Editor");
+        stage.setTitle("Formal Specification IDE - Activity Diagram Editor");
 
         stage.show();
 
