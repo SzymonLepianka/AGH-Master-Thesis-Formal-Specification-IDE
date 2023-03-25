@@ -4,6 +4,7 @@ import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.actionEditor.controls.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.imageViewer.*;
+import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 import sl.fside.ui.editors.useCaseSelector.*;
@@ -28,6 +29,7 @@ public class UIModule extends PrivateModule {
         bind(ActionEditorController.class);
         bind(ActionController.class);
         bind(ActivityDiagramPanelController.class);
+        bind(ResultsPanelController.class);
 
         // Expose
         expose(UIElementsFactory.class);
@@ -40,6 +42,7 @@ public class UIModule extends PrivateModule {
         expose(ActionEditorController.class);
         expose(ActionController.class);
         expose(ActivityDiagramPanelController.class);
+        expose(ResultsPanelController.class);
 
         // Submodules
     }

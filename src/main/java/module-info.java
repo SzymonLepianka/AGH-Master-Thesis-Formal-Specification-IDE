@@ -40,6 +40,7 @@ module sl.fside {
     opens sl.fside.ui.editors.actionEditor to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.actionEditor.controls to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.activityDiagramPanel to javafx.fxml, com.google.guice;
+    opens sl.fside.ui.editors.resultsPanel to javafx.fxml, com.google.guice;
 
     exports sl.fside;
 }

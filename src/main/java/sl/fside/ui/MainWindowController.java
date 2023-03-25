@@ -16,6 +16,7 @@ import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.imageViewer.*;
+import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
 
@@ -40,6 +41,8 @@ public class MainWindowController {
     public ActionEditorController actionEditorController;
     @FXML
     public ActivityDiagramPanelController activityDiagramPanelController;
+    @FXML
+    public ResultsPanelController resultsPanelController;
     private Project project;
     private Stage stage;
 

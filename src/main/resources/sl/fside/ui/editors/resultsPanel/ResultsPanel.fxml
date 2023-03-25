@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<TitledPane fx:id="resultsPanelRoot" animated="false" collapsible="false" prefHeight="460.0" prefWidth="360.0"
+            text="Results" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sl.fside.ui.editors.resultsPanel.ResultsPanelController">
+    <AnchorPane fx:id="resultsPanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="99.0"
+                prefWidth="358.0">
+        <VBox spacing="5.0" layoutX="5.0" layoutY="5.0">
+            <TitledPane text="Pattern Expression" collapsible="false">
+                <TextArea fx:id="patternExpressionTextArea" prefHeight="110.0" prefWidth="342.0"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity" wrapText="true" editable="false"
+                          focusTraversable="false"/>
+            </TitledPane>
+            <TitledPane text="First Order Logic" collapsible="false">
+                <TextArea fx:id="folTextArea" prefHeight="110.0" prefWidth="342.0"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity" wrapText="true" editable="false"
+                          focusTraversable="false"/>
+            </TitledPane>
+            <TitledPane text="Linear Temporal Logic" collapsible="false">
+                <TextArea fx:id="ltlTextArea" prefHeight="110.0" prefWidth="342.0"
+                          HBox.hgrow="ALWAYS" maxWidth="Infinity" wrapText="true" editable="false"
+                          focusTraversable="false"/>
+            </TitledPane>
+        </VBox>
+    </AnchorPane>
+</TitledPane>
