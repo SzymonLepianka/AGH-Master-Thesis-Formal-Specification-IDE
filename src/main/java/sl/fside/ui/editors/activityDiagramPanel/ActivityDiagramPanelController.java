@@ -154,6 +154,8 @@ public class ActivityDiagramPanelController {
         final ActivityDiagramEditorController controller = loader.getController();
         controller.panToCenter();
 
+        controller.checkExistingActivityDiagram();
+
         loggerService.logInfo("ActivityDiagramEditor opened (scenarioId=" + scenario.getId());
     }
 

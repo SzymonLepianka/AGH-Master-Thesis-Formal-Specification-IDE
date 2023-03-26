@@ -151,6 +151,13 @@ public class ActivityDiagramEditorController {
         graphEditorContainer.panTo(Pos.CENTER);
     }
 
+    public void checkExistingActivityDiagram() {
+        if (NodesManager.getInstance().getPatternExpression() != null) {
+            System.out.println("Ustaw istniejący diagram aktywności"); // TODO
+//            addSeq();
+        }
+    }
+
     @FXML
     public void load() {
         graphEditorPersistence.loadFromFile(graphEditor);
