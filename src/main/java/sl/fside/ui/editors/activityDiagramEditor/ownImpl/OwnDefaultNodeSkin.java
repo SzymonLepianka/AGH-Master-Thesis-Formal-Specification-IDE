@@ -8,6 +8,7 @@ import io.github.eckig.grapheditor.model.*;
 import io.github.eckig.grapheditor.utils.*;
 import javafx.collections.*;
 import javafx.css.*;
+import javafx.event.*;
 import javafx.geometry.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
@@ -16,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
+import sl.fside.services.logic_formula_generator.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.util.*;
@@ -230,48 +232,56 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 getRoot().getChildren().add(seqVBox);
                 NodesManager.getInstance().setMain(seqVBox);
                 NodesManager.getInstance().setMainName("Seq");
+                setExistingDiagramFromPatternExpression(seqVBox);
             }
             case "Branch" -> {
                 VBox branchVBox = createBranchPattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(branchVBox);
                 NodesManager.getInstance().setMain(branchVBox);
                 NodesManager.getInstance().setMainName("Branch");
+                setExistingDiagramFromPatternExpression(branchVBox);
             }
             case "BranchRe" -> {
                 VBox branchReVBox = createBranchRePattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(branchReVBox);
                 NodesManager.getInstance().setMain(branchReVBox);
                 NodesManager.getInstance().setMainName("BranchRe");
+                setExistingDiagramFromPatternExpression(branchReVBox);
             }
             case "Cond" -> {
                 VBox condVBox = createCondPattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(condVBox);
                 NodesManager.getInstance().setMain(condVBox);
                 NodesManager.getInstance().setMainName("Cond");
+                setExistingDiagramFromPatternExpression(condVBox);
             }
             case "Para" -> {
                 VBox paraVBox = createParaPattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(paraVBox);
                 NodesManager.getInstance().setMain(paraVBox);
                 NodesManager.getInstance().setMainName("Para");
+                setExistingDiagramFromPatternExpression(paraVBox);
             }
             case "Concur" -> {
                 VBox concurVBox = createConcurPattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(concurVBox);
                 NodesManager.getInstance().setMain(concurVBox);
                 NodesManager.getInstance().setMainName("Concur");
+                setExistingDiagramFromPatternExpression(concurVBox);
             }
             case "ConcurRe" -> {
                 VBox concurReVBox = createConcurRePattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(concurReVBox);
                 NodesManager.getInstance().setMain(concurReVBox);
                 NodesManager.getInstance().setMainName("ConcurRe");
+                setExistingDiagramFromPatternExpression(concurReVBox);
             }
             case "Loop" -> {
                 VBox loopVBox = createLoopPattern(currentNodeType, options, false, null, null);
                 getRoot().getChildren().add(loopVBox);
                 NodesManager.getInstance().setMain(loopVBox);
                 NodesManager.getInstance().setMainName("Loop");
+                setExistingDiagramFromPatternExpression(loopVBox);
             }
         }
 
@@ -283,6 +293,82 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         selectionHalo.setLayoutY(-HALO_OFFSET);
 
         selectionHalo.getStyleClass().add(STYLE_CLASS_SELECTION_HALO);
+    }
+
+    private void setExistingDiagramFromPatternExpression(VBox mainVBox) {
+        String patternExpression = NodesManager.getInstance().getPatternExpression();
+        if (patternExpression == null) return;
+        try {
+            // wewnątrz głównego VBox znajdują się ComboBoxy
+            List<? extends ComboBox<?>> comboBoxes = getAllComboBoxes(mainVBox);
+
+            // load patternPropertySet (potrzebne do getPat)
+            String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
+            List<WorkflowPatternTemplate> patternPropertySet =
+                    WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
+
+            // label pattern expression (to get ex. (1])
+            String labelledExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
+
+            // uzupełnia pattern
+            fillPattern(mainVBox, 1, labelledExpression, patternPropertySet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void fillPattern(VBox vBox, int l, String innerLabelledExpression,
+                             List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
+        var comboBoxes = getAllComboBoxes(vBox);
+        int c = 1;
+        WorkflowPattern pat = GeneratingLogicalSpecifications.getPat(innerLabelledExpression, l, c, patternPropertySet);
+        while (pat != null) {
+            for (int z = 0; z < pat.getPatternArguments().size(); z++) {
+                String arg = pat.getPatternArguments().get(z);
+                if (WorkflowPattern.isNotAtomic(arg)) {
+                    String innerPatternName = arg.split("\\(")[0];
+                    int idx = comboBoxes.get(z).getItems().indexOf(innerPatternName);
+                    Parent parent = comboBoxes.get(z).getParent();
+                    comboBoxes.get(z).getSelectionModel().select(idx);
+                    comboBoxes.get(z).fireEvent(new ActionEvent()); // trigger the event handler
+                    fillPattern((VBox) parent.getChildrenUnmodifiable().get(1), l + 1, arg, patternPropertySet);
+                } else {
+                    int idx = comboBoxes.get(z).getItems().indexOf(arg);
+                    comboBoxes.get(z).getSelectionModel().select(idx);
+                    comboBoxes.get(z).fireEvent(new ActionEvent()); // trigger the event handler
+                }
+            }
+            c++;
+            pat = GeneratingLogicalSpecifications.getPat(innerLabelledExpression, l, c, patternPropertySet);
+        }
+    }
+
+    private List<? extends ComboBox<?>> getAllComboBoxes(VBox innerVBox) {
+        List<Node> nodesToCheck = new ArrayList<>();
+        List<Node> comboBoxes = new ArrayList<>();
+        nodesToCheck.add(innerVBox);
+
+        while (!nodesToCheck.isEmpty()) {
+            Node nodeToCheck = nodesToCheck.remove(0);
+            if (nodeToCheck instanceof VBox) {
+                for (Node child : ((VBox) nodeToCheck).getChildren()) {
+                    if (child instanceof VBox || child instanceof HBox) {
+                        nodesToCheck.add(child);
+                    } else if (child instanceof ComboBox<?>) {
+                        comboBoxes.add(child);
+                    }
+                }
+            } else if (nodeToCheck instanceof HBox) {
+                for (Node child : ((HBox) nodeToCheck).getChildren()) {
+                    if (child instanceof VBox || child instanceof HBox) {
+                        nodesToCheck.add(child);
+                    } else if (child instanceof ComboBox<?>) {
+                        comboBoxes.add(child);
+                    }
+                }
+            }
+        }
+        return comboBoxes.stream().map(x -> (ComboBox<?>) x).toList();
     }
 
     private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,

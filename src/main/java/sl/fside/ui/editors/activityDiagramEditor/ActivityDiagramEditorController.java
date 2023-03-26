@@ -457,11 +457,12 @@ public class ActivityDiagramEditorController {
 
                 // elementy grafu w zagnieżdżonych elementach VBox i HBox
             } else if (child2 instanceof VBox ||
-                    (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) != 0)) {
+                    (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) != 1)) {
                 sb.append(getNestedPatternFromVBox((Pane) child2));
 
                 // nazwy zagnieżdżonych (wewnętrznych) wzorców
-            } else if (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) == 0) {
+            } else if (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) == 1 &&
+                    ((HBox) child2).getChildren().get(0) instanceof Text) {
                 String text = ((Text) (((HBox) child2).getChildren().get(0))).getText().replaceAll("\\s", "");
                 sb.append(text);
                 sb.append("(");

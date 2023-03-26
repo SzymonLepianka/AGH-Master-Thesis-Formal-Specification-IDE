@@ -58,7 +58,7 @@ public class GeneratingLogicalSpecifications {
     // Wykonywana jest pętla po każdym znaku wyrażenia. Jeśli znak to '(' rozpoczyna się sczytywanie następnych znaków,
     // aż do natrafienia na znak ']'.
     // Zwracana jest największa wartość między '(' oraz ']', np. "(124]"
-    private static int getHighestLabel(String labelledExpression) {
+    public static int getHighestLabel(String labelledExpression) {
         int maxLabel = -1;
         boolean active = false;
         StringBuilder sb = new StringBuilder();
@@ -83,7 +83,7 @@ public class GeneratingLogicalSpecifications {
     //
     // Na przykład dla Formuły "Seq(1]a, Seq(2]Concur(3]b,c,d[3), ConcurRe(3]e,f,g[3)[2)[1)" funkcja zwróci:
     //      Concur Re(e,f,g).
-    private static WorkflowPattern getPat(String labelledExpression, int l, int c, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
+    public static WorkflowPattern getPat(String labelledExpression, int l, int c, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
 
         // sprawdzenie poprawności wyrażenia
         int entryOccurrences = StringUtils.countMatches(labelledExpression, "(" + l + "]");
