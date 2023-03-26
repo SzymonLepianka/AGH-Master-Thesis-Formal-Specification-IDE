@@ -152,9 +152,20 @@ public class ActivityDiagramEditorController {
     }
 
     public void checkExistingActivityDiagram() {
-        if (NodesManager.getInstance().getPatternExpression() != null) {
-            System.out.println("Ustaw istniejący diagram aktywności"); // TODO
-//            addSeq();
+        String patternExpression = NodesManager.getInstance().getPatternExpression();
+        if (patternExpression != null) {
+            String mainPatternName = patternExpression.split("\\(")[0];
+            switch (mainPatternName) {
+                case "Seq" -> addSeq();
+                case "Branch" -> addBranch();
+                case "BranchRe" -> addBranchRe();
+                case "Concur" -> addConcur();
+                case "ConcurRe" -> addConcurRe();
+                case "Cond" -> addCond();
+                case "Para" -> addPara();
+                case "Loop" -> addLoop();
+                default -> System.out.println("Inny mainPatternName! - " + mainPatternName);
+            }
         }
     }
 
