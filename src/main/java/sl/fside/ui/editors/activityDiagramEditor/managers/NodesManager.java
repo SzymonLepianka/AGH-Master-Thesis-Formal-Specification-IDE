@@ -5,23 +5,21 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
+import sl.fside.model.*;
 import sl.fside.services.logic_formula_generator.*;
 
 import java.util.*;
 
 public class NodesManager {
     private static NodesManager instance;
-
+    private final Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
+    private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private Node main;
     private String patternExpression;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean wasSpecificationGenerated;
-
     private List<String> currentAtomicActivities = new ArrayList<>();
-
-    private final Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
-    private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private String mainName;
     private String currentNodeType;
     private boolean showColorsOnDiagram = true;
@@ -94,6 +92,12 @@ public class NodesManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void setSpecificationFromScenario(Scenario scenario) {
+        this.patternExpression = scenario.getPatternExpression();
+        this.folLogicalSpecification = scenario.getFolLogicalSpecification();
+        this.ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
     }
 
     public String getFolLogicalSpecification() {

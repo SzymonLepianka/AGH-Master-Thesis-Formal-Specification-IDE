@@ -9,6 +9,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.util.*;
 
@@ -78,19 +79,14 @@ public class ResultsPanelController {
     public void showResults() {
         if (scenario.getPatternExpression() != null) {
             patternExpressionTextArea.setText(scenario.getPatternExpression());
-        } else {
-            patternExpressionTextArea.setText("");
-        }
-        if (scenario.getFolLogicalSpecification() != null) {
             folTextArea.setText(scenario.getFolLogicalSpecification());
-        } else {
-            folTextArea.setText("");
-        }
-        if (scenario.getLtlLogicalSpecification() != null) {
             ltlTextArea.setText(scenario.getLtlLogicalSpecification());
         } else {
+            patternExpressionTextArea.setText("");
+            folTextArea.setText("");
             ltlTextArea.setText("");
         }
+        NodesManager.getInstance().setSpecificationFromScenario(scenario);
     }
 
     private void removeResults() {

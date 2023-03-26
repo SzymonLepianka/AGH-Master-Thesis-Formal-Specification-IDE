@@ -66,7 +66,6 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
      * @param node the {@link GNode} the skin is being created for
      */
     public OwnDefaultNodeSkin(final GNode node) {
-
         super(node);
 
         performChecks();
