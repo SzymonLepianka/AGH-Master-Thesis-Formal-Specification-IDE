@@ -59,7 +59,7 @@ public class ImageViewerController {
 
         // Set extension filter
         FileChooser.ExtensionFilter imageExtFilter =
-                new FileChooser.ExtensionFilter("PNG/JPG images", "*.png", "*.jpg");
+                new FileChooser.ExtensionFilter("PNG/JPG images", "*.png", "*.jpg", "*.jpeg");
         fileChooser.getExtensionFilters().addAll(imageExtFilter);
 
         // show file chooser
