@@ -370,7 +370,10 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 }
             }
         }
-        return comboBoxes.stream().map(x -> (ComboBox<?>) x).toList();
+
+        // found comboBoxes are being sorted because they don't have to be in right order (a1,a2,a3...)
+        return comboBoxes.stream().map(x -> (ComboBox<?>) x)
+                .sorted(Comparator.comparing(x -> x.getPromptText().charAt(1))).toList();
     }
 
     private VBox createSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
