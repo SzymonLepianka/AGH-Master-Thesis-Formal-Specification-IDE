@@ -328,12 +328,14 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 if (WorkflowPattern.isNotAtomic(arg)) {
                     String innerPatternName = arg.split("\\(")[0];
                     int idx = comboBoxes.get(z).getItems().indexOf(innerPatternName);
+                    if (idx == -1) continue;
                     Parent parent = comboBoxes.get(z).getParent();
                     comboBoxes.get(z).getSelectionModel().select(idx);
                     comboBoxes.get(z).fireEvent(new ActionEvent()); // trigger the event handler
                     fillPattern((VBox) parent.getChildrenUnmodifiable().get(1), l + 1, arg, patternPropertySet);
                 } else {
                     int idx = comboBoxes.get(z).getItems().indexOf(arg);
+                    if (idx == -1) continue;
                     comboBoxes.get(z).getSelectionModel().select(idx);
                     comboBoxes.get(z).fireEvent(new ActionEvent()); // trigger the event handler
                 }
