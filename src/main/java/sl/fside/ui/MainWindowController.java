@@ -112,6 +112,7 @@ public class MainWindowController {
     }
 
     private boolean alertToSaveProject() {
+        // TODO dodać warunek czy projekt został zmodyfikowany względem zapisanego
         if (project != null) {// && project.isModified()) {
             var alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Formal Specification IDE");
@@ -134,11 +135,15 @@ public class MainWindowController {
                 return true;
             } else return result.isPresent() && result.get() == noButton;
         }
-        return false;
+        return true;
     }
 
     @FXML
     private void openProjectClicked() {
+
+        // Show alert z pytaniem, czy zapisać projekt. Zwróci false, jeśli żądanie zostało anulowane.
+        if (!alertToSaveProject()) return;
+
         var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
         projectChooserDialog.getItems()
                 .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
