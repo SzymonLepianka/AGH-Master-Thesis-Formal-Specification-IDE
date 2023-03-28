@@ -67,7 +67,11 @@ public class MainWindowController {
 
     @FXML
     private void saveProjectClicked() {
-        projectRepository.save(project);
+        if (project == null) {
+            showWarningMessage("No project is currently loaded!");
+        } else {
+            projectRepository.save(project);
+        }
     }
 
     public void initialize() {
