@@ -59,19 +59,19 @@ public class UseCaseSelectorEditorController {
 
     public void initialize() {
         useCaseSelectorEditorRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        useCaseSelectorEditorAnchorPane.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        useCasesList.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        addOptionalUseCaseButton.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        currentlySelectedUseCaseLabel.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        useCaseSelectorEditorAnchorPane.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        useCasesList.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        addOptionalUseCaseButton.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        currentlySelectedUseCaseLabel.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateUseCaseSelectorEditor();
     }

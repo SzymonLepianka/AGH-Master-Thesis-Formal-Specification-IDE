@@ -36,7 +36,7 @@ public class ActionController {
         this.action = action;
         addSelectingAtomicActivities(action.getActionContent());
         actionRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
     }
 
     public void initialize() {

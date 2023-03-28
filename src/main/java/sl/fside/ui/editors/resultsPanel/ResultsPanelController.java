@@ -42,10 +42,10 @@ public class ResultsPanelController {
     public void initialize() {
 
         resultsPanelRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        resultsPanelAnchorPane.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        resultsPanelAnchorPane.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateResultsPanel();
     }

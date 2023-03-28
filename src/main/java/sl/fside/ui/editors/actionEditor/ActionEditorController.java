@@ -45,16 +45,16 @@ public class ActionEditorController {
         actionsList.setSelectionModel(new NoSelectionModel<>());
 
         actionEditorRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        actionEditorAnchorPane.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        actionsList.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        addActionButton.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        actionEditorAnchorPane.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        actionsList.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        addActionButton.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateActionEditor();
     }

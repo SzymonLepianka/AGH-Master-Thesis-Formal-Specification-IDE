@@ -47,13 +47,13 @@ public class ActivityDiagramPanelController {
     public void initialize() {
 
         activityDiagramPanelRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        activityDiagramPanelAnchorPane.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
-        openActivityDiagramEditorButton.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//        activityDiagramPanelAnchorPane.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+//
+//        openActivityDiagramEditorButton.setBorder(new Border(
+//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateActivityDiagramPanel();
     }

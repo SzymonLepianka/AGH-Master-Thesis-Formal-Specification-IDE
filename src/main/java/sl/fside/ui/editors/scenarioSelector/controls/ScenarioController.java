@@ -33,7 +33,7 @@ public class ScenarioController {
         scenarioNameLabel.setText(scenario.getId().toString());
         isMainScenarioCheckBox.setSelected(scenario.isMainScenario());
         scenarioRoot.setBorder(new Border(
-                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         // if scenario is main, checkbox and removeButton should be disabled
         if (scenario.isMainScenario()) {
