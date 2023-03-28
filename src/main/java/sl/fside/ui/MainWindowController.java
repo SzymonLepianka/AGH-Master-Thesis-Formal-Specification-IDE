@@ -73,6 +73,9 @@ public class MainWindowController {
     public void initialize() {
         stage.setTitle("Formal Specification IDE - No project selected");
         chooseProjectOnStart();
+
+        // Dodanie obsługi zdarzenia zamknięcia okna
+        stage.setOnCloseRequest(this::handleWindowClose);
     }
 
     private void chooseProjectOnStart() {
@@ -99,6 +102,39 @@ public class MainWindowController {
 
         var project = projectRepository.getById(result.project().getProjectId());
         load(project);
+    }
+
+    // Obsługa zdarzenia zamknięcia okna
+    private void handleWindowClose(WindowEvent event) {
+
+        if (project != null) {// && project.isModified()) {
+            var alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Formal Specification IDE");
+            alert.setHeaderText("Do you want to save changes to project '" + project.getProjectName() + "'?");
+            alert.setContentText(
+                    "Click:\n - YES to save changes,\n - NO to continue without saving,\n - CANCEL to stay in the program.");
+
+            // własne typy button, ponieważ domyślne zachowanie było nieodpowiednie
+            ButtonType yesButton = new ButtonType("Yes");
+            ButtonType noButton = new ButtonType("No");
+            ButtonType cancelButton = new ButtonType("Cancel");
+            alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+
+            // Show the dialog and wait for a response
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.isPresent() && result.get() == yesButton) {
+                // If the user clicked YES, save project and close the window
+                projectRepository.save(project);
+                event.consume();
+                stage.close();
+            } else if (result.isPresent() && result.get() == noButton) {
+                // If the user clicked NO, close the window without saving
+                event.consume();
+                stage.close();
+            } else {
+                event.consume();
+            }
+        }
     }
 
     @FXML
