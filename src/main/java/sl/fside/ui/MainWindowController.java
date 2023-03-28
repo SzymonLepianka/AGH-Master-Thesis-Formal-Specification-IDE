@@ -75,7 +75,14 @@ public class MainWindowController {
         chooseProjectOnStart();
 
         // Dodanie obsługi zdarzenia zamknięcia okna
-        stage.setOnCloseRequest(this::handleWindowClose);
+        stage.setOnCloseRequest(event -> {
+            if (alertToSaveProject()) {
+                stage.close();
+                event.consume();
+            } else {
+                event.consume();
+            }
+        });
     }
 
     private void chooseProjectOnStart() {
@@ -104,9 +111,7 @@ public class MainWindowController {
         load(project);
     }
 
-    // Obsługa zdarzenia zamknięcia okna
-    private void handleWindowClose(WindowEvent event) {
-
+    private boolean alertToSaveProject() {
         if (project != null) {// && project.isModified()) {
             var alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Formal Specification IDE");
@@ -122,19 +127,14 @@ public class MainWindowController {
 
             // Show the dialog and wait for a response
             Optional<ButtonType> result = alert.showAndWait();
+            // If the user clicked NO --> without saving
             if (result.isPresent() && result.get() == yesButton) {
-                // If the user clicked YES, save project and close the window
+                // If the user clicked YES, save project
                 projectRepository.save(project);
-                event.consume();
-                stage.close();
-            } else if (result.isPresent() && result.get() == noButton) {
-                // If the user clicked NO, close the window without saving
-                event.consume();
-                stage.close();
-            } else {
-                event.consume();
-            }
+                return true;
+            } else return result.isPresent() && result.get() == noButton;
         }
+        return false;
     }
 
     @FXML
@@ -169,6 +169,10 @@ public class MainWindowController {
 
     @FXML
     private void newProjectClicked() {
+
+        // Show alert z pytaniem, czy zapisać projekt. Zwróci false, jeśli żądanie zostało anulowane.
+        if (!alertToSaveProject()) return;
+
         loggerService.logInfo("Creating new project...");
 
         var fileChooser = new FileChooser();
