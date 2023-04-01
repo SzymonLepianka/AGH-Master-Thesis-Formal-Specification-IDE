@@ -4,9 +4,11 @@ import com.google.inject.*;
 import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.util.*;
+import org.fxmisc.richtext.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
@@ -27,11 +29,11 @@ public class ActionEditorController {
     @FXML
     public AnchorPane actionEditorAnchorPane;
     @FXML
-    public ListView<AnchorPane> actionsList;
-    @FXML
     public Button addActionButton;
     @FXML
     public Button showCurrentAtomicActivitiesButton;
+    @FXML
+    public StyleClassedTextArea scenarioContentTextArea;
     private Scenario scenario;
 
     @Inject
@@ -43,13 +45,13 @@ public class ActionEditorController {
     }
 
     public void initialize() {
-        actionsList.setSelectionModel(new NoSelectionModel<>());
+//        actionsList.setSelectionModel(new NoSelectionModel<>());
 
         actionEditorRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 //
-//        actionEditorAnchorPane.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+        scenarioContentTextArea.setBorder(new Border(
+                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
 //
 //        actionsList.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
@@ -85,8 +87,8 @@ public class ActionEditorController {
                 // usuwanie Action
                 uiElementPair.getValue().setOnRemoveClicked(this::removeAction);
 
-                // dodaje nową akcję do obecnych
-                actionsList.getItems().add(uiElementPair.getKey());
+//                // dodaje nową akcję do obecnych
+//                actionsList.getItems().add(uiElementPair.getKey());
             } else {
                 System.out.println("addActionButtonClicked - Nigdy nie powinien się tu znaleźć");
             }
@@ -119,7 +121,7 @@ public class ActionEditorController {
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
         updateActionEditor();
-        actionsList.getItems().clear();
+//        actionsList.getItems().clear();
 
         // create new actions
         var actionPairs = scenario.getActions().stream().map(uiElementsFactory::createAction).toList();
@@ -138,8 +140,8 @@ public class ActionEditorController {
         actionPairs.forEach(this::addListenerToUiElementActionPair);
 
         // ustawia tytuł panelu
-        if (scenario.getScenarioName().length() > 35){
-            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName().substring(0,34) + "...')");
+        if (scenario.getScenarioName() != null && scenario.getScenarioName().length() > 35) {
+            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName().substring(0, 34) + "...')");
         } else {
             actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName() + "')");
         }
@@ -147,8 +149,8 @@ public class ActionEditorController {
         // usuwanie Action
         uiElementActionPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeAction));
 
-        // add new actions to list
-        actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
+//        // add new actions to list
+//        actionsList.getItems().addAll(actionPairs.stream().map(Pair::getKey).toList());
 
         loggerService.logInfo("Scenario set to ActionEditor - " + scenario.getId());
     }
@@ -156,7 +158,7 @@ public class ActionEditorController {
     public void removeScenarioSelection() {
         this.scenario = null;
         updateActionEditor();
-        actionsList.getItems().clear();
+//        actionsList.getItems().clear();
         uiElementActionPairs.clear();
         actionEditorRoot.setText("Scenario content");
     }
@@ -164,6 +166,14 @@ public class ActionEditorController {
     private void updateActionEditor() {
         // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
         actionEditorRoot.setDisable(scenario == null);
+
+        // Set the background color using CSS
+        if (scenario == null) {
+            scenarioContentTextArea.setStyle("-fx-background-color: #F0F0F0;");
+        } else {
+            scenarioContentTextArea.setStyle("-fx-background-color: #FFFFFF;");
+        }
+
     }
 
     private String showActionContentDialog() {
@@ -193,7 +203,7 @@ public class ActionEditorController {
     }
 
     private Void removeAction(Pair<AnchorPane, ActionController> pair) {
-        actionsList.getItems().remove(pair.getKey());
+//        actionsList.getItems().remove(pair.getKey());
         scenario.removeAction(pair.getValue().getAction());
         uiElementActionPairs.remove(pair);
 
