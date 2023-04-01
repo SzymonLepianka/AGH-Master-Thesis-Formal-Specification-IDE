@@ -60,6 +60,9 @@ public class ActionEditorController {
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateActionEditor();
+
+        scenarioContentTextArea.getStylesheets()
+                .add(ActionEditorController.class.getResource("custom-styles.css").toExternalForm());
     }
 
     private Color randomColor() {
@@ -219,6 +222,52 @@ public class ActionEditorController {
         scenario.removeAtomicActivities(atomicActivitiesToRemove);
         loggerService.logInfo("Action removed - " + pair.getValue().getAction().getId());
         return null;
+    }
+
+    // Add an event handler to the text area to bold words when clicked
+    public void scenarioContentOnMouseClicked(MouseEvent mouseEvent) {
+        if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+            int clickIndex = scenarioContentTextArea.getCaretPosition();
+            int startIndex = getWordStartIndex(scenarioContentTextArea, clickIndex);
+            int endIndex = getWordEndIndex(scenarioContentTextArea, clickIndex);
+
+            // Check if the clicked word is already bolded
+            boolean isBold = false;
+            for (String styleClass : scenarioContentTextArea.getStyleSpans(startIndex, endIndex).getStyleSpan(0)
+                    .getStyle()) {
+                if (styleClass.equals("own-bold")) {
+                    isBold = true;
+                    break;
+                }
+            }
+
+            // Toggle the bold style of the clicked word
+            if (isBold) {
+                scenarioContentTextArea.setStyle(startIndex, endIndex, Collections.emptyList());
+            } else {
+                scenarioContentTextArea.setStyle(startIndex, endIndex, List.of("own-bold"));
+            }
+        }
+    }
+
+    // Helper method to get the index of the start of the word at the given index
+    private int getWordStartIndex(StyleClassedTextArea textArea, int index) {
+        String text = textArea.getText();
+        int startIndex = index;
+        while (startIndex > 0 && !Character.isWhitespace(text.charAt(startIndex - 1))) {
+            startIndex--;
+        }
+        return startIndex;
+    }
+
+    // Helper method to get the index of the end of the word at the given index
+    private int getWordEndIndex(StyleClassedTextArea textArea, int index) {
+        String text = textArea.getText();
+        int endIndex = index;
+        while (endIndex < text.length() && !Character.isWhitespace(text.charAt(endIndex))) {
+            endIndex++;
+        }
+        return endIndex;
     }
 
     // the purpose of this class is to block the visual selection of Action from the list in the panel
