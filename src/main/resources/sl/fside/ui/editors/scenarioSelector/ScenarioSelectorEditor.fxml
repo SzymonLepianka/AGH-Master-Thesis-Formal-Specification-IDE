@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <TitledPane fx:id="scenarioSelectorEditorRoot" animated="false" collapsible="false" prefHeight="325.0" prefWidth="360.0"
-            text="Scenarios" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            text="Scenarios manager for UseCase (no UseCase selected)" xmlns="http://javafx.com/javafx/17.0.2-ea"
+            xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.scenarioSelector.ScenarioSelectorEditorController">
     <AnchorPane fx:id="scenarioSelectorEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="324.0"
                 prefWidth="358.0">

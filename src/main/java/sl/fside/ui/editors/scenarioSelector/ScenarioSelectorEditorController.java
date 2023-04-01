@@ -125,7 +125,8 @@ public class ScenarioSelectorEditorController {
     }
 
     public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
-                                    ActivityDiagramPanelController activityDiagramPanelController, ResultsPanelController resultsPanelController) {
+                                    ActivityDiagramPanelController activityDiagramPanelController,
+                                    ResultsPanelController resultsPanelController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
@@ -143,6 +144,9 @@ public class ScenarioSelectorEditorController {
 
         // ustawia kontrolny tekst w panelu z Scenario'ami - bez zaznaczeń
         currentlySelectedScenarioLabel.setText("No Scenario is selected");
+
+        // ustawia tytuł panelu z Scenario'ami
+        scenarioSelectorEditorRoot.setText("Scenarios manager for UseCase (" + useCase.getUseCaseName() + ")");
 
         // usuwa ewentualne poprzednie zaznaczenie Scenario
         actionEditorController.removeScenarioSelection();
@@ -182,6 +186,15 @@ public class ScenarioSelectorEditorController {
         });
 
         loggerService.logInfo("UseCase set to ScenarioSelectorEditor - " + useCase.getId());
+    }
+
+    public void removeUseCaseSelection() {
+        this.useCase = null;
+        updateScenarioSelectorEditor();
+        scenarioList.getItems().clear();
+        uiElementScenarioPairs.clear();
+        scenarioSelectorEditorRoot.setText("Scenarios manager for UseCase (no UseCase selected)");
+        currentlySelectedScenarioLabel.setText("No Scenario is selected");
     }
 
     private void updateScenarioSelectorEditor() {

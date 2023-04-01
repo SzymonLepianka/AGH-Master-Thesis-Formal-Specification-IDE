@@ -126,6 +126,12 @@ public class UseCaseSelectorEditorController {
         // usuwanie UseCase
         useCasePairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeUseCase));
 
+        // usuwa ewentualne poprzednie zaznaczenie UseCase
+        scenarioSelectorEditorController.removeUseCaseSelection();
+        actionEditorController.removeScenarioSelection();
+        activityDiagramPanelController.removeScenarioSelection();
+        resultsPanelController.removeScenarioSelection();
+
         // add new useCases to list
         useCasesList.getItems().addAll(useCasePairs.stream().map(Pair::getKey).toList());
 
@@ -154,8 +160,10 @@ public class UseCaseSelectorEditorController {
 
             } else {
                 // No item is selected
-                loggerService.logError(
-                        "No item is selected (setUseCaseDiagramSelection) - Tu nie powinien się nigdy znaleźć!");
+                loggerService.logWarning("No item is selected (setUseCaseDiagramSelection)");
+
+                // ustawia kontrolny tekst w panelu z UseCase'ami
+                currentlySelectedUseCaseLabel.setText("No UseCase is selected");
             }
         });
 
