@@ -5,7 +5,8 @@
 <AnchorPane fx:id="scenarioRoot" prefHeight="50.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.scenarioSelector.controls.ScenarioController">
-    <Label fx:id="scenarioNameLabel" layoutX="7.0" layoutY="7.0" prefHeight="36.0" prefWidth="220.0"/>
+    <TextField fx:id="scenarioNameTextField" layoutX="7.0" layoutY="7.0" prefHeight="25.0" prefWidth="220.0"
+               onKeyTyped="#scenarioNameChanged"/>
     <CheckBox fx:id="isMainScenarioCheckBox" layoutX="245.0" layoutY="4.0" mnemonicParsing="false" text="isMain?"/>
     <Button fx:id="removeScenarioButton" layoutX="245.0" layoutY="25.0" mnemonicParsing="false" prefHeight="15.0"
             prefWidth="62.0"

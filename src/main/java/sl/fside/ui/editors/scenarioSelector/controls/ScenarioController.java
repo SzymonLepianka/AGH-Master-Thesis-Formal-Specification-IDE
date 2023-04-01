@@ -13,11 +13,12 @@ import java.util.function.*;
 
 public class ScenarioController {
 
-    public Label scenarioNameLabel;
     @FXML
     public AnchorPane scenarioRoot;
     @FXML
     public Button removeScenarioButton;
+    @FXML
+    public TextField scenarioNameTextField;
     @FXML
     private CheckBox isMainScenarioCheckBox;
     private Scenario scenario;
@@ -30,7 +31,7 @@ public class ScenarioController {
 
     public void load(Scenario scenario) {
         this.scenario = scenario;
-        scenarioNameLabel.setText(scenario.getId().toString());
+        scenarioNameTextField.setText(scenario.getScenarioName());
         isMainScenarioCheckBox.setSelected(scenario.isMainScenario());
         scenarioRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
@@ -72,5 +73,10 @@ public class ScenarioController {
 
     public void setOnRemoveClicked(Function<Pair<AnchorPane, ScenarioController>, Void> onRemoveClicked) {
         this.onRemoveClicked = onRemoveClicked;
+    }
+
+    @FXML
+    private void scenarioNameChanged() {
+        scenario.setScenarioName(scenarioNameTextField.getText());
     }
 }

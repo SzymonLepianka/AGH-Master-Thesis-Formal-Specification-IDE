@@ -35,7 +35,8 @@ public class ActionEditorController {
     private Scenario scenario;
 
     @Inject
-    public ActionEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory, LoggerService loggerService) {
+    public ActionEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
+                                  LoggerService loggerService) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
@@ -136,6 +137,13 @@ public class ActionEditorController {
         // add listener to actionContent, to define atomic activities
         actionPairs.forEach(this::addListenerToUiElementActionPair);
 
+        // ustawia tytuł panelu
+        if (scenario.getScenarioName().length() > 35){
+            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName().substring(0,34) + "...')");
+        } else {
+            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName() + "')");
+        }
+
         // usuwanie Action
         uiElementActionPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeAction));
 
@@ -150,6 +158,7 @@ public class ActionEditorController {
         updateActionEditor();
         actionsList.getItems().clear();
         uiElementActionPairs.clear();
+        actionEditorRoot.setText("Scenario content");
     }
 
     private void updateActionEditor() {

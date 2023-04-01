@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <TitledPane fx:id="actionEditorRoot" animated="false" collapsible="false" prefHeight="530.0" prefWidth="360.0"
-            text="Actions" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            text="Scenario content" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.actionEditor.ActionEditorController">
     <AnchorPane fx:id="actionEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="529.0"
                 prefWidth="358.0">
@@ -16,7 +14,8 @@
                 prefHeight="25.0"
                 prefWidth="338.0" text="Add an action"/>
         <Button fx:id="showCurrentAtomicActivitiesButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="455.0" mnemonicParsing="false" onAction="#showCurrentAtomicActivitiesButtonClicked"
+                layoutX="9.0" layoutY="455.0" mnemonicParsing="false"
+                onAction="#showCurrentAtomicActivitiesButtonClicked"
                 prefHeight="25.0"
                 prefWidth="338.0" text="Show current atomic activities"/>
     </AnchorPane>

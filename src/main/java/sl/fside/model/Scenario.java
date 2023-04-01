@@ -14,10 +14,13 @@ public class Scenario {
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean isMainScenario;
+    private String scenarioName;
 
     @JsonCreator
-    public Scenario(@JsonProperty("id") UUID id, @JsonProperty("isMainScenario") boolean isMainScenario) {
+    public Scenario(@JsonProperty("id") UUID id, @JsonProperty("isMainScenario") boolean isMainScenario,
+                    @JsonProperty("scenarioName") String scenarioName) {
         this.id = id;
+        this.scenarioName = scenarioName;
         this.isMainScenario = isMainScenario;
     }
 
@@ -27,6 +30,14 @@ public class Scenario {
 
     public void setPatternExpression(String patternExpression) {
         this.patternExpression = patternExpression;
+    }
+
+    public String getScenarioName() {
+        return scenarioName;
+    }
+
+    public void setScenarioName(String scenarioName) {
+        this.scenarioName = scenarioName;
     }
 
     public String getFolLogicalSpecification() {

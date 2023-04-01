@@ -172,7 +172,7 @@ public class ScenarioSelectorEditorController {
                 Scenario scenario = scenarioController.getScenario();
 
                 // ustawia kontrolny tekst w panelu z Scenario'ami
-                currentlySelectedScenarioLabel.setText("Selected Scenario name: " + scenario.getId());
+                currentlySelectedScenarioLabel.setText("Selected Scenario name: " + scenario.getScenarioName());
 
                 // Set selected Scenario to actionEditorPanel and activityDiagramPanel
                 actionEditorController.setScenarioSelection(scenario);

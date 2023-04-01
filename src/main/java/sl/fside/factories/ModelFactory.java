@@ -92,7 +92,8 @@ public class ModelFactory implements IModelFactory {
 
     @Override
     public Scenario createScenario(UseCase useCase, UUID id, boolean isMain) {
-        Scenario scenario = new Scenario(id, isMain);
+        String scenarioName = isMain ? "Main Scenario for " + useCase.getUseCaseName() : "Additional Scenario for " + useCase.getUseCaseName();
+        Scenario scenario = new Scenario(id, isMain, scenarioName);
         useCase.addScenario(scenario);
 
 //        registerInModelTracker(scenario);
