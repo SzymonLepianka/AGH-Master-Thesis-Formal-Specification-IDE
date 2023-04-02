@@ -7,7 +7,9 @@ import java.util.*;
 public class Requirement {
 
     private final UUID id;
-    private String requirementContent = "";
+    private String content;
+    private String logic;
+    private boolean active = false;
 
     @JsonCreator
     public Requirement(@JsonProperty("id") UUID id) {
@@ -18,11 +20,27 @@ public class Requirement {
         return id;
     }
 
-    public String getRequirementContent() {
-        return requirementContent;
+    public String getContent() {
+        return content;
     }
 
-    public void setRequirementContent(String requirementContent) {
-        this.requirementContent = requirementContent;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getLogic() {
+        return logic;
+    }
+
+    public void setLogic(String logic) {
+        this.logic = logic;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

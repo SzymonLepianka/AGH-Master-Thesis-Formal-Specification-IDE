@@ -1,12 +1,10 @@
 package sl.fside.ui.editors.requirementEditor.controls;
 
 import com.google.inject.*;
-import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
-import javafx.scene.text.*;
 import javafx.util.*;
 import sl.fside.model.*;
 
@@ -22,7 +20,10 @@ public class RequirementController {
     public Button removeButton;
     @FXML
     public TextArea textArea;
-    @FXML public Button disableButton;
+    @FXML
+    public Button disableButton;
+    @FXML
+    public ComboBox<String> logicComboBox;
     private Requirement requirement;
     private Function<Pair<AnchorPane, RequirementController>, Void> onRemoveClicked;
 
@@ -34,9 +35,38 @@ public class RequirementController {
         this.requirement = requirement;
         requirementRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
+
+        logicComboBox.getItems().addAll("First Order Logic", "Linear Temporal Logic");
+
+        // ustawia treść formuły (jeśli istnieje)
+        if (requirement.getContent() != null) {
+            textArea.setText(requirement.getContent());
+        }
+
+        // ustawia wybraną logikę (jeśli wybrano)
+        if (requirement.getLogic() != null) {
+            logicComboBox.getSelectionModel().select(requirement.getLogic());
+        }
+
+        // ustawia aktywność of Requirement
+        changeRequirementActivity();
     }
 
     public void initialize() {
+    }
+
+    private void changeRequirementActivity() {
+        boolean isActive = requirement.isActive();
+
+        if (isActive) {
+            disableButton.setText("Deactivate");
+        } else {
+            disableButton.setText("Activate");
+        }
+
+        textArea.setDisable(!isActive);
+        removeButton.setDisable(!isActive);
+        logicComboBox.setDisable(!isActive);
     }
 
     private Color randomColor() {
@@ -62,6 +92,18 @@ public class RequirementController {
 
     @FXML
     public void onDisableButtonClicked() {
-        //TODO
+        requirement.setActive(!requirement.isActive());
+        changeRequirementActivity();
+    }
+
+    @FXML
+    public void onComboBoxClicked() {
+        String selectedItem = logicComboBox.getSelectionModel().getSelectedItem();
+        requirement.setLogic(selectedItem);
+    }
+
+    @FXML
+    private void requirementContentChanged() {
+        requirement.setContent(textArea.getText());
     }
 }

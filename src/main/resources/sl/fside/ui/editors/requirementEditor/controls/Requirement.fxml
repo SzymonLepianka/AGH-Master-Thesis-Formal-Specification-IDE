@@ -6,11 +6,12 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sl.fside.ui.editors.requirementEditor.controls.RequirementController"
             prefHeight="100.0" prefWidth="318.0">
-    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"/>
+    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"
+              promptText="content of the logical formula" onKeyTyped="#requirementContentChanged"/>
     <Button fx:id="removeButton" layoutX="7.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="70.0"
-            text="Remove" onAction="#onRemoveButtonClicked"/>
-    <Button fx:id="disableButton" layoutX="85.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="70.0"
-            text="Disable" onAction="#onDisableButtonClicked"/>
+            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="disableButton" layoutX="70.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="80.0" onAction="#onDisableButtonClicked"/>
+    <ComboBox fx:id="logicComboBox" layoutX="155.0" layoutY="70.0" prefHeight="15.0" prefWidth="160.0"
+              promptText="Choose logic" onAction="#onComboBoxClicked"/>
 </AnchorPane>
