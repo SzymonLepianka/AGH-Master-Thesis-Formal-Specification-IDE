@@ -8,12 +8,9 @@
             fx:controller="sl.fside.ui.editors.actionEditor.ActionEditorController">
     <AnchorPane fx:id="actionEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="529.0"
                 prefWidth="358.0">
-        <StyleClassedTextArea fx:id="scenarioContentTextArea" layoutX="9.0" layoutY="9.0" prefHeight="400.0"
-                              prefWidth="338.0" wrapText="true" onMouseClicked="#scenarioContentOnMouseClicked"/>
-        <Button fx:id="addActionButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="420.0" mnemonicParsing="false" onAction="#addActionButtonClicked"
-                prefHeight="25.0"
-                prefWidth="338.0" text="Add an action"/>
+        <StyleClassedTextArea fx:id="scenarioContentTextArea" layoutX="9.0" layoutY="9.0" prefHeight="435.0"
+                              prefWidth="338.0" wrapText="true" onMouseClicked="#scenarioContentOnMouseClicked"
+                              onKeyTyped="#scenarioContentChanged"/>
         <Button fx:id="showCurrentAtomicActivitiesButton" alignment="CENTER" contentDisplay="CENTER"
                 layoutX="9.0" layoutY="455.0" mnemonicParsing="false"
                 onAction="#showCurrentAtomicActivitiesButtonClicked"

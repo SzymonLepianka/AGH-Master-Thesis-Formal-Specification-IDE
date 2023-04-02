@@ -100,14 +100,14 @@ public class ModelFactory implements IModelFactory {
         return scenario;
     }
 
-    @Override
-    public Action createAction(Scenario scenario, UUID id, String actionContent) {
-        Action action = new Action(id, actionContent);
-        scenario.addAction(action);
-
-//        registerInModelTracker(scenario);
-        return action;
-    }
+//    @Override
+//    public Action createAction(Scenario scenario, UUID id, String actionContent) {
+//        Action action = new Action(id, actionContent);
+//        scenario.addAction(action);
+//
+////        registerInModelTracker(scenario);
+//        return action;
+//    }
 
     @Override
     public AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent) {
@@ -116,23 +116,23 @@ public class ModelFactory implements IModelFactory {
         return newAtomicActivity;
     }
 
-    @Override
-    public ActivityDiagram createActivityDiagram(Scenario parent, UUID id) {
-        ActivityDiagram activityDiagram = new ActivityDiagram(id);
-//        parent.addChild(activityDiagram);
+//    @Override
+//    public ActivityDiagram createActivityDiagram(Scenario parent, UUID id) {
+//        ActivityDiagram activityDiagram = new ActivityDiagram(id);
+////        parent.addChild(activityDiagram);
+//
+////        registerInModelTracker(activityDiagram);
+//        return activityDiagram;
+//    }
 
-//        registerInModelTracker(activityDiagram);
-        return activityDiagram;
-    }
-
-    @Override
-    public Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId) {
-        Pattern pattern = new Pattern(id, name, patternTemplateId);
-//        parent.addChild(parent);
-
-//        registerInModelTracker(pattern);
-        return pattern;
-    }
+//    @Override
+//    public Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId) {
+//        Pattern pattern = new Pattern(id, name, patternTemplateId);
+////        parent.addChild(parent);
+//
+////        registerInModelTracker(pattern);
+//        return pattern;
+//    }
 
 //    @Override
 //    public void registerInModelTracker(@NotNull ModelBase item) {

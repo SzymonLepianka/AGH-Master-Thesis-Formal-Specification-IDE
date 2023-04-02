@@ -6,10 +6,10 @@ import java.util.*;
 
 public class Scenario {
 
-    private final List<Action> actions = new ArrayList<>();
     private final UUID id;
-    private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
+    //    private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
+    private String content = "";
     private String patternExpression;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
@@ -30,6 +30,14 @@ public class Scenario {
 
     public void setPatternExpression(String patternExpression) {
         this.patternExpression = patternExpression;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getScenarioName() {
@@ -56,19 +64,6 @@ public class Scenario {
         this.ltlLogicalSpecification = ltlLogicalSpecification;
     }
 
-    public List<ActivityDiagram> getActivityDiagram() {
-        return activityDiagramList;
-    }
-
-    public void addActivityDiagram(ActivityDiagram activityDiagram) {
-        activityDiagramList.add(activityDiagram);
-    }
-
-    public void removeActivityDiagram(ActivityDiagram activityDiagram) {
-        activityDiagramList.remove(activityDiagram);
-    }
-
-
     public void addAtomicActivity(AtomicActivity atomicActivity) {
         this.atomicActivities.add(atomicActivity);
     }
@@ -94,32 +89,18 @@ public class Scenario {
         } else {
             sb.append("Atomic activities:\n");
             for (AtomicActivity aa : this.atomicActivities) {
-                sb.append(" - ").append(aa.getContent()).append("\n");
+                sb.append(" - '").append(aa.getContent()).append("'\n");
             }
         }
         return sb.toString();
     }
 
-
     public void clearAtomicActivitiesList() {
         this.atomicActivities.clear();
     }
 
-    public void addAction(Action action) {
-        this.actions.add(action);
-//        propertyChanged("actions");
-    }
-
-    public void removeAction(Action action) {
-        this.actions.remove(action);
-    }
-
     public UUID getId() {
         return id;
-    }
-
-    public List<Action> getActions() {
-        return actions;
     }
 
     public boolean isMainScenario() {

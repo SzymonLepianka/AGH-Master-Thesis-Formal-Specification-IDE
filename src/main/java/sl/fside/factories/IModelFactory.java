@@ -17,11 +17,11 @@ public interface IModelFactory {
 
     Scenario createScenario(UseCase parent, UUID id, boolean isMain);
 
-    Action createAction(Scenario parent, UUID id, String actionContent);
+//    Action createAction(Scenario parent, UUID id, String actionContent);
 
-    ActivityDiagram createActivityDiagram(Scenario parent, UUID id);
+//    ActivityDiagram createActivityDiagram(Scenario parent, UUID id);
 
-    Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId);
+//    Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId);
 
 //    AtomicActivity createAtomicActivity(Project project, String atomicActivity);
     AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent);
