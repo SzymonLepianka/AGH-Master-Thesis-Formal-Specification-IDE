@@ -12,6 +12,7 @@ import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 
@@ -36,6 +37,7 @@ public class ScenarioSelectorEditorController {
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
     private ResultsPanelController resultsPanelController;
+    private RequirementEditorController requirementEditorController;
 
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
@@ -126,11 +128,13 @@ public class ScenarioSelectorEditorController {
 
     public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
                                     ActivityDiagramPanelController activityDiagramPanelController,
-                                    ResultsPanelController resultsPanelController) {
+                                    ResultsPanelController resultsPanelController,
+                                    RequirementEditorController requirementEditorController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
+        this.requirementEditorController = requirementEditorController;
         updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
 
@@ -152,6 +156,7 @@ public class ScenarioSelectorEditorController {
         actionEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
         resultsPanelController.removeScenarioSelection();
+        requirementEditorController.removeScenarioSelection();
 
         // usuwanie Scenario
         scenarioPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeScenario));
@@ -178,6 +183,7 @@ public class ScenarioSelectorEditorController {
                 actionEditorController.setScenarioSelection(scenario);
                 activityDiagramPanelController.setScenarioSelection(scenario, resultsPanelController);
                 resultsPanelController.setScenarioSelection(scenario);
+                requirementEditorController.setScenarioSelection(scenario);
 
             } else {
                 // No item is selected

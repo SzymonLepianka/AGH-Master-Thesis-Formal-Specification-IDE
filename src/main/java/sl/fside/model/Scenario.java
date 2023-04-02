@@ -8,6 +8,7 @@ public class Scenario {
 
     private final UUID id;
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
+    private final List<Requirement> requirements = new ArrayList<>();
     private String content = "";
     private String patternExpression;
     private String folLogicalSpecification;
@@ -106,4 +107,11 @@ public class Scenario {
         this.isMainScenario = isMainScenario;
     }
 
+    public List<Requirement> getRequirements() {
+        return requirements;
+    }
+
+    public void removeRequirement(Requirement requirement) {
+        this.requirements.remove(requirement);
+    }
 }

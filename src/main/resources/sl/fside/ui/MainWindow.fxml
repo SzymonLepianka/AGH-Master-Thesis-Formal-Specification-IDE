@@ -2,7 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<fx:root fx:id="mainWindowRoot" prefHeight="890.0" prefWidth="1400.0" type="javafx.scene.layout.AnchorPane"
+<fx:root fx:id="mainWindowRoot" prefHeight="890.0" prefWidth="1440.0" type="javafx.scene.layout.AnchorPane"
          xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
          fx:controller="sl.fside.ui.MainWindowController">
 
@@ -31,5 +31,8 @@
     </AnchorPane>
     <AnchorPane layoutX="720.0" layoutY="125.0">
         <fx:include fx:id="resultsPanel" source="editors/resultsPanel/ResultsPanel.fxml"/>
+    </AnchorPane>
+    <AnchorPane layoutX="1080.0" layoutY="25.0">
+        <fx:include fx:id="requirementEditor" source="editors/requirementEditor/RequirementEditor.fxml"/>
     </AnchorPane>
 </fx:root>

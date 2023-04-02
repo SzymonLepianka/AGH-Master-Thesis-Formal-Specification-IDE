@@ -8,6 +8,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.util.Pair;
 import sl.fside.model.*;
 import sl.fside.ui.editors.actionEditor.controls.ActionController;
+import sl.fside.ui.editors.requirementEditor.controls.*;
 import sl.fside.ui.editors.scenarioSelector.controls.ScenarioController;
 import sl.fside.ui.editors.useCaseSelector.controls.UseCaseController;
 
@@ -21,6 +22,7 @@ public class UIElementsFactory {
     private final String useCaseSelectorControlsPath = editorsPath + "useCaseSelector/controls/";
     private final String scenarioSelectorControlsPath = editorsPath + "scenarioSelector/controls/";
     private final String actionEditorControlsPath = editorsPath + "actionEditor/controls/";
+    private final String requirementEditorControlsPath = editorsPath + "requirementEditor/controls/";
 
     @Inject
     public UIElementsFactory(Injector injector) {
@@ -42,6 +44,12 @@ public class UIElementsFactory {
     public Pair<AnchorPane, ActionController> createAction(Action action) {
         var pair = this.<AnchorPane, ActionController>loadFromFxmnl(actionEditorControlsPath + "Action.fxml");
         pair.getValue().load(action);
+        return pair;
+    }
+
+    public Pair<AnchorPane, RequirementController> createRequirement(Requirement requirement) {
+        var pair = this.<AnchorPane, RequirementController>loadFromFxmnl(requirementEditorControlsPath + "Requirement.fxml");
+        pair.getValue().load(requirement);
         return pair;
     }
 
