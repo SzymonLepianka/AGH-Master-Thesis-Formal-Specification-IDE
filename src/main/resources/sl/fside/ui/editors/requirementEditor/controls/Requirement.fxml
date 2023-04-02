@@ -2,15 +2,15 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
 <AnchorPane fx:id="requirementRoot" xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="sl.fside.ui.editors.requirementEditor.controls.RequirementController"
-            prefHeight="90.0" prefWidth="318.0">
-    <ScrollPane fx:id="requirementScrollPans" prefHeight="45.0" prefWidth="302.0" layoutX="7.0" layoutY="5.0">
-        <TextFlow fx:id="textFlow" layoutX="50.0" layoutY="7.0" prefHeight="36.0" prefWidth="250.0"/>
-    </ScrollPane>
-    <Button fx:id="removeButton" layoutX="10.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="110.0"
-            text="Remove requirement" onAction="#onRemoveRequirementButtonClicked"/>
+            prefHeight="100.0" prefWidth="318.0">
+    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"/>
+    <Button fx:id="removeButton" layoutX="7.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="70.0"
+            text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="disableButton" layoutX="85.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="70.0"
+            text="Disable" onAction="#onDisableButtonClicked"/>
 </AnchorPane>

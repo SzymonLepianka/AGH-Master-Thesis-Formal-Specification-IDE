@@ -109,6 +109,15 @@ public class ModelFactory implements IModelFactory {
 //        return action;
 //    }
 
+        @Override
+    public Requirement createRequirement(Scenario scenario, UUID id) {
+            Requirement requirement = new Requirement(id);
+        scenario.addRequirement(requirement);
+
+//        registerInModelTracker(scenario);
+        return requirement;
+    }
+
     @Override
     public AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent) {
         var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivityContent);

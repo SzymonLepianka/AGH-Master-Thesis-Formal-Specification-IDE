@@ -7,12 +7,11 @@ import java.util.*;
 public class Requirement {
 
     private final UUID id;
-    private String requirementContent;
+    private String requirementContent = "";
 
     @JsonCreator
-    public Requirement(@JsonProperty("id") UUID id, @JsonProperty("requirementContent") String requirementContent) {
+    public Requirement(@JsonProperty("id") UUID id) {
         this.id = id;
-        this.requirementContent = requirementContent;
     }
 
     public UUID getId() {

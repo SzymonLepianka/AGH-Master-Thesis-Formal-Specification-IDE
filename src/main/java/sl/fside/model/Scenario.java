@@ -111,6 +111,10 @@ public class Scenario {
         return requirements;
     }
 
+    public void addRequirement(Requirement requirement) {
+        this.requirements.add(requirement);
+    }
+
     public void removeRequirement(Requirement requirement) {
         this.requirements.remove(requirement);
     }

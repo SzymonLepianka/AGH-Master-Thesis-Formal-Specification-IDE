@@ -11,7 +11,6 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.editors.actionEditor.controls.*;
 import sl.fside.ui.editors.requirementEditor.controls.*;
 
 import java.util.*;
@@ -31,12 +30,12 @@ public class RequirementEditorController {
     public ListView<AnchorPane> requirementsList;
     @FXML
     public Button addRequirementButton;
-//    @FXML
-//    public Button showCurrentAtomicActivitiesButton;
+
     private Scenario scenario;
 
     @Inject
-    public RequirementEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory, LoggerService loggerService) {
+    public RequirementEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
+                                       LoggerService loggerService) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
@@ -48,13 +47,13 @@ public class RequirementEditorController {
         requirementEditorRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 //
-//        actionEditorAnchorPane.setBorder(new Border(
+//        requirementEditorAnchorPane.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 //
-//        actionsList.setBorder(new Border(
+//        requirementsList.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 //
-//        addActionButton.setBorder(new Border(
+//        addRequirementButton.setBorder(new Border(
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateRequirementEditor();
@@ -70,52 +69,23 @@ public class RequirementEditorController {
 
     @FXML
     public void addRequirementButtonClicked() {
-        // TODO
-//        String actionContent = showActionContentDialog();
-//        if (actionContent != null && !actionContent.isEmpty()) {
-//            if (scenario != null) {
-//
-//                // creating new action
-//                Action newAction = modelFactory.createAction(scenario, UUID.randomUUID(), actionContent);
-//                Pair<AnchorPane, ActionController> uiElementPair = uiElementsFactory.createAction(newAction);
-//                uiElementActionPairs.add(uiElementPair);
-//
-//                // add listener to actionContent, to define atomic activities
-//                addListenerToUiElementActionPair(uiElementPair);
-//
-//                // usuwanie Action
-//                uiElementPair.getValue().setOnRemoveClicked(this::removeAction);
-//
-//                // dodaje nową akcję do obecnych
-//                actionsList.getItems().add(uiElementPair.getKey());
-//            } else {
-//                System.out.println("addActionButtonClicked - Nigdy nie powinien się tu znaleźć");
-//            }
-//        }
-    }
+        if (scenario != null) {
 
-//    private void addListenerToUiElementActionPair(Pair<AnchorPane, ActionController> uiElementPair) {
-//        uiElementPair.getValue().getBoldedWords().addListener((ListChangeListener<String>) change -> {
-//            while (change.next()) {
-//
-//                // jeśli dodano element do listy
-//                if (change.wasAdded()) {
-//                    change.getAddedSubList().forEach(c -> {
-//                        uiElementActionPairs.forEach(pair -> pair.getValue().boldExistingAtomicActivities(c));
-//                        modelFactory.createAtomicActivity(scenario, c);
-//                    });
-//                }
-//
-//                // jeśli usunięto element z listy
-//                if (change.wasRemoved()) {
-//                    change.getRemoved().forEach(c -> {
-//                        uiElementActionPairs.forEach(pair -> pair.getValue().unBoldExistingAtomicActivities(c));
-//                        scenario.removeAtomicActivity(c);
-//                    });
-//                }
-//            }
-//        });
-//    }
+            // creating new requirement
+            Requirement newRequirement = modelFactory.createRequirement(scenario, UUID.randomUUID());
+            Pair<AnchorPane, RequirementController> uiElementPair = uiElementsFactory.createRequirement(newRequirement);
+            uiElementRequirementPairs.add(uiElementPair);
+
+            // usuwanie Requirement
+            uiElementPair.getValue().setOnRemoveClicked(this::removeRequirement);
+
+            // dodaje nową akcję do obecnych
+            requirementsList.getItems().add(uiElementPair.getKey());
+        } else {
+            System.out.println("addRequirementButtonClicked - Nigdy nie powinien się tu znaleźć");
+        }
+
+    }
 
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
@@ -127,21 +97,10 @@ public class RequirementEditorController {
         uiElementRequirementPairs.clear();
         uiElementRequirementPairs.addAll(requirementPairs);
 
-//        // show existing atomic activities
-//        for (AtomicActivity atomicActivity : scenario.getAtomicActivities()) {
-//            uiElementActionPairs.forEach(pair -> {
-//                pair.getValue().boldExistingAtomicActivities(atomicActivity.getContent());
-//                pair.getValue().addBoldedWord(atomicActivity.getContent());
-//            });
-//        }
-//
-//        // add listener to actionContent, to define atomic activities
-//        actionPairs.forEach(this::addListenerToUiElementActionPair);
-
-        // usuwanie Action
+        // usuwanie Requirement
         uiElementRequirementPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeRequirement));
 
-        // add new actions to list
+        // add new requirements to list
         requirementsList.getItems().addAll(requirementPairs.stream().map(Pair::getKey).toList());
 
         loggerService.logInfo("Scenario set to RequirementEditor - " + scenario.getId());
@@ -159,53 +118,16 @@ public class RequirementEditorController {
         requirementEditorRoot.setDisable(scenario == null);
     }
 
-//    private String showActionContentDialog() {
-//
-//        // Show input action content dialog
-//        var actionContentInputDialog = new TextInputDialog("action_content");
-//        actionContentInputDialog.setTitle("Creating action...");
-//        actionContentInputDialog.setHeaderText("Enter a action content");
-//
-//        // disable empty action content
-//        actionContentInputDialog.getDialogPane().lookupButton(ButtonType.OK).disableProperty()
-//                .bind(actionContentInputDialog.getEditor().textProperty().isEmpty());
-//
-//        actionContentInputDialog.showAndWait();
-//
-//        // get action content from input dialog
-//        return actionContentInputDialog.getResult();
-//    }
-//
-//    @FXML
-//    public void showCurrentAtomicActivitiesButtonClicked() {
-//        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-//        alert.setTitle("Information");
-//        alert.setHeaderText(null);
-//        alert.setContentText(scenario.showAtomicActivities());
-//        alert.showAndWait();
-//    }
-
     private Void removeRequirement(Pair<AnchorPane, RequirementController> pair) {
         requirementsList.getItems().remove(pair.getKey());
         scenario.removeRequirement(pair.getValue().getRequirement());
         uiElementRequirementPairs.remove(pair);
 
-//        // checking if in removed Requirement there was atomic activity not used in other actions
-//        ArrayList<AtomicActivity> atomicActivitiesToRemove = new ArrayList<>();
-//        for (AtomicActivity atomicActivity : scenario.getAtomicActivities()) {
-//            boolean removeAtomicActivity = uiElementActionPairs.stream().noneMatch(
-//                    actionPair -> actionPair.getValue().isAtomicActivityInAction(atomicActivity.getContent()));
-//            if (removeAtomicActivity) {
-//                atomicActivitiesToRemove.add(atomicActivity);
-//            }
-//        }
-//        scenario.removeAtomicActivities(atomicActivitiesToRemove);
-
         loggerService.logInfo("Requirement removed - " + pair.getValue().getRequirement().getId());
         return null;
     }
 
-    // the purpose of this class is to block the visual selection of Action from the list in the panel
+    // the purpose of this class is to block the visual selection of Requirement from the list in the panel
     public static class NoSelectionModel<T> extends MultipleSelectionModel<T> {
 
         @Override

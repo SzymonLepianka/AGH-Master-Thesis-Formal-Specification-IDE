@@ -19,11 +19,10 @@ public class RequirementController {
     @FXML
     public AnchorPane requirementRoot;
     @FXML
-    public ScrollPane requirementScrollPans;
-    @FXML
     public Button removeButton;
     @FXML
-    private TextFlow textFlow;
+    public TextArea textArea;
+    @FXML public Button disableButton;
     private Requirement requirement;
     private Function<Pair<AnchorPane, RequirementController>, Void> onRemoveClicked;
 
@@ -49,7 +48,7 @@ public class RequirementController {
     }
 
     @FXML
-    public void onRemoveRequirementButtonClicked() {
+    public void onRemoveButtonClicked() {
         if (onRemoveClicked != null) onRemoveClicked.apply(new Pair<>(requirementRoot, this));
     }
 
@@ -59,5 +58,10 @@ public class RequirementController {
 
     public Requirement getRequirement() {
         return requirement;
+    }
+
+    @FXML
+    public void onDisableButtonClicked() {
+        //TODO
     }
 }
