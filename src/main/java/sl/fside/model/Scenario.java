@@ -7,7 +7,6 @@ import java.util.*;
 public class Scenario {
 
     private final UUID id;
-    //    private final List<ActivityDiagram> activityDiagramList = new ArrayList<>();
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
     private String content = "";
     private String patternExpression;
@@ -74,8 +73,8 @@ public class Scenario {
         this.atomicActivities.removeAll(atomicActivitiesToRemove);
     }
 
-    public void removeAtomicActivities(List<AtomicActivity> atomicActivitiesToRemove) {
-        this.atomicActivities.removeAll(atomicActivitiesToRemove);
+    public void removeAllAtomicActivities() {
+        this.atomicActivities.clear();
     }
 
     public List<AtomicActivity> getAtomicActivities() {
@@ -93,10 +92,6 @@ public class Scenario {
             }
         }
         return sb.toString();
-    }
-
-    public void clearAtomicActivitiesList() {
-        this.atomicActivities.clear();
     }
 
     public UUID getId() {

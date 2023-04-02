@@ -180,5 +180,35 @@ public class ActionEditorController {
     @FXML
     private void scenarioContentChanged() {
         scenario.setContent(scenarioContentTextArea.getText());
+        getCurrentlyBoldedWords();
+    }
+
+    private void getCurrentlyBoldedWords() {
+        String text = scenarioContentTextArea.getText();
+        String[] words = text.split("\\s+"); // split text by ' ' and '\n'
+        List<String> boldedWords = new ArrayList<>();
+
+        int start = 0;
+        for (String word : words) {
+            if (!word.isEmpty()) {
+                int startIndex = text.indexOf(word, start);
+                int endIndex = startIndex + word.length() - 1;
+                start = endIndex + 1; // Add 1 to account for the whitespace separator
+
+                // check if word is bolded
+                for (String styleClass : scenarioContentTextArea.getStyleSpans(startIndex, endIndex + 1).getStyleSpan(0)
+                        .getStyle()) {
+                    if (styleClass.equals("own-bold")) {
+                        boldedWords.add(scenarioContentTextArea.getText(startIndex, endIndex + 1));
+                        break;
+                    }
+                }
+            }
+        }
+
+        // replace old atomic activities with new ones
+        Set<String> boldedWordsSet = new HashSet<>(boldedWords);
+        scenario.removeAllAtomicActivities();
+        boldedWordsSet.forEach(x -> modelFactory.createAtomicActivity(scenario, x));
     }
 }
