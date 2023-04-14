@@ -92,7 +92,8 @@ public class ModelFactory implements IModelFactory {
 
     @Override
     public Scenario createScenario(UseCase useCase, UUID id, boolean isMain) {
-        String scenarioName = isMain ? "Main Scenario for " + useCase.getUseCaseName() : "Additional Scenario for " + useCase.getUseCaseName();
+        String scenarioName = isMain ? "Main Scenario for " + useCase.getUseCaseName() :
+                "Additional Scenario for " + useCase.getUseCaseName();
         Scenario scenario = new Scenario(id, isMain, scenarioName);
         useCase.addScenario(scenario);
 
@@ -109,13 +110,21 @@ public class ModelFactory implements IModelFactory {
 //        return action;
 //    }
 
-        @Override
+    @Override
     public Requirement createRequirement(Scenario scenario, UUID id) {
-            Requirement requirement = new Requirement(id);
+        Requirement requirement = new Requirement(id);
         scenario.addRequirement(requirement);
 
 //        registerInModelTracker(scenario);
         return requirement;
+    }
+
+    @Override
+    public Relation createRelation(UseCaseDiagram useCaseDiagram, UUID relationId, UUID fromId, UUID toId,
+                                   Relation.RelationType type) {
+        Relation relation = new Relation(relationId, fromId, toId, type);
+        useCaseDiagram.addRelation(relation);
+        return relation;
     }
 
     @Override

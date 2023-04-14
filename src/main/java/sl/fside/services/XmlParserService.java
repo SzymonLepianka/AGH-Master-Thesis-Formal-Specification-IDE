@@ -64,10 +64,12 @@ public class XmlParserService {
             for (var inc : entry.getValue().get("INCLUDE")) {
                 var useCaseInInclude = useCasesList.stream().filter(x -> x.getUseCaseName().equals(inc)).findFirst().orElseThrow();
                 useCase.addRelations(useCaseInInclude.getId(), UseCase.RelationEnum.INCLUDE);
+                modelFactory.createRelation(useCaseDiagram, UUID.randomUUID(), useCase.getId(), useCaseInInclude.getId(), Relation.RelationType.INCLUDE);
             }
             for (var ext : entry.getValue().get("EXTEND")) {
                 var useCaseInExtend = useCasesList.stream().filter(x -> x.getUseCaseName().equals(ext)).findFirst().orElseThrow();
                 useCase.addRelations(useCaseInExtend.getId(), UseCase.RelationEnum.EXTEND);
+                modelFactory.createRelation(useCaseDiagram, UUID.randomUUID(), useCase.getId(), useCaseInExtend.getId(), Relation.RelationType.EXTEND);
             }
         }
     }

@@ -1,7 +1,7 @@
 package sl.fside.factories;
 
-import sl.fside.model.*;
 import org.jetbrains.annotations.*;
+import sl.fside.model.*;
 
 import java.io.*;
 import java.util.*;
@@ -21,11 +21,13 @@ public interface IModelFactory {
 
     Requirement createRequirement(Scenario parent, UUID id);
 
+    Relation createRelation(UseCaseDiagram parent, UUID relationId, UUID fromId, UUID toId, Relation.RelationType type);
+
 //    ActivityDiagram createActivityDiagram(Scenario parent, UUID id);
 
 //    Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId);
 
-//    AtomicActivity createAtomicActivity(Project project, String atomicActivity);
+    //    AtomicActivity createAtomicActivity(Project project, String atomicActivity);
     AtomicActivity createAtomicActivity(Scenario scenario, String atomicActivityContent);
 
 //    AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection, String atomicActivity);
