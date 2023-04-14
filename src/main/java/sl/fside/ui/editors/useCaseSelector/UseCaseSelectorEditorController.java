@@ -1,6 +1,7 @@
 package sl.fside.ui.editors.useCaseSelector;
 
 import com.google.inject.*;
+import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -30,6 +31,9 @@ public class UseCaseSelectorEditorController {
     public TitledPane useCaseSelectorEditorRoot;
     @FXML
     public AnchorPane useCaseSelectorEditorAnchorPane;
+    @FXML
+    public Button showRelationsInUseCaseDiagramButton;
+
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
@@ -186,5 +190,14 @@ public class UseCaseSelectorEditorController {
     private void updateUseCaseSelectorEditor() {
         // setting disable property of the useCaseSelectorEditorRoot TitledPane based on the value of the useCaseDiagram variable
         useCaseSelectorEditorRoot.setDisable(useCaseDiagram == null);
+    }
+
+    @FXML
+    public void showRelationsInUseCaseDiagramButtonClicked() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Relations in UseCaseDiagram");
+        alert.setHeaderText(null);
+        alert.setContentText(useCaseDiagram.showRelations());
+        alert.showAndWait();
     }
 }
