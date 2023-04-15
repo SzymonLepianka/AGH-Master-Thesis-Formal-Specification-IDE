@@ -41,7 +41,7 @@ public class MainWindowController {
     @FXML
     public RequirementEditorController requirementEditorController;
     @FXML
-    private UseCaseSelectorEditorController useCaseSelectorEditorController;
+    public UseCaseSelectorEditorController useCaseSelectorEditorController;
     private Project project;
     private Stage stage;
 
@@ -227,6 +227,10 @@ public class MainWindowController {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.stage = primaryStage;
+    }
+
+    public Project getCurrentProject() {
+        return project;
     }
 
     private record ProjectNamePresenter(Project project) {

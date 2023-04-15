@@ -47,6 +47,7 @@ public class UseCaseSelectorEditorController {
 //    private ComboBox<UseCaseDiagramPresenter> useCaseDiagramComboBox;
     @FXML
     private Label currentlySelectedUseCaseLabel;
+    private UseCase currentlySelectedUseCase = null;
     //    private final EventAggregatorService eventAggregatorService;
 
     private UseCaseDiagram useCaseDiagram;
@@ -158,6 +159,7 @@ public class UseCaseSelectorEditorController {
 
                 // ustawia kontrolny tekst w panelu z UseCase'ami
                 currentlySelectedUseCaseLabel.setText("Selected UC name: " + useCase.getUseCaseName());
+                currentlySelectedUseCase = useCase;
 
                 // Set selected UseCase to scenarioSelectorPanel
                 scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
@@ -173,6 +175,7 @@ public class UseCaseSelectorEditorController {
 
                 // ustawia kontrolny tekst w panelu z UseCase'ami
                 currentlySelectedUseCaseLabel.setText("No UseCase is selected");
+                currentlySelectedUseCase = null;
             }
         });
 
@@ -199,5 +202,9 @@ public class UseCaseSelectorEditorController {
         alert.setHeaderText(null);
         alert.setContentText(useCaseDiagram.showRelations());
         alert.showAndWait();
+    }
+
+    public UseCase getCurrentlySelectedUseCase() {
+        return currentlySelectedUseCase;
     }
 }

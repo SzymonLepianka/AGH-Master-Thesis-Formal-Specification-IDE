@@ -16,6 +16,7 @@ import sl.fside.ui.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import sl.fside.ui.editors.resultsPanel.*;
+import sl.fside.ui.editors.useCaseSelector.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,6 +26,7 @@ public class ActivityDiagramPanelController {
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
+    private final MainWindowController mainWindowController;
 
     @FXML
     public TitledPane activityDiagramPanelRoot;
@@ -38,10 +40,11 @@ public class ActivityDiagramPanelController {
 
     @Inject
     public ActivityDiagramPanelController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
-                                          LoggerService loggerService) {
+                                          LoggerService loggerService, MainWindowController mainWindowController) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
+        this.mainWindowController = mainWindowController;
     }
 
     public void initialize() {
@@ -93,6 +96,26 @@ public class ActivityDiagramPanelController {
         if (scenario.getAtomicActivities().isEmpty()) {
             showWarningMessage("No atomic activities defined!");
             return;
+        }
+
+        // kontrola czy wśród atomicznych aktywności są inkludowane UseCase
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase useCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<AtomicActivity> atomicActivities = scenario.getAtomicActivities();
+            List<Relation> relations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.INCLUDE && r.getFromId().equals(useCase.getId()))
+                    .toList();
+            for (Relation r : relations) {
+                String targetUseCaseName = useCaseDiagram.getUseCaseNameFromId(r.getToId());
+                String obligatoryAtomicActivity = "<<include>>" + targetUseCaseName;
+                if (atomicActivities.stream().noneMatch(aa -> aa.getContent().equals(obligatoryAtomicActivity))) {
+                    showWarningMessage(
+                            "Obligatory atomic activity was not defined!\n'" + obligatoryAtomicActivity + "'");
+                    return;
+                }
+            }
         }
 
         // ustawia atomiczne aktywności dla edytora diagramu aktywności
