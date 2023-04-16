@@ -12,6 +12,9 @@ import sl.fside.ui.*;
 
 import java.util.*;
 
+import static sl.fside.services.code_generator1.functions.GenJava.*;
+import static sl.fside.services.code_generator1.functions.GenPython.*;
+
 public class GenerateCodePanelController {
 
     private final IModelFactory modelFactory;
@@ -80,16 +83,20 @@ public class GenerateCodePanelController {
 
         // kontrola czy kod może być wygenerowany
         if (scenario == null) {
-            showWarningMessage("Scenario is not selected (It should never occur)");
+            showMessage("Scenario is not selected (It should never occur)", Alert.AlertType.WARNING);
             return;
         }
-        // TODO change to pattern exp
         if (scenario.getPatternExpressionAfterProcessingNesting() == null) {
-            showWarningMessage("No PatternExpression defined!");
+            showMessage("No PatternExpression defined!", Alert.AlertType.WARNING);
             return;
         }
-
-        // TODO open popup with generated java code
+        try {
+            GenJava(scenario.getPatternExpressionAfterProcessingNesting());
+            loggerService.logInfo("Java code generated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showMessage(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
     @FXML
@@ -97,20 +104,24 @@ public class GenerateCodePanelController {
 
         // kontrola czy kod może być wygenerowany
         if (scenario == null) {
-            showWarningMessage("Scenario is not selected (It should never occur)");
+            showMessage("Scenario is not selected (It should never occur)", Alert.AlertType.WARNING);
             return;
         }
-        // TODO change to pattern exp
         if (scenario.getPatternExpressionAfterProcessingNesting() == null) {
-            showWarningMessage("No PatternExpression defined!");
-            return;
+            showMessage("No PatternExpression defined!", Alert.AlertType.WARNING);
         }
 
-        // TODO open popup with generated python code
+        try {
+            GenPython(scenario.getPatternExpressionAfterProcessingNesting());
+            loggerService.logInfo("Python code generated");
+        } catch (Exception e) {
+            e.printStackTrace();
+            showMessage(e.getMessage(), Alert.AlertType.ERROR);
+        }
     }
 
-    private void showWarningMessage(String message) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
+    private void showMessage(String message, Alert.AlertType alertType) {
+        Alert alert = new Alert(alertType);
         alert.setTitle("Formal Specification IDE");
         alert.setHeaderText("Warning");
         alert.setContentText(message);
