@@ -15,7 +15,8 @@ public class NodesManager {
     private final Map<Pane, Border> bordersOnActivityDiagram = new HashMap<>();
     private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private Node main;
-    private String patternExpression;
+    private String patternExpressionBeforeProcessingNesting;
+    private String patternExpressionAfterProcessingNesting;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean wasSpecificationGenerated;
@@ -69,12 +70,17 @@ public class NodesManager {
         this.colorsOnActivityDiagram.put(rectangle, color);
     }
 
-    public String getPatternExpression() {
-        return patternExpression;
+    public String getPatternExpressionBeforeProcessingNesting() {
+        return patternExpressionBeforeProcessingNesting;
     }
 
-    public void setPatternExpression(String patternExpression) {
-        this.patternExpression = patternExpression;
+    public String getPatternExpressionAfterProcessingNesting() {
+        return patternExpressionAfterProcessingNesting;
+    }
+
+    public void setPatternExpression(String patternExpressionBeforeProcessingNesting) {
+        this.patternExpressionBeforeProcessingNesting = patternExpressionBeforeProcessingNesting;
+
 
         String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
         String patternRulesLtlFile = "./pattern_rules/pattern_rules_LTL.json"; // Linear Temporal Logic
@@ -83,19 +89,18 @@ public class NodesManager {
                     WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
             List<WorkflowPatternTemplate> ltlPatternPropertySet =
                     WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
-            this.folLogicalSpecification =
-                    GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""),
-                            folPatternPropertySet);
-            this.ltlLogicalSpecification =
-                    GeneratingLogicalSpecifications.generateLogicalSpecifications(patternExpression.replace(" ", ""),
-                            ltlPatternPropertySet);
+            this.folLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(
+                    patternExpressionAfterProcessingNesting.replace(" ", ""), folPatternPropertySet);
+            this.ltlLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(
+                    patternExpressionAfterProcessingNesting.replace(" ", ""), ltlPatternPropertySet);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void setSpecificationFromScenario(Scenario scenario) {
-        this.patternExpression = scenario.getPatternExpression();
+        this.patternExpressionBeforeProcessingNesting = scenario.getPatternExpressionBeforeProcessingNesting();
+        this.patternExpressionAfterProcessingNesting = scenario.getPatternExpressionAfterProcessingNesting();
         this.folLogicalSpecification = scenario.getFolLogicalSpecification();
         this.ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
     }

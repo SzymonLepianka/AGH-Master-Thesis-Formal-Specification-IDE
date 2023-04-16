@@ -296,7 +296,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     }
 
     private void setExistingDiagramFromPatternExpression(VBox mainVBox) {
-        String patternExpression = NodesManager.getInstance().getPatternExpression();
+        String patternExpression = NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting();
         if (patternExpression == null) return;
         try {
             // wewnątrz głównego VBox znajdują się ComboBoxy

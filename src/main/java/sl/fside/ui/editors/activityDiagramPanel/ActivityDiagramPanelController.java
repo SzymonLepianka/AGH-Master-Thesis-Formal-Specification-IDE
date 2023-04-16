@@ -162,7 +162,10 @@ public class ActivityDiagramPanelController {
         // save generated results in scenario
         stage.setOnHidden(event -> {
             if (NodesManager.getInstance().wasSpecificationGenerated()) {
-                scenario.setPatternExpression(NodesManager.getInstance().getPatternExpression());
+                scenario.setPatternExpressionBeforeProcessingNesting(
+                        NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting());
+                scenario.setPatternExpressionAfterProcessingNesting(
+                        NodesManager.getInstance().getPatternExpressionAfterProcessingNesting());
                 scenario.setFolLogicalSpecification(NodesManager.getInstance().getFolLogicalSpecification());
                 scenario.setLtlLogicalSpecification(NodesManager.getInstance().getLtlLogicalSpecification());
                 resultsPanelController.showResults();

@@ -31,7 +31,7 @@ public class ResultsEditorController {
     public void initialize() {
         patternTextTitle.setFont(Font.font("FontAwesome", 16));
         patternTextTitle.setText("Pattern Expression");
-        patternTextArea.setText(NodesManager.getInstance().getPatternExpression());
+        patternTextArea.setText(NodesManager.getInstance().getPatternExpressionAfterProcessingNesting());
 
         folTextTitle.setFont(Font.font("FontAwesome", 16));
         folTextTitle.setText("First Order Logic");

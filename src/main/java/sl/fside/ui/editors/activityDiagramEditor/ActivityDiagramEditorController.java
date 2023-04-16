@@ -152,7 +152,7 @@ public class ActivityDiagramEditorController {
     }
 
     public void checkExistingActivityDiagram() {
-        String patternExpression = NodesManager.getInstance().getPatternExpression();
+        String patternExpression = NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting();
         if (patternExpression != null) {
             String mainPatternName = patternExpression.split("\\(")[0];
             switch (mainPatternName) {

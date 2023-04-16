@@ -10,7 +10,8 @@ public class Scenario {
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
     private final List<Requirement> requirements = new ArrayList<>();
     private String content = "";
-    private String patternExpression;
+    private String patternExpressionBeforeProcessingNesting;
+    private String patternExpressionAfterProcessingNesting;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean isMainScenario;
@@ -24,12 +25,20 @@ public class Scenario {
         this.isMainScenario = isMainScenario;
     }
 
-    public String getPatternExpression() {
-        return patternExpression;
+    public String getPatternExpressionBeforeProcessingNesting() {
+        return patternExpressionBeforeProcessingNesting;
     }
 
-    public void setPatternExpression(String patternExpression) {
-        this.patternExpression = patternExpression;
+    public void setPatternExpressionBeforeProcessingNesting(String patternExpressionBeforeProcessingNesting) {
+        this.patternExpressionBeforeProcessingNesting = patternExpressionBeforeProcessingNesting;
+    }
+
+    public String getPatternExpressionAfterProcessingNesting() {
+        return patternExpressionAfterProcessingNesting;
+    }
+
+    public void setPatternExpressionAfterProcessingNesting(String patternExpressionAfterProcessingNesting) {
+        this.patternExpressionAfterProcessingNesting = patternExpressionAfterProcessingNesting;
     }
 
     public String getContent() {
