@@ -18,6 +18,7 @@ module sl.fside {
     requires org.apache.commons.lang3;
     requires fontawesomefx;
     requires org.fxmisc.richtext;
+    requires org.antlr.antlr4.runtime;
 
     opens sl.fside.services to com.google.guice;
     opens sl.fside.persistence to com.google.guice;
