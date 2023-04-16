@@ -236,6 +236,7 @@ public class ActivityDiagramEditorController {
         if (graphEditor.getModel().getNodes().size() == 0) {
             NodesManager.getInstance().setMain(null);
             NodesManager.getInstance().setMainName(null);
+            NodesManager.getInstance().removePatternExpression();
             disableAllOptions(false);
         } else {
             System.out.println("Pozostało " + graphEditor.getModel().getNodes().size() +

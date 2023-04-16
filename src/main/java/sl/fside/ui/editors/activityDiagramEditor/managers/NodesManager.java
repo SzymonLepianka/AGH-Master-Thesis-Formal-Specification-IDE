@@ -98,6 +98,11 @@ public class NodesManager {
         }
     }
 
+    public void removePatternExpression(){
+        this.patternExpressionBeforeProcessingNesting = null;
+        this.patternExpressionAfterProcessingNesting = null;
+    }
+
     public void setSpecificationFromScenario(Scenario scenario) {
         this.patternExpressionBeforeProcessingNesting = scenario.getPatternExpressionBeforeProcessingNesting();
         this.patternExpressionAfterProcessingNesting = scenario.getPatternExpressionAfterProcessingNesting();

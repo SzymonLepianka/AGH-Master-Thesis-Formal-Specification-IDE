@@ -152,6 +152,7 @@ public class ActivityDiagramPanelController {
             Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get() == ButtonType.OK) {
                 // If the user clicked OK, close the window
+                NodesManager.getInstance().setWasSpecificationGenerated(false);
                 stage.close();
             } else {
                 // If the user clicked Cancel or closed the dialog, consume the event
