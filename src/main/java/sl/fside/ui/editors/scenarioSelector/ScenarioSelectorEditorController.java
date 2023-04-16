@@ -16,6 +16,7 @@ import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
+import sl.fside.ui.editors.verificationEditor.*;
 
 import java.util.*;
 
@@ -40,6 +41,7 @@ public class ScenarioSelectorEditorController {
     private ResultsPanelController resultsPanelController;
     private GenerateCodePanelController generateCodePanelController;
     private RequirementEditorController requirementEditorController;
+    private VerificationEditorController verificationEditorController;
 
     @Inject
     public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
@@ -132,13 +134,15 @@ public class ScenarioSelectorEditorController {
                                     ActivityDiagramPanelController activityDiagramPanelController,
                                     ResultsPanelController resultsPanelController,
                                     GenerateCodePanelController generateCodePanelController,
-                                    RequirementEditorController requirementEditorController) {
+                                    RequirementEditorController requirementEditorController,
+                                    VerificationEditorController verificationEditorController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
         this.generateCodePanelController = generateCodePanelController;
         this.requirementEditorController = requirementEditorController;
+        this.verificationEditorController = verificationEditorController;
         updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
 
@@ -162,6 +166,7 @@ public class ScenarioSelectorEditorController {
         resultsPanelController.removeScenarioSelection();
         generateCodePanelController.removeScenarioSelection();
         requirementEditorController.removeScenarioSelection();
+        verificationEditorController.removeScenarioSelection();
 
         // usuwanie Scenario
         scenarioPairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeScenario));
@@ -190,6 +195,7 @@ public class ScenarioSelectorEditorController {
                 resultsPanelController.setScenarioSelection(scenario);
                 generateCodePanelController.setScenarioSelection(scenario);
                 requirementEditorController.setScenarioSelection(scenario);
+                verificationEditorController.setScenarioSelection(scenario);
 
             } else {
                 // No item is selected

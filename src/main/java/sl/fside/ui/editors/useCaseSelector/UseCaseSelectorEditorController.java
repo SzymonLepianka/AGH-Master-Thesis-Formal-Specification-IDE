@@ -1,7 +1,6 @@
 package sl.fside.ui.editors.useCaseSelector;
 
 import com.google.inject.*;
-import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -18,6 +17,7 @@ import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
+import sl.fside.ui.editors.verificationEditor.*;
 
 import java.util.*;
 
@@ -41,6 +41,7 @@ public class UseCaseSelectorEditorController {
     private ResultsPanelController resultsPanelController;
     private GenerateCodePanelController generateCodePanelController;
     private RequirementEditorController requirementEditorController;
+    private VerificationEditorController verificationEditorController;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
@@ -120,7 +121,8 @@ public class UseCaseSelectorEditorController {
                                            ActivityDiagramPanelController activityDiagramPanelController,
                                            ResultsPanelController resultsPanelController,
                                            GenerateCodePanelController generateCodePanelController,
-                                           RequirementEditorController requirementEditorController) {
+                                           RequirementEditorController requirementEditorController,
+                                           VerificationEditorController verificationEditorController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
         this.actionEditorController = actionEditorController;
@@ -128,6 +130,7 @@ public class UseCaseSelectorEditorController {
         this.resultsPanelController = resultsPanelController;
         this.generateCodePanelController = generateCodePanelController;
         this.requirementEditorController = requirementEditorController;
+        this.verificationEditorController = verificationEditorController;
         useCasesList.getItems().clear();
         updateUseCaseSelectorEditor();
 
@@ -146,6 +149,7 @@ public class UseCaseSelectorEditorController {
         resultsPanelController.removeScenarioSelection();
         generateCodePanelController.removeScenarioSelection();
         requirementEditorController.removeScenarioSelection();
+        verificationEditorController.removeScenarioSelection();
 
         // add new useCases to list
         useCasesList.getItems().addAll(useCasePairs.stream().map(Pair::getKey).toList());
@@ -168,7 +172,8 @@ public class UseCaseSelectorEditorController {
 
                 // Set selected UseCase to scenarioSelectorPanel
                 scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
-                        activityDiagramPanelController, resultsPanelController, generateCodePanelController, requirementEditorController);
+                        activityDiagramPanelController, resultsPanelController, generateCodePanelController,
+                        requirementEditorController, verificationEditorController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
                 uiElementUseCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));

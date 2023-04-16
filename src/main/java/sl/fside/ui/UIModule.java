@@ -13,6 +13,8 @@ import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 import sl.fside.ui.editors.useCaseSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
+import sl.fside.ui.editors.verificationEditor.*;
+import sl.fside.ui.editors.verificationEditor.controls.*;
 
 public class UIModule extends PrivateModule {
 
@@ -36,6 +38,8 @@ public class UIModule extends PrivateModule {
         bind(GenerateCodePanelController.class);
         bind(RequirementEditorController.class);
         bind(RequirementController.class);
+        bind(VerificationEditorController.class);
+        bind(VerificationController.class);
 
         // Expose
         expose(UIElementsFactory.class);
@@ -52,6 +56,8 @@ public class UIModule extends PrivateModule {
         expose(GenerateCodePanelController.class);
         expose(RequirementEditorController.class);
         expose(RequirementController.class);
+        expose(VerificationEditorController.class);
+        expose(VerificationController.class);
 
         // Submodules
     }

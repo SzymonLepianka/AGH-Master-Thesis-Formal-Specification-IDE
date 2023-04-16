@@ -120,6 +120,13 @@ public class ModelFactory implements IModelFactory {
     }
 
     @Override
+    public Verification createVerification(Scenario scenario, UUID id) {
+        Verification verification = new Verification(id);
+        scenario.addVerification(verification);
+        return verification;
+    }
+
+    @Override
     public Relation createRelation(UseCaseDiagram useCaseDiagram, UUID relationId, UUID fromId, UUID toId,
                                    Relation.RelationType type) {
         Relation relation = new Relation(relationId, fromId, toId, type);

@@ -1,18 +1,18 @@
 package sl.fside.ui;
 
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.util.Pair;
+import com.google.inject.*;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.layout.*;
+import javafx.util.*;
 import sl.fside.model.*;
-import sl.fside.ui.editors.actionEditor.controls.ActionController;
+import sl.fside.ui.editors.actionEditor.controls.*;
 import sl.fside.ui.editors.requirementEditor.controls.*;
-import sl.fside.ui.editors.scenarioSelector.controls.ScenarioController;
-import sl.fside.ui.editors.useCaseSelector.controls.UseCaseController;
+import sl.fside.ui.editors.scenarioSelector.controls.*;
+import sl.fside.ui.editors.useCaseSelector.controls.*;
+import sl.fside.ui.editors.verificationEditor.controls.*;
 
-import java.io.IOException;
+import java.io.*;
 
 public class UIElementsFactory {
 
@@ -23,6 +23,7 @@ public class UIElementsFactory {
     private final String scenarioSelectorControlsPath = editorsPath + "scenarioSelector/controls/";
     private final String actionEditorControlsPath = editorsPath + "actionEditor/controls/";
     private final String requirementEditorControlsPath = editorsPath + "requirementEditor/controls/";
+    private final String verificationEditorControlsPath = editorsPath + "verificationEditor/controls/";
 
     @Inject
     public UIElementsFactory(Injector injector) {
@@ -48,8 +49,16 @@ public class UIElementsFactory {
     }
 
     public Pair<AnchorPane, RequirementController> createRequirement(Requirement requirement) {
-        var pair = this.<AnchorPane, RequirementController>loadFromFxmnl(requirementEditorControlsPath + "Requirement.fxml");
+        var pair = this.<AnchorPane, RequirementController>loadFromFxmnl(
+                requirementEditorControlsPath + "Requirement.fxml");
         pair.getValue().load(requirement);
+        return pair;
+    }
+
+    public Pair<AnchorPane, VerificationController> createVerification(Verification verification) {
+        var pair = this.<AnchorPane, VerificationController>loadFromFxmnl(
+                verificationEditorControlsPath + "Verification.fxml");
+        pair.getValue().load(verification);
         return pair;
     }
 

@@ -18,6 +18,7 @@ import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
+import sl.fside.ui.editors.verificationEditor.*;
 
 import java.util.*;
 
@@ -44,6 +45,8 @@ public class MainWindowController {
     @FXML
     public RequirementEditorController requirementEditorController;
     @FXML
+    public VerificationEditorController verificationEditorController;
+    @FXML
     public UseCaseSelectorEditorController useCaseSelectorEditorController;
     private Project project;
     private Stage stage;
@@ -65,7 +68,8 @@ public class MainWindowController {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
                 scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController,
-                resultsPanelController, generateCodePanelController, requirementEditorController);
+                resultsPanelController, generateCodePanelController, requirementEditorController,
+                verificationEditorController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());

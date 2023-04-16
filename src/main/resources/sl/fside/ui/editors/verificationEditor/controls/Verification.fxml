@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="verificationRoot" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController"
+            prefHeight="100.0" prefWidth="318.0">
+    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"
+              promptText="content of the verification formula" onKeyTyped="#verificationContentChanged"/>
+    <Button fx:id="removeButton" layoutX="7.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="sendToProverButton" layoutX="70.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="100.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
+    <ComboBox fx:id="proverComboBox" layoutX="175.0" layoutY="70.0" prefHeight="15.0" prefWidth="140.0"
+              promptText="Choose Prover" onAction="#onChooseProverComboBoxClicked"/>
+</AnchorPane>

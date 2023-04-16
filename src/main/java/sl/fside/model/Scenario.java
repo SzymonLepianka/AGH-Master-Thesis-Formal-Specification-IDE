@@ -9,6 +9,7 @@ public class Scenario {
     private final UUID id;
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
     private final List<Requirement> requirements = new ArrayList<>();
+    private final List<Verification> verifications = new ArrayList<>();
     private String content = "";
     private String patternExpressionBeforeProcessingNesting;
     private String patternExpressionAfterProcessingNesting;
@@ -126,5 +127,17 @@ public class Scenario {
 
     public void removeRequirement(Requirement requirement) {
         this.requirements.remove(requirement);
+    }
+
+    public List<Verification> getVerifications() {
+        return verifications;
+    }
+
+    public void addVerification(Verification verification) {
+        this.verifications.add(verification);
+    }
+
+    public void removeVerification(Verification verification) {
+        this.verifications.remove(verification);
     }
 }

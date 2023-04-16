@@ -21,6 +21,8 @@ public interface IModelFactory {
 
     Requirement createRequirement(Scenario parent, UUID id);
 
+    Verification createVerification(Scenario parent, UUID id);
+
     Relation createRelation(UseCaseDiagram parent, UUID relationId, UUID fromId, UUID toId, Relation.RelationType type);
 
 //    ActivityDiagram createActivityDiagram(Scenario parent, UUID id);
