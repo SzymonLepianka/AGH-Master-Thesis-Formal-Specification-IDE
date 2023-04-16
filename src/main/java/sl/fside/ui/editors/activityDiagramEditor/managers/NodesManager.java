@@ -101,7 +101,7 @@ public class NodesManager {
         }
     }
 
-    public void removePatternExpression(){
+    public void removePatternExpression() {
         this.patternExpressionBeforeProcessingNesting = null;
         this.patternExpressionAfterProcessingNesting = null;
     }
@@ -121,8 +121,10 @@ public class NodesManager {
             String obligatoryAtomicActivity = "<<include>>" + targetUseCase.getUseCaseName();
             Scenario mainScenario =
                     targetUseCase.getScenarioList().stream().filter(Scenario::isMainScenario).findFirst().orElseThrow();
-            String patternExpressionToInject = mainScenario.getPatternExpressionAfterProcessingNesting();
-            if (patternExpressionToInject != null && patternExpressionToInject.length() > 0) {
+            String patternExpressionToInject =
+                    primPatternExpression(mainScenario.getPatternExpressionAfterProcessingNesting(),
+                            includeRelations.indexOf(r));
+            if (patternExpressionToInject != null) {
                 expression = expression.replace(obligatoryAtomicActivity, patternExpressionToInject);
             }
         }
@@ -131,6 +133,35 @@ public class NodesManager {
         //TODO INHERIT
 
         this.patternExpressionAfterProcessingNesting = expression;
+    }
+
+    private String primPatternExpression(String patternExpression, int idx) {
+
+        // check if patternExpression (to inject) exists
+        if (patternExpression == null || patternExpression.isEmpty()) {
+            return null;
+        }
+
+        // create as many "P" as needed
+        String primString = "P".repeat(Math.max(0, idx + 1));
+
+        StringBuilder primPatternExpression = new StringBuilder();
+        for (int i = 0; i < patternExpression.length(); i++) {
+
+            // put primString before ',' and after 'not ('
+            if (patternExpression.charAt(i) == ',' && patternExpression.charAt(i - 1) != ')') {
+                primPatternExpression.append(primString);
+            }
+
+            // put primString before ')' and after ') or ,'
+            if (patternExpression.charAt(i) == ')' && patternExpression.charAt(i - 1) != ')' &&
+                    patternExpression.charAt(i - 1) != ',') {
+                primPatternExpression.append(primString);
+            }
+
+            primPatternExpression.append(patternExpression.charAt(i));
+        }
+        return primPatternExpression.toString();
     }
 
     public void setSpecificationFromScenario(Scenario scenario) {
