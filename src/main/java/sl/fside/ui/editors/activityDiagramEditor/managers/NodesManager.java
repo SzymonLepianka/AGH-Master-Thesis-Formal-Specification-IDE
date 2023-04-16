@@ -20,6 +20,8 @@ public class NodesManager {
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean wasSpecificationGenerated;
+    private UseCaseDiagram currentUseCaseDiagram;
+    private UseCase currentUseCase;
     private List<String> currentAtomicActivities = new ArrayList<>();
     private String mainName;
     private String currentNodeType;
@@ -81,6 +83,7 @@ public class NodesManager {
     public void setPatternExpression(String patternExpressionBeforeProcessingNesting) {
         this.patternExpressionBeforeProcessingNesting = patternExpressionBeforeProcessingNesting;
 
+        processNesting();
 
         String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
         String patternRulesLtlFile = "./pattern_rules/pattern_rules_LTL.json"; // Linear Temporal Logic
@@ -101,6 +104,33 @@ public class NodesManager {
     public void removePatternExpression(){
         this.patternExpressionBeforeProcessingNesting = null;
         this.patternExpressionAfterProcessingNesting = null;
+    }
+
+    private void processNesting() {
+
+        String expression = patternExpressionBeforeProcessingNesting;
+
+        // include
+        List<Relation> includeRelations = currentUseCaseDiagram.getRelations().stream()
+                .filter(r -> r.getType() == Relation.RelationType.INCLUDE &&
+                        r.getFromId().equals(currentUseCase.getId())).toList();
+        for (Relation r : includeRelations) {
+            UseCase targetUseCase =
+                    currentUseCaseDiagram.getUseCaseList().stream().filter(uc -> uc.getId().equals(r.getToId()))
+                            .findFirst().orElseThrow();
+            String obligatoryAtomicActivity = "<<include>>" + targetUseCase.getUseCaseName();
+            Scenario mainScenario =
+                    targetUseCase.getScenarioList().stream().filter(Scenario::isMainScenario).findFirst().orElseThrow();
+            String patternExpressionToInject = mainScenario.getPatternExpressionAfterProcessingNesting();
+            if (patternExpressionToInject != null && patternExpressionToInject.length() > 0) {
+                expression = expression.replace(obligatoryAtomicActivity, patternExpressionToInject);
+            }
+        }
+
+        //TODO EXTEND
+        //TODO INHERIT
+
+        this.patternExpressionAfterProcessingNesting = expression;
     }
 
     public void setSpecificationFromScenario(Scenario scenario) {
@@ -148,6 +178,22 @@ public class NodesManager {
 
     public void setCurrentAtomicActivities(List<String> currentAtomicActivities) {
         this.currentAtomicActivities = currentAtomicActivities;
+    }
+
+    public UseCaseDiagram getCurrentUseCaseDiagram() {
+        return currentUseCaseDiagram;
+    }
+
+    public void setCurrentUseCaseDiagram(UseCaseDiagram currentUseCaseDiagram) {
+        this.currentUseCaseDiagram = currentUseCaseDiagram;
+    }
+
+    public UseCase getCurrentUseCase() {
+        return currentUseCase;
+    }
+
+    public void setCurrentUseCase(UseCase currentUseCase) {
+        this.currentUseCase = currentUseCase;
     }
 
     //    public void addTank(Tank tank) {

@@ -118,9 +118,18 @@ public class ActivityDiagramPanelController {
             }
         }
 
+        // TODO kontrola EXTEND
+        // TODO kontrola INHERIT
+
         // ustawia atomiczne aktywności dla edytora diagramu aktywności
         NodesManager.getInstance().setCurrentAtomicActivities(
                 scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList());
+
+        // ustawia UseCaseDiagram i UseCase dla edytora diagramu aktywności (potrzebny, aby przetworzyć zagnieżdżenia)
+        NodesManager.getInstance()
+                .setCurrentUseCaseDiagram(mainWindowController.getCurrentProject().getUseCaseDiagram());
+        NodesManager.getInstance()
+                .setCurrentUseCase(mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase());
 
         var stage = new Stage();
         final var loader =
