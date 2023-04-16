@@ -35,7 +35,7 @@ public interface IPersistenceHelper {
 
     void saveAtomicActivityCollectionFile(AtomicActivityCollection atomicActivityCollection);
 
-    void saveProjectNames(ProjectNameList projectNames);
+//    void saveProjectNames(ProjectNameList projectNames);
 
     void savePatternTemplateFile(PatternTemplateCollection patternTemplateCollection);
 

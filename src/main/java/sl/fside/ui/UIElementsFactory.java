@@ -6,7 +6,6 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import sl.fside.model.*;
-import sl.fside.ui.editors.actionEditor.controls.*;
 import sl.fside.ui.editors.requirementEditor.controls.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
@@ -42,11 +41,11 @@ public class UIElementsFactory {
         return pair;
     }
 
-    public Pair<AnchorPane, ActionController> createAction(Action action) {
-        var pair = this.<AnchorPane, ActionController>loadFromFxmnl(actionEditorControlsPath + "Action.fxml");
-        pair.getValue().load(action);
-        return pair;
-    }
+//    public Pair<AnchorPane, ActionController> createAction(Action action) {
+//        var pair = this.<AnchorPane, ActionController>loadFromFxmnl(actionEditorControlsPath + "Action.fxml");
+//        pair.getValue().load(action);
+//        return pair;
+//    }
 
     public Pair<AnchorPane, RequirementController> createRequirement(Requirement requirement) {
         var pair = this.<AnchorPane, RequirementController>loadFromFxmnl(

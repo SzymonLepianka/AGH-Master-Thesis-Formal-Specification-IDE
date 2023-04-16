@@ -96,10 +96,10 @@ class PersistenceHelper implements IPersistenceHelper {
                     atomicActivityCollection.getAtomicActivityCollectionId().toString()));
     }
 
-    @Override
-    public void saveProjectNames(ProjectNameList projectNames) {
-        if (saveFile(projectNamesFile, projectNames)) loggerService.logInfo("Saved Project Names");
-    }
+//    @Override
+//    public void saveProjectNames(ProjectNameList projectNames) {
+//        if (saveFile(projectNamesFile, projectNames)) loggerService.logInfo("Saved Project Names");
+//    }
 
     @Override
     public void savePatternTemplateFile(PatternTemplateCollection patternTemplateCollection) {
