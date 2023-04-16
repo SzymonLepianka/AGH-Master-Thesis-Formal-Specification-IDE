@@ -1,6 +1,7 @@
 // Generated from java-escape by ANTLR 4.11.1
 package sl.fside.services.code_generator1.gen;
-import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
+
+import org.antlr.v4.runtime.tree.*;
 
 /**
  * This class provides an empty implementation of {@link JavaVisitor},

@@ -2,11 +2,8 @@ package sl.fside.services.code_generator1.parsers;
 
 import sl.fside.services.code_generator1.gen.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class PythonLikeParser extends PythonBaseListener {
     List<String> functions =  new ArrayList<String>();

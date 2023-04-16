@@ -1,6 +1,6 @@
 package sl.fside.services.code_generator1.io;
 
-import java.util.Scanner;
+import java.util.*;
 
 public class DataReader {
     private Scanner sc = new Scanner(System.in);

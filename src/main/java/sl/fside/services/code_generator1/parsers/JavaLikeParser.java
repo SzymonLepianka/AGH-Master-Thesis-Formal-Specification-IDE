@@ -1,14 +1,9 @@
 package sl.fside.services.code_generator1.parsers;
 
-//import org.example.gen.JavaBaseListener;
-//import org.example.gen.JavaParser;
 import sl.fside.services.code_generator1.gen.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.io.*;
+import java.util.*;
 
 public class JavaLikeParser extends JavaBaseListener {
     List<String> functions =  new ArrayList<>();
