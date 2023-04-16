@@ -148,7 +148,7 @@ public class ActionEditorController {
 
     private void markWordsInTextArea(String wordToMark, List<String> styles) {
         String text = scenarioContentTextArea.getText();
-        Pattern pattern = Pattern.compile("\\b" + Pattern.quote(wordToMark) + "\\b");
+        Pattern pattern = Pattern.compile("(?<=\\s|^)" + Pattern.quote(wordToMark) + "(?=\\s|$)");
         Matcher matcher = pattern.matcher(text);
         while (matcher.find()) {
             int start = matcher.start();
