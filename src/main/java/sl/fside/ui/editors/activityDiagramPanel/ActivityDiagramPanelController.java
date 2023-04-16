@@ -99,7 +99,7 @@ public class ActivityDiagramPanelController {
         }
 
         // kontrola czy wśród atomicznych aktywności są inkludowane UseCase
-        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
             UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
             UseCase useCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
             List<Relation> allRelations = useCaseDiagram.getRelations();
@@ -118,7 +118,28 @@ public class ActivityDiagramPanelController {
             }
         }
 
-        // TODO kontrola EXTEND
+        // kontrola czy wśród atomicznych aktywności są extendowane UseCase
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase useCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<AtomicActivity> atomicActivities = scenario.getAtomicActivities();
+            List<Relation> extendRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.EXTEND && r.getToId().equals(useCase.getId()))
+                    .toList();
+            for (Relation r : extendRelations) {
+                String targetUseCaseName = useCaseDiagram.getUseCaseNameFromId(r.getFromId());
+                String obligatoryRelationName = "<<extend>>";
+                if (atomicActivities.stream().noneMatch(aa -> aa.getContent().startsWith(obligatoryRelationName) &&
+                        aa.getContent().endsWith(targetUseCaseName))) {
+                    showWarningMessage(
+                            "Obligatory atomic activity was not defined!\n'" + obligatoryRelationName + "CONDITION?" +
+                                    targetUseCaseName + "'");
+                    return;
+                }
+            }
+        }
+
         // TODO kontrola INHERIT
 
         // ustawia atomiczne aktywności dla edytora diagramu aktywności

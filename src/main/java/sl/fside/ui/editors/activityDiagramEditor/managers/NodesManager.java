@@ -9,6 +9,7 @@ import sl.fside.model.*;
 import sl.fside.services.logic_formula_generator.*;
 
 import java.util.*;
+import java.util.regex.*;
 
 public class NodesManager {
     private static NodesManager instance;
@@ -129,7 +130,42 @@ public class NodesManager {
             }
         }
 
-        //TODO EXTEND
+        // extend
+        List<Relation> extendRelations = currentUseCaseDiagram.getRelations().stream()
+                .filter(r -> r.getType() == Relation.RelationType.EXTEND && r.getToId().equals(currentUseCase.getId()))
+                .toList();
+        for (Relation r : extendRelations) {
+
+            // UseCase that is injected into another UseCase
+            UseCase targetUseCase =
+                    currentUseCaseDiagram.getUseCaseList().stream().filter(uc -> uc.getId().equals(r.getFromId()))
+                            .findFirst().orElseThrow();
+            String targetUseCaseName = targetUseCase.getUseCaseName();
+            String obligatoryRelationName = "<<extend>>";
+
+            // MainScenario contains PatternExpression to inject into another UseCase
+            Scenario mainScenario =
+                    targetUseCase.getScenarioList().stream().filter(Scenario::isMainScenario).findFirst().orElseThrow();
+            String patternExpressionToInject =
+                    primPatternExpression(mainScenario.getPatternExpressionAfterProcessingNesting(),
+                            extendRelations.indexOf(r));
+
+            if (patternExpressionToInject != null) {
+                String regex = obligatoryRelationName + "\\S*?" + targetUseCaseName;
+                Pattern pattern = Pattern.compile(regex);
+                Matcher matcher = pattern.matcher(expression);
+                while (matcher.find()) {
+                    String match = matcher.group(); // np. "<<extend>>warunek?ship_order"
+                    String condition = match.substring(obligatoryRelationName.length(),
+                            match.length() - targetUseCaseName.length() - 1); // np. "warunek"
+                    String altPattern = "Alt(" + condition + ", " + patternExpressionToInject + ")";
+                    expression = expression.replace(match, altPattern);
+                }
+            } else {
+                System.out.println("PatternExpression for " + targetUseCaseName + " is not defined!");
+            }
+        }
+
         //TODO INHERIT
 
         this.patternExpressionAfterProcessingNesting = expression;
