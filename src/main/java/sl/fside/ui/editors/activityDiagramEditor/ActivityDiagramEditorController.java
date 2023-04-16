@@ -456,21 +456,19 @@ public class ActivityDiagramEditorController {
                 sb.append(value);
                 sb.append(",");
 
-                // elementy grafu w zagnieżdżonych elementach VBox i HBox
-            } else if (child2 instanceof VBox ||
-                    (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) != 1)) {
-                sb.append(getNestedPatternFromVBox((Pane) child2));
-
                 // nazwy zagnieżdżonych (wewnętrznych) wzorców
-            } else if (child2 instanceof HBox && vBoxOrHBox.getChildren().indexOf(child2) == 1 &&
-                    ((HBox) child2).getChildren().get(0) instanceof Text) {
+            } else if (child2 instanceof HBox && ((HBox) child2).getChildren().get(0) instanceof Text) {
                 String text = ((Text) (((HBox) child2).getChildren().get(0))).getText().replaceAll("\\s", "");
                 sb.append(text);
                 sb.append("(");
                 closeStatement = true;
 
+                // elementy grafu w zagnieżdżonych elementach VBox i HBox
+            } else if (child2 instanceof VBox || child2 instanceof HBox) {
+                sb.append(getNestedPatternFromVBox((Pane) child2));
+
                 // elementy pomijane
-            } else if (child2 instanceof Text || child2 instanceof MyArrow) {
+            } else if (child2 instanceof Text || child2 instanceof MyArrow || child2 instanceof Line) {
             } else {
                 System.out.println("Nieobsłużone(2): " + child2);
             }
