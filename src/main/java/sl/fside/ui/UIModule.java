@@ -4,6 +4,7 @@ import com.google.inject.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.actionEditor.controls.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.requirementEditor.controls.*;
@@ -32,6 +33,7 @@ public class UIModule extends PrivateModule {
         bind(ActionController.class);
         bind(ActivityDiagramPanelController.class);
         bind(ResultsPanelController.class);
+        bind(GenerateCodePanelController.class);
         bind(RequirementEditorController.class);
         bind(RequirementController.class);
 
@@ -47,6 +49,7 @@ public class UIModule extends PrivateModule {
         expose(ActionController.class);
         expose(ActivityDiagramPanelController.class);
         expose(ResultsPanelController.class);
+        expose(GenerateCodePanelController.class);
         expose(RequirementEditorController.class);
         expose(RequirementController.class);
 

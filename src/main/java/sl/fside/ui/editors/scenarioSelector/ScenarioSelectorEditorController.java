@@ -12,6 +12,7 @@ import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
@@ -37,6 +38,7 @@ public class ScenarioSelectorEditorController {
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
     private ResultsPanelController resultsPanelController;
+    private GenerateCodePanelController generateCodePanelController;
     private RequirementEditorController requirementEditorController;
 
     @Inject
@@ -129,11 +131,13 @@ public class ScenarioSelectorEditorController {
     public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
                                     ActivityDiagramPanelController activityDiagramPanelController,
                                     ResultsPanelController resultsPanelController,
+                                    GenerateCodePanelController generateCodePanelController,
                                     RequirementEditorController requirementEditorController) {
         this.useCase = useCase;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
+        this.generateCodePanelController = generateCodePanelController;
         this.requirementEditorController = requirementEditorController;
         updateScenarioSelectorEditor();
         scenarioList.getItems().clear();
@@ -156,6 +160,7 @@ public class ScenarioSelectorEditorController {
         actionEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
         resultsPanelController.removeScenarioSelection();
+        generateCodePanelController.removeScenarioSelection();
         requirementEditorController.removeScenarioSelection();
 
         // usuwanie Scenario
@@ -183,6 +188,7 @@ public class ScenarioSelectorEditorController {
                 actionEditorController.setScenarioSelection(scenario);
                 activityDiagramPanelController.setScenarioSelection(scenario, resultsPanelController);
                 resultsPanelController.setScenarioSelection(scenario);
+                generateCodePanelController.setScenarioSelection(scenario);
                 requirementEditorController.setScenarioSelection(scenario);
 
             } else {

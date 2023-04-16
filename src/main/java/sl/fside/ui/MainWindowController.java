@@ -12,6 +12,7 @@ import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
@@ -39,6 +40,8 @@ public class MainWindowController {
     @FXML
     public ResultsPanelController resultsPanelController;
     @FXML
+    public GenerateCodePanelController generateCodePanelController;
+    @FXML
     public RequirementEditorController requirementEditorController;
     @FXML
     public UseCaseSelectorEditorController useCaseSelectorEditorController;
@@ -62,7 +65,7 @@ public class MainWindowController {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
                 scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController,
-                resultsPanelController, requirementEditorController);
+                resultsPanelController, generateCodePanelController, requirementEditorController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());

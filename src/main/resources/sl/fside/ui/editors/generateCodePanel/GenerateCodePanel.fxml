@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<TitledPane fx:id="generateCodePanelRoot" animated="false" collapsible="false" prefHeight="110.0" prefWidth="360.0"
+            text="Code generation" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="sl.fside.ui.editors.generateCodePanel.GenerateCodePanelController">
+    <AnchorPane fx:id="generateCodePanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="109.0"
+                prefWidth="358.0">
+        <Button fx:id="generateJavaButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#generateJavaButtonClicked"
+                prefHeight="25.0"
+                prefWidth="338.0" text="Generate Java"/>
+        <Button fx:id="generatePythonButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="45.0" mnemonicParsing="false" onAction="#generatePythonButtonClicked"
+                prefHeight="25.0"
+                prefWidth="338.0" text="Generate Python"/>
+    </AnchorPane>
+</TitledPane>

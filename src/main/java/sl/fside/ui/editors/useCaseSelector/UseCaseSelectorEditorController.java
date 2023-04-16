@@ -13,6 +13,7 @@ import sl.fside.services.*;
 import sl.fside.ui.*;
 import sl.fside.ui.editors.actionEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
+import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
 import sl.fside.ui.editors.scenarioSelector.*;
@@ -38,6 +39,7 @@ public class UseCaseSelectorEditorController {
     private ActionEditorController actionEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
     private ResultsPanelController resultsPanelController;
+    private GenerateCodePanelController generateCodePanelController;
     private RequirementEditorController requirementEditorController;
     @FXML
     private ListView<AnchorPane> useCasesList;
@@ -117,12 +119,14 @@ public class UseCaseSelectorEditorController {
                                            ActionEditorController actionEditorController,
                                            ActivityDiagramPanelController activityDiagramPanelController,
                                            ResultsPanelController resultsPanelController,
+                                           GenerateCodePanelController generateCodePanelController,
                                            RequirementEditorController requirementEditorController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
         this.actionEditorController = actionEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
+        this.generateCodePanelController = generateCodePanelController;
         this.requirementEditorController = requirementEditorController;
         useCasesList.getItems().clear();
         updateUseCaseSelectorEditor();
@@ -140,6 +144,7 @@ public class UseCaseSelectorEditorController {
         actionEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
         resultsPanelController.removeScenarioSelection();
+        generateCodePanelController.removeScenarioSelection();
         requirementEditorController.removeScenarioSelection();
 
         // add new useCases to list
@@ -163,7 +168,7 @@ public class UseCaseSelectorEditorController {
 
                 // Set selected UseCase to scenarioSelectorPanel
                 scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
-                        activityDiagramPanelController, resultsPanelController, requirementEditorController);
+                        activityDiagramPanelController, resultsPanelController, generateCodePanelController, requirementEditorController);
 
                 // set checkbox in UseCasesPanel to selected UseCase
                 uiElementUseCasePairs.forEach(ucp -> ucp.getValue().setIsSelectedCheckBox(false));
