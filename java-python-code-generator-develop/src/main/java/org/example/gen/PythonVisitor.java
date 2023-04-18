@@ -29,6 +29,30 @@ public interface PythonVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitSeq(PythonParser.SeqContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link PythonParser#seqoptions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqoptions(PythonParser.SeqoptionsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#seqPrime}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqPrime(PythonParser.SeqPrimeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#seqBranch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqBranch(PythonParser.SeqBranchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#seqConcur}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqConcur(PythonParser.SeqConcurContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link PythonParser#branch}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
@@ -40,6 +64,12 @@ public interface PythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitBranchRe(PythonParser.BranchReContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#alt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlt(PythonParser.AltContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PythonParser#concur}.
 	 * @param ctx the parse tree
@@ -88,6 +118,24 @@ public interface PythonVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRepeat(PythonParser.RepeatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#twoArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTwoArguments(PythonParser.TwoArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#threeArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThreeArguments(PythonParser.ThreeArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link PythonParser#fourArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFourArguments(PythonParser.FourArgumentsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link PythonParser#function}.
 	 * @param ctx the parse tree

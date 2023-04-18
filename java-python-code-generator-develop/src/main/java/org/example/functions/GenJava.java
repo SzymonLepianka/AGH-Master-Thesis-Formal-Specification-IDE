@@ -12,25 +12,23 @@ import org.example.parsers.JavaLikeParser;
 import java.io.IOException;
 
 public class GenJava {
-    public static void GenJava(String input) throws IOException {
+    public static String genJava(String input, String UUID) throws IOException {
         CharStream in;
-        String split [];
-        if(input != null){
+        String[] split;
+        if (input != null) {
             in = CharStreams.fromString(input);
-            split = in.toString().split("[(]",2);
-        }else{
+        } else {
             in = CharStreams.fromFileName("src/INPUT.cc");
-            split = in.toString().split("[(]",2);
         }
-        /**
-         * Generate JAVA code
-         *
-         */
+        split = in.toString().split("[(]", 2);
+
         JavaLexer lexer = new JavaLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
+        JavaLikeParser.SetUUID(UUID);
         ParseTree tree = switch (split[0]) {
             case "Seq" -> parser.seq();
+            case "Alt" -> parser.alt();
             case "Branch" -> parser.branch();
             case "Concur" -> parser.concur();
             case "Cond" -> parser.cond();
@@ -44,5 +42,7 @@ public class GenJava {
         ParseTreeWalker javaWalker = new ParseTreeWalker();
         JavaLikeParser listener = new JavaLikeParser();
         javaWalker.walk(listener, tree);
+
+        return JavaLikeParser.getResult();
     }
 }

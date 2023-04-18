@@ -38,6 +38,46 @@ public interface JavaListener extends ParseTreeListener {
 	 */
 	void exitSeq(JavaParser.SeqContext ctx);
 	/**
+	 * Enter a parse tree produced by {@link JavaParser#seqoptions}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqoptions(JavaParser.SeqoptionsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#seqoptions}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqoptions(JavaParser.SeqoptionsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#seqPrime}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqPrime(JavaParser.SeqPrimeContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#seqPrime}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqPrime(JavaParser.SeqPrimeContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#seqBranch}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqBranch(JavaParser.SeqBranchContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#seqBranch}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqBranch(JavaParser.SeqBranchContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#seqConcur}.
+	 * @param ctx the parse tree
+	 */
+	void enterSeqConcur(JavaParser.SeqConcurContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#seqConcur}.
+	 * @param ctx the parse tree
+	 */
+	void exitSeqConcur(JavaParser.SeqConcurContext ctx);
+	/**
 	 * Enter a parse tree produced by {@link JavaParser#branch}.
 	 * @param ctx the parse tree
 	 */
@@ -137,6 +177,46 @@ public interface JavaListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitRepeat(JavaParser.RepeatContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#alt}.
+	 * @param ctx the parse tree
+	 */
+	void enterAlt(JavaParser.AltContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#alt}.
+	 * @param ctx the parse tree
+	 */
+	void exitAlt(JavaParser.AltContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#twoArguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterTwoArguments(JavaParser.TwoArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#twoArguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitTwoArguments(JavaParser.TwoArgumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#threeArguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterThreeArguments(JavaParser.ThreeArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#threeArguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitThreeArguments(JavaParser.ThreeArgumentsContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link JavaParser#fourArguments}.
+	 * @param ctx the parse tree
+	 */
+	void enterFourArguments(JavaParser.FourArgumentsContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link JavaParser#fourArguments}.
+	 * @param ctx the parse tree
+	 */
+	void exitFourArguments(JavaParser.FourArgumentsContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link JavaParser#function}.
 	 * @param ctx the parse tree

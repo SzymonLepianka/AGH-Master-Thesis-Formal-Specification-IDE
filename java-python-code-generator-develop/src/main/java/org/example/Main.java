@@ -1,18 +1,21 @@
 package org.example;
+
 import org.example.io.DataReader;
+
 import java.io.IOException;
-import static org.example.functions.GenJava.GenJava;
-import static org.example.functions.GenPython.GenPython;
+
+import static org.example.functions.GenJava.genJava;
+import static org.example.functions.GenPython.genPython;
 
 /**
  * The Code Parser program implements an application that
  * generate Java and Python code from patterns
  *
- * @author  Kacper Dworak
- * @author  Daniel Sikora
- * @author  Krzysztof Ksiazek
+ * @author Kacper Dworak
+ * @author Daniel Sikora
+ * @author Krzysztof Ksiazek
  * @version 4.20
- * @since   2023-02-27
+ * @since 2023-02-27
  */
 public class Main {
     public static void main(String[] arg) throws IOException {
@@ -20,19 +23,26 @@ public class Main {
         final int JAVA = 1;
         final int PYTHON = 2;
         DataReader dataReader = new DataReader();
-
+        String results;
         int option;
         do {
             printOptions();
             option = dataReader.getInt();
-
-            System.out.println("\n\n\n\n");
+            String UUID;
+            System.out.println("\n");
+            System.out.print("Enter UUID: ");
             switch (option) {
                 case JAVA -> {
-                    GenJava(null);
+                    UUID = dataReader.getString();
+                    System.out.print("\n");
+                    results = genJava(null, UUID);
+
                 }
                 case PYTHON -> {
-                    GenPython(null);
+                    UUID = dataReader.getString();
+                    System.out.print("\n");
+                    results = genPython(null, UUID);
+
                 }
                 case EXIT -> {
                     dataReader.close();
@@ -41,7 +51,7 @@ public class Main {
                 default -> System.out.println("Not valid language!");
             }
             System.out.println("\n\n\n\n");
-        }while(option != EXIT);
+        } while (option != EXIT);
     }
 
     private static void printOptions() {

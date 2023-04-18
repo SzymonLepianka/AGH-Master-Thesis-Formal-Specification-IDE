@@ -53,6 +53,54 @@ public class PythonBaseListener implements PythonListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterSeqoptions(PythonParser.SeqoptionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqoptions(PythonParser.SeqoptionsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSeqPrime(PythonParser.SeqPrimeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqPrime(PythonParser.SeqPrimeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSeqBranch(PythonParser.SeqBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqBranch(PythonParser.SeqBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterSeqConcur(PythonParser.SeqConcurContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitSeqConcur(PythonParser.SeqConcurContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterBranch(PythonParser.BranchContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -72,6 +120,18 @@ public class PythonBaseListener implements PythonListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitBranchRe(PythonParser.BranchReContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAlt(PythonParser.AltContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAlt(PythonParser.AltContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -168,6 +228,42 @@ public class PythonBaseListener implements PythonListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRepeat(PythonParser.RepeatContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTwoArguments(PythonParser.TwoArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTwoArguments(PythonParser.TwoArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterThreeArguments(PythonParser.ThreeArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitThreeArguments(PythonParser.ThreeArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterFourArguments(PythonParser.FourArgumentsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitFourArguments(PythonParser.FourArgumentsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
