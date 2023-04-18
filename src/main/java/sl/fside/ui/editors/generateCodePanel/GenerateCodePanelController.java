@@ -8,10 +8,12 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import javafx.stage.*;
+import javafx.util.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
+import sl.fside.ui.editors.generateCodePanel.controls.*;
 
 import java.io.*;
 import java.util.*;
@@ -25,12 +27,19 @@ public class GenerateCodePanelController {
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
 
+    private final List<Pair<AnchorPane, CodeController>> uiElementCodePairs = new ArrayList<>();
+
+
     @FXML
     public TitledPane generateCodePanelRoot;
     @FXML
     public AnchorPane generateCodePanelAnchorPane;
     @FXML
     public Button generateCodeButton;
+    @FXML
+    public ListView<AnchorPane> codesList;
+    @FXML
+    public Button addCodeButton;
 
     private Scenario scenario;
 
@@ -64,20 +73,64 @@ public class GenerateCodePanelController {
         return new Color(r, g, b, 1);
     }
 
+    @FXML
+    public void addCodeButtonClicked() {
+        if (scenario != null) {
+
+            // creating new code
+            Code newCode = modelFactory.createCode(scenario, UUID.randomUUID());
+            Pair<AnchorPane, CodeController> uiElementPair = uiElementsFactory.createCode(newCode);
+            uiElementCodePairs.add(uiElementPair);
+
+            // usuwanie Code
+            uiElementPair.getValue().setOnRemoveClicked(this::removeCode);
+
+            // dodaje nowy Code do obecnych
+            codesList.getItems().add(uiElementPair.getKey());
+        } else {
+            System.out.println("addCodeButtonClicked - Nigdy nie powinien się tu znaleźć");
+        }
+
+    }
+
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
         updateGenerateCodePanel();
+        codesList.getItems().clear();
+
+        // create new codes
+        var codePairs = scenario.getCodes().stream().map(uiElementsFactory::createCode).toList();
+        uiElementCodePairs.clear();
+        uiElementCodePairs.addAll(codePairs);
+
+        // usuwanie Code
+        uiElementCodePairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeCode));
+
+        // add new codes to list
+        codesList.getItems().addAll(codePairs.stream().map(Pair::getKey).toList());
+
         loggerService.logInfo("Scenario set to GenerateCodePanel - " + scenario.getId());
     }
 
     public void removeScenarioSelection() {
         this.scenario = null;
         updateGenerateCodePanel();
+        codesList.getItems().clear();
+        uiElementCodePairs.clear();
     }
 
     private void updateGenerateCodePanel() {
         // setting disable property of the generateCodePanelRoot TitledPane based on the value of the scenario variable
         generateCodePanelRoot.setDisable(scenario == null);
+    }
+
+    private Void removeCode(Pair<AnchorPane, CodeController> pair) {
+        codesList.getItems().remove(pair.getKey());
+        scenario.removeCode(pair.getValue().getCode());
+        uiElementCodePairs.remove(pair);
+
+        loggerService.logInfo("Code removed - " + pair.getValue().getCode().getId());
+        return null;
     }
 
     @FXML

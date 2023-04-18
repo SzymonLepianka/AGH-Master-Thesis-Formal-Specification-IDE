@@ -6,6 +6,7 @@ import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.util.*;
 import sl.fside.model.*;
+import sl.fside.ui.editors.generateCodePanel.controls.*;
 import sl.fside.ui.editors.requirementEditor.controls.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
@@ -21,6 +22,7 @@ public class UIElementsFactory {
     private final String useCaseSelectorControlsPath = editorsPath + "useCaseSelector/controls/";
     private final String scenarioSelectorControlsPath = editorsPath + "scenarioSelector/controls/";
     private final String actionEditorControlsPath = editorsPath + "actionEditor/controls/";
+    private final String generateCodePanelControlsPath = editorsPath + "generateCodePanel/controls/";
     private final String requirementEditorControlsPath = editorsPath + "requirementEditor/controls/";
     private final String verificationEditorControlsPath = editorsPath + "verificationEditor/controls/";
 
@@ -46,6 +48,12 @@ public class UIElementsFactory {
 //        pair.getValue().load(action);
 //        return pair;
 //    }
+
+    public Pair<AnchorPane, CodeController> createCode(Code code) {
+        var pair = this.<AnchorPane, CodeController>loadFromFxmnl(generateCodePanelControlsPath + "Code.fxml");
+        pair.getValue().load(code);
+        return pair;
+    }
 
     public Pair<AnchorPane, RequirementController> createRequirement(Requirement requirement) {
         var pair = this.<AnchorPane, RequirementController>loadFromFxmnl(

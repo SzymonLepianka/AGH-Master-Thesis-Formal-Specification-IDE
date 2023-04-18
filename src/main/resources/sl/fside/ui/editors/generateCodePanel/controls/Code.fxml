@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane fx:id="codeRoot" xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="sl.fside.ui.editors.generateCodePanel.controls.CodeController"
+            prefHeight="100.0" prefWidth="318.0">
+    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"
+              promptText="code" onKeyTyped="#codeContentChanged"/>
+    <Button fx:id="removeButton" layoutX="7.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <ComboBox fx:id="atomicActivityComboBox" layoutX="70.0" layoutY="70.0" prefHeight="15.0" prefWidth="245.0"
+              promptText="Choose atomic activity" onAction="#onComboBoxClicked"/>
+</AnchorPane>

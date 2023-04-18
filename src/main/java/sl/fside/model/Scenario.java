@@ -8,6 +8,7 @@ public class Scenario {
 
     private final UUID id;
     private final List<AtomicActivity> atomicActivities = new ArrayList<>();
+    private final List<Code> codes = new ArrayList<>();
     private final List<Requirement> requirements = new ArrayList<>();
     private final List<Verification> verifications = new ArrayList<>();
     private String content = "";
@@ -115,6 +116,18 @@ public class Scenario {
 
     public void setIsMainScenario(boolean isMainScenario) {
         this.isMainScenario = isMainScenario;
+    }
+
+    public List<Code> getCodes() {
+        return codes;
+    }
+
+    public void addCode(Code code) {
+        this.codes.add(code);
+    }
+
+    public void removeCode(Code code) {
+        this.codes.remove(code);
     }
 
     public List<Requirement> getRequirements() {

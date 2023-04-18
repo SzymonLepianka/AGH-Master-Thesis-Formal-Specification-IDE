@@ -43,6 +43,7 @@ module sl.fside {
     opens sl.fside.ui.editors.activityDiagramPanel to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.resultsPanel to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.generateCodePanel to javafx.fxml, com.google.guice;
+    opens sl.fside.ui.editors.generateCodePanel.controls to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.requirementEditor to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.requirementEditor.controls to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.verificationEditor to javafx.fxml, com.google.guice;

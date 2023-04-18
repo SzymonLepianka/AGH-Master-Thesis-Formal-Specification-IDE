@@ -7,9 +7,15 @@
             fx:controller="sl.fside.ui.editors.generateCodePanel.GenerateCodePanelController">
     <AnchorPane fx:id="generateCodePanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="319.0"
                 prefWidth="358.0">
-        <Button fx:id="generateCodeButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
+        <ListView fx:id="codesList" layoutX="9.0" layoutY="9.0" prefHeight="245.0"
+                  prefWidth="338.0"/>
+        <Button fx:id="addCodeButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="260.0" mnemonicParsing="false" onAction="#addCodeButtonClicked"
                 prefHeight="25.0"
-                prefWidth="338.0" text="Generate code"/>
+                prefWidth="165.0" text="Add a code"/>
+        <Button fx:id="generateCodeButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="182.0" layoutY="260.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
+                prefHeight="25.0"
+                prefWidth="165.0" text="Generate code"/>
     </AnchorPane>
 </TitledPane>

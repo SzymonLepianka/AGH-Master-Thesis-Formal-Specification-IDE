@@ -19,6 +19,8 @@ public interface IModelFactory {
 
 //    Action createAction(Scenario parent, UUID id, String actionContent);
 
+    Code createCode(Scenario parent, UUID id);
+
     Requirement createRequirement(Scenario parent, UUID id);
 
     Verification createVerification(Scenario parent, UUID id);

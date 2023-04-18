@@ -111,6 +111,13 @@ public class ModelFactory implements IModelFactory {
 //    }
 
     @Override
+    public Code createCode(Scenario scenario, UUID id) {
+        Code code = new Code(id);
+        scenario.addCode(code);
+        return code;
+    }
+
+    @Override
     public Requirement createRequirement(Scenario scenario, UUID id) {
         Requirement requirement = new Requirement(id);
         scenario.addRequirement(requirement);
