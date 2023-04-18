@@ -29,8 +29,8 @@ public class JavaLikeParser extends JavaBaseListener {
             data.append(s);
         }
 
-        String txtFile = "codeJava_" + UUID + ".txt";
-        String javaFile = "codeJava_" + UUID + ".java";
+        String txtFile = "generated_code/codeJava_" + UUID + ".txt";
+        String javaFile = "generated_code/codeJava_" + UUID + ".java";
         FinalString = data.toString();
         try {
             FileWriter writerTxt = new FileWriter(txtFile);

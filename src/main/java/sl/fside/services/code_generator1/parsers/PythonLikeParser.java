@@ -33,8 +33,8 @@ public class PythonLikeParser extends PythonBaseListener {
             System.out.println(stack.get(i));
             data += stack.get(i);
         }
-        String txtFile = "codePython_" + UUID + ".txt";
-        String javaFile = "codePython_" + UUID + ".py";
+        String txtFile = "generated_code/codePython_" + UUID + ".txt";
+        String javaFile = "generated_code/codePython_" + UUID + ".py";
         FinalString = data;
         try {
             FileWriter writerTxt = new FileWriter(txtFile);
