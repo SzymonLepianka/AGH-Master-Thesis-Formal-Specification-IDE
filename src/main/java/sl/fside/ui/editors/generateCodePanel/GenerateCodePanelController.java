@@ -2,14 +2,18 @@ package sl.fside.ui.editors.generateCodePanel;
 
 import com.google.inject.*;
 import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.stage.Stage;
+import javafx.stage.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
 
+import java.io.*;
 import java.util.*;
 
 import static sl.fside.services.code_generator1.functions.GenJava.*;
@@ -26,9 +30,7 @@ public class GenerateCodePanelController {
     @FXML
     public AnchorPane generateCodePanelAnchorPane;
     @FXML
-    public Button generateJavaButton;
-    @FXML
-    public Button generatePythonButton;
+    public Button generateCodeButton;
 
     private Scenario scenario;
 
@@ -79,7 +81,7 @@ public class GenerateCodePanelController {
     }
 
     @FXML
-    public void generateJavaButtonClicked() {
+    public void generateCodeButtonClicked() {
 
         // kontrola czy kod może być wygenerowany
         if (scenario == null) {
@@ -91,29 +93,12 @@ public class GenerateCodePanelController {
             return;
         }
         try {
-            genJava(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
-            loggerService.logInfo("Java code generated");
-        } catch (Exception e) {
-            e.printStackTrace();
-            showMessage(e.getMessage(), Alert.AlertType.ERROR);
-        }
-    }
-
-    @FXML
-    public void generatePythonButtonClicked() {
-
-        // kontrola czy kod może być wygenerowany
-        if (scenario == null) {
-            showMessage("Scenario is not selected (It should never occur)", Alert.AlertType.WARNING);
-            return;
-        }
-        if (scenario.getPatternExpressionAfterProcessingNesting() == null) {
-            showMessage("No PatternExpression defined!", Alert.AlertType.WARNING);
-        }
-
-        try {
-            genPython(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
-            loggerService.logInfo("Python code generated");
+            String javaCode =
+                    genJava(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
+            String pythonCode =
+                    genPython(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
+            showGeneratedCode(javaCode, pythonCode);
+            loggerService.logInfo("Code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
@@ -126,5 +111,31 @@ public class GenerateCodePanelController {
         alert.setHeaderText("Warning");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    private void showGeneratedCode(String javaCode, String pythonCode) {
+        var stage = new Stage();
+        final var loader = new FXMLLoader(GeneratedCodeController.class.getResource("GeneratedCode.fxml"));
+        final Parent root;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        final Scene scene = new Scene(root, 800, 500);
+
+        // Make the stage modal (it disables clicking other windows)
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        stage.setScene(scene);
+        stage.setTitle("Formal Specification IDE - Generated code");
+
+        stage.show();
+
+        final GeneratedCodeController controller = loader.getController();
+        controller.setCode(javaCode, pythonCode);
+
+        loggerService.logInfo("GeneratedCode window opened");
     }
 }

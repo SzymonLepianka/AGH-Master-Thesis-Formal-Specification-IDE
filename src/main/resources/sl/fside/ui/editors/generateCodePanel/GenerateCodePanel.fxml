@@ -7,13 +7,9 @@
             fx:controller="sl.fside.ui.editors.generateCodePanel.GenerateCodePanelController">
     <AnchorPane fx:id="generateCodePanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="109.0"
                 prefWidth="358.0">
-        <Button fx:id="generateJavaButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#generateJavaButtonClicked"
+        <Button fx:id="generateCodeButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
                 prefHeight="25.0"
-                prefWidth="338.0" text="Generate Java"/>
-        <Button fx:id="generatePythonButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="45.0" mnemonicParsing="false" onAction="#generatePythonButtonClicked"
-                prefHeight="25.0"
-                prefWidth="338.0" text="Generate Python"/>
+                prefWidth="338.0" text="Generate code"/>
     </AnchorPane>
 </TitledPane>
