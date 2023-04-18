@@ -1,32 +1,34 @@
 package sl.fside.services.code_generator1.functions;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import sl.fside.services.code_generator1.gen.*;
-import sl.fside.services.code_generator1.parsers.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import sl.fside.services.code_generator1.gen.JavaLexer;
+import sl.fside.services.code_generator1.gen.JavaParser;
+import sl.fside.services.code_generator1.parsers.JavaLikeParser;
 
-import java.io.*;
+import java.io.IOException;
 
 public class GenJava {
-    public static void GenJava(String input) throws IOException {
+    public static String genJava(String input, String UUID) throws IOException {
         CharStream in;
-        String split [];
-        if(input != null){
+        String[] split;
+        if (input != null) {
             in = CharStreams.fromString(input);
-            split = in.toString().split("[(]",2);
-        }else{
+        } else {
             in = CharStreams.fromFileName("src/INPUT.cc");
-            split = in.toString().split("[(]",2);
         }
-        /**
-         * Generate JAVA code
-         *
-         */
+        split = in.toString().split("[(]", 2);
+
         JavaLexer lexer = new JavaLexer(in);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         JavaParser parser = new JavaParser(tokens);
+        JavaLikeParser.SetUUID(UUID);
         ParseTree tree = switch (split[0]) {
             case "Seq" -> parser.seq();
+            case "Alt" -> parser.alt();
             case "Branch" -> parser.branch();
             case "Concur" -> parser.concur();
             case "Cond" -> parser.cond();
@@ -40,5 +42,7 @@ public class GenJava {
         ParseTreeWalker javaWalker = new ParseTreeWalker();
         JavaLikeParser listener = new JavaLikeParser();
         javaWalker.walk(listener, tree);
+
+        return JavaLikeParser.getResult();
     }
 }

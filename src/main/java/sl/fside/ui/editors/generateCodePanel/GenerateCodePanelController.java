@@ -91,7 +91,7 @@ public class GenerateCodePanelController {
             return;
         }
         try {
-            GenJava(scenario.getPatternExpressionAfterProcessingNesting());
+            genJava(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
             loggerService.logInfo("Java code generated");
         } catch (Exception e) {
             e.printStackTrace();
@@ -112,7 +112,7 @@ public class GenerateCodePanelController {
         }
 
         try {
-            GenPython(scenario.getPatternExpressionAfterProcessingNesting());
+            genPython(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
             loggerService.logInfo("Python code generated");
         } catch (Exception e) {
             e.printStackTrace();

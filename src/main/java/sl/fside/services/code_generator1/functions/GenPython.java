@@ -1,33 +1,34 @@
 package sl.fside.services.code_generator1.functions;
 
-import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.*;
-import sl.fside.services.code_generator1.gen.*;
-import sl.fside.services.code_generator1.parsers.*;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import sl.fside.services.code_generator1.gen.PythonLexer;
+import sl.fside.services.code_generator1.gen.PythonParser;
+import sl.fside.services.code_generator1.parsers.PythonLikeParser;
 
-import java.io.*;
+import java.io.IOException;
 
 public class GenPython {
-    public static void GenPython(String input) throws IOException {
+    public static String genPython(String input, String UUID) throws IOException {
         CharStream in;
-        String split [];
-        if(input != null){
+        String[] split;
+        if (input != null) {
             in = CharStreams.fromString(input);
-            split = in.toString().split("[(]",2);
-        }else{
+        } else {
             in = CharStreams.fromFileName("src/INPUT.cc");
-            split = in.toString().split("[(]",2);
         }
-        /**
-         * Generate PYTHON code
-         *
-         */
+        split = in.toString().split("[(]", 2);
 
         PythonLexer lexerPython = new PythonLexer(in);
         CommonTokenStream tokensPython = new CommonTokenStream(lexerPython);
         PythonParser parserPython = new PythonParser(tokensPython);
+        PythonLikeParser.SetUUID(UUID);
         ParseTree treePython = switch (split[0]) {
             case "Seq" -> parserPython.seq();
+            case "Alt" -> parserPython.alt();
             case "Branch" -> parserPython.branch();
             case "Concur" -> parserPython.concur();
             case "Cond" -> parserPython.cond();
@@ -41,5 +42,7 @@ public class GenPython {
         ParseTreeWalker walkerPython = new ParseTreeWalker();
         PythonLikeParser listenerPython = new PythonLikeParser();
         walkerPython.walk(listenerPython, treePython);
+        //Return string
+        return PythonLikeParser.getResult();
     }
 }

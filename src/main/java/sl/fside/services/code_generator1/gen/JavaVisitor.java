@@ -1,7 +1,6 @@
 // Generated from java-escape by ANTLR 4.11.1
 package sl.fside.services.code_generator1.gen;
-
-import org.antlr.v4.runtime.tree.*;
+import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
  * This interface defines a complete generic visitor for a parse tree produced
@@ -29,6 +28,30 @@ public interface JavaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitSeq(JavaParser.SeqContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#seqoptions}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqoptions(JavaParser.SeqoptionsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#seqPrime}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqPrime(JavaParser.SeqPrimeContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#seqBranch}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqBranch(JavaParser.SeqBranchContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#seqConcur}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSeqConcur(JavaParser.SeqConcurContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JavaParser#branch}.
 	 * @param ctx the parse tree
@@ -89,6 +112,30 @@ public interface JavaVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitRepeat(JavaParser.RepeatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#alt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAlt(JavaParser.AltContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#twoArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTwoArguments(JavaParser.TwoArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#threeArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitThreeArguments(JavaParser.ThreeArgumentsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link JavaParser#fourArguments}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFourArguments(JavaParser.FourArgumentsContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link JavaParser#function}.
 	 * @param ctx the parse tree
