@@ -2,10 +2,10 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="verificationEditorRoot" animated="false" collapsible="false" prefHeight="450.0" prefWidth="360.0"
+<TitledPane fx:id="verificationEditorRoot" animated="false" collapsible="false" prefHeight="455.0" prefWidth="360.0"
             text="Verification" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.verificationEditor.VerificationEditorController">
-    <AnchorPane fx:id="verificationEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="449.0"
+    <AnchorPane fx:id="verificationEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="454.0"
                 prefWidth="358.0">
         <ListView fx:id="verificationsList" layoutX="9.0" layoutY="9.0" prefHeight="360.0"
                   prefWidth="338.0"/>
