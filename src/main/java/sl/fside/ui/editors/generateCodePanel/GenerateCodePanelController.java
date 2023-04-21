@@ -154,16 +154,30 @@ public class GenerateCodePanelController {
             return;
         }
         try {
-            String javaCode =
-                    genJava(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
-            String pythonCode =
-                    genPython(scenario.getPatternExpressionAfterProcessingNesting(), UUID.randomUUID().toString());
+            String javaPE =
+                    replaceCodeInPatternExpression(scenario.getPatternExpressionAfterProcessingNesting(), "Java");
+            String pythonPE =
+                    replaceCodeInPatternExpression(scenario.getPatternExpressionAfterProcessingNesting(), "Python");
+            String javaCode = genJava(javaPE, UUID.randomUUID().toString());
+            String pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
             showGeneratedCode(javaCode, pythonCode);
             loggerService.logInfo("Code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
             e.printStackTrace();
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    // TODO kontrola że zamieniany string jest całą aktywnością
+    private String replaceCodeInPatternExpression(String patternExpression, String language) {
+        String languagePatternExpression = patternExpression;
+        List<Code> languageCodes =
+                scenario.getCodes().stream().filter(c -> c.getLanguage() != null && c.getLanguage().equals(language))
+                        .toList();
+        for (Code code : languageCodes) {
+            languagePatternExpression = languagePatternExpression.replace(code.getAtomicActivity(), code.getCode());
+        }
+        return languagePatternExpression;
     }
 
     private void showMessage(String message, Alert.AlertType alertType) {
