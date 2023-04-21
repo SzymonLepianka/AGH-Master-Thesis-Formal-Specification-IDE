@@ -1,12 +1,14 @@
 package sl.fside.ui.editors.generateCodePanel.controls;
 
 import com.google.inject.*;
+import javafx.collections.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.model.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.util.*;
 import java.util.function.*;
@@ -34,39 +36,24 @@ public class CodeController {
         codeRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        // TODO
-//        atomicActivityComboBox.getItems().addAll("First OrderOrderOrderOrderOrderOrderOrderOrderOrderOrder Logic", "Linear Temporal Logic");
-//
-//        // ustawia treść formuły (jeśli istnieje)
-//        if (requirement.getContent() != null) {
-//            textArea.setText(requirement.getContent());
-//        }
-//
-//        // ustawia wybraną logikę (jeśli wybrano)
-//        if (requirement.getLogic() != null) {
-//            logicComboBox.getSelectionModel().select(requirement.getLogic());
-//        }
-//
-//        // ustawia aktywność of Requirement
-//        changeRequirementActivity();
+        // ustawia treść kodu (jeśli istnieje)
+        if (code.getCode() != null) {
+            textArea.setText(code.getCode());
+        }
+
+        // ustawia wybrany AtomicActivity (jeśli wybrano)
+        if (code.getAtomicActivity() != null) {
+            atomicActivityComboBox.getSelectionModel().select(code.getAtomicActivity());
+        }
     }
 
     public void initialize() {
+        atomicActivityComboBox.setOnMouseClicked(event -> {
+            if (!NodesManager.getInstance().getCurrentAtomicActivities().isEmpty()) {
+                setAtomicActivitiesToComboBox(NodesManager.getInstance().getCurrentAtomicActivities());
+            }
+        });
     }
-
-//    private void changeRequirementActivity() {
-//        boolean isActive = requirement.isActive();
-//
-//        if (isActive) {
-//            disableButton.setText("Deactivate");
-//        } else {
-//            disableButton.setText("Activate");
-//        }
-//
-//        textArea.setDisable(!isActive);
-//        removeButton.setDisable(!isActive);
-//        logicComboBox.setDisable(!isActive);
-//    }
 
     private Color randomColor() {
         Random rand = new Random();
@@ -85,15 +72,23 @@ public class CodeController {
         this.onRemoveClicked = onRemoveClicked;
     }
 
+    public void setAtomicActivitiesToComboBox(List<String> atomicActivities) {
+        ObservableList<String> comboBoxItems = atomicActivityComboBox.getItems();
+
+        // Remove items that are not in atomicActivities
+        comboBoxItems.removeIf(item -> !atomicActivities.contains(item));
+
+        // Add items that are in atomicActivities but not in the comboBox
+        for (String activity : atomicActivities) {
+            if (!comboBoxItems.contains(activity)) {
+                comboBoxItems.add(activity);
+            }
+        }
+    }
+
     public Code getCode() {
         return code;
     }
-
-//    @FXML
-//    public void onDisableButtonClicked() {
-//        requirement.setActive(!requirement.isActive());
-//        changeRequirementActivity();
-//    }
 
     @FXML
     public void onComboBoxClicked() {

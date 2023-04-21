@@ -103,6 +103,10 @@ public class GenerateCodePanelController {
         uiElementCodePairs.clear();
         uiElementCodePairs.addAll(codePairs);
 
+        // ustawia AtomicActivities to wyboru w Codes
+        uiElementCodePairs.forEach(pair -> pair.getValue().setAtomicActivitiesToComboBox(
+                scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList()));
+
         // usuwanie Code
         uiElementCodePairs.forEach(pair -> pair.getValue().setOnRemoveClicked(this::removeCode));
 

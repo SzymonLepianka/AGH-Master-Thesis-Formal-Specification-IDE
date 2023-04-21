@@ -1,6 +1,7 @@
 package sl.fside.model;
 
 import com.fasterxml.jackson.annotation.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
 import java.util.*;
 
@@ -77,16 +78,22 @@ public class Scenario {
 
     public void addAtomicActivity(AtomicActivity atomicActivity) {
         this.atomicActivities.add(atomicActivity);
+        NodesManager.getInstance()
+                .setCurrentAtomicActivities(atomicActivities.stream().map(AtomicActivity::getContent).toList());
     }
 
     public void removeAtomicActivity(String atomicActivityContent) {
         var atomicActivitiesToRemove =
                 this.atomicActivities.stream().filter(aa -> aa.getContent().equals(atomicActivityContent)).toList();
         this.atomicActivities.removeAll(atomicActivitiesToRemove);
+        NodesManager.getInstance()
+                .setCurrentAtomicActivities(atomicActivities.stream().map(AtomicActivity::getContent).toList());
     }
 
     public void removeAllAtomicActivities() {
         this.atomicActivities.clear();
+        NodesManager.getInstance()
+                .setCurrentAtomicActivities(atomicActivities.stream().map(AtomicActivity::getContent).toList());
     }
 
     public List<AtomicActivity> getAtomicActivities() {
