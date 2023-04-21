@@ -9,6 +9,7 @@ public class Code {
     private final UUID id;
     private String atomicActivity;
     private String code;
+    private String language;
 
     @JsonCreator
     public Code(@JsonProperty("id") UUID id) {
@@ -33,5 +34,13 @@ public class Code {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 }

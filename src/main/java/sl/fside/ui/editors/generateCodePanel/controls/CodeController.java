@@ -2,6 +2,7 @@ package sl.fside.ui.editors.generateCodePanel.controls;
 
 import com.google.inject.*;
 import javafx.collections.*;
+import javafx.event.*;
 import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -24,6 +25,7 @@ public class CodeController {
     public TextArea textArea;
     @FXML
     public ComboBox<String> atomicActivityComboBox;
+    @FXML public ComboBox<String> languageComboBox;
     private Code code;
     private Function<Pair<AnchorPane, CodeController>, Void> onRemoveClicked;
 
@@ -45,6 +47,11 @@ public class CodeController {
         if (code.getAtomicActivity() != null) {
             atomicActivityComboBox.getSelectionModel().select(code.getAtomicActivity());
         }
+
+        // ustawia wybrany język (jeśli wybrano)
+        if (code.getLanguage() != null) {
+            languageComboBox.getSelectionModel().select(code.getLanguage());
+        }
     }
 
     public void initialize() {
@@ -53,6 +60,8 @@ public class CodeController {
                 setAtomicActivitiesToComboBox(NodesManager.getInstance().getCurrentAtomicActivities());
             }
         });
+
+        languageComboBox.getItems().addAll("Java", "Python");
     }
 
     private Color randomColor() {
@@ -91,7 +100,7 @@ public class CodeController {
     }
 
     @FXML
-    public void onComboBoxClicked() {
+    public void onAtomicActivityComboBoxClicked() {
         String selectedItem = atomicActivityComboBox.getSelectionModel().getSelectedItem();
         code.setAtomicActivity(selectedItem);
     }
@@ -99,5 +108,11 @@ public class CodeController {
     @FXML
     private void codeContentChanged() {
         code.setCode(textArea.getText());
+    }
+
+    @FXML
+    public void onLanguageComboBoxClicked() {
+        String selectedItem = languageComboBox.getSelectionModel().getSelectedItem();
+        code.setLanguage(selectedItem);
     }
 }

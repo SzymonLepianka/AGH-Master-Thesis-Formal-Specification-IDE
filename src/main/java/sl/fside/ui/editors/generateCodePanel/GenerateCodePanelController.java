@@ -82,6 +82,10 @@ public class GenerateCodePanelController {
             Pair<AnchorPane, CodeController> uiElementPair = uiElementsFactory.createCode(newCode);
             uiElementCodePairs.add(uiElementPair);
 
+            // ustawia AtomicActivities do wyboru w Code
+            uiElementPair.getValue().setAtomicActivitiesToComboBox(
+                    scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList());
+
             // usuwanie Code
             uiElementPair.getValue().setOnRemoveClicked(this::removeCode);
 
@@ -103,7 +107,7 @@ public class GenerateCodePanelController {
         uiElementCodePairs.clear();
         uiElementCodePairs.addAll(codePairs);
 
-        // ustawia AtomicActivities to wyboru w Codes
+        // ustawia AtomicActivities do wyboru w Codes
         uiElementCodePairs.forEach(pair -> pair.getValue().setAtomicActivitiesToComboBox(
                 scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList()));
 
