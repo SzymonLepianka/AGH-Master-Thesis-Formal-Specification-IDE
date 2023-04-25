@@ -36,7 +36,7 @@ public class VerificationController {
         verificationRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
-        proverComboBox.getItems().addAll("SPASS", "Prover9", "InKraSet");
+        proverComboBox.getItems().addAll("SPASS", "Prover9", "InKreSAT");
 
         // ustawia treść weryfikacji (jeśli istnieje)
         if (verification.getContent() != null) {
