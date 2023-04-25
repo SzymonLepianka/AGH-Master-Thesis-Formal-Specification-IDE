@@ -7,6 +7,7 @@ import javafx.scene.input.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import org.fxmisc.richtext.*;
+import org.fxmisc.richtext.model.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
@@ -64,8 +65,14 @@ public class ActionEditorController {
         this.scenario = scenario;
         updateActionEditor();
 
-        // show scenario content
+        // clear all existing styles
+        StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
+        spansBuilder.add(Collections.emptyList(), 0);
+        StyleSpans<? extends Collection<String>> spans = spansBuilder.create();
         scenarioContentTextArea.clear();
+        scenarioContentTextArea.setStyleSpans(0, spans);
+
+        // show scenario content
         scenarioContentTextArea.appendText(scenario.getContent());
 
         // show existing atomic activities
