@@ -5,6 +5,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.scene.text.*;
 import javafx.util.*;
 import sl.fside.model.*;
 
@@ -17,9 +18,13 @@ public class RequirementController {
     @FXML
     public AnchorPane requirementRoot;
     @FXML
-    public Button removeButton;
+    public Text nameLabel;
+    @FXML
+    public TextField requirementNameTextField;
     @FXML
     public TextArea textArea;
+    @FXML
+    public Button removeButton;
     @FXML
     public Button disableButton;
     @FXML
@@ -37,6 +42,9 @@ public class RequirementController {
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         logicComboBox.getItems().addAll("First Order Logic", "Linear Temporal Logic");
+
+        // ustawia nazwę formuły
+        requirementNameTextField.setText(requirement.getName());
 
         // ustawia treść formuły (jeśli istnieje)
         if (requirement.getContent() != null) {
@@ -64,6 +72,8 @@ public class RequirementController {
             disableButton.setText("Activate");
         }
 
+        nameLabel.setDisable(!isActive);
+        requirementNameTextField.setDisable(!isActive);
         textArea.setDisable(!isActive);
         removeButton.setDisable(!isActive);
         logicComboBox.setDisable(!isActive);
@@ -105,5 +115,10 @@ public class RequirementController {
     @FXML
     private void requirementContentChanged() {
         requirement.setContent(textArea.getText());
+    }
+
+    @FXML
+    public void requirementNameChanged() {
+        requirement.setName(requirementNameTextField.getText());
     }
 }

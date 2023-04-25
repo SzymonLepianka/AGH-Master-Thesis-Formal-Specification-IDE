@@ -12,6 +12,7 @@ public class Scenario {
     private final List<Code> codes = new ArrayList<>();
     private final List<Requirement> requirements = new ArrayList<>();
     private final List<Verification> verifications = new ArrayList<>();
+    private int maxRequirementSerialNumber = 0;
     private String content = "";
     private String patternExpressionBeforeProcessingNesting;
     private String patternExpressionAfterProcessingNesting;
@@ -137,12 +138,17 @@ public class Scenario {
         this.codes.remove(code);
     }
 
+    public int getMaxRequirementSerialNumber() {
+        return maxRequirementSerialNumber;
+    }
+
     public List<Requirement> getRequirements() {
         return requirements;
     }
 
     public void addRequirement(Requirement requirement) {
         this.requirements.add(requirement);
+        maxRequirementSerialNumber++;
     }
 
     public void removeRequirement(Requirement requirement) {

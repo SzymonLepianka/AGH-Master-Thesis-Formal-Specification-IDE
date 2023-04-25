@@ -119,10 +119,9 @@ public class ModelFactory implements IModelFactory {
 
     @Override
     public Requirement createRequirement(Scenario scenario, UUID id) {
-        Requirement requirement = new Requirement(id);
+        int newSerialNumber = scenario.getMaxRequirementSerialNumber() + 1;
+        Requirement requirement = new Requirement(id, "R" + newSerialNumber);
         scenario.addRequirement(requirement);
-
-//        registerInModelTracker(scenario);
         return requirement;
     }
 
