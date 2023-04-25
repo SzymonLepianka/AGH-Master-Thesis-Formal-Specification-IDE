@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <TitledPane fx:id="verificationEditorRoot" animated="false" collapsible="false" prefHeight="455.0" prefWidth="360.0"
-            text="Verification" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+            text="Formulas for verification" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="sl.fside.ui.editors.verificationEditor.VerificationEditorController">
     <AnchorPane fx:id="verificationEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="454.0"
                 prefWidth="358.0">
@@ -12,6 +12,6 @@
         <Button fx:id="addVerificationButton" alignment="CENTER" contentDisplay="CENTER"
                 layoutX="9.0" layoutY="380.0" mnemonicParsing="false" onAction="#addVerificationButtonClicked"
                 prefHeight="25.0"
-                prefWidth="338.0" text="Add a verification"/>
+                prefWidth="338.0" text="Add formula for verification"/>
     </AnchorPane>
 </TitledPane>

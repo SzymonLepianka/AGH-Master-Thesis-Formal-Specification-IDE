@@ -12,10 +12,10 @@
         <Button fx:id="addCodeButton" alignment="CENTER" contentDisplay="CENTER"
                 layoutX="9.0" layoutY="260.0" mnemonicParsing="false" onAction="#addCodeButtonClicked"
                 prefHeight="25.0"
-                prefWidth="165.0" text="Add a code"/>
+                prefWidth="200.0" text="Add statement to atomic activity"/>
         <Button fx:id="generateCodeButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="182.0" layoutY="260.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
+                layoutX="217.0" layoutY="260.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
                 prefHeight="25.0"
-                prefWidth="165.0" text="Generate code"/>
+                prefWidth="130.0" text="Generate code"/>
     </AnchorPane>
 </TitledPane>

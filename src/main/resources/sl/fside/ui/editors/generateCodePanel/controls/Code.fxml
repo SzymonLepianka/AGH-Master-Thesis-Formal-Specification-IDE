@@ -7,7 +7,7 @@
             fx:controller="sl.fside.ui.editors.generateCodePanel.controls.CodeController"
             prefHeight="100.0" prefWidth="318.0">
     <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"
-              promptText="code" onKeyTyped="#codeContentChanged"/>
+              promptText="Instruction (source code)" onKeyTyped="#codeContentChanged"/>
     <Button fx:id="removeButton" layoutX="7.0" layoutY="70.0" mnemonicParsing="false" prefHeight="15.0"
             prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
     <ComboBox fx:id="languageComboBox" layoutX="70.0" layoutY="70.0" prefHeight="15.0" prefWidth="95.0"
