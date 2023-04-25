@@ -158,7 +158,7 @@ public class NodesManager {
                     String match = matcher.group(); // np. "<<extend>>warunek?ship_order"
                     String condition = match.substring(obligatoryRelationName.length(),
                             match.length() - targetUseCaseName.length() - 1); // np. "warunek"
-                    String altPattern = "Alt(" + condition + ", " + patternExpressionToInject + ")";
+                    String altPattern = "Alt(" + condition + ", " + patternExpressionToInject + ", null)";
                     expression = expression.replace(match, altPattern);
                 }
             } else {

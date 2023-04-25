@@ -10,10 +10,10 @@
     ]
   },
   "Alt": {
-    "number of args": 2,
+    "number of args": 3,
     "rules": [
       "arg0",
-      "arg1",
+      "arg2",
       "Exist(arg0)",
       "ForAll(arg0 => Exist(arg1))",
       "ForAll(~(arg0 ^ arg1))"
