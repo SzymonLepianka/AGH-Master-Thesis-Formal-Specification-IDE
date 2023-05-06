@@ -459,9 +459,11 @@ public class ActivityDiagramEditorController {
                 // nazwy zagnieżdżonych (wewnętrznych) wzorców
             } else if (child2 instanceof HBox && ((HBox) child2).getChildren().get(0) instanceof Text) {
                 String text = ((Text) (((HBox) child2).getChildren().get(0))).getText().replaceAll("\\s", "");
-                sb.append(text);
-                sb.append("(");
-                closeStatement = true;
+                if (!text.equals("+")) { // fixes nested Branch
+                    sb.append(text);
+                    sb.append("(");
+                    closeStatement = true;
+                }
 
                 // elementy grafu w zagnieżdżonych elementach VBox i HBox
             } else if (child2 instanceof VBox || child2 instanceof HBox) {
