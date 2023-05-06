@@ -106,10 +106,10 @@ public class PythonLikeParser extends PythonBaseListener {
     @Override
     public void exitAlt(PythonParser.AltContext ctx){
         StringBuilder sb = new StringBuilder();
-
+        String s3 = stack.pop();
         String s2 = stack.pop();
         String s1 = stack.pop();
-        sb.append("if(").append(s1).append("):\n ").append(s2).append("\n");
+        sb.append("if(").append(s1).append("): ").append(s2).append("\n").append(s3).append("\n");
 
         stack.push(sb.toString());
         sb.setLength(0);

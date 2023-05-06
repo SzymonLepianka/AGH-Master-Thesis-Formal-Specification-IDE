@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/kacpe/Desktop/java-python-code-generator-release3/src/main/java/org/example/grammar\Python.g4 by ANTLR 4.12.0
 package sl.fside.services.code_generator1.gen;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 

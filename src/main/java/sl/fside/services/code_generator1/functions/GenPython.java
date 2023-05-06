@@ -29,8 +29,6 @@ public class GenPython {
         ParseTree treePython = switch (split[0]) {
             case "Seq" -> parserPython.seq();
             case "Alt" -> parserPython.alt();
-            case "Branch" -> parserPython.branch();
-            case "Concur" -> parserPython.concur();
             case "Cond" -> parserPython.cond();
             case "Para" -> parserPython.para();
             case "Loop" -> parserPython.loop();
