@@ -1,4 +1,4 @@
-// Generated from java-escape by ANTLR 4.11.1
+// Generated from C:/Users/kacpe/Desktop/java-python-code-generator-release3/src/main/java/org/example/grammar\Java.g4 by ANTLR 4.12.0
 package org.example.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -11,7 +11,7 @@ import org.antlr.v4.runtime.misc.*;
 
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast", "CheckReturnValue"})
 public class JavaLexer extends Lexer {
-	static { RuntimeMetaData.checkVersion("4.11.1", RuntimeMetaData.VERSION); }
+	static { RuntimeMetaData.checkVersion("4.12.0", RuntimeMetaData.VERSION); }
 
 	protected static final DFA[] _decisionToDFA;
 	protected static final PredictionContextCache _sharedContextCache =
@@ -130,8 +130,8 @@ public class JavaLexer extends Lexer {
 		"\u0010~\b\u0010\n\u0010\f\u0010\u0081\t\u0010\u0000\u0000\u0011\u0001"+
 		"\u0001\u0003\u0002\u0005\u0003\u0007\u0004\t\u0005\u000b\u0006\r\u0007"+
 		"\u000f\b\u0011\t\u0013\n\u0015\u000b\u0017\f\u0019\r\u001b\u000e\u001d"+
-		"\u000f\u001f\u0010!\u0011\u0001\u0000\u0002\u0004\u000009AZ__az\b\u0000"+
-		" !%%++09<?AZ__az\u0083\u0000\u0001\u0001\u0000\u0000\u0000\u0000\u0003"+
+		"\u000f\u001f\u0010!\u0011\u0001\u0000\u0002\u0004\u000009AZ__az\t\u0000"+
+		" !%%++--09<?AZ__az\u0083\u0000\u0001\u0001\u0000\u0000\u0000\u0000\u0003"+
 		"\u0001\u0000\u0000\u0000\u0000\u0005\u0001\u0000\u0000\u0000\u0000\u0007"+
 		"\u0001\u0000\u0000\u0000\u0000\t\u0001\u0000\u0000\u0000\u0000\u000b\u0001"+
 		"\u0000\u0000\u0000\u0000\r\u0001\u0000\u0000\u0000\u0000\u000f\u0001\u0000"+

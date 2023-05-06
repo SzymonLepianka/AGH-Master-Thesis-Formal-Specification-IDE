@@ -29,8 +29,6 @@ public class GenJava {
         ParseTree tree = switch (split[0]) {
             case "Seq" -> parser.seq();
             case "Alt" -> parser.alt();
-            case "Branch" -> parser.branch();
-            case "Concur" -> parser.concur();
             case "Cond" -> parser.cond();
             case "Para" -> parser.para();
             case "Loop" -> parser.loop();

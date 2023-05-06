@@ -53,7 +53,6 @@ public class JavaLikeParser extends JavaBaseListener {
     @Override
     public void exitSeq(JavaParser.SeqContext ctx) {
         StringBuilder sb = new StringBuilder();
-
         if(isBranch||isConcur){
 
             String s1 = stack.pop();
@@ -90,10 +89,10 @@ public class JavaLikeParser extends JavaBaseListener {
     @Override
     public void exitAlt(JavaParser.AltContext ctx){
         StringBuilder sb = new StringBuilder();
-
+        String s3 = stack.pop();
         String s2 = stack.pop();
         String s1 = stack.pop();
-        sb.append("if(").append(s1.replace(";","")).append("){\n ").append(s2).append("\n}\n");
+        sb.append("if(").append(s1.replace(";","")).append(") {\n").append(s2).append("\n}").append(s3).append("\n");
 
         stack.push(sb.toString());
         sb.setLength(0);
