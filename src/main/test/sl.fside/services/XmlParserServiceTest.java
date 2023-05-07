@@ -11,16 +11,16 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class XmlParserService2Test {
+class XmlParserServiceTest {
     private final Injector injector = Guice.createInjector(new MainModule());
-    private final XmlParserService2 xmlParserService2 = injector.getInstance(XmlParserService2.class);
+    private final XmlParserService xmlParserService = injector.getInstance(XmlParserService.class);
     private final ModelFactory modelFactory = injector.getInstance(ModelFactory.class);
 
     @Test
     void parseXmlShop() {
         var project = modelFactory.createProject("test1");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();
@@ -49,7 +49,7 @@ class XmlParserService2Test {
     void parseXmlShopExt() {
         var project = modelFactory.createProject("test2");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop_ext.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop_ext.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();
@@ -106,7 +106,7 @@ class XmlParserService2Test {
     void parseXmlBank() {
         var project = modelFactory.createProject("test3");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();
@@ -129,7 +129,7 @@ class XmlParserService2Test {
     void parseXmlBankExtend() {
         var project = modelFactory.createProject("test4");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank_extend.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank_extend.xml"));
 
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -184,7 +184,7 @@ class XmlParserService2Test {
     void parseXmlVpEx1() {
         var project = modelFactory.createProject("test5");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/3. Visual Paradigm/ex1/project1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -214,7 +214,7 @@ class XmlParserService2Test {
     void parseXmlVpEx2() {
         var project = modelFactory.createProject("test6");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/3. Visual Paradigm/ex2/project2.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -250,7 +250,7 @@ class XmlParserService2Test {
     void parseXmlVpEx3() {
         var project = modelFactory.createProject("test7");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/3. Visual Paradigm/ex3/project3_vp_simple_xml_format.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -286,7 +286,7 @@ class XmlParserService2Test {
     void parseXmlVpEx3TraditionalXml() {
         var project = modelFactory.createProject("test8");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/3. Visual Paradigm/ex3_traditional_xml/project_3_vp_traditional_xml_format.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -322,7 +322,7 @@ class XmlParserService2Test {
     void parseXmlVpExtendInclude() {
         var project = modelFactory.createProject("test9");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/3. Visual Paradigm/extend_include/project4.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -400,7 +400,7 @@ class XmlParserService2Test {
     void parseXmlEaEx0() {
         var project = modelFactory.createProject("test10");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex0_xmi_1_0_uml_1_3/mobile_uml_1_3_XML_1_0.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -433,7 +433,7 @@ class XmlParserService2Test {
     void parseXmlEaEx1() {
         var project = modelFactory.createProject("test11");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex1_xml_1_1_uml_1_3/mobile_uml_1_3_XML_1_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -466,7 +466,7 @@ class XmlParserService2Test {
     void parseXmlEaEx2_1_4_XML_1_2() {
         var project = modelFactory.createProject("test12");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex2_xmi_1_2_uml_1_4/mobile_uml_1_4_XML_1_2.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -499,7 +499,7 @@ class XmlParserService2Test {
     void parseXmlEaEx2_2_0_XML_2_1() {
         var project = modelFactory.createProject("test13");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex2_xmi_1_2_uml_1_4/mobile_uml_2_0_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -532,7 +532,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_1_1_XML_2_1() {
         var project = modelFactory.createProject("test14");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_1_1_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -565,7 +565,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_1_2_XML_2_1() {
         var project = modelFactory.createProject("test15");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_1_2_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -598,7 +598,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_1_XML_2_1() {
         var project = modelFactory.createProject("test16");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_1_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -631,7 +631,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_2_XML_2_1() {
         var project = modelFactory.createProject("test17");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_2_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -664,7 +664,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_3_XML_2_1() {
         var project = modelFactory.createProject("test18");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_3_XML_2_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -697,7 +697,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_4_1_XML_2_4_2() {
         var project = modelFactory.createProject("test19");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_4_1_XML_2_4_2.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -730,7 +730,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_4_XML_2_4() {
         var project = modelFactory.createProject("test20");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram,
+        xmlParserService.parseXml(useCaseDiagram,
                 new File("xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_4_XML_2_4.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -763,7 +763,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_5_1_XML_2_5_1() {
         var project = modelFactory.createProject("test21");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_5_1_XML_2_5_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -796,7 +796,7 @@ class XmlParserService2Test {
     void parseXmlEaEx3_2_5_XML_2_5() {
         var project = modelFactory.createProject("test22");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File(
+        xmlParserService.parseXml(useCaseDiagram, new File(
                 "xml_and_png_examples/4.Enterprise Architect/ex3_xmi_2_1_uml_2_1/mobile_uml_2_5_XML_2_5_1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
@@ -829,7 +829,7 @@ class XmlParserService2Test {
     void parseXmlSinvas() {
         var project = modelFactory.createProject("test23");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService2.parseXml2(useCaseDiagram, new File("xml_and_png_examples/5.Sinvas/library.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/5.Sinvas/library.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();

@@ -12,18 +12,18 @@ import javax.xml.xpath.*;
 import java.io.*;
 import java.util.*;
 
-public class XmlParserService2 {
+public class XmlParserService {
 
     private final IModelFactory modelFactory;
     private final LoggerService loggerService;
 
     @Inject
-    XmlParserService2(IModelFactory modelFactory, LoggerService loggerService) {
+    XmlParserService(IModelFactory modelFactory, LoggerService loggerService) {
         this.modelFactory = modelFactory;
         this.loggerService = loggerService;
     }
 
-    public void parseXml2(UseCaseDiagram useCaseDiagram, File xmlFile) {
+    public void parseXml(UseCaseDiagram useCaseDiagram, File xmlFile) {
         try {
             // Instantiate the Factory
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -108,26 +108,52 @@ public class XmlParserService2 {
         var incXmlElems = gatherXmlElems(doc, xPath, incExpressionsList);
         var include = getIncludeFromIncXmlElems(incXmlElems, useCases);
         createRelationObjects(include, Relation.RelationType.INCLUDE, useCaseDiagram);
+
+        // TODO INHERIT
     }
 
-    private void createUseCaseObjects(Map<String, String> useCases, UseCaseDiagram useCaseDiagram) {
-        for (var entry : useCases.entrySet()) {
-            var useCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(),
-                    entry.getValue().replace(" ", "_").toLowerCase(), true);
-            useCase.setPrettyName(entry.getValue());
+    private NodeList gatherXmlElems(Document doc, XPath xPath, List<String> expressionsList) throws Exception {
+        for (String extExpression : expressionsList) {
+            NodeList nodeList = (NodeList) xPath.compile(extExpression).evaluate(doc, XPathConstants.NODESET);
+            if (nodeList.getLength() > 0) {
+                return nodeList;
+            }
         }
+
+        loggerService.logWarning("Brak elementów spełniających expressionsList (gatherXmlElems)");
+        return doc.createElement("emptyNodeList").getChildNodes(); // empty list
     }
 
-    private void createRelationObjects(List<Pair<String, String>> relations, Relation.RelationType relationType,
-                                       UseCaseDiagram useCaseDiagram) {
-        for (var relation : relations) {
-            UseCase useCaseFrom = useCaseDiagram.getUseCaseList().stream()
-                    .filter(uc -> uc.getUseCasePrettyName().equals(relation.getKey())).findFirst().orElseThrow();
-            UseCase useCaseTo = useCaseDiagram.getUseCaseList().stream()
-                    .filter(uc -> uc.getUseCasePrettyName().equals(relation.getValue())).findFirst().orElseThrow();
-            modelFactory.createRelation(useCaseDiagram, UUID.randomUUID(), useCaseFrom.getId(), useCaseTo.getId(),
-                    relationType);
+    private Map<String, String> getUseCasesFromUcXmlElems(NodeList ucXmlElems) {
+        var useCases = new HashMap<String, String>();
+        for (int j = 0; j < ucXmlElems.getLength(); j++) {
+            Node elem = ucXmlElems.item(j);
+            var elementAttributes = getAttributesFromNamedNodeMap(elem.getAttributes());
+            var id = "";
+            if (elementAttributes.containsKey("id")) {
+                id = elementAttributes.get("id");
+            } else if (elementAttributes.containsKey("Id")) {
+                id = elementAttributes.get("Id");
+            } else {
+                id = elementAttributes.get("xmi.id");
+            }
+            if (elementAttributes.containsKey("Name")) {
+                useCases.put(id, elementAttributes.get("Name"));
+            } else if (elementAttributes.containsKey("name")) {
+                useCases.put(id, elementAttributes.get("name"));
+            } else if (elem.getNodeName().equals("Foundation.Core.ModelElement.name")) {
+                useCases.put(id, elem.getTextContent());
+            } else if (elementAttributes.containsKey("xmi.id")) {
+                var childNodes = elem.getChildNodes();
+                for (int i = 0; i < childNodes.getLength(); i++) {
+                    if (childNodes.item(i).getNodeType() == Node.ELEMENT_NODE &&
+                            childNodes.item(i).getNodeName().equals("Foundation.Core.ModelElement.name")) {
+                        useCases.put(id, childNodes.item(i).getTextContent());
+                    }
+                }
+            }
         }
+        return useCases;
     }
 
     private List<Pair<String, String>> getExtendFromExtXmlElems(NodeList extXmlElems, Map<String, String> useCases) {
@@ -176,50 +202,6 @@ public class XmlParserService2 {
         return include;
     }
 
-    private NodeList gatherXmlElems(Document doc, XPath xPath, List<String> expressionsList) throws Exception {
-        for (String extExpression : expressionsList) {
-            NodeList nodeList = (NodeList) xPath.compile(extExpression).evaluate(doc, XPathConstants.NODESET);
-            if (nodeList.getLength() > 0) {
-                return nodeList;
-            }
-        }
-
-        loggerService.logWarning("Brak elementów spełniających expressionsList (gatherXmlElems)");
-        return doc.createElement("emptyNodeList").getChildNodes(); // empty list
-    }
-
-    private Map<String, String> getUseCasesFromUcXmlElems(NodeList ucXmlElems) {
-        var useCases = new HashMap<String, String>();
-        for (int j = 0; j < ucXmlElems.getLength(); j++) {
-            Node elem = ucXmlElems.item(j);
-            var elementAttributes = getAttributesFromNamedNodeMap(elem.getAttributes());
-            var id = "";
-            if (elementAttributes.containsKey("id")) {
-                id = elementAttributes.get("id");
-            } else if (elementAttributes.containsKey("Id")) {
-                id = elementAttributes.get("Id");
-            } else {
-                id = elementAttributes.get("xmi.id");
-            }
-            if (elementAttributes.containsKey("Name")) {
-                useCases.put(id, elementAttributes.get("Name"));
-            } else if (elementAttributes.containsKey("name")) {
-                useCases.put(id, elementAttributes.get("name"));
-            } else if (elem.getNodeName().equals("Foundation.Core.ModelElement.name")) {
-                useCases.put(id, elem.getTextContent());
-            } else if (elementAttributes.containsKey("xmi.id")) {
-                var childNodes = elem.getChildNodes();
-                for (int i = 0; i < childNodes.getLength(); i++) {
-                    if (childNodes.item(i).getNodeType() == Node.ELEMENT_NODE &&
-                            childNodes.item(i).getNodeName().equals("Foundation.Core.ModelElement.name")) {
-                        useCases.put(id, childNodes.item(i).getTextContent());
-                    }
-                }
-            }
-        }
-        return useCases;
-    }
-
     private Map<String, String> getAttributesFromNamedNodeMap(NamedNodeMap attributesRaw) {
         var attributesMap = new HashMap<String, String>();
         for (int i = 0; i < attributesRaw.getLength(); i++) {
@@ -231,5 +213,25 @@ public class XmlParserService2 {
             attributesMap.put(nodeName, node.getTextContent());
         }
         return attributesMap;
+    }
+
+    private void createUseCaseObjects(Map<String, String> useCases, UseCaseDiagram useCaseDiagram) {
+        for (var entry : useCases.entrySet()) {
+            var useCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(),
+                    entry.getValue().replace(" ", "_").toLowerCase(), true);
+            useCase.setPrettyName(entry.getValue());
+        }
+    }
+
+    private void createRelationObjects(List<Pair<String, String>> relations, Relation.RelationType relationType,
+                                       UseCaseDiagram useCaseDiagram) {
+        for (var relation : relations) {
+            UseCase useCaseFrom = useCaseDiagram.getUseCaseList().stream()
+                    .filter(uc -> uc.getUseCasePrettyName().equals(relation.getKey())).findFirst().orElseThrow();
+            UseCase useCaseTo = useCaseDiagram.getUseCaseList().stream()
+                    .filter(uc -> uc.getUseCasePrettyName().equals(relation.getValue())).findFirst().orElseThrow();
+            modelFactory.createRelation(useCaseDiagram, UUID.randomUUID(), useCaseFrom.getId(), useCaseTo.getId(),
+                    relationType);
+        }
     }
 }
