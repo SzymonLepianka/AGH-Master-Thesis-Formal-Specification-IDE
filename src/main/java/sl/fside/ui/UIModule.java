@@ -1,7 +1,7 @@
 package sl.fside.ui;
 
 import com.google.inject.*;
-import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.generateCodePanel.controls.*;
@@ -31,7 +31,7 @@ public class UIModule extends PrivateModule {
         bind(ImageViewerController.class);
         bind(ScenarioSelectorEditorController.class);
         bind(ScenarioController.class);
-        bind(ActionEditorController.class);
+        bind(ScenarioContentEditorController.class);
         bind(ActivityDiagramPanelController.class);
         bind(ResultsPanelController.class);
         bind(GenerateCodePanelController.class);
@@ -49,7 +49,7 @@ public class UIModule extends PrivateModule {
         expose(ImageViewerController.class);
         expose(ScenarioSelectorEditorController.class);
         expose(ScenarioController.class);
-        expose(ActionEditorController.class);
+        expose(ScenarioContentEditorController.class);
         expose(ActivityDiagramPanelController.class);
         expose(ResultsPanelController.class);
         expose(GenerateCodePanelController.class);

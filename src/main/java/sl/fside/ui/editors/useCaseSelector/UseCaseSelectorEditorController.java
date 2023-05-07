@@ -10,7 +10,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
@@ -36,7 +36,7 @@ public class UseCaseSelectorEditorController {
     public Button showRelationsInUseCaseDiagramButton;
 
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
-    private ActionEditorController actionEditorController;
+    private ScenarioContentEditorController scenarioContentEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
     private ResultsPanelController resultsPanelController;
     private GenerateCodePanelController generateCodePanelController;
@@ -117,7 +117,7 @@ public class UseCaseSelectorEditorController {
 
     public void setUseCaseDiagramSelection(UseCaseDiagram useCaseDiagram,
                                            ScenarioSelectorEditorController scenarioSelectorEditorController,
-                                           ActionEditorController actionEditorController,
+                                           ScenarioContentEditorController scenarioContentEditorController,
                                            ActivityDiagramPanelController activityDiagramPanelController,
                                            ResultsPanelController resultsPanelController,
                                            GenerateCodePanelController generateCodePanelController,
@@ -125,7 +125,7 @@ public class UseCaseSelectorEditorController {
                                            VerificationEditorController verificationEditorController) {
         this.useCaseDiagram = useCaseDiagram;
         this.scenarioSelectorEditorController = scenarioSelectorEditorController;
-        this.actionEditorController = actionEditorController;
+        this.scenarioContentEditorController = scenarioContentEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
         this.generateCodePanelController = generateCodePanelController;
@@ -144,7 +144,7 @@ public class UseCaseSelectorEditorController {
 
         // usuwa ewentualne poprzednie zaznaczenie UseCase
         scenarioSelectorEditorController.removeUseCaseSelection();
-        actionEditorController.removeScenarioSelection();
+        scenarioContentEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
         resultsPanelController.removeScenarioSelection();
         generateCodePanelController.removeScenarioSelection();
@@ -171,7 +171,7 @@ public class UseCaseSelectorEditorController {
                 currentlySelectedUseCase = useCase;
 
                 // Set selected UseCase to scenarioSelectorPanel
-                scenarioSelectorEditorController.setUseCaseSelection(useCase, actionEditorController,
+                scenarioSelectorEditorController.setUseCaseSelection(useCase, scenarioContentEditorController,
                         activityDiagramPanelController, resultsPanelController, generateCodePanelController,
                         requirementEditorController, verificationEditorController);
 

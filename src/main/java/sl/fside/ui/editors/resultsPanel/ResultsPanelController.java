@@ -72,7 +72,7 @@ public class ResultsPanelController {
     }
 
     private void updateResultsPanel() {
-        // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
+        // setting disable property of the resultsPanelRoot TitledPane based on the value of the scenario variable
         resultsPanelRoot.setDisable(scenario == null);
     }
 

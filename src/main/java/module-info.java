@@ -38,7 +38,7 @@ module sl.fside {
     opens sl.fside.ui.editors.imageViewer to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.scenarioSelector to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.scenarioSelector.controls to javafx.fxml, com.google.guice;
-    opens sl.fside.ui.editors.actionEditor to javafx.fxml, com.google.guice;
+    opens sl.fside.ui.editors.scenarioContentEditor to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.activityDiagramPanel to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.resultsPanel to javafx.fxml, com.google.guice;
     opens sl.fside.ui.editors.generateCodePanel to javafx.fxml, com.google.guice;

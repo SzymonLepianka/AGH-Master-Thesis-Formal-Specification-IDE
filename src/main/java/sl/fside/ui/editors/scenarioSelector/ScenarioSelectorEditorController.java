@@ -10,7 +10,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
@@ -36,7 +36,7 @@ public class ScenarioSelectorEditorController {
     @FXML
     private Label currentlySelectedScenarioLabel;
     private UseCase useCase;
-    private ActionEditorController actionEditorController;
+    private ScenarioContentEditorController scenarioContentEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
     private ResultsPanelController resultsPanelController;
     private GenerateCodePanelController generateCodePanelController;
@@ -130,14 +130,14 @@ public class ScenarioSelectorEditorController {
         }
     }
 
-    public void setUseCaseSelection(UseCase useCase, ActionEditorController actionEditorController,
+    public void setUseCaseSelection(UseCase useCase, ScenarioContentEditorController scenarioContentEditorController,
                                     ActivityDiagramPanelController activityDiagramPanelController,
                                     ResultsPanelController resultsPanelController,
                                     GenerateCodePanelController generateCodePanelController,
                                     RequirementEditorController requirementEditorController,
                                     VerificationEditorController verificationEditorController) {
         this.useCase = useCase;
-        this.actionEditorController = actionEditorController;
+        this.scenarioContentEditorController = scenarioContentEditorController;
         this.activityDiagramPanelController = activityDiagramPanelController;
         this.resultsPanelController = resultsPanelController;
         this.generateCodePanelController = generateCodePanelController;
@@ -161,7 +161,7 @@ public class ScenarioSelectorEditorController {
         scenarioSelectorEditorRoot.setText("Scenarios manager for UseCase (" + useCase.getUseCaseName() + ")");
 
         // usuwa ewentualne poprzednie zaznaczenie Scenario
-        actionEditorController.removeScenarioSelection();
+        scenarioContentEditorController.removeScenarioSelection();
         activityDiagramPanelController.removeScenarioSelection();
         resultsPanelController.removeScenarioSelection();
         generateCodePanelController.removeScenarioSelection();
@@ -189,8 +189,8 @@ public class ScenarioSelectorEditorController {
                 // ustawia kontrolny tekst w panelu z Scenario'ami
                 currentlySelectedScenarioLabel.setText("Selected Scenario name: " + scenario.getScenarioName());
 
-                // Set selected Scenario to actionEditorPanel and activityDiagramPanel
-                actionEditorController.setScenarioSelection(scenario);
+                // Set selected Scenario to scenarioContentEditorPanel and activityDiagramPanel
+                scenarioContentEditorController.setScenarioSelection(scenario);
                 activityDiagramPanelController.setScenarioSelection(scenario, resultsPanelController);
                 resultsPanelController.setScenarioSelection(scenario);
                 generateCodePanelController.setScenarioSelection(scenario);

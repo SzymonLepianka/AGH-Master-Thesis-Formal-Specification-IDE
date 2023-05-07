@@ -82,7 +82,7 @@ public class ActivityDiagramPanelController {
     }
 
     private void updateActivityDiagramPanel() {
-        // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
+        // setting disable property of the activityDiagramPanelRoot TitledPane based on the value of the scenario variable
         activityDiagramPanelRoot.setDisable(scenario == null);
     }
 

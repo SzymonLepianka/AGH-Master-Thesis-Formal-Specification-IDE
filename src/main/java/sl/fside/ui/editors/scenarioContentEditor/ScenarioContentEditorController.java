@@ -1,4 +1,4 @@
-package sl.fside.ui.editors.actionEditor;
+package sl.fside.ui.editors.scenarioContentEditor;
 
 import com.google.inject.*;
 import javafx.fxml.*;
@@ -16,16 +16,16 @@ import sl.fside.ui.*;
 import java.util.*;
 import java.util.regex.*;
 
-public class ActionEditorController {
+public class ScenarioContentEditorController {
 
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
 
     @FXML
-    public TitledPane actionEditorRoot;
+    public TitledPane scenarioContentEditorRoot;
     @FXML
-    public AnchorPane actionEditorAnchorPane;
+    public AnchorPane scenarioContentEditorAnchorPane;
     @FXML
     public Button showCurrentAtomicActivitiesButton;
     @FXML
@@ -33,24 +33,24 @@ public class ActionEditorController {
     private Scenario scenario;
 
     @Inject
-    public ActionEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
-                                  LoggerService loggerService) {
+    public ScenarioContentEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
+                                           LoggerService loggerService) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
     }
 
     public void initialize() {
-        actionEditorRoot.setBorder(new Border(
+        scenarioContentEditorRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         scenarioContentTextArea.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(1))));
 
-        updateActionEditor();
+        updateScenarioContentEditor();
 
         scenarioContentTextArea.getStylesheets()
-                .add(ActionEditorController.class.getResource("custom-styles.css").toExternalForm());
+                .add(ScenarioContentEditorController.class.getResource("custom-styles.css").toExternalForm());
     }
 
     private Color randomColor() {
@@ -63,7 +63,7 @@ public class ActionEditorController {
 
     public void setScenarioSelection(Scenario scenario) {
         this.scenario = scenario;
-        updateActionEditor();
+        updateScenarioContentEditor();
 
         // clear all existing styles
         StyleSpansBuilder<Collection<String>> spansBuilder = new StyleSpansBuilder<>();
@@ -82,24 +82,25 @@ public class ActionEditorController {
 
         // ustawia tytuł panelu
         if (scenario.getScenarioName() != null && scenario.getScenarioName().length() > 35) {
-            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName().substring(0, 34) + "...')");
+            scenarioContentEditorRoot.setText(
+                    "Scenario content (for '" + scenario.getScenarioName().substring(0, 34) + "...')");
         } else {
-            actionEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName() + "')");
+            scenarioContentEditorRoot.setText("Scenario content (for '" + scenario.getScenarioName() + "')");
         }
 
-        loggerService.logInfo("Scenario set to ActionEditor - " + scenario.getId());
+        loggerService.logInfo("Scenario set to ScenarioContentEditor - " + scenario.getId());
     }
 
     public void removeScenarioSelection() {
         this.scenario = null;
-        updateActionEditor();
+        updateScenarioContentEditor();
         scenarioContentTextArea.clear();
-        actionEditorRoot.setText("Scenario content");
+        scenarioContentEditorRoot.setText("Scenario content");
     }
 
-    private void updateActionEditor() {
-        // setting disable property of the actionEditorRoot TitledPane based on the value of the scenario variable
-        actionEditorRoot.setDisable(scenario == null);
+    private void updateScenarioContentEditor() {
+        // setting disable property of the scenarioContentEditorRoot TitledPane based on the value of the scenario variable
+        scenarioContentEditorRoot.setDisable(scenario == null);
 
         // Set the background color using CSS
         if (scenario == null) {

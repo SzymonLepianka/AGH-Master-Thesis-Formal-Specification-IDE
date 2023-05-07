@@ -10,7 +10,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
-import sl.fside.ui.editors.actionEditor.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.imageViewer.*;
@@ -34,7 +34,7 @@ public class MainWindowController {
     @FXML
     public ScenarioSelectorEditorController scenarioSelectorEditorController;
     @FXML
-    public ActionEditorController actionEditorController;
+    public ScenarioContentEditorController scenarioContentEditorController;
     @FXML
     public ActivityDiagramPanelController activityDiagramPanelController;
     @FXML
@@ -64,7 +64,7 @@ public class MainWindowController {
     public void load(Project project) {
         this.project = project;
         useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
-                scenarioSelectorEditorController, actionEditorController, activityDiagramPanelController,
+                scenarioSelectorEditorController, scenarioContentEditorController, activityDiagramPanelController,
                 resultsPanelController, generateCodePanelController, requirementEditorController,
                 verificationEditorController);
         imageViewerController.setProjectSelection(project);

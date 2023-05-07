@@ -3,10 +3,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.*?>
-<TitledPane fx:id="actionEditorRoot" animated="false" collapsible="false" prefHeight="530.0" prefWidth="360.0"
+<TitledPane fx:id="scenarioContentEditorRoot" animated="false" collapsible="false" prefHeight="530.0" prefWidth="360.0"
             text="Scenario content" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sl.fside.ui.editors.actionEditor.ActionEditorController">
-    <AnchorPane fx:id="actionEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="529.0"
+            fx:controller="sl.fside.ui.editors.scenarioContentEditor.ScenarioContentEditorController">
+    <AnchorPane fx:id="scenarioContentEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="529.0"
                 prefWidth="358.0">
         <StyleClassedTextArea fx:id="scenarioContentTextArea" layoutX="9.0" layoutY="9.0" prefHeight="435.0"
                               prefWidth="338.0" wrapText="true" onMouseClicked="#scenarioContentOnMouseClicked"
