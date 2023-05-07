@@ -228,8 +228,24 @@ public class MainWindowController {
 
         var project = modelFactory.createProject(projectName);
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService.parseXml(useCaseDiagram, file);
+
+        try {
+            xmlParserService.parseXml(useCaseDiagram, file);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage(e.getMessage());
+            return;
+        }
+
         load(project);
+    }
+
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error during adding image");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     public void setPrimaryStage(Stage primaryStage) {

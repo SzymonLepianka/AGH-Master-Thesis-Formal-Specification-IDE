@@ -1,0 +1,28 @@
+{
+  "xml_parsing_expressions": {
+    "use_cases": [
+      "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement[@type='uml:UseCase']",
+      "/*[local-name()='Model']/packagedElement[@type='uml:UseCase']",
+      "/Project/Models/Model[@Abstract='false']/ModelChildren/UseCase",
+      "/Project/Models/Model[@Abstract='false']/ModelChildren/System/ModelChildren/UseCase",
+      "/Project/Models/Model[@composite='false']/ChildModels/Model/ChildModels/Model[@modelType='UseCase']",
+      "/*[local-name()='XMI']/UMLProject/UMLModel/UMLUseCase",
+      "/XMI/XMI.content/Model_Management.Model/Foundation.Core.Namespace.ownedElement/Model_Management.Package/Foundation.Core.Namespace.ownedElement/Behavioral_Elements.Use_Cases.UseCase",
+      "/XMI/XMI.content/*[local-name()='Model']/*[local-name()='Namespace.ownedElement']/*[local-name()='UseCase']",
+      "/XMI/XMI.content/*[local-name()='Model']/*[local-name()='Namespace.ownedElement']/*[local-name()='Package']/*[local-name()='Namespace.ownedElement']/*[local-name()='UseCase']",
+      "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement[@type='uml:Package']/packagedElement[@type='uml:UseCase']"
+    ],
+    "relations": {
+      "include": [
+        "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/include",
+        "/*[local-name()='Model']/packagedElement/include",
+        "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Include"
+      ],
+      "extend": [
+        "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/extend",
+        "/*[local-name()='Model']/packagedElement/extend",
+        "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Extend"
+      ]
+    }
+  }
+}

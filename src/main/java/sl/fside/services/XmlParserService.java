@@ -2,6 +2,7 @@ package sl.fside.services;
 
 import com.google.inject.*;
 import javafx.util.*;
+import org.json.*;
 import org.w3c.dom.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
@@ -10,12 +11,14 @@ import javax.xml.*;
 import javax.xml.parsers.*;
 import javax.xml.xpath.*;
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 public class XmlParserService {
 
     private final IModelFactory modelFactory;
     private final LoggerService loggerService;
+    private final String CONFIG_FILENAME = "config.json";
 
     @Inject
     XmlParserService(IModelFactory modelFactory, LoggerService loggerService) {
@@ -23,80 +26,51 @@ public class XmlParserService {
         this.loggerService = loggerService;
     }
 
-    public void parseXml(UseCaseDiagram useCaseDiagram, File xmlFile) {
-        try {
-            // Instantiate the Factory
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+    public void parseXml(UseCaseDiagram useCaseDiagram, File xmlFile) throws Exception {
+        // Instantiate the Factory
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 
-            // optional, but recommended
-            // process XML securely, avoid attacks like XML External Entities (XXE)
-            dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        // optional, but recommended
+        // process XML securely, avoid attacks like XML External Entities (XXE)
+        dbFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
 
-            // parse XML file
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
+        // parse XML file
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        Document doc = dBuilder.parse(xmlFile);
 
-            // optional, but recommended
-            // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
-            doc.getDocumentElement().normalize();
+        // optional, but recommended
+        // http://stackoverflow.com/questions/13786607/normalization-in-dom-parsing-with-java-how-does-it-work
+        doc.getDocumentElement().normalize();
 
-            XPath xPath = XPathFactory.newInstance().newXPath();
-            List<String> ucExpressionsList = new ArrayList<>();
-            String expression = "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement[@type='uml:UseCase']";
-            String expression2 = "/*[local-name()='Model']/packagedElement[@type='uml:UseCase']";
-            String expression3 = "/Project/Models/Model[@Abstract='false']/ModelChildren/UseCase";
-            String expression4 = "/Project/Models/Model[@Abstract='false']/ModelChildren/System/ModelChildren/UseCase";
-            String expression5 =
-                    "/Project/Models/Model[@composite='false']/ChildModels/Model/ChildModels/Model[@modelType='UseCase']";
-            String expression6 = "/*[local-name()='XMI']/UMLProject/UMLModel/UMLUseCase";
-            String expression7 =
-                    "/XMI/XMI.content/Model_Management.Model/Foundation.Core.Namespace.ownedElement/Model_Management.Package/Foundation.Core.Namespace.ownedElement/Behavioral_Elements.Use_Cases.UseCase";
-            String expression8 =
-                    "/XMI/XMI.content/*[local-name()='Model']/*[local-name()='Namespace.ownedElement']/*[local-name()='UseCase']";
-            String expression9 =
-                    "/XMI/XMI.content/*[local-name()='Model']/*[local-name()='Namespace.ownedElement']/*[local-name()='Package']/*[local-name()='Namespace.ownedElement']/*[local-name()='UseCase']";
-            String expression10 =
-                    "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement[@type='uml:Package']/packagedElement[@type='uml:UseCase']";
-            ucExpressionsList.add(expression);
-            ucExpressionsList.add(expression2);
-            ucExpressionsList.add(expression3);
-            ucExpressionsList.add(expression4);
-            ucExpressionsList.add(expression5);
-            ucExpressionsList.add(expression6);
-            ucExpressionsList.add(expression7);
-            ucExpressionsList.add(expression8);
-            ucExpressionsList.add(expression9);
-            ucExpressionsList.add(expression10);
-
-            List<String> extExpressionsList = new ArrayList<>();
-            String extExpression1 = "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/extend";
-            String extExpression2 = "/*[local-name()='Model']/packagedElement/extend";
-            String extExpression3 =
-                    "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Extend";
-            extExpressionsList.add(extExpression1);
-            extExpressionsList.add(extExpression2);
-            extExpressionsList.add(extExpression3);
-
-            List<String> incExpressionsList = new ArrayList<>();
-            String incExpression1 = "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/include";
-            String incExpression2 = "/*[local-name()='Model']/packagedElement/include";
-            String incExpression3 =
-                    "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Include";
-            incExpressionsList.add(incExpression1);
-            incExpressionsList.add(incExpression2);
-            incExpressionsList.add(incExpression3);
-
-
-            findUseCases(useCaseDiagram, doc, xPath, ucExpressionsList, extExpressionsList, incExpressionsList);
-            loggerService.logInfo("XML parsed");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+        // get expressions from config
+        String content = Files.readString(Paths.get(CONFIG_FILENAME));
+        JSONObject jsonObject = new JSONObject(content);
+        JSONObject expressions = jsonObject.getJSONObject("xml_parsing_expressions");
+        JSONArray useCases = expressions.getJSONArray("use_cases");
+        JSONArray includeRelations = expressions.getJSONObject("relations").getJSONArray("include");
+        JSONArray extendRelations = expressions.getJSONObject("relations").getJSONArray("extend");
+        List<String> ucExpressionsList = new ArrayList<>();
+        for (int i = 0; i < useCases.length(); i++) {
+            ucExpressionsList.add(useCases.getString(i));
         }
+        List<String> incExpressionsList = new ArrayList<>();
+        for (int i = 0; i < includeRelations.length(); i++) {
+            incExpressionsList.add(includeRelations.getString(i));
+        }
+        List<String> extExpressionsList = new ArrayList<>();
+        for (int i = 0; i < extendRelations.length(); i++) {
+            extExpressionsList.add(extendRelations.getString(i));
+        }
+
+        // get and save UseCases
+        findUseCases(useCaseDiagram, doc, ucExpressionsList, extExpressionsList, incExpressionsList);
+        loggerService.logInfo("XML parsed");
     }
 
-    private void findUseCases(UseCaseDiagram useCaseDiagram, Document doc, XPath xPath, List<String> ucExpressionsList,
+    private void findUseCases(UseCaseDiagram useCaseDiagram, Document doc, List<String> ucExpressionsList,
                               List<String> extExpressionsList, List<String> incExpressionsList) throws Exception {
+        XPath xPath = XPathFactory.newInstance().newXPath();
+
         NodeList ucXmlElems = gatherXmlElems(doc, xPath, ucExpressionsList);
         var useCases = getUseCasesFromUcXmlElems(ucXmlElems);
         createUseCaseObjects(useCases, useCaseDiagram);
