@@ -10,22 +10,15 @@ import java.io.*;
 import java.util.*;
 
 public class ModelFactory implements IModelFactory {
-
-    private final ModelTrackerService modelTrackerService;
     private final IProjectRepository projectRepository;
-    //    private final IProjectNameRepository projectNameRepository;
     private final IImageRepository imageRepository;
     private final IAtomicActivityRepository atomicActivityRepository;
     private final LoggerService loggerService;
 
     @Inject
-    public ModelFactory(ModelTrackerService modelTrackerService, IProjectRepository projectRepository,
-//                        IProjectNameRepository projectNameRepository,
-                        IImageRepository imageRepository, IAtomicActivityRepository atomicActivityRepository,
-                        LoggerService loggerService) {
-        this.modelTrackerService = modelTrackerService;
+    public ModelFactory(IProjectRepository projectRepository, IImageRepository imageRepository,
+                        IAtomicActivityRepository atomicActivityRepository, LoggerService loggerService) {
         this.projectRepository = projectRepository;
-//        this.projectNameRepository = projectNameRepository;
         this.imageRepository = imageRepository;
         this.atomicActivityRepository = atomicActivityRepository;
         this.loggerService = loggerService;
@@ -52,7 +45,6 @@ public class ModelFactory implements IModelFactory {
 //    public AtomicActivity createAtomicActivity(AtomicActivityCollection atomicActivityCollection,
 //                                               String atomicActivity) {
 //        var newAtomicActivity = new AtomicActivity(UUID.randomUUID(), atomicActivity);
-//        registerInModelTracker(newAtomicActivity);
 //        atomicActivityCollection.addChild(newAtomicActivity);
 //        return newAtomicActivity;
 //    }
@@ -60,14 +52,12 @@ public class ModelFactory implements IModelFactory {
     @Override
     public PatternTemplate createPatternTemplate(String name, int inputs, int outputs) {
         var patternTemplate = new PatternTemplate(UUID.randomUUID(), name, inputs, outputs);
-//        registerInModelTracker(patternTemplate);
         return patternTemplate;
     }
 
     @Override
     public PatternTemplateCollection createPatternTemplateCollection() {
         var patternTemplateCollection = new PatternTemplateCollection(UUID.randomUUID());
-//        registerInModelTracker(patternTemplateCollection);
         return patternTemplateCollection;
     }
 
@@ -135,7 +125,6 @@ public class ModelFactory implements IModelFactory {
 
     private AtomicActivityCollection createAtomicActivityCollection(UUID projectId) {
         var atomicActivityCollection = new AtomicActivityCollection(UUID.randomUUID(), projectId);
-//        registerInModelTracker(atomicActivityCollection);
 //        atomicActivityRepository.add(atomicActivityCollection);
         return atomicActivityCollection;
     }

@@ -27,7 +27,6 @@ public class MainWindowController {
     private final LoggerService loggerService;
     private final IModelFactory modelFactory;
     private final IProjectRepository projectRepository;
-    private final EventAggregatorService eventAggregatorService;
     @FXML
     public AnchorPane mainWindowRoot;
     @FXML
@@ -54,14 +53,12 @@ public class MainWindowController {
 
     @Inject
     public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService,
-                                IModelFactory modelFactory, IProjectRepository projectRepository,
-                                EventAggregatorService eventAggregatorService) {
+                                IModelFactory modelFactory, IProjectRepository projectRepository) {
 
         this.xmlParserService = xmlParserService;
         this.loggerService = loggerService;
         this.modelFactory = modelFactory;
         this.projectRepository = projectRepository;
-        this.eventAggregatorService = eventAggregatorService;
     }
 
     public void load(Project project) {

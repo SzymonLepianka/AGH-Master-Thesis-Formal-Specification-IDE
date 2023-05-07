@@ -39,6 +39,4 @@ public interface IModelFactory {
     PatternTemplate createPatternTemplate(String name, int inputs, int outputs);
 
     PatternTemplateCollection createPatternTemplateCollection();
-
-//    void registerInModelTracker(@NotNull ModelBase item);
 }

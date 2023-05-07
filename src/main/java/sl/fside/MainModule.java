@@ -16,8 +16,6 @@ public class MainModule extends AbstractModule {
 
         // Services
         bind(IResourceService.class).to(ResourceService.class).in(Scopes.SINGLETON);
-        bind(EventAggregatorService.class).in(Scopes.SINGLETON);
-        bind(ModelTrackerService.class).in(Scopes.SINGLETON);
         bind(LoggerService.class).in(Scopes.SINGLETON);
         bind(XmlParserService.class).in(Scopes.SINGLETON);
 
