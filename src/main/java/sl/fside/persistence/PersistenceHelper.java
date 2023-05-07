@@ -19,15 +19,6 @@ class PersistenceHelper implements IPersistenceHelper {
 
     private final Path projectDirectory = persistenceDirectory.resolve("projects").toAbsolutePath();
 
-    private final Path imageDirectory = persistenceDirectory.resolve("images").toAbsolutePath();
-
-    private final Path atomicActivityCollectionsDirectory =
-            persistenceDirectory.resolve("atomicActivityCollections").toAbsolutePath();
-
-    private final Path projectNamesFile = persistenceDirectory.resolve("projectNames.json").toAbsolutePath();
-
-    private final Path patternTemplatesFile = persistenceDirectory.resolve("patternTemplates.json").toAbsolutePath();
-
     private final LoggerService loggerService;
 
     private final ObjectMapper objectMapper;
@@ -60,65 +51,12 @@ class PersistenceHelper implements IPersistenceHelper {
     }
 
     @Override
-    public List<File> getAllImageFiles() {
-        return getAllFilesInDirectory(imageDirectory, "png", "jpg").toList();
-    }
-
-    @Override
-    public List<File> getAllAtomicActivityCollectionFiles() {
-        return getAllFilesInDirectory(atomicActivityCollectionsDirectory, "json").toList();
-    }
-
-    @Override
-    public File getProjectNamesFile() {
-        return projectNamesFile.toFile();
-    }
-
-    @Override
-    public File getPatternTemplatesFile() {
-        return patternTemplatesFile.toFile();
-    }
-
-    @Override
     public void saveProjectFile(Project project) {
         if (saveFile(generatePathToJson(projectDirectory.toString(), project.getProjectId().toString()), project)) {
             loggerService.logInfo("Saved project %s".formatted(project.getProjectId()));
         } else {
             loggerService.logInfo("Project not saved %s".formatted(project.getProjectId()));
         }
-    }
-
-    @Override
-    public void saveAtomicActivityCollectionFile(AtomicActivityCollection atomicActivityCollection) {
-        if (saveFile(generatePathToJson(atomicActivityCollectionsDirectory.toString(),
-                atomicActivityCollection.getAtomicActivityCollectionId().toString()), atomicActivityCollection))
-            loggerService.logInfo("Saved Atomic Activity Collection %s".formatted(
-                    atomicActivityCollection.getAtomicActivityCollectionId().toString()));
-    }
-
-//    @Override
-//    public void saveProjectNames(ProjectNameList projectNames) {
-//        if (saveFile(projectNamesFile, projectNames)) loggerService.logInfo("Saved Project Names");
-//    }
-
-    @Override
-    public void savePatternTemplateFile(PatternTemplateCollection patternTemplateCollection) {
-        if (saveFile(patternTemplatesFile, patternTemplateCollection)) loggerService.logInfo("Saved Pattern Templates");
-    }
-
-    @Override
-    public Optional<File> saveImage(File imageFile, UUID id) {
-        File newFile;
-        try {
-            var newPath = Files.copy(imageFile.toPath(), Path.of(imageDirectory.toString(),
-                    "%s.%s".formatted(id.toString(), IPersistenceHelper.getFileExtension(imageFile))));
-            newFile = newPath.toFile();
-        } catch (IOException e) {
-            loggerService.logError("Couldn't copy image.");
-            return Optional.empty();
-        }
-        loggerService.logInfo("Successfully copied image.");
-        return Optional.of(newFile);
     }
 
     @Override
@@ -171,8 +109,7 @@ class PersistenceHelper implements IPersistenceHelper {
      * Checks and creates directories used by the persistence layer.
      */
     private void setupDirectories() {
-        var paths = Arrays.asList(persistenceDirectory, projectDirectory, imageDirectory,
-                atomicActivityCollectionsDirectory);
+        var paths = Arrays.asList(persistenceDirectory, projectDirectory);
 
         for (var path : paths) {
             if (!Files.isDirectory(path)) {

@@ -21,7 +21,6 @@ public class UIElementsFactory {
     private final String editorsPath = "editors/";
     private final String useCaseSelectorControlsPath = editorsPath + "useCaseSelector/controls/";
     private final String scenarioSelectorControlsPath = editorsPath + "scenarioSelector/controls/";
-    private final String actionEditorControlsPath = editorsPath + "actionEditor/controls/";
     private final String generateCodePanelControlsPath = editorsPath + "generateCodePanel/controls/";
     private final String requirementEditorControlsPath = editorsPath + "requirementEditor/controls/";
     private final String verificationEditorControlsPath = editorsPath + "verificationEditor/controls/";
@@ -42,12 +41,6 @@ public class UIElementsFactory {
         pair.getValue().load(scenario);
         return pair;
     }
-
-//    public Pair<AnchorPane, ActionController> createAction(Action action) {
-//        var pair = this.<AnchorPane, ActionController>loadFromFxmnl(actionEditorControlsPath + "Action.fxml");
-//        pair.getValue().load(action);
-//        return pair;
-//    }
 
     public Pair<AnchorPane, CodeController> createCode(Code code) {
         var pair = this.<AnchorPane, CodeController>loadFromFxmnl(generateCodePanelControlsPath + "Code.fxml");

@@ -23,29 +23,7 @@ public interface IPersistenceHelper {
 
     List<File> getAllProjectFiles();
 
-    List<File> getAllImageFiles();
-
-    List<File> getAllAtomicActivityCollectionFiles();
-
-    File getProjectNamesFile();
-
-    File getPatternTemplatesFile();
-
     void saveProjectFile(Project project);
-
-    void saveAtomicActivityCollectionFile(AtomicActivityCollection atomicActivityCollection);
-
-//    void saveProjectNames(ProjectNameList projectNames);
-
-    void savePatternTemplateFile(PatternTemplateCollection patternTemplateCollection);
-
-    /**
-     * Saves (copies) image file to our persistence.
-     * @param imageFile Image file.
-     * @param id Image id.
-     * @return New file.
-     */
-    Optional<File> saveImage(File imageFile, UUID id);
 
     boolean saveFile(Path path, Object content);
 

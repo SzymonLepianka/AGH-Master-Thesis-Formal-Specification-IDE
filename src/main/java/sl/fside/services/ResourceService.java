@@ -1,9 +1,9 @@
 package sl.fside.services;
 
-import sl.fside.exceptions.*;
 import com.fasterxml.jackson.core.type.*;
 import com.fasterxml.jackson.databind.*;
 import com.google.inject.*;
+import sl.fside.exceptions.*;
 
 import java.io.*;
 import java.util.*;
@@ -12,11 +12,9 @@ public class ResourceService implements IResourceService {
 
     @SuppressWarnings("FieldCanBeLocal")
     private final String textsFile = "/sl/fside/texts/texts.json";
-
-    private HashMap<String, String> textsDictionary = new HashMap<>();
     private final LoggerService loggerService;
-
     private final ObjectMapper objectMapper;
+    private HashMap<String, String> textsDictionary = new HashMap<>();
 
     @Inject
     ResourceService(LoggerService loggerService) {
@@ -34,7 +32,8 @@ public class ResourceService implements IResourceService {
 
     private void loadTexts() {
         try {
-            textsDictionary = objectMapper.readValue(getClass().getResourceAsStream(textsFile), new TypeReference<>() {});
+            textsDictionary = objectMapper.readValue(getClass().getResourceAsStream(textsFile), new TypeReference<>() {
+            });
         } catch (IOException e) {
             loggerService.logDebug("Couldn't load resource \"Texts\"");
         }

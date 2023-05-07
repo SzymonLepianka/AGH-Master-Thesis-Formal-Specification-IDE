@@ -4,7 +4,6 @@ import com.google.inject.*;
 import javafx.fxml.*;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
 import javafx.scene.image.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
@@ -68,11 +67,6 @@ public class ImageViewerController {
         // get image
         if (selectedFile == null) return;
         Image image = new Image(selectedFile.toURI().toString());
-
-        // save file extension to file
-        String filename = selectedFile.getName();
-        String selectedFileExtension = filename.substring(filename.lastIndexOf(".") + 1);
-        project.setImageFileExtension(selectedFileExtension);
 
         // save image to project
         try {

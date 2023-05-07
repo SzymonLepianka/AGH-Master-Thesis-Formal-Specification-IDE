@@ -53,16 +53,15 @@ public class LoggerService {
         configurationBuilder.add(loggerBuilder);
 
         // Configure policies
-        var triggeringPolicies = configurationBuilder.newComponent("Policies")
-                .addComponent(configurationBuilder.newComponent("SizeBasedTriggeringPolicy").addAttribute("size", "100M"));
+        var triggeringPolicies = configurationBuilder.newComponent("Policies").addComponent(
+                configurationBuilder.newComponent("SizeBasedTriggeringPolicy").addAttribute("size", "100M"));
         file.addComponent(triggeringPolicies);
 
         Configurator.initialize(configurationBuilder.build());
     }
 
     public void logDebug(String message) {
-        if (isDebug)
-            getLogger().debug(message);
+        if (isDebug) getLogger().debug(message);
     }
 
     public void logInfo(String message) {

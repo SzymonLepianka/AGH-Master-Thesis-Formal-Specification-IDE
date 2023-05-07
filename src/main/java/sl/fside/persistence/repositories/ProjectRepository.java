@@ -43,39 +43,14 @@ class ProjectRepository implements IProjectRepository {
         return getAll().stream().filter(predicate).toList();
     }
 
-    /**
-     * Gets a project by name.
-     *
-     * @param name The project name.
-     * @return The project or null if not found.
-     */
-    @Override
-    public Optional<Project> getByName(String name) {
-        loggerService.logError("Not implemented! (getByName)");
-//        var projectId = projectNameRepository.get(x -> x.getProjectName().equals(name)).stream().findFirst();
-//        if (projectId.isEmpty())
-//            return Optional.empty();
-
-//        var projectFiles = persistenceHelper.getAllProjectFiles();
-//        var foundProjectFile = projectFiles.stream().filter(x -> x.getName().equals(projectId.get().toString())).findFirst();
-//        return foundProjectFile.map(this::loadProject);
-        return Optional.empty();
-    }
-
     @Override
     public void remove(@NotNull Project item) {
+        // TODO implement removing
         loggerService.logError("Not implemented! (remove)");
 //        var projectId = item.getId().toString();
 //        var file = persistenceHelper.getAllProjectFiles().stream().filter(x -> projectId.equals(IPersistenceHelper.getFileNameWithoutExtension(x))).findFirst();
 //        file.ifPresent(persistenceHelper::removeFile);
         projects.remove(item);
-    }
-
-    @Override
-    public void saveAll() {
-        for (var project : projects) {
-            save(project);
-        }
     }
 
     @Override
