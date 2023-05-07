@@ -26,7 +26,6 @@ module sl.fside {
     opens sl.fside.model to com.fasterxml.jackson.databind;
     opens sl.fside to com.google.guice, javafx.fxml;
     opens sl.fside.ui.editors.activityDiagramEditor to com.google.guice, javafx.fxml, javafx.graphics;
-    opens sl.fside.ui.editors.activityDiagramEditor.resultsEditor to com.google.guice, javafx.fxml, javafx.graphics;
     opens sl.fside.ui.editors.activityDiagramEditor.ownImpl to com.google.guice, javafx.fxml, javafx.graphics;
     opens sl.fside.ui.editors.activityDiagramEditor.customskin to com.google.guice, javafx.fxml, javafx.graphics;
     opens sl.fside.ui.editors.activityDiagramEditor.managers to com.google.guice, javafx.fxml, javafx.graphics;
