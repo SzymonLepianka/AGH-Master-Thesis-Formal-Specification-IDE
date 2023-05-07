@@ -83,10 +83,7 @@ public class ModelFactory implements IModelFactory {
     public UseCase createUseCase(UseCaseDiagram useCaseDiagram, UUID id, String name, boolean isImported) {
         UseCase useCase = new UseCase(id, name, isImported);
         useCaseDiagram.addUseCase(useCase);
-
         var mainScenario = createScenario(useCase, UUID.randomUUID(), true);
-
-//        registerInModelTracker(useCase);
         return useCase;
     }
 
@@ -96,19 +93,8 @@ public class ModelFactory implements IModelFactory {
                 "Additional Scenario for " + useCase.getUseCaseName();
         Scenario scenario = new Scenario(id, isMain, scenarioName);
         useCase.addScenario(scenario);
-
-//        registerInModelTracker(scenario);
         return scenario;
     }
-
-//    @Override
-//    public Action createAction(Scenario scenario, UUID id, String actionContent) {
-//        Action action = new Action(id, actionContent);
-//        scenario.addAction(action);
-//
-////        registerInModelTracker(scenario);
-//        return action;
-//    }
 
     @Override
     public Code createCode(Scenario scenario, UUID id) {
@@ -147,42 +133,10 @@ public class ModelFactory implements IModelFactory {
         return newAtomicActivity;
     }
 
-//    @Override
-//    public ActivityDiagram createActivityDiagram(Scenario parent, UUID id) {
-//        ActivityDiagram activityDiagram = new ActivityDiagram(id);
-////        parent.addChild(activityDiagram);
-//
-////        registerInModelTracker(activityDiagram);
-//        return activityDiagram;
-//    }
-
-//    @Override
-//    public Pattern createPattern(ActivityDiagram parent, UUID id, String name, UUID patternTemplateId) {
-//        Pattern pattern = new Pattern(id, name, patternTemplateId);
-////        parent.addChild(parent);
-//
-////        registerInModelTracker(pattern);
-//        return pattern;
-//    }
-
-//    @Override
-//    public void registerInModelTracker(@NotNull ModelBase item) {
-//        item.subscribe(modelTrackerService);
-//        loggerService.logDebug("Registered %s in ModelTrackerService.".formatted(item.toString()));
-//    }
-
     private AtomicActivityCollection createAtomicActivityCollection(UUID projectId) {
         var atomicActivityCollection = new AtomicActivityCollection(UUID.randomUUID(), projectId);
 //        registerInModelTracker(atomicActivityCollection);
 //        atomicActivityRepository.add(atomicActivityCollection);
         return atomicActivityCollection;
     }
-
-//    private ProjectName createProjectName(UUID projectId, String name) {
-//        var projectName = new ProjectName(UUID.randomUUID(), projectId, name);
-//        registerInModelTracker(projectName);
-//        projectNameRepository.add(projectName);
-//        return projectName;
-//    }
-
 }
