@@ -13,7 +13,6 @@ module sl.fside {
     requires io.github.eckig.grapheditor.core;
     requires org.eclipse.emf.edit;
     requires org.eclipse.emf.ecore.xmi;
-    requires json.simple;
     requires org.json;
     requires org.apache.commons.lang3;
     requires fontawesomefx;
