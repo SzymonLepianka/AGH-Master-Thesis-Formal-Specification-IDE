@@ -9,8 +9,6 @@ public class UseCaseDiagram {
     private final UUID useCaseDiagramId;
     private final List<UseCase> useCaseList = new ArrayList<>();
     private final List<Relation> relationList = new ArrayList<>();
-    @JsonIgnore
-    private Map<String, Map<String, List<String>>> useCasesRaw;
 
     @JsonCreator
     public UseCaseDiagram(@JsonProperty("useCaseDiagramId") UUID useCaseDiagramId) {
@@ -27,17 +25,6 @@ public class UseCaseDiagram {
 
     public void removeUseCase(UseCase useCase) {
         useCaseList.remove(useCase);
-    }
-
-    public Map<String, Map<String, List<String>>> getUseCasesRaw() {
-        return useCasesRaw;
-    }
-
-    public void setUseCasesRaw(Map<String, Map<String, List<String>>> useCasesRaw) {
-        if (this.useCasesRaw == null || !this.useCasesRaw.toString().equals(useCasesRaw.toString())) {
-            this.useCasesRaw = useCasesRaw;
-//            propertyChanged("useCasesRaw");
-        }
     }
 
     public UUID getUseCaseDiagramId() {
