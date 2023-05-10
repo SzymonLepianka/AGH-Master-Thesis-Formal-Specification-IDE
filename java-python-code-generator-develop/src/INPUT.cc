@@ -1,1 +1,1 @@
-Cond(atomic7,Para(atomic3P,atomic4P,atomic5P,atomic6P),Alt(warunek, Seq(atomic1P,atomic2P), null),atomic8)
+Seq(DamageVindication(),Cond(MinorDamage(), PrivateStatements(), SeqSeq(Seq(DocumentaryEvidence(),SeqSeq(ReportNumber(), PoliceAnalysis(), PoliceReport())), Alt(ImmobilisedVehicle(), Seq(PolicyCheck(),Cond(AssistanceIncluded(),Seq(CallAssitance(), TransportVehicle()), PrivateAssistance(), CarriageReport())), CostEstimation()),Cond(InitRepair(), RentVehicle(), Seq(Mechanical-Repairs(), BodyRepairs()), TestDrive())), FinalReport()))
