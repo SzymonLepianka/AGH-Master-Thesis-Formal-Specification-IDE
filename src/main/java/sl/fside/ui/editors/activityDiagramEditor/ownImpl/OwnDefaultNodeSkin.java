@@ -17,6 +17,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
+import sl.fside.model.*;
 import sl.fside.services.logic_formula_generator.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 
@@ -296,7 +297,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
     }
 
     private void setExistingDiagramFromPatternExpression(VBox mainVBox) {
-        String patternExpression = NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting();
+        PatternExpression patternExpression = NodesManager.getInstance().getPatternExpression();
         if (patternExpression == null) return;
         try {
             // wewnątrz głównego VBox znajdują się ComboBoxy
@@ -308,7 +309,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                     WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
 
             // label pattern expression (to get ex. (1])
-            String labelledExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
+            String labelledExpression = LabellingPatternExpressions.labelExpressions(patternExpression.toString());
 
             // uzupełnia pattern
             fillPattern(mainVBox, 1, labelledExpression, patternPropertySet);

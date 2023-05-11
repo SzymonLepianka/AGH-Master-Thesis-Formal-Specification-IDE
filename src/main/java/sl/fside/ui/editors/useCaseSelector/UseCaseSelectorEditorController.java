@@ -10,11 +10,12 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.editors.scenarioContentEditor.*;
+import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.controls.*;
 import sl.fside.ui.editors.verificationEditor.*;
@@ -133,6 +134,9 @@ public class UseCaseSelectorEditorController {
         this.verificationEditorController = verificationEditorController;
         useCasesList.getItems().clear();
         updateUseCaseSelectorEditor();
+
+        // adds UseCaseDiagram to NodesManager
+        NodesManager.getInstance().setCurrentUseCaseDiagram(useCaseDiagram);
 
         // create new useCases
         var useCasePairs = useCaseDiagram.getUseCaseList().stream().map(uiElementsFactory::createUseCase).toList();

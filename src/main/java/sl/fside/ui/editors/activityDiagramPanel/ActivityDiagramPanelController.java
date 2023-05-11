@@ -16,7 +16,6 @@ import sl.fside.ui.*;
 import sl.fside.ui.editors.activityDiagramEditor.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import sl.fside.ui.editors.resultsPanel.*;
-import sl.fside.ui.editors.useCaseSelector.*;
 
 import java.io.*;
 import java.util.*;
@@ -146,9 +145,7 @@ public class ActivityDiagramPanelController {
         NodesManager.getInstance().setCurrentAtomicActivities(
                 scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList());
 
-        // ustawia UseCaseDiagram i UseCase dla edytora diagramu aktywności (potrzebny, aby przetworzyć zagnieżdżenia)
-        NodesManager.getInstance()
-                .setCurrentUseCaseDiagram(mainWindowController.getCurrentProject().getUseCaseDiagram());
+        // ustawia UseCase dla edytora diagramu aktywności (potrzebny, aby przetworzyć zagnieżdżenia)
         NodesManager.getInstance()
                 .setCurrentUseCase(mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase());
 
@@ -193,10 +190,7 @@ public class ActivityDiagramPanelController {
         // save generated results in scenario
         stage.setOnHidden(event -> {
             if (NodesManager.getInstance().wasSpecificationGenerated()) {
-                scenario.setPatternExpressionBeforeProcessingNesting(
-                        NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting());
-                scenario.setPatternExpressionAfterProcessingNesting(
-                        NodesManager.getInstance().getPatternExpressionAfterProcessingNesting());
+                scenario.setPatternExpression(NodesManager.getInstance().getPatternExpression());
                 scenario.setFolLogicalSpecification(NodesManager.getInstance().getFolLogicalSpecification());
                 scenario.setLtlLogicalSpecification(NodesManager.getInstance().getLtlLogicalSpecification());
                 resultsPanelController.showResults();

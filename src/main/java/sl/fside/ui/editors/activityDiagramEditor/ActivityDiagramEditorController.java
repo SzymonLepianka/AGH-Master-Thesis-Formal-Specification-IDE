@@ -18,7 +18,9 @@ import javafx.scene.paint.*;
 import javafx.scene.shape.*;
 import javafx.scene.text.*;
 import javafx.stage.*;
+import javafx.util.*;
 import org.eclipse.emf.ecore.*;
+import sl.fside.model.*;
 import sl.fside.ui.editors.activityDiagramEditor.customskin.*;
 import sl.fside.ui.editors.activityDiagramEditor.managers.*;
 import sl.fside.ui.editors.activityDiagramEditor.ownImpl.*;
@@ -152,9 +154,9 @@ public class ActivityDiagramEditorController {
     }
 
     public void checkExistingActivityDiagram() {
-        String patternExpression = NodesManager.getInstance().getPatternExpressionBeforeProcessingNesting();
+        PatternExpression patternExpression = NodesManager.getInstance().getPatternExpression();
         if (patternExpression != null) {
-            String mainPatternName = patternExpression.split("\\(")[0];
+            String mainPatternName = patternExpression.toString().split("\\(")[0];
             switch (mainPatternName) {
                 case "Seq" -> addSeq();
                 case "Branch" -> addBranch();
@@ -415,17 +417,19 @@ public class ActivityDiagramEditorController {
         }
 
         StringBuilder patternExpression = new StringBuilder();
+        PatternExpression pe = null;
         for (var child : main.getChildren()) {
 
             // nazwa wzorca znajduje się wewnątrz pierwszego HBox
             if (child instanceof HBox && main.getChildren().indexOf(child) == 0) {
-                String text = ((Text) (((HBox) child).getChildren().get(0))).getText().replaceAll("\\s", "");
-                patternExpression.append(text);
+                String mainPatternName = ((Text) (((HBox) child).getChildren().get(0))).getText().replaceAll("\\s", "");
+                patternExpression.append(mainPatternName);
                 patternExpression.append("(");
+                pe = new PatternExpression(PatternExpression.MainPatternName.valueOf(mainPatternName));
 
                 // elementy grafu w zagnieżdżonych elementach VBox i HBox
             } else if (child instanceof VBox || (child instanceof HBox && main.getChildren().indexOf(child) != 0)) {
-                patternExpression.append(getNestedPatternFromVBox((Pane) child));
+                patternExpression.append(getNestedPatternFromVBox((Pane) child, pe));
 
                 // pomiń strzałki na grafie
             } else if (child instanceof MyArrow) {
@@ -438,13 +442,14 @@ public class ActivityDiagramEditorController {
         patternExpression.deleteCharAt(patternExpression.length() - 1);
         patternExpression.append(")");
         System.out.println("Wyrażenie: " + patternExpression);
-        NodesManager.getInstance().setPatternExpression(patternExpression.toString());
+        NodesManager.getInstance().setPatternExpression(pe);
         NodesManager.getInstance().setWasSpecificationGenerated(true);
     }
 
-    private String getNestedPatternFromVBox(Pane vBoxOrHBox) throws Exception {
+    private String getNestedPatternFromVBox(Pane vBoxOrHBox, PatternExpression pe) throws Exception {
         StringBuilder sb = new StringBuilder();
         boolean closeStatement = false;
+        PatternExpression nestedPatternExpression = null;
         for (var child2 : vBoxOrHBox.getChildren()) {
 
             // Combobox zawiera atomiczne aktywności
@@ -455,6 +460,8 @@ public class ActivityDiagramEditorController {
                 }
                 sb.append(value);
                 sb.append(",");
+                Pair<Boolean, Relation> booleanRelationPair = checkIfRelation(value);
+                pe.add(new PatternElement(value, null, booleanRelationPair.getKey(), booleanRelationPair.getValue()));
 
                 // nazwy zagnieżdżonych (wewnętrznych) wzorców
             } else if (child2 instanceof HBox && ((HBox) child2).getChildren().get(0) instanceof Text) {
@@ -462,12 +469,21 @@ public class ActivityDiagramEditorController {
                 if (!text.equals("+")) { // fixes nested Branch
                     sb.append(text);
                     sb.append("(");
+
+                    nestedPatternExpression = new PatternExpression(PatternExpression.MainPatternName.valueOf(text));
+                    pe.add(new PatternElement(null, nestedPatternExpression, false, null));
+
                     closeStatement = true;
                 }
 
                 // elementy grafu w zagnieżdżonych elementach VBox i HBox
             } else if (child2 instanceof VBox || child2 instanceof HBox) {
-                sb.append(getNestedPatternFromVBox((Pane) child2));
+
+                if (closeStatement) {
+                    sb.append(getNestedPatternFromVBox((Pane) child2, nestedPatternExpression));
+                } else {
+                    sb.append(getNestedPatternFromVBox((Pane) child2, pe));
+                }
 
                 // elementy pomijane
             } else if (child2 instanceof Text || child2 instanceof MyArrow || child2 instanceof Line) {
@@ -482,6 +498,48 @@ public class ActivityDiagramEditorController {
             sb.append("),");
         }
         return sb.toString();
+    }
+
+    private Pair<Boolean, Relation> checkIfRelation(String aa) {
+
+        UseCaseDiagram currentUseCaseDiagram = NodesManager.getInstance().getCurrentUseCaseDiagram();
+        UseCase currentUseCase = NodesManager.getInstance().getCurrentUseCase();
+
+        if (aa.startsWith("<<include>>")) {
+
+            String useCaseToName = aa.substring(11);
+            UUID useCaseToId = currentUseCaseDiagram.getUseCaseList().stream()
+                    .filter(uc -> uc.getUseCaseName().equals(useCaseToName)).findFirst().orElseThrow().getId();
+
+            List<Relation> includeRelations = currentUseCaseDiagram.getRelations().stream()
+                    .filter(r -> r.getType() == Relation.RelationType.INCLUDE &&
+                            r.getFromId().equals(currentUseCase.getId()) && r.getToId().equals(useCaseToId)).toList();
+
+            if (!includeRelations.isEmpty()) {
+                return new Pair<>(Boolean.TRUE, includeRelations.get(0));
+            } else {
+                return new Pair<>(Boolean.FALSE, null);
+            }
+        } else if (aa.startsWith("<<extend>>")) {
+
+            UUID targetUseCaseId =
+                    currentUseCaseDiagram.getUseCaseList().stream().filter(uc -> aa.endsWith(uc.getUseCaseName()))
+                            .findFirst().orElseThrow().getId();
+            List<Relation> extendRelations = currentUseCaseDiagram.getRelations().stream()
+                    .filter(r -> r.getType() == Relation.RelationType.EXTEND &&
+                            r.getToId().equals(currentUseCase.getId()) && r.getFromId().equals(targetUseCaseId))
+                    .toList();
+
+            if (!extendRelations.isEmpty()) {
+                return new Pair<>(Boolean.TRUE, extendRelations.get(0));
+            } else {
+                return new Pair<>(Boolean.FALSE, null);
+            }
+        } else if (aa.startsWith("<<inherit>>")) {
+            // TODO
+            System.err.println("Not implemented!");
+        }
+        return new Pair<>(Boolean.FALSE, null);
     }
 
     private void showErrorMessage(String message) {

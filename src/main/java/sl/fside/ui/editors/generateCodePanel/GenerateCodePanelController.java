@@ -149,15 +149,16 @@ public class GenerateCodePanelController {
             showMessage("Scenario is not selected (It should never occur)", Alert.AlertType.WARNING);
             return;
         }
-        if (scenario.getPatternExpressionAfterProcessingNesting() == null) {
+        if (scenario.getPatternExpression() == null) {
             showMessage("No PatternExpression defined!", Alert.AlertType.WARNING);
             return;
         }
         try {
             String javaPE =
-                    replaceCodeInPatternExpression(scenario.getPatternExpressionAfterProcessingNesting(), "Java");
+                    replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(), "Java");
             String pythonPE =
-                    replaceCodeInPatternExpression(scenario.getPatternExpressionAfterProcessingNesting(), "Python");
+                    replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(),
+                            "Python");
             String javaCode = genJava(javaPE, UUID.randomUUID().toString());
             String pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
             showGeneratedCode(javaCode, pythonCode);

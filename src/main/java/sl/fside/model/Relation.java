@@ -10,6 +10,7 @@ public class Relation {
     private final UUID fromId; // źródłowy UseCase relacji
     private final UUID toId; // docelowy UseCase relacji
     private final RelationType type;
+    private int primIdx;
 
     @JsonCreator
     public Relation(@JsonProperty("relationId") UUID relationId, @JsonProperty("fromId") UUID fromId,
@@ -42,6 +43,14 @@ public class Relation {
         } else {
             return "<<!UNKNOWN!>>";
         }
+    }
+
+    public int getPrimIdx() {
+        return primIdx;
+    }
+
+    public void setPrimIdx(int primIdx) {
+        this.primIdx = primIdx;
     }
 
     public enum RelationType {

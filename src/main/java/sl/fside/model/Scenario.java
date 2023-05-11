@@ -14,8 +14,7 @@ public class Scenario {
     private final List<Verification> verifications = new ArrayList<>();
     private int maxRequirementSerialNumber = 0;
     private String content = "";
-    private String patternExpressionBeforeProcessingNesting;
-    private String patternExpressionAfterProcessingNesting;
+    private PatternExpression patternExpression;
     private String folLogicalSpecification;
     private String ltlLogicalSpecification;
     private boolean isMainScenario;
@@ -29,20 +28,12 @@ public class Scenario {
         this.isMainScenario = isMainScenario;
     }
 
-    public String getPatternExpressionBeforeProcessingNesting() {
-        return patternExpressionBeforeProcessingNesting;
+    public PatternExpression getPatternExpression() {
+        return patternExpression;
     }
 
-    public void setPatternExpressionBeforeProcessingNesting(String patternExpressionBeforeProcessingNesting) {
-        this.patternExpressionBeforeProcessingNesting = patternExpressionBeforeProcessingNesting;
-    }
-
-    public String getPatternExpressionAfterProcessingNesting() {
-        return patternExpressionAfterProcessingNesting;
-    }
-
-    public void setPatternExpressionAfterProcessingNesting(String patternExpressionAfterProcessingNesting) {
-        this.patternExpressionAfterProcessingNesting = patternExpressionAfterProcessingNesting;
+    public void setPatternExpression(PatternExpression patternExpression) {
+        this.patternExpression = patternExpression;
     }
 
     public String getContent() {

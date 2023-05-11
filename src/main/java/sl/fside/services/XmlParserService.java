@@ -84,6 +84,8 @@ public class XmlParserService {
         createRelationObjects(include, Relation.RelationType.INCLUDE, useCaseDiagram);
 
         // TODO INHERIT
+
+        addPrimIdxToRelation(useCaseDiagram);
     }
 
     private NodeList gatherXmlElems(Document doc, XPath xPath, List<String> expressionsList) throws Exception {
@@ -206,6 +208,22 @@ public class XmlParserService {
                     .filter(uc -> uc.getUseCasePrettyName().equals(relation.getValue())).findFirst().orElseThrow();
             modelFactory.createRelation(useCaseDiagram, UUID.randomUUID(), useCaseFrom.getId(), useCaseTo.getId(),
                     relationType);
+        }
+    }
+
+    private void addPrimIdxToRelation(UseCaseDiagram useCaseDiagram) {
+        List<Relation> relations = useCaseDiagram.getRelations();
+        for (var uc : useCaseDiagram.getUseCaseList()) {
+            List<Relation> matchedRelations = new ArrayList<>(relations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.INCLUDE && r.getToId().equals(uc.getId()))
+                    .toList());
+            matchedRelations.addAll(relations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.EXTEND && r.getFromId().equals(uc.getId()))
+                    .toList());
+            //TODO INHERIT
+            for (int i = 0; i < matchedRelations.size(); i++) {
+                matchedRelations.get(i).setPrimIdx(i + 1);
+            }
         }
     }
 }
