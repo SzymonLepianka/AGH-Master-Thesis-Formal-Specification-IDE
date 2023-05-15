@@ -4,14 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.fxmisc.richtext.*?>
-<AnchorPane fx:id="generatedCodeRoot" xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="generatedCodeRoot"
             fx:controller="sl.fside.ui.editors.generateCodePanel.GeneratedCodeController">
-    <TitledPane fx:id="javaTitledPane" animated="false" collapsible="false" prefHeight="500.0" prefWidth="400.0"
-                text="Java code">
-        <CodeArea fx:id="javaCodeArea" layoutX="9.0" layoutY="9.0" wrapText="true" editable="false"/>
-    </TitledPane>
-    <TitledPane fx:id="pythonTitledPane" animated="false" collapsible="false" prefHeight="500.0" prefWidth="400.0"
-                layoutX="400.0" text="Python code">
-        <CodeArea fx:id="pythonCodeArea" layoutX="9.0" layoutY="9.0" wrapText="true" editable="false"/>
+    <TitledPane fx:id="titledPane" animated="false" collapsible="false" prefHeight="500.0" prefWidth="600.0">
+        <CodeArea fx:id="codeArea" layoutX="9.0" layoutY="9.0" wrapText="true" editable="false"/>
     </TitledPane>
 </AnchorPane>

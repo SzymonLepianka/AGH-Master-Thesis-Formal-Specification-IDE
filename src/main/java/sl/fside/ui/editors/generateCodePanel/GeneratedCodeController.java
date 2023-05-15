@@ -10,30 +10,22 @@ public class GeneratedCodeController {
     @FXML
     public AnchorPane generatedCodeRoot;
     @FXML
-    public TitledPane javaTitledPane;
+    public TitledPane titledPane;
     @FXML
-    public CodeArea javaCodeArea;
-    @FXML
-    public TitledPane pythonTitledPane;
-    @FXML
-    public CodeArea pythonCodeArea;
+    public CodeArea codeArea;
 
     public void initialize() {
 
-        javaTitledPane.setBorder(new Border(
-                new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-        pythonTitledPane.setBorder(new Border(
+        titledPane.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         // add line numbers to the left of area
-        javaCodeArea.setParagraphGraphicFactory(LineNumberFactory.get(javaCodeArea));
-        pythonCodeArea.setParagraphGraphicFactory(LineNumberFactory.get(pythonCodeArea));
+        codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
     }
 
-    public void setCode(String javaCode, String pythonCode) {
-        javaCodeArea.clear();
-        javaCodeArea.appendText(javaCode);
-        pythonCodeArea.clear();
-        pythonCodeArea.appendText(pythonCode);
+    public void setCode(String code, String language) {
+        codeArea.clear();
+        codeArea.appendText(code);
+        titledPane.setText(language + " code");
     }
 }

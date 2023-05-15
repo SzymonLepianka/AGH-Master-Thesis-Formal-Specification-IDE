@@ -2,20 +2,25 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="generateCodePanelRoot" animated="false" collapsible="false" prefHeight="320.0" prefWidth="360.0"
-            text="Code generation" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1"
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" fx:id="generateCodePanelRoot" animated="false" collapsible="false"
+            prefHeight="320.0"
+            prefWidth="360.0" text="Code generation" xmlns="http://javafx.com/javafx/17.0.2-ea"
             fx:controller="sl.fside.ui.editors.generateCodePanel.GenerateCodePanelController">
     <AnchorPane fx:id="generateCodePanelAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="319.0"
                 prefWidth="358.0">
-        <ListView fx:id="codesList" layoutX="9.0" layoutY="9.0" prefHeight="245.0"
+        <ListView fx:id="codesList" layoutX="9.0" layoutY="9.0" prefHeight="222.0"
                   prefWidth="338.0"/>
         <Button fx:id="addCodeButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="260.0" mnemonicParsing="false" onAction="#addCodeButtonClicked"
+                layoutX="9.0" layoutY="248.0" mnemonicParsing="false" onAction="#addCodeButtonClicked"
                 prefHeight="25.0"
                 prefWidth="200.0" text="Add statement to atomic activity"/>
-        <Button fx:id="generateCodeButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="217.0" layoutY="260.0" mnemonicParsing="false" onAction="#generateCodeButtonClicked"
+        <Button fx:id="generateJavaButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="217.0" layoutY="234.0" mnemonicParsing="false" onAction="#generateJavaButtonClicked"
                 prefHeight="25.0"
-                prefWidth="130.0" text="Generate code"/>
+                prefWidth="130.0" text="Generate Java"/>
+        <Button fx:id="generatePythonButton" alignment="CENTER" contentDisplay="CENTER"
+                layoutX="217.0" layoutY="262.0" mnemonicParsing="false" onAction="#generatePythonButtonClicked"
+                prefHeight="25.0"
+                prefWidth="130.0" text="Generate Python"/>
     </AnchorPane>
 </TitledPane>
