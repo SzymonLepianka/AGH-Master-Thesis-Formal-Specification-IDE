@@ -10,23 +10,12 @@ public class Project {
     private final String projectName;
     private UseCaseDiagram useCaseDiagram;
     private String base64Image;
+    private boolean isCodeGenerationPanelVisible = true;
 
     @JsonCreator
     public Project(@JsonProperty("projectId") UUID projectId, @JsonProperty("projectName") String projectName) {
         this.projectId = projectId;
         this.projectName = projectName;
-    }
-
-    public void addUseCaseDiagram(UseCaseDiagram useCaseDiagram) {
-        this.useCaseDiagram = useCaseDiagram;
-    }
-
-    public void addImage(String base64Image) {
-        this.base64Image = base64Image;
-    }
-
-    public void removeImage() {
-        this.base64Image = null;
     }
 
     public UUID getProjectId() {
@@ -41,7 +30,27 @@ public class Project {
         return useCaseDiagram;
     }
 
+    public void addUseCaseDiagram(UseCaseDiagram useCaseDiagram) {
+        this.useCaseDiagram = useCaseDiagram;
+    }
+
     public String getImage() {
         return base64Image;
+    }
+
+    public void addImage(String base64Image) {
+        this.base64Image = base64Image;
+    }
+
+    public void removeImage() {
+        this.base64Image = null;
+    }
+
+    public boolean isCodeGenerationPanelVisible() {
+        return isCodeGenerationPanelVisible;
+    }
+
+    public void setCodeGenerationPanelVisible(boolean codeGenerationPanelVisible) {
+        isCodeGenerationPanelVisible = codeGenerationPanelVisible;
     }
 }

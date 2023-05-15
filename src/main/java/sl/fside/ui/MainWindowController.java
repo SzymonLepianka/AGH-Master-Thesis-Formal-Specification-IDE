@@ -10,12 +10,12 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
-import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.imageViewer.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.scenarioSelector.*;
 import sl.fside.ui.editors.useCaseSelector.*;
 import sl.fside.ui.editors.verificationEditor.*;
@@ -47,6 +47,8 @@ public class MainWindowController {
     public VerificationEditorController verificationEditorController;
     @FXML
     public UseCaseSelectorEditorController useCaseSelectorEditorController;
+    @FXML
+    public RadioMenuItem codeGenerationPanelVisibilityButton;
     private Project project;
     private Stage stage;
 
@@ -69,6 +71,11 @@ public class MainWindowController {
                 verificationEditorController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
+
+        // set visibility of code generation panel
+        codeGenerationPanelVisibilityButton.setSelected(project.isCodeGenerationPanelVisible());
+        generateCodePanelController.generateCodePanelRoot.setVisible(project.isCodeGenerationPanelVisible());
+
         loggerService.logInfo("Project set to MainWindow - " + project.getProjectId());
     }
 
@@ -251,6 +258,17 @@ public class MainWindowController {
 
     public Project getCurrentProject() {
         return project;
+    }
+
+    @FXML
+    public void codeGenerationPanelVisibilityButtonClicked() {
+        if (project != null) {
+            project.setCodeGenerationPanelVisible(codeGenerationPanelVisibilityButton.isSelected());
+            generateCodePanelController.generateCodePanelRoot.setVisible(
+                    codeGenerationPanelVisibilityButton.isSelected());
+        } else {
+            codeGenerationPanelVisibilityButton.setSelected(false);
+        }
     }
 
     private record ProjectNamePresenter(Project project) {
