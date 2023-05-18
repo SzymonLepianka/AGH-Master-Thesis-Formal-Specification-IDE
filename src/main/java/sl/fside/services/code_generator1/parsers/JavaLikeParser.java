@@ -133,6 +133,11 @@ public class JavaLikeParser extends JavaBaseListener {
 
         stack.push(ctx.CharArray().getText() + ";");
     }
+    @Override
+    public void exitSpecial_String(JavaParser.Special_StringContext ctx) {
+
+        stack.push(ctx.CharArray().getText().replace("#", "").replace(";", ";\n"));
+    }
 
     @Override
     public void exitBranchRe(JavaParser.BranchReContext ctx) {

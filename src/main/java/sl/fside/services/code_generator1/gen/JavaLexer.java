@@ -1,4 +1,4 @@
-// Generated from C:/Users/kacpe/Desktop/java-python-code-generator-release3/src/main/java/org/example/grammar\Java.g4 by ANTLR 4.12.0
+// Generated from C:/Users/kacpe/Desktop/java-python-code-generator-rel3-master/src/main/java/org/example/grammar\Java.g4 by ANTLR 4.12.0
 package sl.fside.services.code_generator1.gen;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -131,7 +131,7 @@ public class JavaLexer extends Lexer {
 		"\u0001\u0003\u0002\u0005\u0003\u0007\u0004\t\u0005\u000b\u0006\r\u0007"+
 		"\u000f\b\u0011\t\u0013\n\u0015\u000b\u0017\f\u0019\r\u001b\u000e\u001d"+
 		"\u000f\u001f\u0010!\u0011\u0001\u0000\u0002\u0004\u000009AZ__az\t\u0000"+
-		" !%%++--09<?AZ__az\u0083\u0000\u0001\u0001\u0000\u0000\u0000\u0000\u0003"+
+		" !%%++--09;?AZ__az\u0083\u0000\u0001\u0001\u0000\u0000\u0000\u0000\u0003"+
 		"\u0001\u0000\u0000\u0000\u0000\u0005\u0001\u0000\u0000\u0000\u0000\u0007"+
 		"\u0001\u0000\u0000\u0000\u0000\t\u0001\u0000\u0000\u0000\u0000\u000b\u0001"+
 		"\u0000\u0000\u0000\u0000\r\u0001\u0000\u0000\u0000\u0000\u000f\u0001\u0000"+

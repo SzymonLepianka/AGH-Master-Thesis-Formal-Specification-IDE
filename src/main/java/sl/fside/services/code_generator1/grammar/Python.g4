@@ -24,4 +24,4 @@ function: CharArray '(' (arg_python',')*(arg_python)* ')';
 arg_python:  prule | function | string |special_String;
 special_String:'#'CharArray'#';
 string: CharArray;
-CharArray: [a-zA-Z0-9_]+ [a-zA-Z0-9_+ =!<>%?-]*;
+CharArray: [a-zA-Z0-9_]+ [a-zA-Z0-9_;+ =!<>%?-]*;

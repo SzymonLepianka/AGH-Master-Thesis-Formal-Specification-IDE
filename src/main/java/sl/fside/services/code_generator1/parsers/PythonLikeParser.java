@@ -109,7 +109,7 @@ public class PythonLikeParser extends PythonBaseListener {
         String s3 = stack.pop();
         String s2 = stack.pop();
         String s1 = stack.pop();
-        sb.append("if(").append(s1).append("): ").append(s2).append("\n").append(s3).append("\n");
+        sb.append("if ").append(s1).append(": ").append(s2).append("\n").append(s3).append("\n");
 
         stack.push(sb.toString());
         sb.setLength(0);
@@ -118,7 +118,7 @@ public class PythonLikeParser extends PythonBaseListener {
             while (functions.size() > 0) {
 
 
-                sb.append("\n\npublic void ").append(functions.get(0)).append(" {\n     // Add code here\n   }\n");
+                sb.append("def ").append(functions.get(0)).append(":\n     // Add code here\n");
                 functions.remove(0);
             }
             if (functions.size() == 0) {
@@ -150,6 +150,11 @@ public class PythonLikeParser extends PythonBaseListener {
 
         stack.push(ctx.CharArray().getText());
     }
+    @Override
+    public void exitSpecial_String(PythonParser.Special_StringContext ctx) {
+
+        stack.push(ctx.CharArray().getText().replace("#", "").replace(";", "\n"));
+    }
 
     @Override
     public void exitBranchRe(PythonParser.BranchReContext ctx) {
@@ -161,8 +166,8 @@ public class PythonLikeParser extends PythonBaseListener {
         String s3 = stack.pop();
         String s2 = stack.pop();
         String s1 = stack.pop();
-        sb.append("if(").append(s1)
-                .append(") :\n   ")
+        sb.append("if ").append(s1)
+                .append(":\n   ")
                 .append(s2)
                 .append("\n   ")
                 .append(s4)
@@ -170,7 +175,7 @@ public class PythonLikeParser extends PythonBaseListener {
                 .append(s3)
                 .append("\n   ")
                 .append(s5)
-                .append("\n}\n")
+                .append("\n\n")
                 .append(s6);stack.push(sb.toString());
         sb.setLength(0);
         if (ctx.depth() == 1) {
