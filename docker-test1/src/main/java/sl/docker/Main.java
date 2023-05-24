@@ -3,6 +3,7 @@ package sl.docker;
 import com.github.dockerjava.api.*;
 import com.github.dockerjava.api.command.BuildImageResultCallback;
 import com.github.dockerjava.api.command.*;
+import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.*;
 import com.github.dockerjava.core.command.*;
 import org.apache.commons.compress.archivers.tar.*;
@@ -53,6 +54,13 @@ public class Main {
 
         System.out.println("Container started: " + container.getId());
 
+        // Add a shutdown hook to stop the container when the application exits
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Stop the container
+            dockerClient.stopContainerCmd(containerName).exec();
+            System.out.println("Container stopped: " + containerName);
+        }));
+
         try {
             executeCommand(containerName, dockerClient);
         } catch (Exception e) {
@@ -77,7 +85,8 @@ public class Main {
         callback.awaitCompletion();
 
         // Retrieve the output file from the container
-        try (InputStream inputStream = dockerClient.copyArchiveFromContainerCmd(containerName, "/shared/output.txt").exec()) {
+        try (InputStream inputStream = dockerClient.copyArchiveFromContainerCmd(containerName, "/shared/output.txt")
+                .exec()) {
             // Save the original content to a separate file
             Path originalOutputFilePath = Paths.get("../docker/shared/output_original.tar.gz");
             Files.copy(inputStream, originalOutputFilePath, StandardCopyOption.REPLACE_EXISTING);
