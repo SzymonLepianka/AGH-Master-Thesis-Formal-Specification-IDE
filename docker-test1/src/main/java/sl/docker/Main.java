@@ -31,9 +31,12 @@ public class Main {
         String containerName = "my-container";
 
         // Check if the container exists
+        List<Container> containers =
+                dockerClient.listContainersCmd().withNameFilter(Collections.singleton(containerName))
+                        .withStatusFilter(Arrays.asList("running", "exited"))  // Include "exited" status
+                        .exec();
         boolean containerExists =
-                dockerClient.listContainersCmd().withNameFilter(Collections.singleton(containerName)).exec().stream()
-                        .anyMatch(container -> container.getNames()[0].equals("/" + containerName));
+                containers.stream().anyMatch(container -> container.getNames()[0].equals("/" + containerName));
 
         // Remove the container if it exists
         if (containerExists) {
