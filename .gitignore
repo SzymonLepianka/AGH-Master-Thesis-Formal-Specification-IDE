@@ -189,3 +189,4 @@ codePython.txt
 /java-python-code-generator-develop/*.py
 /java-python-code-generator-develop/*.java
 /java-python-code-generator-develop/*.txt
+/docker/shared/*
