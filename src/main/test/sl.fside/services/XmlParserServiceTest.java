@@ -17,7 +17,7 @@ class XmlParserServiceTest {
     private final ModelFactory modelFactory = injector.getInstance(ModelFactory.class);
 
     @Test
-    void parseXmlShop() {
+    void parseXmlShop() throws Exception {
         var project = modelFactory.createProject("test1");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop.xml"));
@@ -46,7 +46,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlShopExt() {
+    void parseXmlShopExt() throws Exception {
         var project = modelFactory.createProject("test2");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/1. GenMyModel/shop_ext.xml"));
@@ -103,7 +103,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlBank() {
+    void parseXmlBank() throws Exception {
         var project = modelFactory.createProject("test3");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank.xml"));
@@ -126,7 +126,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlBankExtend() {
+    void parseXmlBankExtend() throws Exception {
         var project = modelFactory.createProject("test4");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/2. Papyrus/Bank_extend.xml"));
@@ -181,11 +181,10 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlVpEx1() {
+    void parseXmlVpEx1() throws Exception {
         var project = modelFactory.createProject("test5");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService.parseXml(useCaseDiagram,
-                new File("xml_and_png_examples/3. Visual Paradigm/ex1/project1.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/3. Visual Paradigm/ex1/project1.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();
@@ -211,11 +210,10 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlVpEx2() {
+    void parseXmlVpEx2() throws Exception {
         var project = modelFactory.createProject("test6");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
-        xmlParserService.parseXml(useCaseDiagram,
-                new File("xml_and_png_examples/3. Visual Paradigm/ex2/project2.xml"));
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/3. Visual Paradigm/ex2/project2.xml"));
         var useCaseList = useCaseDiagram.getUseCaseList();
         for (var useCase : useCaseList) {
             var useCaseName = useCase.getUseCaseName();
@@ -247,7 +245,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlVpEx3() {
+    void parseXmlVpEx3() throws Exception {
         var project = modelFactory.createProject("test7");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -283,7 +281,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlVpEx3TraditionalXml() {
+    void parseXmlVpEx3TraditionalXml() throws Exception {
         var project = modelFactory.createProject("test8");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -319,7 +317,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlVpExtendInclude() {
+    void parseXmlVpExtendInclude() throws Exception {
         var project = modelFactory.createProject("test9");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -397,7 +395,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx0() {
+    void parseXmlEaEx0() throws Exception {
         var project = modelFactory.createProject("test10");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -430,7 +428,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx1() {
+    void parseXmlEaEx1() throws Exception {
         var project = modelFactory.createProject("test11");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -463,7 +461,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx2_1_4_XML_1_2() {
+    void parseXmlEaEx2_1_4_XML_1_2() throws Exception {
         var project = modelFactory.createProject("test12");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -496,7 +494,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx2_2_0_XML_2_1() {
+    void parseXmlEaEx2_2_0_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test13");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -529,7 +527,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_1_1_XML_2_1() {
+    void parseXmlEaEx3_2_1_1_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test14");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -562,7 +560,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_1_2_XML_2_1() {
+    void parseXmlEaEx3_2_1_2_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test15");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -595,7 +593,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_1_XML_2_1() {
+    void parseXmlEaEx3_2_1_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test16");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -628,7 +626,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_2_XML_2_1() {
+    void parseXmlEaEx3_2_2_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test17");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -661,7 +659,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_3_XML_2_1() {
+    void parseXmlEaEx3_2_3_XML_2_1() throws Exception {
         var project = modelFactory.createProject("test18");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -694,7 +692,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_4_1_XML_2_4_2() {
+    void parseXmlEaEx3_2_4_1_XML_2_4_2() throws Exception {
         var project = modelFactory.createProject("test19");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -727,7 +725,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_4_XML_2_4() {
+    void parseXmlEaEx3_2_4_XML_2_4() throws Exception {
         var project = modelFactory.createProject("test20");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram,
@@ -760,7 +758,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_5_1_XML_2_5_1() {
+    void parseXmlEaEx3_2_5_1_XML_2_5_1() throws Exception {
         var project = modelFactory.createProject("test21");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -793,7 +791,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlEaEx3_2_5_XML_2_5() {
+    void parseXmlEaEx3_2_5_XML_2_5() throws Exception {
         var project = modelFactory.createProject("test22");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File(
@@ -826,7 +824,7 @@ class XmlParserServiceTest {
     }
 
     @Test
-    void parseXmlSinvas() {
+    void parseXmlSinvas() throws Exception {
         var project = modelFactory.createProject("test23");
         var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
         xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/5.Sinvas/library.xml"));
