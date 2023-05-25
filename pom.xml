@@ -127,6 +127,14 @@
         </dependency>
         <!--END docker-java dependencies-->
 
+        <!--fixes this error:-->
+        <!--Caused by: java.lang.NoClassDefFoundError: org/apache/commons/logging/LogFactory-->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>
