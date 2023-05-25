@@ -18,8 +18,14 @@ module sl.fside {
     requires fontawesomefx;
     requires org.fxmisc.richtext;
     requires org.antlr.antlr4.runtime;
+    requires org.apache.commons.compress;
+    requires com.github.dockerjava.core;
+    requires com.github.dockerjava.api;
+    requires com.github.dockerjava.transport.jersey;
+    requires com.github.dockerjava.transport;
 
     opens sl.fside.services to com.google.guice;
+    opens sl.fside.services.docker_service to com.google.guice;
     opens sl.fside.persistence to com.google.guice;
     opens sl.fside.persistence.repositories to com.google.guice;
     opens sl.fside.factories to com.google.guice;

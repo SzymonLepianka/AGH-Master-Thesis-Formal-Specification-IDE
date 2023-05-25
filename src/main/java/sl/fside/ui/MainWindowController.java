@@ -10,6 +10,7 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.persistence.repositories.*;
 import sl.fside.services.*;
+import sl.fside.services.docker_service.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.imageViewer.*;
@@ -24,6 +25,7 @@ import java.util.*;
 
 public class MainWindowController {
     private final XmlParserService xmlParserService;
+    private final DockerService dockerService;
     private final LoggerService loggerService;
     private final IModelFactory modelFactory;
     private final IProjectRepository projectRepository;
@@ -55,12 +57,14 @@ public class MainWindowController {
 
     @Inject
     public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService,
-                                IModelFactory modelFactory, IProjectRepository projectRepository) {
+                                IModelFactory modelFactory, IProjectRepository projectRepository,
+                                DockerService dockerService) {
 
         this.xmlParserService = xmlParserService;
         this.loggerService = loggerService;
         this.modelFactory = modelFactory;
         this.projectRepository = projectRepository;
+        this.dockerService = dockerService;
     }
 
     public void load(Project project) {
@@ -90,6 +94,7 @@ public class MainWindowController {
 
     public void initialize() {
         stage.setTitle("Formal Specification IDE - No project selected");
+        dockerService.initialize();
         chooseProjectOnStart();
 
         // Dodanie obsługi zdarzenia zamknięcia okna
