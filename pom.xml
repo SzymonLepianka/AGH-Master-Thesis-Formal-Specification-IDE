@@ -113,11 +113,20 @@
             <artifactId>antlr4</artifactId>
             <version>4.12.0</version>
         </dependency>
+
+        <!--START docker-java dependencies-->
         <dependency>
             <groupId>com.github.docker-java</groupId>
             <artifactId>docker-java-core</artifactId>
             <version>3.3.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.docker-java</groupId>
+            <artifactId>docker-java-transport-jersey</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+        <!--END docker-java dependencies-->
+
     </dependencies>
 
     <build>

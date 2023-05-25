@@ -21,8 +21,8 @@ module sl.fside {
     requires org.apache.commons.compress;
     requires com.github.dockerjava.core;
     requires com.github.dockerjava.api;
-    requires com.github.dockerjava.transport.jersey;
     requires com.github.dockerjava.transport;
+    requires com.github.dockerjava.transport.jersey;
 
     opens sl.fside.services to com.google.guice;
     opens sl.fside.services.docker_service to com.google.guice;
