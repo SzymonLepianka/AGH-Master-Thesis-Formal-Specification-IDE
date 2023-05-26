@@ -11,6 +11,7 @@ import sl.fside.services.*;
 import sl.fside.services.docker_service.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 import java.util.function.*;
 
@@ -121,17 +122,31 @@ public class VerificationController {
             }
         }
 
-        // Create the file path
-        String filePath = folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() + "_input.txt";
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            writer.write(verification.getContent());
+        Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                "_input.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()))) {
+            writer.write("""
+                    formulas(sos).
+                      all x all y (subset(x,y) <-> (all z (member(z,x) -> member(z,y)))).
+                    end_of_list.
+                    formulas(goals).
+                      all x all y all z (subset(x,y) & subset(y,z) -> subset(x,z)).
+                    end_of_list.
+                    """);
+//            writer.write(verification.getContent());
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        try {
+            dockerService.executeProver9Command(inputFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage(e.getMessage());
+            return;
+        }
 
-        // TODO
-
+        //TODO get output
 
         sendToProverButton.setText("Sent to " + verification.getProver() + "!");
         sendToProverButton.setDisable(true);
