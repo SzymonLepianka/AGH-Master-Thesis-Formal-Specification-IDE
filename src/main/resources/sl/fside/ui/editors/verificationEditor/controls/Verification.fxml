@@ -2,8 +2,8 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="verificationRoot" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="verificationRoot"
+            xmlns="http://javafx.com/javafx"
             fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController"
             prefHeight="85.0" prefWidth="318.0">
     <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="45.0" prefWidth="308.0" wrapText="true"
@@ -14,4 +14,6 @@
             prefWidth="100.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
     <ComboBox fx:id="proverComboBox" layoutX="175.0" layoutY="55.0" prefHeight="15.0" prefWidth="140.0"
               promptText="Choose Prover" onAction="#onChooseProverComboBoxClicked"/>
+    <Button fx:id="showResultButton" layoutX="195.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
+            prefWidth="120.0" text="Show result" onAction="#showResultButtonClicked" visible="false"/>
 </AnchorPane>

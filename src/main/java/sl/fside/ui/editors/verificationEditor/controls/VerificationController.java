@@ -7,13 +7,17 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.model.*;
+import sl.fside.services.*;
+import sl.fside.services.docker_service.*;
 
+import java.io.*;
 import java.util.*;
 import java.util.function.*;
 
 
 public class VerificationController {
-
+    private final XmlParserService xmlParserService;
+    private final DockerService dockerService;
     @FXML
     public AnchorPane verificationRoot;
     @FXML
@@ -24,11 +28,15 @@ public class VerificationController {
     public ComboBox<String> proverComboBox;
     @FXML
     public Button sendToProverButton;
+    @FXML
+    public Button showResultButton;
     private Verification verification;
     private Function<Pair<AnchorPane, VerificationController>, Void> onRemoveClicked;
 
     @Inject
-    public VerificationController() {
+    public VerificationController(XmlParserService xmlParserService, DockerService dockerService) {
+        this.xmlParserService = xmlParserService;
+        this.dockerService = dockerService;
     }
 
     public void load(Verification verification) {
@@ -86,6 +94,64 @@ public class VerificationController {
 
     @FXML
     public void sendToProverButtonClicked() {
+        if (verification.getProver() == null) {
+            showErrorMessage("Prover not set!");
+            return;
+        }
+        if (verification.getContent() == null) {
+            showErrorMessage("Content not set!");
+            return;
+        }
+
+        System.out.println(verification.getContent());
+        System.out.println(verification.getProver());
+        System.out.println(verification.getId());
+
+        // Create the folder path
+        String folderPath = "prover_input/";
+
+        // Create the folder if it doesn't exist
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            boolean created = folder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                showErrorMessage("Failed to create the folder " + folderPath);
+                return;
+            }
+        }
+
+        // Create the file path
+        String filePath = folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() + "_input.txt";
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            writer.write(verification.getContent());
+            writer.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         // TODO
+
+
+        sendToProverButton.setText("Sent to " + verification.getProver() + "!");
+        sendToProverButton.setDisable(true);
+
+        sendToProverButton.setPrefWidth(120.0);
+        proverComboBox.setVisible(false);
+        showResultButton.setVisible(true);
     }
+
+    @FXML
+    public void showResultButtonClicked() {
+        //TODO
+    }
+
+    private void showErrorMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText("Error during sending to prover!");
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }
