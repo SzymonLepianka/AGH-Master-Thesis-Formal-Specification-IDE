@@ -9,6 +9,7 @@ public class Verification {
     private final UUID id;
     private String content;
     private String prover;
+    private boolean isResultGenerated = false;
 
     @JsonCreator
     public Verification(@JsonProperty("id") UUID id) {
@@ -33,5 +34,13 @@ public class Verification {
 
     public void setProver(String prover) {
         this.prover = prover;
+    }
+
+    public boolean isResultGenerated() {
+        return isResultGenerated;
+    }
+
+    public void setResultGenerated(boolean resultGenerated) {
+        isResultGenerated = resultGenerated;
     }
 }

@@ -2,9 +2,12 @@ package sl.fside.ui.editors.verificationEditor.controls;
 
 import com.google.inject.*;
 import javafx.fxml.*;
+import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import javafx.stage.Stage;
+import javafx.stage.*;
 import javafx.util.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
@@ -17,7 +20,7 @@ import java.util.function.*;
 
 
 public class VerificationController {
-    private final XmlParserService xmlParserService;
+    private final LoggerService loggerService;
     private final DockerService dockerService;
     @FXML
     public AnchorPane verificationRoot;
@@ -35,8 +38,8 @@ public class VerificationController {
     private Function<Pair<AnchorPane, VerificationController>, Void> onRemoveClicked;
 
     @Inject
-    public VerificationController(XmlParserService xmlParserService, DockerService dockerService) {
-        this.xmlParserService = xmlParserService;
+    public VerificationController(LoggerService loggerService, DockerService dockerService) {
+        this.loggerService = loggerService;
         this.dockerService = dockerService;
     }
 
@@ -55,6 +58,15 @@ public class VerificationController {
         // ustawia wybrany prover (jeśli wybrano)
         if (verification.getProver() != null) {
             proverComboBox.getSelectionModel().select(verification.getProver());
+        }
+
+        // ustawia możliwość wyświetlenia wyniku
+        if (verification.isResultGenerated()){
+            sendToProverButton.setText("Sent to " + verification.getProver() + "!");
+            sendToProverButton.setDisable(true);
+            sendToProverButton.setPrefWidth(120.0);
+            proverComboBox.setVisible(false);
+            showResultButton.setVisible(true);
         }
     }
 
@@ -96,17 +108,13 @@ public class VerificationController {
     @FXML
     public void sendToProverButtonClicked() {
         if (verification.getProver() == null) {
-            showErrorMessage("Prover not set!");
+            showErrorMessage("Error during sending to prover!", "Prover not set!");
             return;
         }
         if (verification.getContent() == null) {
-            showErrorMessage("Content not set!");
+            showErrorMessage("Error during sending to prover!", "Content not set!");
             return;
         }
-
-        System.out.println(verification.getContent());
-        System.out.println(verification.getProver());
-        System.out.println(verification.getId());
 
         // Create the folder path
         String folderPath = "prover_input/";
@@ -117,7 +125,7 @@ public class VerificationController {
             boolean created = folder.mkdirs();
             if (!created) {
                 // Handle the case when folder creation fails
-                showErrorMessage("Failed to create the folder " + folderPath);
+                showErrorMessage("Error during sending to prover!", "Failed to create the folder " + folderPath);
                 return;
             }
         }
@@ -142,15 +150,13 @@ public class VerificationController {
             dockerService.executeProver9Command(inputFilePath);
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorMessage(e.getMessage());
+            showErrorMessage("Error during sending to prover!", e.getMessage());
             return;
         }
 
-        //TODO get output
-
+        verification.setResultGenerated(true);
         sendToProverButton.setText("Sent to " + verification.getProver() + "!");
         sendToProverButton.setDisable(true);
-
         sendToProverButton.setPrefWidth(120.0);
         proverComboBox.setVisible(false);
         showResultButton.setVisible(true);
@@ -158,14 +164,51 @@ public class VerificationController {
 
     @FXML
     public void showResultButtonClicked() {
-        //TODO
+
+        // check if verification output exists
+        Path inputFilePath =
+                Path.of("prover_output/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                        "_output.txt");
+
+        String fileContent;
+        try {
+            fileContent = Files.readString(inputFilePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            showErrorMessage("Error during showing result!", e.getMessage());
+            return;
+        }
+
+        var stage = new Stage();
+        final var loader = new FXMLLoader(VerificationResultController.class.getResource("VerificationResult.fxml"));
+        final Parent root;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        final Scene scene = new Scene(root, 800, 600);
+
+        // Make the stage modal (it disables clicking other windows)
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        stage.setScene(scene);
+        stage.setTitle("Formal Specification IDE - VerificationResult - " + verification.getProver());
+
+        stage.show();
+
+        final VerificationResultController controller = loader.getController();
+        controller.setVerificationResult(fileContent, verification.getProver());
+
+        loggerService.logInfo("GeneratedCode window opened");
     }
 
-    private void showErrorMessage(String message) {
+    private void showErrorMessage(String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText("Error during sending to prover!");
-        alert.setContentText(message);
+        alert.setContentText(contentText);
         alert.showAndWait();
     }
 
