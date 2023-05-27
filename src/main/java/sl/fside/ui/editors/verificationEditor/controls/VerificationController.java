@@ -9,6 +9,7 @@ import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import javafx.stage.*;
 import javafx.util.*;
+import org.apache.commons.lang3.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.services.docker_service.*;
@@ -61,7 +62,7 @@ public class VerificationController {
         }
 
         // ustawia możliwość wyświetlenia wyniku
-        if (verification.isResultGenerated()){
+        if (verification.isResultGenerated()) {
             sendToProverButton.setText("Sent to " + verification.getProver() + "!");
             sendToProverButton.setDisable(true);
             sendToProverButton.setPrefWidth(120.0);
@@ -116,38 +117,17 @@ public class VerificationController {
             return;
         }
 
-        // Create the folder path
-        String folderPath = "prover_input/";
 
-        // Create the folder if it doesn't exist
-        File folder = new File(folderPath);
-        if (!folder.exists()) {
-            boolean created = folder.mkdirs();
-            if (!created) {
-                // Handle the case when folder creation fails
-                showErrorMessage("Error during sending to prover!", "Failed to create the folder " + folderPath);
-                return;
-            }
-        }
-
-        Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
-                "_input.txt");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()))) {
-            writer.write("""
-                    formulas(sos).
-                      all x all y (subset(x,y) <-> (all z (member(z,x) -> member(z,y)))).
-                    end_of_list.
-                    formulas(goals).
-                      all x all y all z (subset(x,y) & subset(y,z) -> subset(x,z)).
-                    end_of_list.
-                    """);
-//            writer.write(verification.getContent());
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         try {
-            dockerService.executeProver9Command(inputFilePath);
+            switch (verification.getProver()) {
+                case "Prover9" -> {
+                    Path inputFilePath = createProver9Input();
+                    dockerService.executeProver9Command(inputFilePath);
+                }
+                case "SPASS" -> throw new NotImplementedException("SPASS not implemented");
+                case "InKreSAT" -> throw new NotImplementedException("InKreSAT not implemented");
+                default -> throw new Exception("Unknown prover name: " + verification.getProver());
+            }
         } catch (Exception e) {
             e.printStackTrace();
             showErrorMessage("Error during sending to prover!", e.getMessage());
@@ -160,6 +140,38 @@ public class VerificationController {
         sendToProverButton.setPrefWidth(120.0);
         proverComboBox.setVisible(false);
         showResultButton.setVisible(true);
+    }
+
+    private Path createProver9Input() throws Exception {
+        // Create the folder path
+        String folderPath = "prover_input/";
+        checkIfFolderExists(folderPath);
+        Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                "_input.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
+        writer.write("""
+                formulas(sos).
+                  all x all y (subset(x,y) <-> (all z (member(z,x) -> member(z,y)))).
+                end_of_list.
+                formulas(goals).
+                  all x all y all z (subset(x,y) & subset(y,z) -> subset(x,z)).
+                end_of_list.
+                """);
+//            writer.write(verification.getContent());
+        writer.flush();
+        return inputFilePath;
+    }
+
+    private void checkIfFolderExists(String folderPath) throws Exception {
+        // Create the folder if it doesn't exist
+        File folder = new File(folderPath);
+        if (!folder.exists()) {
+            boolean created = folder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder " + folderPath);
+            }
+        }
     }
 
     @FXML
