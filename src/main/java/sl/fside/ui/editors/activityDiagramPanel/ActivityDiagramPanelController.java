@@ -139,7 +139,56 @@ public class ActivityDiagramPanelController {
             }
         }
 
-        // TODO kontrola INHERIT
+        // kontrola synchronizacji między generalnym i specyficznym UseCase, w przypadku próby edycji GeneralPatternExpression
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase generalUseCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<Relation> genRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.GENERALIZATION &&
+                            r.getToId().equals(generalUseCase.getId())).toList();
+            for (Relation r : genRelations) {
+                UseCase specificUseCase = useCaseDiagram.getUseCaseFromId(r.getFromId());
+                PatternExpression specificPatternExpression = specificUseCase.getMainScenario().getPatternExpression();
+                PatternExpression generalPatternExpression = generalUseCase.getMainScenario().getPatternExpression();
+                if (specificPatternExpression == null && generalPatternExpression != null) {
+                    showWarningMessage("SpecificPatternExpression " + specificUseCase.getUseCaseName() +
+                            " nie jest ustawiony, pomimo istnienia GeneralPatternExpression " +
+                            generalUseCase.getUseCaseName() + "! Taka sytuacja nie powinna nigdy wystąpić");
+                    return;
+                }
+                if (specificPatternExpression != null && generalPatternExpression == null) {
+                    showWarningMessage("SpecificPatternExpression " + specificUseCase.getUseCaseName() +
+                            " został stworzony mimo że GeneralPatternExpression " + generalUseCase.getUseCaseName() +
+                            " nie istnieje! Taka sytuacja nie powinna nigdy wystąpić");
+                    return;
+                }
+
+                if (generalPatternExpression == null) {
+                    // OK - pierwsze tworzenie GeneralActivityDiagram
+                    continue;
+                }
+
+                if (!specificPatternExpression.toString().equals(generalPatternExpression.toString())) {
+                    // Create a new confirmation dialog
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirm general UseCase edit");
+                    alert.setHeaderText("Are you sure you want to edit ActivityDiagram of GeneralUseCase?");
+                    alert.setContentText("ActivityDiagram of SpecificUseCase (" + specificUseCase.getUseCaseName() +
+                            ") was previously edited! When you edit ActivityDiagram of GeneralUseCase (" +
+                            generalUseCase.getUseCaseName() +
+                            ") you will lose changes in ActivityDiagram of SpecificUseCase!");
+
+                    // Show the dialog and wait for a response
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.isEmpty() || result.get() != ButtonType.OK) {
+                        // If user didn't click OK, don't open ActivityDiagramEditor
+                        return;
+                    }
+                }
+            }
+        }
+
 
         // ustawia atomiczne aktywności dla edytora diagramu aktywności
         NodesManager.getInstance().setCurrentAtomicActivities(
