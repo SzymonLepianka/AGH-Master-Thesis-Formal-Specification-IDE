@@ -19,6 +19,7 @@ import sl.fside.ui.editors.resultsPanel.*;
 
 import java.io.*;
 import java.util.*;
+import java.util.stream.*;
 
 public class ActivityDiagramPanelController {
 
@@ -225,8 +226,15 @@ public class ActivityDiagramPanelController {
         }
 
         // ustawia atomiczne aktywności dla edytora diagramu aktywności
-        NodesManager.getInstance().setCurrentAtomicActivities(
-                scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList());
+        List<AtomicActivity> additionalAtomicActivities = checkForAdditionalAtomicActivitiesInGeneralUseCase();
+        if (additionalAtomicActivities == null) {
+            showWarningMessage("Error: additionalAtomicActivities is null! To nigdy nie powinno wystąpić!");
+            return;
+        }
+        List<AtomicActivity> allAtomicActivities =
+                Stream.concat(scenario.getAtomicActivities().stream(), additionalAtomicActivities.stream()).toList();
+        NodesManager.getInstance()
+                .setCurrentAtomicActivities(allAtomicActivities.stream().map(AtomicActivity::getContent).toList());
 
         // ustawia UseCase dla edytora diagramu aktywności (potrzebny, aby przetworzyć zagnieżdżenia)
         NodesManager.getInstance()
@@ -299,5 +307,21 @@ public class ActivityDiagramPanelController {
         alert.setHeaderText("Warning");
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    private List<AtomicActivity> checkForAdditionalAtomicActivitiesInGeneralUseCase() {
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase specificUseCase =
+                    mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<Relation> genRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.GENERALIZATION &&
+                            r.getFromId().equals(specificUseCase.getId())).toList();
+            for (Relation r : genRelations) {
+                Scenario generalUseCaseMainScenario = useCaseDiagram.getUseCaseFromId(r.getToId()).getMainScenario();
+                return generalUseCaseMainScenario.getAtomicActivities();
+            }
+        }
+        return new ArrayList<>();
     }
 }
