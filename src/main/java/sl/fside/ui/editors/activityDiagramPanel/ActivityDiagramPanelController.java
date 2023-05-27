@@ -281,6 +281,9 @@ public class ActivityDiagramPanelController {
         // save generated results in scenario
         stage.setOnHidden(event -> {
             if (NodesManager.getInstance().wasSpecificationGenerated()) {
+                replaceSpecificPeIfGeneralPeChanged(NodesManager.getInstance().getPatternExpression(),
+                        NodesManager.getInstance().getFolLogicalSpecification(),
+                        NodesManager.getInstance().getLtlLogicalSpecification());
                 scenario.setPatternExpression(NodesManager.getInstance().getPatternExpression());
                 scenario.setFolLogicalSpecification(NodesManager.getInstance().getFolLogicalSpecification());
                 scenario.setLtlLogicalSpecification(NodesManager.getInstance().getLtlLogicalSpecification());
@@ -308,6 +311,41 @@ public class ActivityDiagramPanelController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+    private void replaceSpecificPeIfGeneralPeChanged(PatternExpression newGeneralPe, String newFolSpecification,
+                                                     String newLtlSpecification) {
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase generalUseCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<Relation> genRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.GENERALIZATION &&
+                            r.getToId().equals(generalUseCase.getId())).toList();
+            for (Relation r : genRelations) {
+                Scenario specificUseCaseMainScenario = useCaseDiagram.getUseCaseFromId(r.getFromId()).getMainScenario();
+                PatternExpression generalPatternExpression = generalUseCase.getMainScenario().getPatternExpression();
+
+                // przypadek, w którym pierwszy raz wygenerowano GeneralPatternExpression
+                if (generalPatternExpression == null) {
+                    specificUseCaseMainScenario.setPatternExpression(newGeneralPe);
+                    specificUseCaseMainScenario.setFolLogicalSpecification(newFolSpecification);
+                    specificUseCaseMainScenario.setLtlLogicalSpecification(newLtlSpecification);
+                    continue;
+                }
+
+                // przypadek, w którym GeneralPatternExpression się zmienił
+                if (!generalPatternExpression.toString().equals(newGeneralPe.toString())) {
+                    specificUseCaseMainScenario.setPatternExpression(newGeneralPe);
+                    specificUseCaseMainScenario.setFolLogicalSpecification(newFolSpecification);
+                    specificUseCaseMainScenario.setLtlLogicalSpecification(newLtlSpecification);
+                }
+
+                // w przypadku, gdy GeneralPatternExpression się nie zmienił, nie nadpisuj SpecificPatternExpression
+                // continue;
+            }
+        }
+    }
+
     private List<AtomicActivity> checkForAdditionalAtomicActivitiesInGeneralUseCase() {
         if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
             UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
