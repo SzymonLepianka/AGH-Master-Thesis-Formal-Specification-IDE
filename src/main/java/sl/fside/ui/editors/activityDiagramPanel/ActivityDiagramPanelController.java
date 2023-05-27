@@ -189,6 +189,40 @@ public class ActivityDiagramPanelController {
             }
         }
 
+        // kontrola czy istnieje GeneralPatternExpression w przypadku próby edycji SpecificPatternExpression
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase specificUseCase =
+                    mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<Relation> genRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.GENERALIZATION &&
+                            r.getFromId().equals(specificUseCase.getId())).toList();
+            for (Relation r : genRelations) {
+                UseCase generalUseCase = useCaseDiagram.getUseCaseFromId(r.getToId());
+                PatternExpression specificPatternExpression = specificUseCase.getMainScenario().getPatternExpression();
+                PatternExpression generalPatternExpression = generalUseCase.getMainScenario().getPatternExpression();
+                if (specificPatternExpression == null && generalPatternExpression != null) {
+                    showWarningMessage("SpecificPatternExpression (" + specificUseCase.getUseCaseName() +
+                            ") nie jest ustawiony, pomimo istnienia GeneralPatternExpression (" +
+                            generalUseCase.getUseCaseName() + ")! Taka sytuacja nie powinna nigdy wystąpić");
+                    return;
+                }
+                if (specificPatternExpression != null && generalPatternExpression == null) {
+                    showWarningMessage("SpecificPatternExpression (" + specificUseCase.getUseCaseName() +
+                            ") został stworzony mimo że GeneralPatternExpression (" + generalUseCase.getUseCaseName() +
+                            ") nie istnieje! Taka sytuacja nie powinna nigdy wystąpić");
+                    return;
+                }
+
+                if (specificPatternExpression == null) {
+                    showWarningMessage("SpecificPatternExpression (" + specificUseCase.getUseCaseName() +
+                            ") musi zostać edytowany po stworzeniu GeneralPatternExpression (" +
+                            generalUseCase.getUseCaseName() + ")!");
+                    return;
+                }
+            }
+        }
 
         // ustawia atomiczne aktywności dla edytora diagramu aktywności
         NodesManager.getInstance().setCurrentAtomicActivities(
