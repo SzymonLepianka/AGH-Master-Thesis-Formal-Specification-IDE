@@ -21,6 +21,7 @@ public class ScenarioContentEditorController {
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
+    private final MainWindowController mainWindowController;
 
     @FXML
     public TitledPane scenarioContentEditorRoot;
@@ -34,10 +35,12 @@ public class ScenarioContentEditorController {
 
     @Inject
     public ScenarioContentEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
-                                           LoggerService loggerService) {
+                                           LoggerService loggerService, MainWindowController mainWindowController) {
         this.modelFactory = modelFactory;
         this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
+        this.mainWindowController = mainWindowController;
+
     }
 
     public void initialize() {
@@ -112,11 +115,34 @@ public class ScenarioContentEditorController {
 
     @FXML
     public void showCurrentAtomicActivitiesButtonClicked() {
+        String atomicActivitiesFromGeneralUseCase = checkIfScenarioIsInSpecificUseCase();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Atomic activities for Scenario - '" + scenario.getScenarioName() + "'");
         alert.setHeaderText(null);
-        alert.setContentText(scenario.showAtomicActivities());
+        if (atomicActivitiesFromGeneralUseCase == null) {
+            alert.setContentText(scenario.showAtomicActivities());
+        } else {
+            alert.setContentText(
+                    scenario.showAtomicActivities() + "\nFrom general UseCase:\n" + atomicActivitiesFromGeneralUseCase);
+        }
         alert.showAndWait();
+    }
+
+    private String checkIfScenarioIsInSpecificUseCase() {
+        if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
+            UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
+            UseCase specificUseCase =
+                    mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();
+            List<Relation> allRelations = useCaseDiagram.getRelations();
+            List<Relation> genRelations = allRelations.stream()
+                    .filter(r -> r.getType() == Relation.RelationType.GENERALIZATION &&
+                            r.getFromId().equals(specificUseCase.getId())).toList();
+            for (Relation r : genRelations) {
+                Scenario generalUseCaseMainScenario = useCaseDiagram.getUseCaseFromId(r.getToId()).getMainScenario();
+                return generalUseCaseMainScenario.showAtomicActivities();
+            }
+        }
+        return null;
     }
 
     // Add an event handler to the text area to bold words when clicked

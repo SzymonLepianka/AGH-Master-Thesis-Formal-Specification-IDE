@@ -54,6 +54,10 @@ public class UseCase {
         return scenarioList;
     }
 
+    public Scenario getMainScenario() {
+        return scenarioList.stream().filter(Scenario::isMainScenario).findFirst().orElseThrow();
+    }
+
     public String getUseCaseName() {
         return useCaseName;
     }

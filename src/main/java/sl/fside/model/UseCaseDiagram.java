@@ -61,6 +61,10 @@ public class UseCaseDiagram {
         return sb.toString();
     }
 
+    public UseCase getUseCaseFromId(UUID useCaseId) {
+        return useCaseList.stream().filter(uc -> uc.getId().equals(useCaseId)).findFirst().orElseThrow();
+    }
+
     public String getUseCaseNameFromId(UUID useCaseId) {
         UseCase useCase = useCaseList.stream().filter(uc -> uc.getId().equals(useCaseId)).findFirst().orElseThrow();
         return useCase.getUseCaseName();
