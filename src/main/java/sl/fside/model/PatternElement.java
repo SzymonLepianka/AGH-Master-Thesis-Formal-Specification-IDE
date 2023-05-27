@@ -95,7 +95,7 @@ public class PatternElement {
                     this.atomicActivity.length() - targetUseCase.getUseCaseName().length() - 1); // np. "warunek"
             return "Alt(" + condition + ", " + patternExpressionToInject + ", null)";
 
-        } else if (this.relation.getType() == Relation.RelationType.INHERIT) {
+        } else if (this.relation.getType() == Relation.RelationType.GENERALIZATION) {
             System.err.println("Not implemented!");
         }
         return this.atomicActivity;

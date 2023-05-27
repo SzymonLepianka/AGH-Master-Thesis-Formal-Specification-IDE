@@ -22,6 +22,11 @@
         "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/extend",
         "/*[local-name()='Model']/packagedElement/extend",
         "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Extend"
+      ],
+      "generalization": [
+        "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement/generalization",
+        "/*[local-name()='Model']/packagedElement/generalization",
+        "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Generalization"
       ]
     }
   }

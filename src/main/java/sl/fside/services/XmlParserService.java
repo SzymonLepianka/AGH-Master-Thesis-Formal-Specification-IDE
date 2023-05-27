@@ -49,6 +49,7 @@ public class XmlParserService {
         JSONArray useCases = expressions.getJSONArray("use_cases");
         JSONArray includeRelations = expressions.getJSONObject("relations").getJSONArray("include");
         JSONArray extendRelations = expressions.getJSONObject("relations").getJSONArray("extend");
+        JSONArray generalizationRelations = expressions.getJSONObject("relations").getJSONArray("generalization");
         List<String> ucExpressionsList = new ArrayList<>();
         for (int i = 0; i < useCases.length(); i++) {
             ucExpressionsList.add(useCases.getString(i));
@@ -61,29 +62,37 @@ public class XmlParserService {
         for (int i = 0; i < extendRelations.length(); i++) {
             extExpressionsList.add(extendRelations.getString(i));
         }
+        List<String> genExpressionsList = new ArrayList<>();
+        for (int i = 0; i < generalizationRelations.length(); i++) {
+            genExpressionsList.add(generalizationRelations.getString(i));
+        }
 
         // get and save UseCases
-        findUseCases(useCaseDiagram, doc, ucExpressionsList, extExpressionsList, incExpressionsList);
+        findUseCases(useCaseDiagram, doc, ucExpressionsList, incExpressionsList, extExpressionsList,
+                genExpressionsList);
         loggerService.logInfo("XML parsed");
     }
 
     private void findUseCases(UseCaseDiagram useCaseDiagram, Document doc, List<String> ucExpressionsList,
-                              List<String> extExpressionsList, List<String> incExpressionsList) throws Exception {
+                              List<String> incExpressionsList, List<String> extExpressionsList,
+                              List<String> genExpressionsList) throws Exception {
         XPath xPath = XPathFactory.newInstance().newXPath();
 
         NodeList ucXmlElems = gatherXmlElems(doc, xPath, ucExpressionsList);
         var useCases = getUseCasesFromUcXmlElems(ucXmlElems);
         createUseCaseObjects(useCases, useCaseDiagram);
 
-        var extXmlElems = gatherXmlElems(doc, xPath, extExpressionsList);
-        var extend = getExtendFromExtXmlElems(extXmlElems, useCases);
-        createRelationObjects(extend, Relation.RelationType.EXTEND, useCaseDiagram);
-
         var incXmlElems = gatherXmlElems(doc, xPath, incExpressionsList);
         var include = getIncludeFromIncXmlElems(incXmlElems, useCases);
         createRelationObjects(include, Relation.RelationType.INCLUDE, useCaseDiagram);
 
-        // TODO INHERIT
+        var extXmlElems = gatherXmlElems(doc, xPath, extExpressionsList);
+        var extend = getExtendFromExtXmlElems(extXmlElems, useCases);
+        createRelationObjects(extend, Relation.RelationType.EXTEND, useCaseDiagram);
+
+        var genXmlElems = gatherXmlElems(doc, xPath, genExpressionsList);
+        var generalization = getGeneralizationFromGenXmlElems(genXmlElems, useCases);
+        createRelationObjects(generalization, Relation.RelationType.GENERALIZATION, useCaseDiagram);
 
         addPrimIdxToRelation(useCaseDiagram);
     }
@@ -132,6 +141,29 @@ public class XmlParserService {
         return useCases;
     }
 
+    private List<Pair<String, String>> getIncludeFromIncXmlElems(NodeList incXmlElems, Map<String, String> useCases) {
+        var include = new ArrayList<Pair<String, String>>();
+        for (int i = 0; i < incXmlElems.getLength(); i++) {
+            Node elem = incXmlElems.item(i);
+            var elementAttributes = getAttributesFromNamedNodeMap(elem.getAttributes());
+            if (elementAttributes.containsKey("includingCase")) {
+                var from = useCases.get(elementAttributes.get("includingCase"));
+                var to = useCases.get(elementAttributes.get("addition"));
+                include.add(new Pair<>(from, to));
+            } else if (elementAttributes.containsKey("addition")) {
+                var parentElementAttributes = getAttributesFromNamedNodeMap(elem.getParentNode().getAttributes());
+                var from = parentElementAttributes.get("name");
+                var to = useCases.get(elementAttributes.get("addition"));
+                include.add(new Pair<>(from, to));
+            } else if (elementAttributes.containsKey("From")) {
+                var from = useCases.get(elementAttributes.get("From"));
+                var to = useCases.get(elementAttributes.get("To"));
+                include.add(new Pair<>(from, to));
+            }
+        }
+        return include;
+    }
+
     private List<Pair<String, String>> getExtendFromExtXmlElems(NodeList extXmlElems, Map<String, String> useCases) {
         var extend = new ArrayList<Pair<String, String>>();
         for (int i = 0; i < extXmlElems.getLength(); i++) {
@@ -155,27 +187,19 @@ public class XmlParserService {
         return extend;
     }
 
-    private List<Pair<String, String>> getIncludeFromIncXmlElems(NodeList incXmlElems, Map<String, String> useCases) {
-        var include = new ArrayList<Pair<String, String>>();
-        for (int i = 0; i < incXmlElems.getLength(); i++) {
-            Node elem = incXmlElems.item(i);
+    private List<Pair<String, String>> getGeneralizationFromGenXmlElems(NodeList genXmlElems, Map<String, String> useCases) {
+        var generalization = new ArrayList<Pair<String, String>>();
+        for (int i = 0; i < genXmlElems.getLength(); i++) {
+            Node elem = genXmlElems.item(i);
             var elementAttributes = getAttributesFromNamedNodeMap(elem.getAttributes());
-            if (elementAttributes.containsKey("includingCase")) {
-                var from = useCases.get(elementAttributes.get("includingCase"));
-                var to = useCases.get(elementAttributes.get("addition"));
-                include.add(new Pair<>(from, to));
-            } else if (elementAttributes.containsKey("addition")) {
-                var parentElementAttributes = getAttributesFromNamedNodeMap(elem.getParentNode().getAttributes());
-                var from = parentElementAttributes.get("name");
-                var to = useCases.get(elementAttributes.get("addition"));
-                include.add(new Pair<>(from, to));
-            } else if (elementAttributes.containsKey("From")) {
-                var from = useCases.get(elementAttributes.get("From"));
-                var to = useCases.get(elementAttributes.get("To"));
-                include.add(new Pair<>(from, to));
+            if (elementAttributes.containsKey("general") && elementAttributes.containsKey("specific")) {
+                var from = useCases.get(elementAttributes.get("specific"));
+                var to = useCases.get(elementAttributes.get("general"));
+                generalization.add(new Pair<>(from, to));
             }
+            // TODO dodać inne modelery diagramów
         }
-        return include;
+        return generalization;
     }
 
     private Map<String, String> getAttributesFromNamedNodeMap(NamedNodeMap attributesRaw) {

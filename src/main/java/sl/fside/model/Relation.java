@@ -38,8 +38,8 @@ public class Relation {
             return "<<include>>";
         } else if (type == RelationType.EXTEND) {
             return "<<extend>>";
-        } else if (type == RelationType.INHERIT) {
-            return "<<inherit>>";
+        } else if (type == RelationType.GENERALIZATION) {
+            return "<<generalization>>";
         } else {
             return "<<!UNKNOWN!>>";
         }
@@ -54,6 +54,6 @@ public class Relation {
     }
 
     public enum RelationType {
-        EXTEND, INCLUDE, INHERIT
+        EXTEND, INCLUDE, GENERALIZATION
     }
 }
