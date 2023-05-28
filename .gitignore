@@ -192,3 +192,4 @@ codePython.txt
 /docker/shared/*.txt
 /prover_input/*
 /prover_output/*
+/prover_logs/*

@@ -81,7 +81,8 @@ public class DockerService {
         loggerService.logInfo(inputFilePath + " copied to container");
 
         // command to execute inside the container
-        String command = "/opt/LADR-2009-11A/bin/prover9 -f /shared/" + inputFilePath.getFileName() + " > /shared/output_prover9.txt";
+        String command = "/opt/LADR-2009-11A/bin/prover9 -f /shared/" + inputFilePath.getFileName() +
+                " > /shared/output_prover9.txt 2> /shared/logs_prover9.txt";
 
         // Create the exec creation request
         ExecCreateCmdResponse execCreateCmdResponse =
@@ -112,6 +113,24 @@ public class DockerService {
             unTar(tarStream, new File(outputFilePath));
             loggerService.logInfo("Prover9 output file saved: " + outputFilePath);
         }
+
+        // Create logs folder if it doesn't exist
+        File proverLogsFolder = new File("prover_logs/");
+        if (!proverLogsFolder.exists()) {
+            boolean created = proverLogsFolder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder prover_logs/");
+            }
+        }
+
+        // Copy logs file from container
+        try (TarArchiveInputStream tarStream = new TarArchiveInputStream(
+                dockerClient.copyArchiveFromContainerCmd(CONTAINER_NAME, "/shared/logs_prover9.txt").exec())) {
+            String logsFilePath = inputFilePath.toString().replace("input", "logs");
+            unTar(tarStream, new File(logsFilePath));
+            loggerService.logInfo("Prover9 logs file saved: " + logsFilePath);
+        }
     }
 
     public void executeSpassCommand(Path inputFilePath) throws Exception {
@@ -121,7 +140,8 @@ public class DockerService {
         loggerService.logInfo(inputFilePath + " copied to container");
 
         // command to execute inside the container
-        String command = "/opt/SPASS-3.5/SPASS /shared/" + inputFilePath.getFileName() + " > /shared/output_spass.txt";
+        String command = "/opt/SPASS-3.5/SPASS /shared/" + inputFilePath.getFileName() +
+                " > /shared/output_spass.txt 2> /shared/logs_spass.txt";
 
         // Create the exec creation request
         ExecCreateCmdResponse execCreateCmdResponse =
@@ -151,6 +171,24 @@ public class DockerService {
             String outputFilePath = inputFilePath.toString().replace("input", "output");
             unTar(tarStream, new File(outputFilePath));
             loggerService.logInfo("SPASS output file saved: " + outputFilePath);
+        }
+
+        // Create logs folder if it doesn't exist
+        File proverLogsFolder = new File("prover_logs/");
+        if (!proverLogsFolder.exists()) {
+            boolean created = proverLogsFolder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder prover_logs/");
+            }
+        }
+
+        // Copy logs file from container
+        try (TarArchiveInputStream tarStream = new TarArchiveInputStream(
+                dockerClient.copyArchiveFromContainerCmd(CONTAINER_NAME, "/shared/logs_spass.txt").exec())) {
+            String logsFilePath = inputFilePath.toString().replace("input", "logs");
+            unTar(tarStream, new File(logsFilePath));
+            loggerService.logInfo("SPASS logs file saved: " + logsFilePath);
         }
     }
 

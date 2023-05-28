@@ -35,7 +35,7 @@ public class VerificationController {
     @FXML
     public Button showResultButton;
     @FXML
-    public Button showErrorButton;
+    public Button showLogsButton;
     private Verification verification;
     private Function<Pair<AnchorPane, VerificationController>, Void> onRemoveClicked;
 
@@ -68,7 +68,7 @@ public class VerificationController {
             sendToProverButton.setDisable(true);
             proverComboBox.setDisable(true);
             showResultButton.setDisable(false);
-            showErrorButton.setDisable(false);
+            showLogsButton.setDisable(false);
         }
     }
 
@@ -135,7 +135,7 @@ public class VerificationController {
         sendToProverButton.setDisable(true);
         proverComboBox.setDisable(true);
         showResultButton.setDisable(false);
-        showErrorButton.setDisable(false);
+        showLogsButton.setDisable(false);
     }
 
     private Path createProver9Input() throws Exception {
@@ -227,12 +227,12 @@ public class VerificationController {
     }
 
     @FXML
-    public void showErrorButtonClicked() {
-        Path errorFilePath =
-                Path.of("prover_error/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
-                        "_error.txt");
+    public void showLogsButtonClicked() {
+        Path logsFilePath =
+                Path.of("prover_logs/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                        "_logs.txt");
         try {
-            showProverResult(errorFilePath);
+            showProverResult(logsFilePath);
         } catch (Exception e) {
             e.printStackTrace();
             showErrorMessage("Error during showing result!", e.getMessage());
