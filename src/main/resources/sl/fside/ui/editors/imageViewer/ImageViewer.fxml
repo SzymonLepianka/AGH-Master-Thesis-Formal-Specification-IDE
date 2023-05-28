@@ -2,12 +2,12 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="imageViewerRoot" prefHeight="380.0" prefWidth="360.0"
-            xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="sl.fside.ui.editors.imageViewer.ImageViewerController">
-    <Button fx:id="addButton" layoutX="130.0" layoutY="14.0" onAction="#addImageClicked" prefWidth="100.0"
-            text="Add image"/>
-    <Button fx:id="removeButton" layoutX="130.0" layoutY="14.0" onAction="#removeImageClicked" text="Remove image"
-            prefWidth="100.0" visible="false"/>
-    <AnchorPane fx:id="imageViewerAnchorPane" layoutX="5.0" layoutY="55.0" prefHeight="325.0" prefWidth="350.0"/>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="imageViewerRoot" prefHeight="380.0" prefWidth="360.0"
+            xmlns="http://javafx.com/javafx/18" fx:controller="sl.fside.ui.editors.imageViewer.ImageViewerController">
+    <Button fx:id="addButton" alignment="CENTER" contentDisplay="CENTER" layoutX="130.0" layoutY="14.0"
+            onAction="#addImageClicked" mnemonicParsing="false" prefWidth="100.0" prefHeight="25.0" text="Add image"/>
+    <Button fx:id="removeButton" alignment="CENTER" contentDisplay="CENTER" layoutX="130.0" layoutY="14.0"
+            onAction="#removeImageClicked" mnemonicParsing="false" text="Remove image" prefWidth="100.0"
+            visible="false"/>
+    <AnchorPane fx:id="imageViewerAnchorPane" layoutX="5.0" layoutY="55.0" prefHeight="320.0" prefWidth="350.0"/>
 </AnchorPane>
