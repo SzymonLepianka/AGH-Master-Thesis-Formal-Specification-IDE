@@ -16,7 +16,6 @@ import sl.fside.services.docker_service.*;
 
 import java.io.*;
 import java.nio.file.*;
-import java.util.*;
 import java.util.function.*;
 
 
@@ -26,15 +25,17 @@ public class VerificationController {
     @FXML
     public AnchorPane verificationRoot;
     @FXML
-    public Button removeButton;
-    @FXML
     public TextArea textArea;
     @FXML
-    public ComboBox<String> proverComboBox;
+    public Button removeButton;
     @FXML
     public Button sendToProverButton;
     @FXML
+    public ComboBox<String> proverComboBox;
+    @FXML
     public Button showResultButton;
+    @FXML
+    public Button showErrorButton;
     private Verification verification;
     private Function<Pair<AnchorPane, VerificationController>, Void> onRemoveClicked;
 
@@ -63,23 +64,15 @@ public class VerificationController {
 
         // ustawia możliwość wyświetlenia wyniku
         if (verification.isResultGenerated()) {
-            sendToProverButton.setText("Sent to " + verification.getProver() + "!");
+            sendToProverButton.setText("Sent!");
             sendToProverButton.setDisable(true);
-            sendToProverButton.setPrefWidth(120.0);
-            proverComboBox.setVisible(false);
-            showResultButton.setVisible(true);
+            proverComboBox.setDisable(true);
+            showResultButton.setDisable(false);
+            showErrorButton.setDisable(false);
         }
     }
 
     public void initialize() {
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     @FXML
@@ -138,11 +131,11 @@ public class VerificationController {
         }
 
         verification.setResultGenerated(true);
-        sendToProverButton.setText("Sent to " + verification.getProver() + "!");
+        sendToProverButton.setText("Sent!");
         sendToProverButton.setDisable(true);
-        sendToProverButton.setPrefWidth(120.0);
-        proverComboBox.setVisible(false);
-        showResultButton.setVisible(true);
+        proverComboBox.setDisable(true);
+        showResultButton.setDisable(false);
+        showErrorButton.setDisable(false);
     }
 
     private Path createProver9Input() throws Exception {
@@ -220,20 +213,36 @@ public class VerificationController {
 
     @FXML
     public void showResultButtonClicked() {
-
-        // check if verification output exists
         Path outputFilePath =
                 Path.of("prover_output/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
                         "_output.txt");
-
-        String fileContent;
         try {
-            fileContent = Files.readString(outputFilePath);
-        } catch (IOException e) {
+            showProverResult(outputFilePath);
+        } catch (Exception e) {
             e.printStackTrace();
             showErrorMessage("Error during showing result!", e.getMessage());
             return;
         }
+        loggerService.logInfo("VerificationResult window opened");
+    }
+
+    @FXML
+    public void showErrorButtonClicked() {
+        Path errorFilePath =
+                Path.of("prover_error/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                        "_error.txt");
+        try {
+            showProverResult(errorFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage("Error during showing result!", e.getMessage());
+            return;
+        }
+        loggerService.logInfo("VerificationResult window opened");
+    }
+
+    private void showProverResult(Path filePath) throws Exception{
+        String fileContent = Files.readString(filePath);
 
         var stage = new Stage();
         final var loader = new FXMLLoader(VerificationResultController.class.getResource("VerificationResult.fxml"));
@@ -255,9 +264,7 @@ public class VerificationController {
         stage.show();
 
         final VerificationResultController controller = loader.getController();
-        controller.setVerificationResult(fileContent, outputFilePath);
-
-        loggerService.logInfo("GeneratedCode window opened");
+        controller.setVerificationResult(fileContent, filePath);
     }
 
     private void showErrorMessage(String headerText, String contentText) {

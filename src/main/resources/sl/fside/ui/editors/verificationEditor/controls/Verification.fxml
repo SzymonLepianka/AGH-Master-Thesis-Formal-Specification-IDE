@@ -3,16 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="verificationRoot" xmlns="http://javafx.com/javafx"
-            fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController" prefHeight="85.0"
+            fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController" prefHeight="115.0"
             prefWidth="305.0">
-    <TextArea fx:id="textArea" layoutX="5.0" layoutY="7.0" prefHeight="45.0" prefWidth="295.0" wrapText="true"
+    <TextArea fx:id="textArea" layoutX="5.0" layoutY="5.0" prefHeight="45.0" prefWidth="295.0" wrapText="true"
               promptText="content of the verification formula" onKeyTyped="#verificationContentChanged"/>
-    <Button fx:id="removeButton" layoutX="5.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="60.0"
+    <Button fx:id="removeButton" layoutX="5.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="60.0"
             text="Remove" onAction="#onRemoveButtonClicked"/>
-    <Button fx:id="sendToProverButton" layoutX="70.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
+    <Button fx:id="sendToProverButton" layoutX="70.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0"
             prefWidth="95.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
     <ComboBox fx:id="proverComboBox" layoutX="170.0" layoutY="55.0" prefHeight="15.0" prefWidth="130.0"
               promptText="Choose Prover" onAction="#onChooseProverComboBoxClicked"/>
-    <Button fx:id="showResultButton" layoutX="195.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="105.0" text="Show result" onAction="#showResultButtonClicked" visible="false"/>
+    <Button fx:id="showResultButton" layoutX="5.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="145.0" text="Show result" onAction="#showResultButtonClicked"/>
+    <Button fx:id="showErrorButton" layoutX="155.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="145.0" text="Show error" onAction="#showErrorButtonClicked"/>
 </AnchorPane>
