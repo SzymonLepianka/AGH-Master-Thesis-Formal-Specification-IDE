@@ -7,6 +7,8 @@ import javafx.scene.paint.*;
 import org.fxmisc.flowless.*;
 import org.fxmisc.richtext.*;
 
+import java.nio.file.*;
+
 public class VerificationResultController {
     @FXML
     public AnchorPane verificationResultRoot;
@@ -25,9 +27,9 @@ public class VerificationResultController {
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
     }
 
-    public void setVerificationResult(String outputContent, String proverName) {
+    public void setVerificationResult(String outputContent, Path outputFilePath) {
         codeArea.clear();
         codeArea.appendText(outputContent);
-        titledPane.setText(proverName);
+        titledPane.setText("Output saved to: " + outputFilePath.toString());
     }
 }

@@ -222,13 +222,13 @@ public class VerificationController {
     public void showResultButtonClicked() {
 
         // check if verification output exists
-        Path inputFilePath =
+        Path outputFilePath =
                 Path.of("prover_output/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
                         "_output.txt");
 
         String fileContent;
         try {
-            fileContent = Files.readString(inputFilePath);
+            fileContent = Files.readString(outputFilePath);
         } catch (IOException e) {
             e.printStackTrace();
             showErrorMessage("Error during showing result!", e.getMessage());
@@ -255,7 +255,7 @@ public class VerificationController {
         stage.show();
 
         final VerificationResultController controller = loader.getController();
-        controller.setVerificationResult(fileContent, verification.getProver());
+        controller.setVerificationResult(fileContent, outputFilePath);
 
         loggerService.logInfo("GeneratedCode window opened");
     }
@@ -263,7 +263,7 @@ public class VerificationController {
     private void showErrorMessage(String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error during sending to prover!");
+        alert.setHeaderText(headerText);
         alert.setContentText(contentText);
         alert.showAndWait();
     }
