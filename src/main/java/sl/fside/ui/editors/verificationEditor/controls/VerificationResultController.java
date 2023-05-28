@@ -4,6 +4,7 @@ import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
+import org.fxmisc.flowless.*;
 import org.fxmisc.richtext.*;
 
 public class VerificationResultController {
@@ -11,6 +12,8 @@ public class VerificationResultController {
     public AnchorPane verificationResultRoot;
     @FXML
     public TitledPane titledPane;
+    @FXML
+    public VirtualizedScrollPane<CodeArea> scrollPane;
     @FXML
     public CodeArea codeArea;
 

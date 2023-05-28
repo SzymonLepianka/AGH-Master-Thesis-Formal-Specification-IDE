@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.fxmisc.flowless.*?>
 <?import org.fxmisc.richtext.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="verificationResultRoot"
             fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationResultController">
     <TitledPane fx:id="titledPane" animated="false" collapsible="false" prefWidth="800.0" prefHeight="600.0">
-        <CodeArea fx:id="codeArea" layoutX="9.0" layoutY="9.0" wrapText="true" editable="false"/>
+        <VirtualizedScrollPane fx:id="scrollPane">
+            <!--bez content nie działa-->
+            <content>
+                <CodeArea fx:id="codeArea" wrapText="true" editable="false"/>
+            </content>
+        </VirtualizedScrollPane>
     </TitledPane>
 </AnchorPane>
