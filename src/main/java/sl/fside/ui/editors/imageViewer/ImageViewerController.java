@@ -25,9 +25,10 @@ public class ImageViewerController {
     public Button addButton;
     @FXML
     public Button removeButton;
-    private Project project;
     @FXML
     private AnchorPane imageViewerRoot;
+
+    private Project project;
 
     @Inject
     public ImageViewerController(LoggerService loggerService) {
@@ -37,18 +38,7 @@ public class ImageViewerController {
     public void initialize() {
         imageViewerRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//        imageViewerAnchorPane.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
         updateImageViewer();
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     @FXML
@@ -260,8 +250,12 @@ public class ImageViewerController {
             // hide add-button and show remove-button
             addButton.setVisible(false);
             removeButton.setVisible(true);
-
-            loggerService.logInfo("Image set to ImageViewer");
+            loggerService.logInfo("Image set to ImageViewer - projectId=" + project.getProjectId());
+        } else {
+            // show add-button and remove remove-button
+            addButton.setVisible(true);
+            removeButton.setVisible(false);
+            loggerService.logInfo("Project (" + project.getProjectId() + ") has no image");
         }
     }
 

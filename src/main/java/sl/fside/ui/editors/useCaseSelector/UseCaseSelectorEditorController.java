@@ -34,14 +34,15 @@ public class UseCaseSelectorEditorController {
     public AnchorPane useCaseSelectorEditorAnchorPane;
     @FXML
     public Button showRelationsInUseCaseDiagramButton;
-    private UseCase currentlySelectedUseCase = null;
-    private UseCaseDiagram useCaseDiagram;
     @FXML
     private ListView<AnchorPane> useCasesList;
     @FXML
     private Button addOptionalUseCaseButton;
     @FXML
     private Label currentlySelectedUseCaseLabel;
+
+    private UseCase currentlySelectedUseCase = null;
+    private UseCaseDiagram useCaseDiagram;
 
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
     private ScenarioContentEditorController scenarioContentEditorController;
