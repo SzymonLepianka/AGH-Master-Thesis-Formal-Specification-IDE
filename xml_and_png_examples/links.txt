@@ -1,2 +1,4 @@
 https://app.genmymodel.com/ - pobrane źródło to UMI
 https://www.eclipse.org/papyrus/download.html - UML jest w workspace, obrazek to export all diagrams w project explorer
+https://www.visual-paradigm.com/download/community.jsp?platform=windows&arch=64bit
+

@@ -3,6 +3,7 @@
     "use_cases": [
       "/*[local-name()='XMI']/*[local-name()='Model']/packagedElement[@type='uml:UseCase']",
       "/*[local-name()='Model']/packagedElement[@type='uml:UseCase']",
+      "/Project/Models/UseCase",
       "/Project/Models/Model[@Abstract='false']/ModelChildren/UseCase",
       "/Project/Models/Model[@Abstract='false']/ModelChildren/System/ModelChildren/UseCase",
       "/Project/Models/Model[@composite='false']/ChildModels/Model/ChildModels/Model[@modelType='UseCase']",

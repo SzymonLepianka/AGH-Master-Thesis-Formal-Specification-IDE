@@ -942,4 +942,48 @@ class XmlParserServiceTest {
                 .filter(r -> r.getType().equals(Relation.RelationType.GENERALIZATION)).count());
     }
 
+    @Test
+    void parseXmlPaymentGenVpSimple() throws Exception {
+        var project = modelFactory.createProject("test26");
+        var useCaseDiagram = modelFactory.createUseCaseDiagram(project, UUID.randomUUID());
+        xmlParserService.parseXml(useCaseDiagram, new File("xml_and_png_examples/3. Visual Paradigm/generalization/project_simple.xml"));
+        var useCaseList = useCaseDiagram.getUseCaseList();
+        for (var useCase : useCaseList) {
+            var useCaseName = useCase.getUseCaseName();
+            var useCasePrettyName = useCase.getUseCasePrettyName();
+            switch (useCaseName) {
+                case "payment" -> {
+                    assertEquals("payment", useCasePrettyName);
+                }
+                case "card" -> {
+                    assertEquals("card", useCasePrettyName);
+                }
+                case "blik" -> {
+                    assertEquals("blik", useCasePrettyName);
+                }
+                default -> assertEquals(0, 1);
+            }
+        }
+        assertEquals(3, useCaseDiagram.getUseCaseList().size());
+
+        var relationsList = useCaseDiagram.getRelations();
+        for (var relation : relationsList) {
+            var actualUseCaseFrom =
+                    useCaseList.stream().filter(uc -> uc.getId().equals(relation.getFromId())).findFirst().orElseThrow()
+                            .getUseCasePrettyName();
+            var actualUseCaseTo =
+                    useCaseList.stream().filter(uc -> uc.getId().equals(relation.getToId())).findFirst().orElseThrow()
+                            .getUseCasePrettyName();
+            Relation.RelationType useCasePrettyType = relation.getType();
+            if (useCasePrettyType == Relation.RelationType.GENERALIZATION) {
+                assertTrue(actualUseCaseFrom.equals("card") || actualUseCaseFrom.equals("blik"));
+                assertEquals("payment", actualUseCaseTo);
+            } else {
+                fail();
+            }
+        }
+        assertEquals(2, useCaseDiagram.getRelations().size());
+        assertEquals(2, useCaseDiagram.getRelations().stream()
+                .filter(r -> r.getType().equals(Relation.RelationType.GENERALIZATION)).count());
+    }
 }

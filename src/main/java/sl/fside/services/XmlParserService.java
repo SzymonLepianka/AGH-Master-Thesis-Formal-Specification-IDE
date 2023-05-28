@@ -202,8 +202,11 @@ public class XmlParserService {
                 var from = parentElementAttributes.get("name");
                 var to = useCases.get(elementAttributes.get("general"));
                 generalization.add(new Pair<>(from, to));
+            } else if (elementAttributes.containsKey("From") && elementAttributes.containsKey("To")) {
+                var from = useCases.get(elementAttributes.get("To"));
+                var to = useCases.get(elementAttributes.get("From"));
+                generalization.add(new Pair<>(from, to));
             }
-            // TODO dodać inne modelery diagramów
         }
         return generalization;
     }
