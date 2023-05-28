@@ -1,0 +1,30 @@
+HashSet is a hashed set library for Objective Caml,
+fast on integers and floats, and with O(log N) amortized worst case 
+guarantee for the basic set operations.
+    
+HashSet has features in common with Hashset in
+http://www.lri.fr/~filliatr/software.en.html and with 
+Set in the OCaml standard library.
+
+Like Hashset it uses a hash function to put the keys in buckets,
+but it uses also a comparison function to order the buckets, while
+Hashset uses only equality.
+The buckets are sorted lists or, when they become long, balanced
+trees adapted from set.ml in the OCaml standard library.
+
+In tests on my desktop I find that, compared to Hashset
+(complemented with hashset_add.ml in this directory),
+HashSet is usually 2x faster 
+for large sets (n >= 100000) of integers and floats, 
+and roughly equivalent in other cases.
+
+In the examples directory there is the nth.ml example with HashSet,
+which for the case of 100-nth neighbours for amorphous silicon 
+is on my desktop more than 2x faster than the one in 
+http://www.ffconsultancy.com/products/ocaml_for_scientists/complete/
+which uses Set.
+There are a few other examples which I found in the ocaml mailing lists.
+
+Bug reports:
+Please send bug reports to mario.pernici@mi.infn.it
+

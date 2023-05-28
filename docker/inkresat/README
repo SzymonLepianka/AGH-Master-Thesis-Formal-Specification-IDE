@@ -1,0 +1,70 @@
+This distribution contains InKreSAT, version 1.0.
+
+LICENSE
+=======
+
+* See LICENSE for license information.
+
+* This distribution contains
+  - the HashSet library (v0.2) by Mario Pernici and
+  - MiniSat (v2.2.0) by Niklas Een and Niklas Sorensson
+  Note the respective copyright information in
+  hashSet-0.2/COPYING and minisat-2.2.0/LICENSE.
+
+
+BUILDING
+========
+
+* InKreSAT is written in OCaml. In order to build InKreSAT
+  you will need:
+  - the OCaml Compiler and standard libraries
+    (http://caml.inria.fr)
+  - the Ocaml ExtLib library
+    (http://code.google.com/p/ocaml-extlib)
+  - the Findlib OCaml library manager
+    (http://projects.camlcity.org/projects/findlib.html)
+  - GNU make (http://www.gnu.org/software/make)
+
+  On a system running Debian or Ubuntu Linux,
+  these requirements can be met by installing the following packages:
+    ocaml, ocaml-findlib, libextlib-ocaml-dev
+
+  On Mac OS X with MacPorts installed, you will need
+  the following packages:
+    ocaml, ocaml-findlib, ocaml-extlib
+
+* To compile InKreSAT, change the working directory to the directory
+  where this README file is located and type
+
+    make inkresat
+
+
+RUNNING
+=======
+
+* To get information on using InKreSAT and the available options, run
+
+    ./inkresat --help
+
+* InKreSAT accepts input files in the following format:
+
+  file ::= ['begin'] fml ['end']
+
+  fml ::= '(' fml ')'                        (* parentheses *)
+        | '1' | 'true' | 'True' | 'TRUE'     (* truth *)
+        | '0' | 'false' | 'False' | 'FALSE'  (* falsehood *)
+        | '~' fml | '-' fml                  (* negation *)
+        | '<>' fml | '<' id '>' fml          (* diamonds *)
+        | '[]' fml | '[' id ']' fml          (* boxes *)
+        | fml '&' fml                        (* conjunction *)
+        | fml '|' fml                        (* disjunction *)
+        | fml '->' fml                       (* implication *)
+        | fml '<->' fml                      (* equivalence *)
+        | id                                 (* prop. var. *)
+
+  where identifiers (id) are arbitrary nonempty alphanumeric sequences
+  (['A'-'Z' 'a'-'z' '0'-'9']+)
+  except those reserved for keywords ('begin', '0', '1', 'true', etc.)
+  Unary operators (negation, diamonds, boxes) have the highest precedence.
+  The precedence of the binary operators is as follows:
+  '&' > '|' > '->' > '<->'. 
