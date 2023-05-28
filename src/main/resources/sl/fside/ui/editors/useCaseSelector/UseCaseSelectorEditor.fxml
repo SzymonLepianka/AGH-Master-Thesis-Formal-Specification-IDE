@@ -2,20 +2,18 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<TitledPane fx:id="useCaseSelectorEditorRoot" animated="false" collapsible="false" prefHeight="475.0" prefWidth="360.0"
-            text="Use cases" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1"
+<TitledPane xmlns:fx="http://javafx.com/fxml/1" fx:id="useCaseSelectorEditorRoot" animated="false" collapsible="false"
+            prefHeight="475.0" prefWidth="360.0" text="Use cases" xmlns="http://javafx.com/javafx/18"
             fx:controller="sl.fside.ui.editors.useCaseSelector.UseCaseSelectorEditorController">
     <AnchorPane fx:id="useCaseSelectorEditorAnchorPane" minHeight="0.0" minWidth="0.0" prefHeight="474.0"
                 prefWidth="358.0">
         <ListView fx:id="useCasesList" layoutX="9.0" layoutY="9.0" prefHeight="350.0" prefWidth="338.0"/>
-        <Button fx:id="addOptionalUseCaseButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="365.0" mnemonicParsing="false" onAction="#addUseCaseButtonClicked"
-                prefHeight="25.0"
+        <Button fx:id="addOptionalUseCaseButton" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0"
+                layoutY="365.0" mnemonicParsing="false" onAction="#addUseCaseButtonClicked" prefHeight="25.0"
                 prefWidth="338.0" text="Add an optional Use Case"/>
-        <Button fx:id="showRelationsInUseCaseDiagramButton" alignment="CENTER" contentDisplay="CENTER"
-                layoutX="9.0" layoutY="395.0" mnemonicParsing="false"
-                onAction="#showRelationsInUseCaseDiagramButtonClicked" prefHeight="25.0"
-                prefWidth="338.0" text="Show relations in UseCaseDiagram"/>
+        <Button fx:id="showRelationsInUseCaseDiagramButton" alignment="CENTER" contentDisplay="CENTER" layoutX="9.0"
+                layoutY="395.0" mnemonicParsing="false" onAction="#showRelationsInUseCaseDiagramButtonClicked"
+                prefHeight="25.0" prefWidth="338.0" text="Show relations in UseCaseDiagram"/>
         <Label fx:id="currentlySelectedUseCaseLabel" alignment="CENTER" layoutX="9.0" layoutY="420.0" prefHeight="25.0"
                prefWidth="338.0" text="No UseCase is selected"/>
     </AnchorPane>

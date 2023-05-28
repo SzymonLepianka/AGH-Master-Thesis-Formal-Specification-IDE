@@ -8,7 +8,6 @@ import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.model.*;
 
-import java.util.*;
 import java.util.function.*;
 
 public class UseCaseController {
@@ -21,49 +20,35 @@ public class UseCaseController {
     @FXML
     private TextField useCaseNameTextField;
     @FXML
+    private Button removeButton;
+    @FXML
     private CheckBox isSelectedCheckBox;
     @FXML
     private CheckBox isImportedCheckBox;
-    @FXML
-    private Button removeButton;
 
     @Inject
     public UseCaseController() {
     }
 
     public void initialize() {
-        isImportedCheckBox.setDisable(true);
-    }
-
-//    public ObjectProperty<EventHandler<ActionEvent>> onIsSelectedChanged() {
-//        return isSelectedCheckBox.onActionProperty();
-//    }
-
-
-    public void setIsSelectedCheckBox(boolean isSelectedCheckBox) {
-        this.isSelectedCheckBox.setSelected(isSelectedCheckBox);
-    }
-
-    public sl.fside.model.UseCase getUseCase() {
-        return useCase;
     }
 
     public void load(UseCase useCase) {
         this.useCase = useCase;
         useCaseNameTextField.setText(useCase.getUseCaseName());
+        useCaseNameTextField.setEditable(!useCase.isImported());
         isImportedCheckBox.setSelected(useCase.isImported());
         removeButton.setDisable(useCase.isImported());
-
         useCaseRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
     }
 
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
+    public void setIsSelectedCheckBox(boolean isSelectedCheckBox) {
+        this.isSelectedCheckBox.setSelected(isSelectedCheckBox);
+    }
+
+    public UseCase getUseCase() {
+        return useCase;
     }
 
     @FXML
