@@ -7,26 +7,28 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import javafx.util.*;
 import sl.fside.model.*;
+import sl.fside.services.*;
 
-import java.util.*;
 import java.util.function.*;
 
 public class ScenarioController {
 
+    private final LoggerService loggerService;
+
     @FXML
     public AnchorPane scenarioRoot;
     @FXML
-    public Button removeScenarioButton;
-    @FXML
     public TextField scenarioNameTextField;
+    @FXML
+    public Button removeScenarioButton;
     @FXML
     private CheckBox isMainScenarioCheckBox;
     private Scenario scenario;
     private Function<Pair<AnchorPane, ScenarioController>, Void> onRemoveClicked;
 
-
     @Inject
-    public ScenarioController() {
+    public ScenarioController(LoggerService loggerService) {
+        this.loggerService = loggerService;
     }
 
     public void load(Scenario scenario) {
@@ -48,14 +50,8 @@ public class ScenarioController {
             removeScenarioButton.setDisable(newValue);
             scenario.setIsMainScenario(newValue);
         });
-    }
 
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
+        loggerService.logInfo("Scenario (" + scenario.getScenarioName() + ") loaded to ScenarioController");
     }
 
     public CheckBox getIsMainScenarioCheckBox() {

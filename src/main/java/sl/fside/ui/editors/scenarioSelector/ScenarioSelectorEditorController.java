@@ -25,6 +25,7 @@ public class ScenarioSelectorEditorController {
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
     private final List<Pair<AnchorPane, ScenarioController>> uiElementScenarioPairs = new ArrayList<>();
+
     @FXML
     public TitledPane scenarioSelectorEditorRoot;
     @FXML
@@ -35,6 +36,7 @@ public class ScenarioSelectorEditorController {
     public Button addScenarioButton;
     @FXML
     private Label currentlySelectedScenarioLabel;
+
     private UseCase useCase;
     private ScenarioContentEditorController scenarioContentEditorController;
     private ActivityDiagramPanelController activityDiagramPanelController;
@@ -44,38 +46,17 @@ public class ScenarioSelectorEditorController {
     private VerificationEditorController verificationEditorController;
 
     @Inject
-    public ScenarioSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
-                                            UIElementsFactory uiElementsFactory) {
+    public ScenarioSelectorEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
+                                            LoggerService loggerService) {
         this.modelFactory = modelFactory;
-        this.loggerService = loggerService;
         this.uiElementsFactory = uiElementsFactory;
+        this.loggerService = loggerService;
     }
 
     public void initialize() {
         scenarioSelectorEditorRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        scenarioSelectorEditorAnchorPane.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        scenarioList.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        addScenarioButton.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        currentlySelectedScenarioLabel.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
         updateScenarioSelectorEditor();
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     @FXML
