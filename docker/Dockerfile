@@ -28,6 +28,21 @@ RUN make test1
 RUN make test2
 RUN make test3
 
+# SPASS
+  # Copy the SPASS tar.gz file into the Docker image
+COPY spass35pclinux64.tgz /tmp/spass35pclinux64.tgz
+
+  # Extract the contents of the SPASS tar.gz file
+RUN tar -xzf /tmp/spass35pclinux64.tgz -C /opt
+
+  # Set the working directory
+WORKDIR /opt/SPASS-3.5
+
+  # Configure and compile SPASS
+RUN ./configure && make
+
+  # Install SPASS
+RUN make install 
 
 # Set the shared directory for file exchange
 VOLUME /shared
