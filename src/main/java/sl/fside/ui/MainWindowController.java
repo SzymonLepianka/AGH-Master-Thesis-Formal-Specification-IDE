@@ -207,7 +207,7 @@ public class MainWindowController {
         fileChooser.setTitle("Select an input XML file");
 
         // Set extension filter
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files", "*.xml");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML files", "*.xml", "*.xmi", "*.uml");
         fileChooser.getExtensionFilters().add(extFilter);
 
         // Show open file dialog, with MainWindow blocked

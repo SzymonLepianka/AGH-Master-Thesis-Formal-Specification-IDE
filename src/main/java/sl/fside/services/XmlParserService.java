@@ -187,13 +187,19 @@ public class XmlParserService {
         return extend;
     }
 
-    private List<Pair<String, String>> getGeneralizationFromGenXmlElems(NodeList genXmlElems, Map<String, String> useCases) {
+    private List<Pair<String, String>> getGeneralizationFromGenXmlElems(NodeList genXmlElems,
+                                                                        Map<String, String> useCases) {
         var generalization = new ArrayList<Pair<String, String>>();
         for (int i = 0; i < genXmlElems.getLength(); i++) {
             Node elem = genXmlElems.item(i);
             var elementAttributes = getAttributesFromNamedNodeMap(elem.getAttributes());
             if (elementAttributes.containsKey("general") && elementAttributes.containsKey("specific")) {
                 var from = useCases.get(elementAttributes.get("specific"));
+                var to = useCases.get(elementAttributes.get("general"));
+                generalization.add(new Pair<>(from, to));
+            } else if (elementAttributes.containsKey("general")) {
+                var parentElementAttributes = getAttributesFromNamedNodeMap(elem.getParentNode().getAttributes());
+                var from = parentElementAttributes.get("name");
                 var to = useCases.get(elementAttributes.get("general"));
                 generalization.add(new Pair<>(from, to));
             }

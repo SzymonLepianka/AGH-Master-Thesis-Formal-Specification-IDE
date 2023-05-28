@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_45Q7EPzrEe2nDr9b_iEnIg" name="UseCaseDiagram1">
+  <packageImport xmi:type="uml:PackageImport" xmi:id="_48jfoPzrEe2nDr9b_iEnIg">
+    <importedPackage xmi:type="uml:Model" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#_0"/>
+  </packageImport>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_-BMeMPzrEe2nDr9b_iEnIg" name="payment"/>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_Ba92YPzsEe2nDr9b_iEnIg" name="card">
+    <generalization xmi:type="uml:Generalization" xmi:id="_Ea_R0PzsEe2nDr9b_iEnIg" general="_-BMeMPzrEe2nDr9b_iEnIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:UseCase" xmi:id="_CPjVAPzsEe2nDr9b_iEnIg" name="blik">
+    <generalization xmi:type="uml:Generalization" xmi:id="_FFiDoPzsEe2nDr9b_iEnIg" general="_-BMeMPzrEe2nDr9b_iEnIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Actor" xmi:id="_GINBkPzsEe2nDr9b_iEnIg" name="Actor5"/>
+  <packagedElement xmi:type="uml:Association" xmi:id="_LKG1MPzsEe2nDr9b_iEnIg" memberEnd="_LKJRcfzsEe2nDr9b_iEnIg _LKKfkPzsEe2nDr9b_iEnIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_LKIqYPzsEe2nDr9b_iEnIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_LKJRcPzsEe2nDr9b_iEnIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_LKJRcfzsEe2nDr9b_iEnIg" name="blik" type="_CPjVAPzsEe2nDr9b_iEnIg" association="_LKG1MPzsEe2nDr9b_iEnIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_LKKfkPzsEe2nDr9b_iEnIg" name="actor5" type="_GINBkPzsEe2nDr9b_iEnIg" association="_LKG1MPzsEe2nDr9b_iEnIg"/>
+  </packagedElement>
+  <packagedElement xmi:type="uml:Association" xmi:id="_L9y78PzsEe2nDr9b_iEnIg" memberEnd="_L9zjAvzsEe2nDr9b_iEnIg _L9zjA_zsEe2nDr9b_iEnIg">
+    <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_L9zjAPzsEe2nDr9b_iEnIg" source="org.eclipse.papyrus">
+      <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_L9zjAfzsEe2nDr9b_iEnIg" key="nature" value="UML_Nature"/>
+    </eAnnotations>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_L9zjAvzsEe2nDr9b_iEnIg" name="card" type="_Ba92YPzsEe2nDr9b_iEnIg" association="_L9y78PzsEe2nDr9b_iEnIg"/>
+    <ownedEnd xmi:type="uml:Property" xmi:id="_L9zjA_zsEe2nDr9b_iEnIg" name="actor5" type="_GINBkPzsEe2nDr9b_iEnIg" association="_L9y78PzsEe2nDr9b_iEnIg"/>
+  </packagedElement>
+</uml:Model>
