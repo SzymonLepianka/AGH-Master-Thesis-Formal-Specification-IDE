@@ -81,7 +81,7 @@ public class DockerService {
         loggerService.logInfo(inputFilePath + " copied to container");
 
         // command to execute inside the container
-        String command = "bin/prover9 -f /shared/" + inputFilePath.getFileName() + " > /shared/output_prover9.txt";
+        String command = "/opt/LADR-2009-11A/bin/prover9 -f /shared/" + inputFilePath.getFileName() + " > /shared/output_prover9.txt";
 
         // Create the exec creation request
         ExecCreateCmdResponse execCreateCmdResponse =
@@ -111,6 +111,46 @@ public class DockerService {
             String outputFilePath = inputFilePath.toString().replace("input", "output");
             unTar(tarStream, new File(outputFilePath));
             loggerService.logInfo("Prover9 output file saved: " + outputFilePath);
+        }
+    }
+
+    public void executeSpassCommand(Path inputFilePath) throws Exception {
+        // copy input file to the container
+        dockerClient.copyArchiveToContainerCmd(CONTAINER_NAME).withHostResource(inputFilePath.toString())
+                .withRemotePath("/shared").exec();
+        loggerService.logInfo(inputFilePath + " copied to container");
+
+        // command to execute inside the container
+        String command = "/opt/SPASS-3.5/SPASS /shared/" + inputFilePath.getFileName() + " > /shared/output_spass.txt";
+
+        // Create the exec creation request
+        ExecCreateCmdResponse execCreateCmdResponse =
+                dockerClient.execCreateCmd(CONTAINER_NAME).withCmd("bash", "-c", command).withAttachStdout(true)
+                        .withAttachStderr(true).exec();
+
+        // Start the exec command
+        ExecStartResultCallback callback = new ExecStartResultCallback();
+        dockerClient.execStartCmd(execCreateCmdResponse.getId()).withDetach(false).withTty(true).exec(callback);
+
+        // Wait for the command to complete
+        callback.awaitCompletion();
+
+        // Create output folder if it doesn't exist
+        File folder = new File("prover_output/");
+        if (!folder.exists()) {
+            boolean created = folder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder prover_output/");
+            }
+        }
+
+        // Copy file from container
+        try (TarArchiveInputStream tarStream = new TarArchiveInputStream(
+                dockerClient.copyArchiveFromContainerCmd(CONTAINER_NAME, "/shared/output_spass.txt").exec())) {
+            String outputFilePath = inputFilePath.toString().replace("input", "output");
+            unTar(tarStream, new File(outputFilePath));
+            loggerService.logInfo("SPASS output file saved: " + outputFilePath);
         }
     }
 

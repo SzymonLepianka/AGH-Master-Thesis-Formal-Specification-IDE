@@ -5,7 +5,6 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.*;
 import org.fxmisc.richtext.*;
-import sl.fside.model.*;
 
 public class VerificationResultController {
     @FXML

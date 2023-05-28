@@ -124,7 +124,10 @@ public class VerificationController {
                     Path inputFilePath = createProver9Input();
                     dockerService.executeProver9Command(inputFilePath);
                 }
-                case "SPASS" -> throw new NotImplementedException("SPASS not implemented");
+                case "SPASS" -> {
+                    Path inputFilePath = createSpassInput();
+                    dockerService.executeSpassCommand(inputFilePath);
+                }
                 case "InKreSAT" -> throw new NotImplementedException("InKreSAT not implemented");
                 default -> throw new Exception("Unknown prover name: " + verification.getProver());
             }
@@ -156,6 +159,47 @@ public class VerificationController {
                 formulas(goals).
                   all x all y all z (subset(x,y) & subset(y,z) -> subset(x,z)).
                 end_of_list.
+                """);
+//            writer.write(verification.getContent());
+        writer.flush();
+        return inputFilePath;
+    }
+
+    private Path createSpassInput() throws Exception {
+        // Create the folder path
+        String folderPath = "prover_input/";
+        checkIfFolderExists(folderPath);
+        Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                "_input.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
+        writer.write("""
+                begin_problem(Pelletier54).
+                                
+                list_of_descriptions.
+                name({*Pelletier's Problem No. 54*}).
+                author({*Christoph Weidenbach*}).
+                status(unsatisfiable).
+                description({*Problem taken in revised form from the "Pelletier Collection", Journal of Automated
+                	Reasoning, Vol. 2, No. 2, pages 191-216*}).
+                end_of_list.
+                                
+                list_of_symbols.
+                  predicates[(F,2)].
+                end_of_list.
+                                
+                list_of_formulae(axioms).
+                                
+                formula(forall([U],exists([V],forall([W],equiv(F(W,V),equal(W,U)))))).
+                end_of_list.
+                                
+                list_of_formulae(conjectures).
+                                
+                formula(not(exists([U],forall([V],equiv(F(V,U),forall([W],implies(F(V,W),exists([X],and(F(X,W),not(exists([Y],and(F(Y,W),F(Y,X))))))))))))).
+                                
+                end_of_list.
+                                
+                end_problem.
+                                
                 """);
 //            writer.write(verification.getContent());
         writer.flush();
