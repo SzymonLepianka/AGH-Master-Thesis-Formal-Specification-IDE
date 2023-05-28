@@ -10,11 +10,11 @@ import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.ui.*;
-import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.activityDiagramPanel.*;
 import sl.fside.ui.editors.generateCodePanel.*;
 import sl.fside.ui.editors.requirementEditor.*;
 import sl.fside.ui.editors.resultsPanel.*;
+import sl.fside.ui.editors.scenarioContentEditor.*;
 import sl.fside.ui.editors.scenarioSelector.controls.*;
 import sl.fside.ui.editors.verificationEditor.*;
 
@@ -158,7 +158,9 @@ public class ScenarioSelectorEditorController {
         currentlySelectedScenarioLabel.setText("No Scenario is selected");
 
         // ustawia tytuł panelu z Scenario'ami
-        scenarioSelectorEditorRoot.setText("Scenarios manager for UseCase (" + useCase.getUseCaseName() + ")");
+        scenarioSelectorEditorRoot.setText("Scenarios manager for UseCase (" +
+                (useCase.getUseCaseName().length() > 25 ? useCase.getUseCaseName().substring(0, 25) + "..." :
+                        useCase.getUseCaseName()) + ")");
 
         // usuwa ewentualne poprzednie zaznaczenie Scenario
         scenarioContentEditorController.removeScenarioSelection();
