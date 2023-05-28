@@ -2,16 +2,15 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="codeRoot"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="sl.fside.ui.editors.generateCodePanel.controls.CodeController"
-            prefHeight="82.0" prefWidth="318.0">
-    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="42.0" prefWidth="308.0" wrapText="true"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="codeRoot" xmlns="http://javafx.com/javafx"
+            fx:controller="sl.fside.ui.editors.generateCodePanel.controls.CodeController" prefHeight="82.0"
+            prefWidth="305.0">
+    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="42.0" prefWidth="295.0" wrapText="true"
               promptText="Instruction (source code)" onKeyTyped="#codeContentChanged"/>
-    <Button fx:id="removeButton" layoutX="7.0" layoutY="52.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="removeButton" layoutX="7.0" layoutY="52.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="60.0"
+            text="Remove" onAction="#onRemoveButtonClicked"/>
     <ComboBox fx:id="languageComboBox" layoutX="70.0" layoutY="52.0" prefHeight="15.0" prefWidth="95.0"
               promptText="Language" onAction="#onLanguageComboBoxClicked"/>
-    <ComboBox fx:id="atomicActivityComboBox" layoutX="170.0" layoutY="52.0" prefHeight="15.0" prefWidth="145.0"
+    <ComboBox fx:id="atomicActivityComboBox" layoutX="170.0" layoutY="52.0" prefHeight="15.0" prefWidth="132.0"
               promptText="Atomic activity" onAction="#onAtomicActivityComboBoxClicked"/>
 </AnchorPane>
