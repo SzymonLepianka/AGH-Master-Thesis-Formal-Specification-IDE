@@ -1,0 +1,7 @@
+formulas(sos).
+
+  a & -a.
+  b.
+  -b.
+
+end_of_list.

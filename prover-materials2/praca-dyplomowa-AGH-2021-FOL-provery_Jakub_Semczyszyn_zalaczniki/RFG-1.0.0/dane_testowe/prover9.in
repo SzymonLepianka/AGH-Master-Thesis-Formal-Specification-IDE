@@ -1,0 +1,12 @@
+formulas(sos).
+
+all t (-(var2(t))).
+all t (-(-var3(t))).
+exists t (-var4(t)).
+all t (-(var3(t) | var4(t))).
+all t (-(var1(t) | var4(t))).
+all t exists t1 ((t >= t1) & ((var1(t1)) -> (-var4(t)))).
+all t (-(var4(t) | var2(t) | -var1(t) | -var3(t))).
+all t exists t1 ((t >= t1) & ((var3(t1) | var2(t1)) -> (var4(t) | var1(t)))).
+
+end_of_list.

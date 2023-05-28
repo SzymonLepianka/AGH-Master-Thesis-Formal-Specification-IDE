@@ -1,0 +1,27 @@
+begin_problem(testowy).
+
+list_of_descriptions.
+name({*Testowy problem*}).
+author({*Jakub Semczyszyn*}).
+status(unknown).
+description({*The problem was generated randomly*}).
+end_of_list.
+
+list_of_symbols.
+functions[(t1,0), (t2,0)].
+predicates[(GTE,2), (var1,1), (var2,1), (var3,1), (var4,1)].
+end_of_list.
+
+list_of_formulae(axioms).
+formula(GTE(t2,t1)).
+formula(forall([T],not(var2(T)))).
+formula(forall([T],not(not(var3(T))))).
+formula(exists([T],not(var4(T)))).
+formula(forall([T],not(or(var3(T),var4(T))))).
+formula(forall([T],not(or(var1(T),var4(T))))).
+formula(forall([T],exists([T1],and(GTE(T,T1),implies(var1(T1),not(var4(T))))))).
+formula(forall([T],not(or(var4(T),var2(T),not(var1(T)),not(var3(T)))))).
+formula(forall([T],exists([T1],and(GTE(T,T1),implies(or(var3(T1),var2(T1)),or(var4(T),var1(T))))))).
+end_of_list.
+
+end_problem.
