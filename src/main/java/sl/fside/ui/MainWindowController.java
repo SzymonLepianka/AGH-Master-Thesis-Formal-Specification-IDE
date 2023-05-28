@@ -94,7 +94,23 @@ public class MainWindowController {
 
     public void initialize() {
         stage.setTitle("Formal Specification IDE - No project selected");
+
+        // Show popup before initializing Docker service
+        Stage initializingStage = new Stage();
+        initializingStage.setTitle("Please wait while Docker service is being initialized...");
+        initializingStage.initModality(Modality.APPLICATION_MODAL); // Set dialog modality
+        initializingStage.setResizable(false);
+        initializingStage.initOwner(stage);
+        initializingStage.setWidth(400);
+        initializingStage.setHeight(150);
+        initializingStage.show();
+
+        // Run the Docker service initialization
         dockerService.initialize();
+
+        // Hide the popup after Docker service initialization
+        initializingStage.close();
+
         chooseProjectOnStart();
 
         // Dodanie obsługi zdarzenia zamknięcia okna
