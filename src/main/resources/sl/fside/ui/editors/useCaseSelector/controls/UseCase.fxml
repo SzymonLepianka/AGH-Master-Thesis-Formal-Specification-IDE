@@ -2,16 +2,15 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane fx:id="useCaseRoot" prefHeight="100.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/17.0.2-ea"
-            xmlns:fx="http://javafx.com/fxml/1"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="useCaseRoot" prefHeight="80.0" prefWidth="305.0"
+            xmlns="http://javafx.com/javafx/17.0.2-ea"
             fx:controller="sl.fside.ui.editors.useCaseSelector.controls.UseCaseController">
-    <CheckBox fx:id="isSelectedCheckBox" disable="true" layoutX="210.0" layoutY="69.0" mnemonicParsing="false"
-              text="selected"/>
-    <CheckBox fx:id="isImportedCheckBox" disable="true" layoutX="210.0" layoutY="50.0" mnemonicParsing="false"
-              text="isImported?"/>
-    <TextField fx:id="useCaseNameTextField" layoutX="15.0" layoutY="14.0" prefHeight="25.0" prefWidth="270.0"
+    <TextField fx:id="useCaseNameTextField" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="290.0"
                onKeyTyped="#useCaseNameChanged"/>
-    <Button fx:id="removeButton" layoutX="15.0" layoutY="55.0" mnemonicParsing="false" prefHeight="25.0"
-            prefWidth="62.0"
-            text="Remove" onAction="#onRemoveUseCaseButtonClicked"/>
+    <Button fx:id="removeButton" layoutX="10.0" layoutY="45.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="62.0" text="Remove" onAction="#onRemoveUseCaseButtonClicked"/>
+    <CheckBox fx:id="isSelectedCheckBox" disable="true" layoutX="95.0" layoutY="48.0" mnemonicParsing="false"
+              text="selected"/>
+    <CheckBox fx:id="isImportedCheckBox" disable="true" layoutX="180.0" layoutY="48.0" mnemonicParsing="false"
+              text="isImported?"/>
 </AnchorPane>
