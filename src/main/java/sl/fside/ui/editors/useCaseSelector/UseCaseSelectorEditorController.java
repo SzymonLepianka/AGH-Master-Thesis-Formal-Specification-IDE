@@ -28,13 +28,20 @@ public class UseCaseSelectorEditorController {
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
     private final List<Pair<AnchorPane, UseCaseController>> uiElementUseCasePairs = new ArrayList<>();
-
     @FXML
     public TitledPane useCaseSelectorEditorRoot;
     @FXML
     public AnchorPane useCaseSelectorEditorAnchorPane;
     @FXML
     public Button showRelationsInUseCaseDiagramButton;
+    private UseCase currentlySelectedUseCase = null;
+    private UseCaseDiagram useCaseDiagram;
+    @FXML
+    private ListView<AnchorPane> useCasesList;
+    @FXML
+    private Button addOptionalUseCaseButton;
+    @FXML
+    private Label currentlySelectedUseCaseLabel;
 
     private ScenarioSelectorEditorController scenarioSelectorEditorController;
     private ScenarioContentEditorController scenarioContentEditorController;
@@ -43,22 +50,6 @@ public class UseCaseSelectorEditorController {
     private GenerateCodePanelController generateCodePanelController;
     private RequirementEditorController requirementEditorController;
     private VerificationEditorController verificationEditorController;
-    @FXML
-    private ListView<AnchorPane> useCasesList;
-    @FXML
-    private Button addOptionalUseCaseButton;
-    //    @FXML
-//    private ComboBox<UseCaseDiagramPresenter> useCaseDiagramComboBox;
-    @FXML
-    private Label currentlySelectedUseCaseLabel;
-    private UseCase currentlySelectedUseCase = null;
-    //    private final EventAggregatorService eventAggregatorService;
-
-    private UseCaseDiagram useCaseDiagram;
-
-//    public UseCaseSelectorEditor(){
-//        modelFactory = null;
-//    }
 
     @Inject
     public UseCaseSelectorEditorController(IModelFactory modelFactory, LoggerService loggerService,
@@ -71,34 +62,12 @@ public class UseCaseSelectorEditorController {
     public void initialize() {
         useCaseSelectorEditorRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        useCaseSelectorEditorAnchorPane.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        useCasesList.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        addOptionalUseCaseButton.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        currentlySelectedUseCaseLabel.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
         updateUseCaseSelectorEditor();
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     @FXML
     public void addUseCaseButtonClicked() {
         if (useCaseDiagram != null) {
-
             // creating new UseCase
             UseCase newUseCase = modelFactory.createUseCase(useCaseDiagram, UUID.randomUUID(), "New use case", false);
             Pair<AnchorPane, UseCaseController> uiElementPair = uiElementsFactory.createUseCase(newUseCase);
