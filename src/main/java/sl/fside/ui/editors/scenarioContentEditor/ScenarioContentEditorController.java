@@ -19,7 +19,6 @@ import java.util.regex.*;
 public class ScenarioContentEditorController {
 
     private final IModelFactory modelFactory;
-    private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
     private final MainWindowController mainWindowController;
 
@@ -31,16 +30,15 @@ public class ScenarioContentEditorController {
     public Button showCurrentAtomicActivitiesButton;
     @FXML
     public StyleClassedTextArea scenarioContentTextArea;
+
     private Scenario scenario;
 
     @Inject
-    public ScenarioContentEditorController(IModelFactory modelFactory, UIElementsFactory uiElementsFactory,
-                                           LoggerService loggerService, MainWindowController mainWindowController) {
+    public ScenarioContentEditorController(IModelFactory modelFactory, LoggerService loggerService,
+                                           MainWindowController mainWindowController) {
         this.modelFactory = modelFactory;
-        this.uiElementsFactory = uiElementsFactory;
         this.loggerService = loggerService;
         this.mainWindowController = mainWindowController;
-
     }
 
     public void initialize() {
@@ -54,14 +52,6 @@ public class ScenarioContentEditorController {
 
         scenarioContentTextArea.getStylesheets()
                 .add(ScenarioContentEditorController.class.getResource("custom-styles.css").toExternalForm());
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     public void setScenarioSelection(Scenario scenario) {
