@@ -2,18 +2,17 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="verificationRoot"
-            xmlns="http://javafx.com/javafx"
-            fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController"
-            prefHeight="85.0" prefWidth="318.0">
-    <TextArea fx:id="textArea" layoutX="7.0" layoutY="7.0" prefHeight="45.0" prefWidth="308.0" wrapText="true"
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="verificationRoot" xmlns="http://javafx.com/javafx"
+            fx:controller="sl.fside.ui.editors.verificationEditor.controls.VerificationController" prefHeight="85.0"
+            prefWidth="305.0">
+    <TextArea fx:id="textArea" layoutX="5.0" layoutY="7.0" prefHeight="45.0" prefWidth="295.0" wrapText="true"
               promptText="content of the verification formula" onKeyTyped="#verificationContentChanged"/>
-    <Button fx:id="removeButton" layoutX="7.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="removeButton" layoutX="5.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="60.0"
+            text="Remove" onAction="#onRemoveButtonClicked"/>
     <Button fx:id="sendToProverButton" layoutX="70.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="100.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
-    <ComboBox fx:id="proverComboBox" layoutX="175.0" layoutY="55.0" prefHeight="15.0" prefWidth="140.0"
+            prefWidth="95.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
+    <ComboBox fx:id="proverComboBox" layoutX="170.0" layoutY="55.0" prefHeight="15.0" prefWidth="130.0"
               promptText="Choose Prover" onAction="#onChooseProverComboBoxClicked"/>
     <Button fx:id="showResultButton" layoutX="195.0" layoutY="55.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="120.0" text="Show result" onAction="#showResultButtonClicked" visible="false"/>
+            prefWidth="105.0" text="Show result" onAction="#showResultButtonClicked" visible="false"/>
 </AnchorPane>

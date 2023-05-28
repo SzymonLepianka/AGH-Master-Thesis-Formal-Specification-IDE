@@ -3,19 +3,18 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="requirementRoot" xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="sl.fside.ui.editors.requirementEditor.controls.RequirementController"
-            prefHeight="125.0" prefWidth="318.0">
+<AnchorPane xmlns:fx="http://javafx.com/fxml" fx:id="requirementRoot" xmlns="http://javafx.com/javafx"
+            fx:controller="sl.fside.ui.editors.requirementEditor.controls.RequirementController" prefHeight="125.0"
+            prefWidth="305.0">
     <Text fx:id="nameLabel" layoutX="12.0" layoutY="24.0" text="Name:"/>
-    <TextField fx:id="requirementNameTextField" layoutX="50.0" layoutY="7.0" prefHeight="25.0" prefWidth="265.0"
+    <TextField fx:id="requirementNameTextField" layoutX="50.0" layoutY="7.0" prefHeight="25.0" prefWidth="250.0"
                onKeyTyped="#requirementNameChanged"/>
-    <TextArea fx:id="textArea" layoutX="7.0" layoutY="35.0" prefHeight="60.0" prefWidth="308.0" wrapText="true"
+    <TextArea fx:id="textArea" layoutX="5.0" layoutY="35.0" prefHeight="60.0" prefWidth="295.0" wrapText="true"
               promptText="content of the logical formula" onKeyTyped="#requirementContentChanged"/>
-    <Button fx:id="removeButton" layoutX="7.0" layoutY="98.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="60.0" text="Remove" onAction="#onRemoveButtonClicked"/>
+    <Button fx:id="removeButton" layoutX="5.0" layoutY="98.0" mnemonicParsing="false" prefHeight="15.0" prefWidth="60.0"
+            text="Remove" onAction="#onRemoveButtonClicked"/>
     <Button fx:id="disableButton" layoutX="70.0" layoutY="98.0" mnemonicParsing="false" prefHeight="15.0"
-            prefWidth="80.0" onAction="#onDisableButtonClicked"/>
-    <ComboBox fx:id="logicComboBox" layoutX="155.0" layoutY="98.0" prefHeight="15.0" prefWidth="160.0"
+            prefWidth="75.0" onAction="#onDisableButtonClicked"/>
+    <ComboBox fx:id="logicComboBox" layoutX="150.0" layoutY="98.0" prefHeight="15.0" prefWidth="150.0"
               promptText="Choose logic" onAction="#onComboBoxClicked"/>
 </AnchorPane>
