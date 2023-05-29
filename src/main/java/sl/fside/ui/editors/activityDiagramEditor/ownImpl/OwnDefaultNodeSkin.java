@@ -222,7 +222,7 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
 
         List<String> atomicActivities = NodesManager.getInstance().getCurrentAtomicActivities();
         List<String> patternNames = new ArrayList<>(
-                Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop"));
+                Arrays.asList("Seq", "Branch", "BranchRe", "Concur", "ConcurRe", "Cond", "Para", "Loop", "SeqSeq"));
 
         String currentNodeType = NodesManager.getInstance().getCurrentNodeType();
         ObservableList<String> options = FXCollections.observableArrayList(atomicActivities);
@@ -283,6 +283,13 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 NodesManager.getInstance().setMain(loopVBox);
                 NodesManager.getInstance().setMainName("Loop");
                 setExistingDiagramFromPatternExpression(loopVBox);
+            }
+            case "SeqSeq" -> {
+                VBox seqSeqVBox = createSeqSeqPattern(currentNodeType, options, false, null, null);
+                getRoot().getChildren().add(seqSeqVBox);
+                NodesManager.getInstance().setMain(seqSeqVBox);
+                NodesManager.getInstance().setMainName("SeqSeq");
+                setExistingDiagramFromPatternExpression(seqSeqVBox);
             }
         }
 
@@ -534,6 +541,11 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             myArrowFirst.setHeadAVisible(false);
             vBox.getChildren().add(myArrowFirst);
             return true;
+        } else if (outerPatternName.equals("SeqSeq") && outerFormulaName.equals("a3")) {
+            MyArrow myArrowFirst = new MyArrow(0, 0, 0, 70);
+            myArrowFirst.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowFirst);
+            return true;
         }
         return false;
     }
@@ -564,6 +576,11 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
             return true;
         } else if (outerPatternName.equals("Loop") &&
                 (outerFormulaName.equals("a1") || outerFormulaName.equals("a2") || outerFormulaName.equals("a4"))) {
+            MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
+            myArrowLast.setHeadAVisible(false);
+            vBox.getChildren().add(myArrowLast);
+            return true;
+        } if (outerPatternName.equals("SeqSeq") && outerFormulaName.equals("a1")) {
             MyArrow myArrowLast = new MyArrow(0, 0, 0, 70);
             myArrowLast.setHeadAVisible(false);
             vBox.getChildren().add(myArrowLast);
@@ -1398,6 +1415,66 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
         return vBox;
     }
 
+    private VBox createSeqSeqPattern(String patternTypeName, ObservableList<String> options, boolean isInnerPattern,
+                                  String outerFormulaName, String outerPatternName) {
+        Color borderColor = randomColor();
+
+        // shape to represent selected Color
+        Rectangle rectangle = new Rectangle(10, 10);
+        rectangle.setFill(borderColor);
+        NodesManager.getInstance().addColorOnActivityDiagram(rectangle, borderColor);
+        if (!NodesManager.getInstance().isShowColorsOnDiagram()) {
+            rectangle.setWidth(0);
+            rectangle.setHeight(0);
+            rectangle.setFill(null);
+        }
+
+        // title
+        Text type = new Text("        " + patternTypeName + " ");
+
+        // clear button
+        Button clearFormulaButton = new Button();
+        GlyphsDude.setIcon(clearFormulaButton, FontAwesomeIcon.TIMES_CIRCLE);
+        addContextMenuToButton(clearFormulaButton, patternTypeName, outerFormulaName, outerPatternName, options,
+                borderColor);
+        clearFormulaButton.setDisable(!isInnerPattern);
+
+        // hBox for rectangle, title and clear button
+        HBox hBoxTitleAndClearButton = new HBox();
+        hBoxTitleAndClearButton.getChildren().addAll(type, rectangle, new Text(" "), clearFormulaButton);
+        hBoxTitleAndClearButton.setAlignment(Pos.CENTER);
+
+        // a1
+        VBox a1vBox = createFormulaVBox(patternTypeName, "a1", options, borderColor, false);
+
+        // connection visualization
+        MyArrow myArrow1 = new MyArrow(0, 0, 0, 100);
+        myArrow1.setHeadAVisible(false);
+
+        // a2
+        VBox a2vBox = createFormulaVBox(patternTypeName, "a2", options, borderColor, false);
+
+        // connection visualization
+        MyArrow myArrow2 = new MyArrow(0, 0, 0, 100);
+        myArrow2.setHeadAVisible(false);
+
+        // a3
+        VBox a3vBox = createFormulaVBox(patternTypeName, "a3", options, borderColor, false);
+
+        // main vBox
+        VBox vBox = new VBox();
+        vBox.setAlignment(Pos.CENTER);
+        if (isInnerPattern) {
+            addEntryArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        vBox.getChildren().addAll(hBoxTitleAndClearButton, a1vBox, myArrow1, a2vBox, myArrow2, a3vBox);
+        if (isInnerPattern) {
+            addOutArrow(vBox, outerPatternName, outerFormulaName);
+        }
+        addBorderToVBox(vBox, borderColor);
+        return vBox;
+    }
+
     private void setDropdownOnAction(ComboBox<String> dropdownComboBox, VBox parentVBox, ObservableList<String> options,
                                      String patternTypeName) {
         dropdownComboBox.setOnAction(e -> {
@@ -1453,6 +1530,12 @@ public class OwnDefaultNodeSkin extends GNodeSkin {
                 VBox newLoopBox =
                         createLoopPattern("Loop", options, true, dropdownComboBox.getPromptText(), patternTypeName);
                 parentVBox.getChildren().add(newLoopBox);
+                parentVBox.getChildren().remove(0);
+                addFillingSpaceLine(parentVBox);
+            } else if (dropdownComboBox.getValue().equals("SeqSeq")) {
+                VBox newSeqSeqBox =
+                        createSeqSeqPattern("SeqSeq", options, true, dropdownComboBox.getPromptText(), patternTypeName);
+                parentVBox.getChildren().add(newSeqSeqBox);
                 parentVBox.getChildren().remove(0);
                 addFillingSpaceLine(parentVBox);
             }

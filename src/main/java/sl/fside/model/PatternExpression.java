@@ -63,6 +63,6 @@ public class PatternExpression {
     }
 
     public enum MainPatternName {
-        Seq, Branch, BranchRe, Concur, ConcurRe, Cond, Para, Loop, Alt
+        Seq, Branch, BranchRe, Concur, ConcurRe, Cond, Para, Loop, Alt, SeqSeq
     }
 }

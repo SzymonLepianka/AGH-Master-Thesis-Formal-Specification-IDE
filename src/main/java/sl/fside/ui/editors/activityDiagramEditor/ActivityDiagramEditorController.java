@@ -65,6 +65,8 @@ public class ActivityDiagramEditorController {
     @FXML
     public MenuItem menuItemAddLoop;
     @FXML
+    public MenuItem menuItemAddSeqSeq;
+    @FXML
     private Button generateSpecificationButton;
     @FXML
     private AnchorPane root;
@@ -166,6 +168,7 @@ public class ActivityDiagramEditorController {
                 case "Cond" -> addCond();
                 case "Para" -> addPara();
                 case "Loop" -> addLoop();
+                case "SeqSeq" -> addSeqSeq();
                 default -> System.out.println("Inny mainPatternName! - " + mainPatternName);
             }
         }
@@ -303,6 +306,13 @@ public class ActivityDiagramEditorController {
     }
 
     @FXML
+    public void addSeqSeq() {
+        NodesManager.getInstance().setCurrentNodeType("SeqSeq");
+        activeSkinController.get().addNode(graphEditor.getView().getLocalToSceneTransform().getMxx());
+        disableAllOptions(true);
+    }
+
+    @FXML
     public void setDefaultSkin() {
         activeSkinController.set(defaultSkinController);
     }
@@ -336,6 +346,7 @@ public class ActivityDiagramEditorController {
         menuItemAddCond.setDisable(disable);
         menuItemAddPara.setDisable(disable);
         menuItemAddLoop.setDisable(disable);
+        menuItemAddSeqSeq.setDisable(disable);
     }
 
     /**

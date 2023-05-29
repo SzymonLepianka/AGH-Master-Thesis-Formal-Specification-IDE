@@ -30,6 +30,7 @@
                 <MenuItem text="Add Cond" fx:id="menuItemAddCond" onAction="#addCond" accelerator="Shortcut+Y"/>
                 <MenuItem text="Add Para" fx:id="menuItemAddPara" onAction="#addPara" accelerator="Shortcut+U"/>
                 <MenuItem text="Add Loop" fx:id="menuItemAddLoop" onAction="#addLoop" accelerator="Shortcut+I"/>
+                <MenuItem text="Add SeqSeq" fx:id="menuItemAddSeqSeq" onAction="#addSeqSeq" accelerator="Shortcut+O"/>
             </Menu>
             <Menu text="Edit" fx:id="menuEdit">
                 <MenuItem text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>
