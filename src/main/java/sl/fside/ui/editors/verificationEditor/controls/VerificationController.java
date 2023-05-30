@@ -241,29 +241,23 @@ public class VerificationController {
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
         writer.write("""
-                begin_problem(Pelletier54).
-                                
+                begin_problem(FSIDE).
+                    
                 list_of_descriptions.
-                name({*Pelletier's Problem No. 54*}).
-                author({*Christoph Weidenbach*}).
+                name({*FSIDE-SPASS*}).
+                author({*SL*}).
                 status(unsatisfiable).
-                description({*Problem taken in revised form from the "Pelletier Collection", Journal of Automated
-                	Reasoning, Vol. 2, No. 2, pages 191-216*}).
+                description({*SPASS test*}).
                 end_of_list.
-                                
+                             
                 list_of_symbols.
-                  predicates[(F,2)].
+                predicates[(arg0, 1), (arg1, 1)].
                 end_of_list.
                                 
                 list_of_formulae(axioms).
-                                
-                formula(forall([U],exists([V],forall([W],equiv(F(W,V),equal(W,U)))))).
-                end_of_list.
-                                
-                list_of_formulae(conjectures).
-                                
-                formula(not(exists([U],forall([V],equiv(F(V,U),forall([W],implies(F(V,W),exists([X],and(F(X,W),not(exists([Y],and(F(Y,W),F(Y,X))))))))))))).
-                                
+                formula(exists([T], arg0(T))).
+                formula(forall([T], implies(arg0(T), exists([T1], arg1(T1))))).
+                formula(forall([T], forall([T1], not(and(arg0(T), arg1(T1)))))).
                 end_of_list.
                                 
                 end_problem.
