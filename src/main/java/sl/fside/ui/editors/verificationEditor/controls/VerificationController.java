@@ -170,15 +170,22 @@ public class VerificationController {
         Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
-        writer.write("""
-                formulas(sos).
-                  all x all y (subset(x,y) <-> (all z (member(z,x) -> member(z,y)))).
-                end_of_list.
-                formulas(goals).
-                  all x all y all z (subset(x,y) & subset(y,z) -> subset(x,z)).
-                end_of_list.
-                """);
-//            writer.write(verification.getContent());
+//        writer.write("""
+//                formulas(sos).
+//                  exists x (arg0(x)).
+//                  all x (arg0(x) -> exists y (arg1(y))).
+//                  all x all y (-(arg0(x) & arg1(y))).
+//                end_of_list.
+//                """);
+//        writer.write("""
+//                formulas(sos).
+//                  exists x (arg0(x)).
+//                  all x all y all z (arg0(x) -> exists y (arg1(y)) & exists z (arg2(z))).
+//                  all x all y all z (-(arg0(x) & arg1(y))).
+//                  all x all y all z (-(arg0(x) & arg2(z))).
+//                end_of_list.
+//                """);
+        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
     }
