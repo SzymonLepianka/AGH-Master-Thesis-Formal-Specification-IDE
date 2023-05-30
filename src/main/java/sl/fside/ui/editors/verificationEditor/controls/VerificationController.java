@@ -13,15 +13,18 @@ import org.apache.commons.lang3.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.services.docker_service.*;
+import sl.fside.ui.*;
 
 import java.io.*;
 import java.nio.file.*;
+import java.util.*;
 import java.util.function.*;
 
 
 public class VerificationController {
     private final LoggerService loggerService;
     private final DockerService dockerService;
+    private final MainWindowController mainWindowController;
     @FXML
     public AnchorPane verificationRoot;
     @FXML
@@ -40,9 +43,11 @@ public class VerificationController {
     private Function<Pair<AnchorPane, VerificationController>, Void> onRemoveClicked;
 
     @Inject
-    public VerificationController(LoggerService loggerService, DockerService dockerService) {
+    public VerificationController(LoggerService loggerService, DockerService dockerService,
+                                  MainWindowController mainWindowController) {
         this.loggerService = loggerService;
         this.dockerService = dockerService;
+        this.mainWindowController = mainWindowController;
     }
 
     public void load(Verification verification) {
@@ -139,6 +144,26 @@ public class VerificationController {
     }
 
     private Path createProver9Input() throws Exception {
+
+        Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
+        if (scenario == null) {
+            throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
+        }
+        String folLogicalSpecification = scenario.getFolLogicalSpecification();
+        if (folLogicalSpecification == null) {
+            throw new Exception("FOL Logical Specification was not generated");
+        }
+
+        List<String> convertedFormulas = changeFolToProver9Syntax(folLogicalSpecification);
+        StringBuilder proverInput = new StringBuilder();
+        proverInput.append("formulas(sos).\n  ");
+        for (String convertedFormula : convertedFormulas) {
+            proverInput.append(convertedFormula);
+            proverInput.append(".\n  ");
+        }
+        proverInput.delete(proverInput.length() - 2, proverInput.length());
+        proverInput.append("end_of_list.\n");
+
         // Create the folder path
         String folderPath = "prover_input/";
         checkIfFolderExists(folderPath);
@@ -156,6 +181,49 @@ public class VerificationController {
 //            writer.write(verification.getContent());
         writer.flush();
         return inputFilePath;
+    }
+
+    private List<String> changeFolToProver9Syntax(String folLogicalSpecification) {
+        folLogicalSpecification = folLogicalSpecification.substring(0,
+                folLogicalSpecification.length() - 1); // Remove the last character (comma)
+        folLogicalSpecification = folLogicalSpecification.replace(" ", ""); // remove spaces
+        List<String> formulas = Arrays.stream(folLogicalSpecification.split(",")).toList();
+        List<String> results = new ArrayList<>();
+        for (String formula : formulas) {
+            StringBuilder temp = new StringBuilder();
+            StringBuilder result = new StringBuilder();
+            int index = 0;
+            for (var c : formula.toCharArray()) {
+                if (!Character.isLetter(c) && !Character.isDigit(c) && temp.length() > 0) {
+                    if (temp.toString().equals("ForAll")) {
+                        index++;
+                        result.append("all x").append(index).append(" ");
+                        result.append(c);
+                        temp = new StringBuilder();
+                    } else if (temp.toString().equals("Exist")) {
+                        index++;
+                        result.append("exists x").append(index).append(" ");
+                        result.append(c);
+                        temp = new StringBuilder();
+                    } else {
+                        result.append(temp).append("(x").append(index).append(")");
+                        result.append(c);
+                        temp = new StringBuilder();
+                    }
+                } else if (Character.isLetter(c) || Character.isDigit(c)) {
+                    temp.append(c);
+                } else {
+                    result.append(c);
+                }
+            }
+            String newResult = result.toString();
+            newResult = newResult.replace("=>", " -> ");
+            newResult = newResult.replace("~", " -");
+            newResult = newResult.replace("^", " & ");
+            newResult = newResult.replace("|", " | ");
+            results.add(newResult);
+        }
+        return results;
     }
 
     private Path createSpassInput() throws Exception {
@@ -241,7 +309,7 @@ public class VerificationController {
         loggerService.logInfo("VerificationResult window opened");
     }
 
-    private void showProverResult(Path filePath) throws Exception{
+    private void showProverResult(Path filePath) throws Exception {
         String fileContent = Files.readString(filePath);
 
         var stage = new Stage();

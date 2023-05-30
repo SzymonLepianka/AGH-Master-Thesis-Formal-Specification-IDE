@@ -43,19 +43,7 @@ public class ResultsPanelController {
 
         resultsPanelRoot.setBorder(new Border(
                 new BorderStroke(Color.GRAY, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-//
-//        resultsPanelAnchorPane.setBorder(new Border(
-//                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
-
         updateResultsPanel();
-    }
-
-    private Color randomColor() {
-        Random rand = new Random();
-        double r = rand.nextFloat();
-        double g = rand.nextFloat();
-        double b = rand.nextFloat();
-        return new Color(r, g, b, 1);
     }
 
     public void setScenarioSelection(Scenario scenario) {
@@ -87,6 +75,10 @@ public class ResultsPanelController {
             ltlTextArea.setText("");
         }
         NodesManager.getInstance().setSpecificationFromScenario(scenario);
+    }
+
+    public Scenario getCurrentScenario() {
+        return scenario;
     }
 
     private void removeResults() {
