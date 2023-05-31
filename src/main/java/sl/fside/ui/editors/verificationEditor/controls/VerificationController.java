@@ -185,7 +185,14 @@ public class VerificationController {
 //                  all x all y all z (-(arg0(x) & arg2(z))).
 //                end_of_list.
 //                """);
-        writer.write(proverInput.toString());
+        writer.write("""
+                formulas(sos).
+                  all x1 (card1(x1) -> exists x2 (card2(x2))).
+                  exists x1 (card1(x1)).
+                  all x1 all x2( -(card1(x1) & card2(x2))).
+                end_of_list.
+                """);
+//        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
     }
