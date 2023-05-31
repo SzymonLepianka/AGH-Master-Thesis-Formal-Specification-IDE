@@ -44,6 +44,28 @@ RUN ./configure && make
   # Install SPASS
 RUN make install 
 
+## InKreSAT
+#  # Install zlib development package
+#RUN apt-get install -y zlib1g-dev
+#RUN apt-get install -y ocaml 
+#RUN apt-get install -y ocaml-findlib 
+#RUN apt-get install -y libextlib-ocaml-dev
+#RUN apt-get install -y minisat
+#
+#  # Copy the InKreSAT tar.bz2 file into the Docker image
+##COPY inkresat-1.0.tar.bz2 /tmp/inkresat-1.0.tar.bz2
+#COPY inkresat-zmiany3.tar /tmp/inkresat-zmiany3.tar
+#
+#  # Extract the contents of the InKreSAT tar.bz2 file
+##RUN tar -xjf /tmp/inkresat-1.0.tar.bz2 -C /opt
+#RUN tar -xvf /tmp/inkresat-zmiany3.tar -C /opt
+#
+#  # Set the working directory
+#WORKDIR /opt/inkresat
+#
+#  # Build InKreSAT
+#RUN make inkresat 
+
 # Set the shared directory for file exchange
 VOLUME /shared
 
