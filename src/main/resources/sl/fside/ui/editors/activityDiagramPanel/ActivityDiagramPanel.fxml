@@ -10,6 +10,6 @@
         <Button fx:id="openActivityDiagramEditorButton" alignment="CENTER" contentDisplay="CENTER"
                 layoutX="9.0" layoutY="10.0" mnemonicParsing="false" onAction="#openActivityDiagramEditorButtonClicked"
                 prefHeight="25.0"
-                prefWidth="338.0" text="Start Activity Diagram"/>
+                prefWidth="338.0" text="Show Activity Diagram"/>
     </AnchorPane>
 </TitledPane>
