@@ -1,27 +1,30 @@
 package sl.fside.ui;
 
-import com.google.inject.*;
-import javafx.fxml.*;
+import com.google.inject.Inject;
+import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.*;
-import sl.fside.factories.*;
-import sl.fside.model.*;
-import sl.fside.persistence.repositories.*;
-import sl.fside.services.*;
-import sl.fside.services.docker_service.*;
-import sl.fside.ui.editors.activityDiagramPanel.*;
-import sl.fside.ui.editors.generateCodePanel.*;
-import sl.fside.ui.editors.imageViewer.*;
-import sl.fside.ui.editors.requirementEditor.*;
-import sl.fside.ui.editors.resultsPanel.*;
-import sl.fside.ui.editors.scenarioContentEditor.*;
-import sl.fside.ui.editors.scenarioSelector.*;
-import sl.fside.ui.editors.useCaseSelector.*;
-import sl.fside.ui.editors.verificationEditor.*;
+import sl.fside.factories.IModelFactory;
+import sl.fside.model.Project;
+import sl.fside.persistence.repositories.IProjectRepository;
+import sl.fside.services.LoggerService;
+import sl.fside.services.XmlParserService;
+import sl.fside.services.docker_service.DockerService;
+import sl.fside.ui.editors.activityDiagramPanel.ActivityDiagramPanelController;
+import sl.fside.ui.editors.generateCodePanel.GenerateCodePanelController;
+import sl.fside.ui.editors.imageViewer.ImageViewerController;
+import sl.fside.ui.editors.requirementEditor.RequirementEditorController;
+import sl.fside.ui.editors.resultsPanel.ResultsPanelController;
+import sl.fside.ui.editors.scenarioContentEditor.ScenarioContentEditorController;
+import sl.fside.ui.editors.scenarioSelector.ScenarioSelectorEditorController;
+import sl.fside.ui.editors.useCaseSelector.UseCaseSelectorEditorController;
+import sl.fside.ui.editors.verificationEditor.VerificationEditorController;
 
-import java.util.*;
+import java.util.Optional;
+import java.util.UUID;
 
 public class MainWindowController {
     private final XmlParserService xmlParserService;
@@ -56,9 +59,7 @@ public class MainWindowController {
 
 
     @Inject
-    public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService,
-                                IModelFactory modelFactory, IProjectRepository projectRepository,
-                                DockerService dockerService) {
+    public MainWindowController(XmlParserService xmlParserService, LoggerService loggerService, IModelFactory modelFactory, IProjectRepository projectRepository, DockerService dockerService) {
 
         this.xmlParserService = xmlParserService;
         this.loggerService = loggerService;
@@ -69,10 +70,7 @@ public class MainWindowController {
 
     public void load(Project project) {
         this.project = project;
-        useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(),
-                scenarioSelectorEditorController, scenarioContentEditorController, activityDiagramPanelController,
-                resultsPanelController, generateCodePanelController, requirementEditorController,
-                verificationEditorController);
+        useCaseSelectorEditorController.setUseCaseDiagramSelection(project.getUseCaseDiagram(), scenarioSelectorEditorController, scenarioContentEditorController, activityDiagramPanelController, resultsPanelController, generateCodePanelController, requirementEditorController, verificationEditorController);
         imageViewerController.setProjectSelection(project);
         stage.setTitle("Formal Specification IDE - " + project.getProjectName());
 
@@ -106,7 +104,11 @@ public class MainWindowController {
         initializingStage.show();
 
         // Run the Docker service initialization
-        dockerService.initialize();
+        try {
+            dockerService.initialize();
+        } catch (Exception e) {
+            showErrorMessage("Error during Docker service initialization", e.toString());
+        }
 
         // Hide the popup after Docker service initialization
         initializingStage.close();
@@ -133,8 +135,7 @@ public class MainWindowController {
         }
 
         var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
-        projectChooserDialog.getItems()
-                .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
+        projectChooserDialog.getItems().addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
         projectChooserDialog.setTitle("Formal Specification IDE");
         projectChooserDialog.setHeaderText("Open a project");
         projectChooserDialog.setContentText("Select:");
@@ -156,8 +157,7 @@ public class MainWindowController {
             var alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.setTitle("Formal Specification IDE");
             alert.setHeaderText("Do you want to save changes to project '" + project.getProjectName() + "'?");
-            alert.setContentText(
-                    "Click:\n - YES to save changes,\n - NO to continue without saving,\n - CANCEL to stay in the program.");
+            alert.setContentText("Click:\n - YES to save changes,\n - NO to continue without saving,\n - CANCEL to stay in the program.");
 
             // własne typy button, ponieważ domyślne zachowanie było nieodpowiednie
             ButtonType yesButton = new ButtonType("Yes");
@@ -184,8 +184,7 @@ public class MainWindowController {
         if (!alertToSaveProject()) return;
 
         var projectChooserDialog = new ChoiceDialog<ProjectNamePresenter>();
-        projectChooserDialog.getItems()
-                .addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
+        projectChooserDialog.getItems().addAll(projectRepository.getAll().stream().map(ProjectNamePresenter::new).toList());
         projectChooserDialog.setTitle("Open a project");
         projectChooserDialog.setHeaderText("Choose a project");
         projectChooserDialog.setContentText("Select:");
@@ -239,8 +238,7 @@ public class MainWindowController {
         projectNameInputDialog.setHeaderText("Enter a project name");
 
         // disable empty project name
-        projectNameInputDialog.getDialogPane().lookupButton(ButtonType.OK).disableProperty()
-                .bind(projectNameInputDialog.getEditor().textProperty().isEmpty());
+        projectNameInputDialog.getDialogPane().lookupButton(ButtonType.OK).disableProperty().bind(projectNameInputDialog.getEditor().textProperty().isEmpty());
 
         projectNameInputDialog.showAndWait();
 
@@ -258,18 +256,18 @@ public class MainWindowController {
             xmlParserService.parseXml(useCaseDiagram, file);
         } catch (Exception e) {
             e.printStackTrace();
-            showErrorMessage(e.getMessage());
+            showErrorMessage("Error during adding image", e.getMessage());
             return;
         }
 
         load(project);
     }
 
-    private void showErrorMessage(String message) {
+    private void showErrorMessage(String headerText, String contentText) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
-        alert.setHeaderText("Error during adding image");
-        alert.setContentText(message);
+        alert.setHeaderText(headerText);
+        alert.setContentText(contentText);
         alert.showAndWait();
     }
 
@@ -285,8 +283,7 @@ public class MainWindowController {
     public void codeGenerationPanelVisibilityButtonClicked() {
         if (project != null) {
             project.setCodeGenerationPanelVisible(codeGenerationPanelVisibilityButton.isSelected());
-            generateCodePanelController.generateCodePanelRoot.setVisible(
-                    codeGenerationPanelVisibilityButton.isSelected());
+            generateCodePanelController.generateCodePanelRoot.setVisible(codeGenerationPanelVisibilityButton.isSelected());
         } else {
             codeGenerationPanelVisibilityButton.setSelected(false);
         }
