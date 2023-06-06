@@ -1,0 +1,11 @@
+version 0.2
+  - Used a  balanced binary tree for long buckets, to have
+  O(log N) amortized worst case guarantee for the add, mem and
+  remove operations; v_occ is not anymore a bitvector, but an array
+  of the sizes of the buckets, to control when to switch from a list 
+  to a tree.
+  - Added unit testing
+    
+
+version 0.1
+  first release
