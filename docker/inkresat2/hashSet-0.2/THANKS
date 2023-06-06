@@ -1,3 +1,0 @@
-I thank Jean-Christophe Filliâtre for suggesting me to
-switch from sorted lists to balanced binary trees when the
-buckets become long, to improve performance in the worst case.
