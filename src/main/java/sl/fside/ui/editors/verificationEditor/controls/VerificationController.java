@@ -1,24 +1,35 @@
 package sl.fside.ui.editors.verificationEditor.controls;
 
-import com.google.inject.*;
-import javafx.fxml.*;
-import javafx.scene.*;
-import javafx.scene.control.*;
+import com.google.inject.Inject;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.*;
-import javafx.util.*;
-import org.apache.commons.lang3.*;
-import sl.fside.model.*;
-import sl.fside.services.*;
-import sl.fside.services.docker_service.*;
-import sl.fside.ui.*;
+import javafx.util.Pair;
+import sl.fside.model.Scenario;
+import sl.fside.model.Verification;
+import sl.fside.services.LoggerService;
+import sl.fside.services.docker_service.DockerService;
+import sl.fside.ui.MainWindowController;
 
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
-import java.util.function.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Function;
 
 
 public class VerificationController {
@@ -126,7 +137,10 @@ public class VerificationController {
                     Path inputFilePath = createSpassInput();
                     dockerService.executeSpassCommand(inputFilePath);
                 }
-                case "InKreSAT" -> throw new NotImplementedException("InKreSAT not implemented");
+                case "InKreSAT" -> {
+                    Path inputFilePath = createInkresatInput();
+                    dockerService.executeInkresatCommand(inputFilePath);
+                }
                 default -> throw new Exception("Unknown prover name: " + verification.getProver());
             }
         } catch (Exception e) {
@@ -269,6 +283,23 @@ public class VerificationController {
                                 
                 end_problem.
                                 
+                """);
+//            writer.write(verification.getContent());
+        writer.flush();
+        return inputFilePath;
+    }
+
+    private Path createInkresatInput() throws Exception {
+        // Create the folder path
+        String folderPath = "prover_input/";
+        checkIfFolderExists(folderPath);
+        Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
+                "_input.txt");
+        BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
+        writer.write("""
+                begin
+                [](~[]<>p | ~[](~p | []q))
+                end
                 """);
 //            writer.write(verification.getContent());
         writer.flush();
