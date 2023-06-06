@@ -1,5 +1,5 @@
 INCLUDES= -I . -I $(HSETSRC) 
-OPTIONS=  -unsafe -inline 100 $(INCLUDES) -package extlib
+OPTIONS = -unsafe -inline 100 $(INCLUDES) -package extlib
 OCAMLC=ocamlfind ocamlopt $(OPTIONS)
 OCAMLDEP=ocamldep $(INCLUDES)
 OCAMLLEX = ocamllex
@@ -64,7 +64,7 @@ $(EXEC): $$(OBJS_$$@)
 preprocessor.cmo: lexer.ml
 
 minisat_if.o: $(MINISATSRC)/core/Solver.o $(MINISATSRC)/simp/SimpSolver.o minisat_if.cc
-	g++ -c -I$(MINISATSRC) -I`ocamlc -where` -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS minisat_if.cc -o minisat_if.o -fPIC
+	g++ -c -I$(MINISATSRC) -I`ocamlc -where` -D __STDC_LIMIT_MACROS -D __STDC_FORMAT_MACROS minisat_if.cc -o minisat_if.o -fPIC -fpermissive
 
 minisat.cmxa: $(MINISATSRC)/core/Solver.o $(MINISATSRC)/simp/SimpSolver.o minisat_if.o  minisat.cmi minisat.cmx
 	ocamlmklib -o minisat $(MINISATSRC)/core/Solver.o $(MINISATSRC)/simp/SimpSolver.o minisat_if.o

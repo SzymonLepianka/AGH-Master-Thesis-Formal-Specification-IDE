@@ -41,10 +41,10 @@ libd:	lib$(LIB)_debug.a
 libr:	lib$(LIB)_release.a
 
 ## Compile options
-%.o:			CFLAGS +=$(COPTIMIZE) -g -D DEBUG
-%.op:			CFLAGS +=$(COPTIMIZE) -pg -g -D NDEBUG
-%.od:			CFLAGS +=-O0 -g -D DEBUG
-%.or:			CFLAGS +=$(COPTIMIZE) -g -D NDEBUG
+%.o:			CFLAGS += $(COPTIMIZE) -g -D DEBUG -fpermissive -fPIC
+%.op:			CFLAGS += $(COPTIMIZE) -pg -g -D NDEBUG -fpermissive -fPIC
+%.od:			CFLAGS += -O0 -g -D DEBUG -fpermissive -fPIC
+%.or:			CFLAGS += $(COPTIMIZE) -g -D NDEBUG -fpermissive -fPIC
 
 ## Link options
 $(EXEC):		LFLAGS += -g
