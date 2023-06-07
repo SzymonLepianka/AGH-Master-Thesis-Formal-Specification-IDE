@@ -13,8 +13,10 @@
             prefWidth="95.0" text="Send to Prover" onAction="#sendToProverButtonClicked"/>
     <ComboBox fx:id="proverComboBox" layoutX="170.0" layoutY="55.0" prefHeight="15.0" prefWidth="130.0"
               promptText="Choose Prover" onAction="#onChooseProverComboBoxClicked"/>
-    <Button fx:id="showResultButton" layoutX="5.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
-            prefWidth="145.0" text="Show result" onAction="#showResultButtonClicked"/>
-    <Button fx:id="showLogsButton" layoutX="155.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
-            prefWidth="145.0" text="Show logs" onAction="#showLogsButtonClicked"/>
+    <Button fx:id="showInputButton" layoutX="5.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="95.0" text="Show input" onAction="#showInputButtonClicked"/>
+    <Button fx:id="showResultButton" layoutX="105.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="95.0" text="Show result" onAction="#showResultButtonClicked"/>
+    <Button fx:id="showLogsButton" layoutX="205.0" layoutY="85.0" mnemonicParsing="false" prefHeight="25.0"
+            prefWidth="95.0" text="Show logs" onAction="#showLogsButtonClicked"/>
 </AnchorPane>

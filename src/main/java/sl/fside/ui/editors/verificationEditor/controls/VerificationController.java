@@ -47,6 +47,8 @@ public class VerificationController {
     @FXML
     public ComboBox<String> proverComboBox;
     @FXML
+    public Button showInputButton;
+    @FXML
     public Button showResultButton;
     @FXML
     public Button showLogsButton;
@@ -125,7 +127,6 @@ public class VerificationController {
             showErrorMessage("Error during sending to prover!", "Content not set!");
             return;
         }
-
 
         try {
             switch (verification.getProver()) {
@@ -319,12 +320,41 @@ public class VerificationController {
     }
 
     @FXML
+    public void showInputButtonClicked() {
+
+        if (verification.getProver() == null) {
+            showErrorMessage("Error showing prover input!", "Prover not set!");
+            return;
+        }
+        if (verification.getContent() == null) {
+            showErrorMessage("Error showing prover input!", "Content not set!");
+            return;
+        }
+
+        Path inputFilePath;
+        try {
+            switch (verification.getProver()) {
+                case "Prover9" -> inputFilePath = createProver9Input();
+                case "SPASS" -> inputFilePath = createSpassInput();
+                case "InKreSAT" -> inputFilePath = createInkresatInput();
+                default -> throw new Exception("Unknown prover name: " + verification.getProver());
+            }
+            showProverData(inputFilePath, "Input", "Prover input saved to: " + inputFilePath);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showErrorMessage("Error showing prover input!", e.getMessage());
+            return;
+        }
+        loggerService.logInfo("VerificationResult window opened");
+    }
+
+    @FXML
     public void showResultButtonClicked() {
         Path outputFilePath =
                 Path.of("prover_output/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
                         "_output.txt");
         try {
-            showProverResult(outputFilePath);
+            showProverData(outputFilePath, "Result", "Output saved to: " + outputFilePath);
         } catch (Exception e) {
             e.printStackTrace();
             showErrorMessage("Error during showing result!", e.getMessage());
@@ -339,7 +369,7 @@ public class VerificationController {
                 Path.of("prover_logs/" + verification.getId() + "_" + verification.getProver().toLowerCase() +
                         "_logs.txt");
         try {
-            showProverResult(logsFilePath);
+            showProverData(logsFilePath, "Logs", "Logs saved to: " + logsFilePath);
         } catch (Exception e) {
             e.printStackTrace();
             showErrorMessage("Error during showing result!", e.getMessage());
@@ -366,12 +396,12 @@ public class VerificationController {
         stage.initModality(Modality.APPLICATION_MODAL);
 
         stage.setScene(scene);
-        stage.setTitle("Formal Specification IDE - VerificationResult - " + verification.getProver());
+        stage.setTitle("Formal Specification IDE - Verification " + type + " - " + verification.getProver());
 
         stage.show();
 
         final VerificationResultController controller = loader.getController();
-        controller.setVerificationResult(fileContent, filePath);
+        controller.setVerificationResult(fileContent, title);
     }
 
     private void showErrorMessage(String headerText, String contentText) {
@@ -381,5 +411,4 @@ public class VerificationController {
         alert.setContentText(contentText);
         alert.showAndWait();
     }
-
 }

@@ -1,13 +1,12 @@
 package sl.fside.ui.editors.verificationEditor.controls;
 
-import javafx.fxml.*;
-import javafx.scene.control.*;
+import javafx.fxml.FXML;
+import javafx.scene.control.TitledPane;
 import javafx.scene.layout.*;
-import javafx.scene.paint.*;
-import org.fxmisc.flowless.*;
-import org.fxmisc.richtext.*;
-
-import java.nio.file.*;
+import javafx.scene.paint.Color;
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
 
 public class VerificationResultController {
     @FXML
@@ -27,9 +26,9 @@ public class VerificationResultController {
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
     }
 
-    public void setVerificationResult(String outputContent, Path outputFilePath) {
+    public void setVerificationResult(String outputContent, String title) {
         codeArea.clear();
         codeArea.appendText(outputContent);
-        titledPane.setText("Output saved to: " + outputFilePath.toString());
+        titledPane.setText(title);
     }
 }
