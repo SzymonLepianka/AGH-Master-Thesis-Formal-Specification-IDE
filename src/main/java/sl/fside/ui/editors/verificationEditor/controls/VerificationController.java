@@ -87,6 +87,9 @@ public class VerificationController {
             proverComboBox.setDisable(true);
             showResultButton.setDisable(false);
             showLogsButton.setDisable(false);
+        } else {
+            showResultButton.setDisable(true);
+            showLogsButton.setDisable(true);
         }
     }
 
