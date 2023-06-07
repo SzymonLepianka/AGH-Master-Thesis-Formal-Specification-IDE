@@ -297,12 +297,19 @@ public class VerificationController {
         Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
-        writer.write("""
-                begin
-                [](~[]<>p | ~[](~p | []q))
-                end
-                """);
 //            writer.write(verification.getContent());
+//        writer.write("""
+//                begin
+//                [](~[]<>p | ~[](~p | []q))
+//                end
+//                """);
+//        writer.write("""
+//                begin
+//                <>(arg0)
+//                & [](arg0 -> <>(arg1))
+//                & [](~(arg0 & arg1))
+//                end
+//                """);
         writer.flush();
         return inputFilePath;
     }
