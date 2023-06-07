@@ -291,13 +291,32 @@ public class VerificationController {
     }
 
     private Path createInkresatInput() throws Exception {
+
+        Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
+        if (scenario == null) {
+            throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
+        }
+        String ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
+        if (ltlLogicalSpecification == null) {
+            throw new Exception("LTL Logical Specification was not generated");
+        }
+
+        List<String> convertedFormulas = changeFolToInkresatSyntax(ltlLogicalSpecification);
+        StringBuilder proverInput = new StringBuilder();
+        proverInput.append("begin\n");
+        for (String convertedFormula : convertedFormulas) {
+            proverInput.append(convertedFormula);
+            proverInput.append("\n& ");
+        }
+        proverInput.delete(proverInput.length() - 2, proverInput.length());
+        proverInput.append("end\n");
+
         // Create the folder path
         String folderPath = "prover_input/";
         checkIfFolderExists(folderPath);
         Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
-//            writer.write(verification.getContent());
 //        writer.write("""
 //                begin
 //                [](~[]<>p | ~[](~p | []q))
@@ -310,8 +329,27 @@ public class VerificationController {
 //                & [](~(arg0 & arg1))
 //                end
 //                """);
+        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
+    }
+
+    private List<String> changeFolToInkresatSyntax(String ltlLogicalSpecification) {
+        ltlLogicalSpecification = ltlLogicalSpecification.substring(0,
+                ltlLogicalSpecification.length() - 1); // Remove the last character (comma)
+        ltlLogicalSpecification = ltlLogicalSpecification.replace(" ", ""); // remove spaces
+        List<String> formulas = Arrays.stream(ltlLogicalSpecification.split(",")).toList();
+        List<String> results = new ArrayList<>();
+        for (String formula : formulas) {
+            String newResult = formula;
+            newResult = newResult.replace("ForAll", "[]");
+            newResult = newResult.replace("Exist", "<>");
+            newResult = newResult.replace("=>", " -> ");
+            newResult = newResult.replace("^", " & ");
+            newResult = newResult.replace("|", " | ");
+            results.add(newResult);
+        }
+        return results;
     }
 
     private void checkIfFolderExists(String folderPath) throws Exception {
@@ -385,7 +423,7 @@ public class VerificationController {
         loggerService.logInfo("VerificationResult window opened");
     }
 
-    private void showProverResult(Path filePath) throws Exception {
+    private void showProverData(Path filePath, String type, String title) throws Exception {
         String fileContent = Files.readString(filePath);
 
         var stage = new Stage();
