@@ -36,8 +36,8 @@
       "arg1 | arg2",
       "Exist(arg0)",
       "ForAll(arg0 => (Exist(arg1) ^ ~(Exist(arg2)) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg0 => Exist(arg2))",
+      "ForAll(arg0Plus => Exist(arg1))",
+      "ForAll(arg0Minus => Exist(arg2))",
       "ForAll(~(arg0 ^ arg1))",
       "ForAll(~(arg0 ^ arg2))"
     ]
@@ -84,8 +84,8 @@
       "arg3",
       "Exist(arg0)",
       "ForAll(arg0 => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg0 => Exist(arg2))",
+      "ForAll(arg0Plus => Exist(arg1))",
+      "ForAll(arg0Minus => Exist(arg2))",
       "ForAll(arg1 | arg2 => Exist(arg3))",
       "ForAll(~(arg0 ^ (arg1 | arg2)))",
       "ForAll(~((arg1 | arg2) ^ arg3))"
