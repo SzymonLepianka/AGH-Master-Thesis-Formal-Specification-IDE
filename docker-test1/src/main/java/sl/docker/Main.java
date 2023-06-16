@@ -16,7 +16,7 @@ public class Main {
 
         // Build an image using the Dockerfile
         String dockerfilePath = "../docker/Dockerfile";
-        String imageTagName = "docker-image-prover9";
+        String imageTagName = "docker-image-for-provers";
         String imageBuildResponse = dockerClient.buildImageCmd().withDockerfile(new File(dockerfilePath))
                 .withTags(Collections.singleton(imageTagName)).exec(new BuildImageResultCallback()).awaitImageId();
 

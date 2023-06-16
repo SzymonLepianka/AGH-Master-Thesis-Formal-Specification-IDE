@@ -28,7 +28,7 @@ public class DockerService {
     private final LoggerService loggerService;
     private final String DOCKER_HOST = "tcp://localhost:2375";
     private final String CONTAINER_NAME = "my-container";
-    private final String IMAGE_TAG_NAME = "docker-image-prover9";
+    private final String IMAGE_TAG_NAME = "docker-image-for-provers";
     private final String DOCKERFILE_PATH = "docker/Dockerfile";
     private DockerClient dockerClient;
 
