@@ -156,6 +156,7 @@ public class GenerateCodePanelController {
             return;
         }
         try {
+            checkIfGeneratedCodeFolderExists();
             String javaPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(), "Java");
             String javaCode = genJava(javaPE, UUID.randomUUID().toString());
@@ -180,6 +181,7 @@ public class GenerateCodePanelController {
             return;
         }
         try {
+            checkIfGeneratedCodeFolderExists();
             String pythonPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(),
                             "Python");
@@ -189,6 +191,18 @@ public class GenerateCodePanelController {
         } catch (Exception e) {
             e.printStackTrace();
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void checkIfGeneratedCodeFolderExists() throws Exception {
+        // Create generated_code folder if it doesn't exist
+        File generatedCodeFolder = new File("generated_code/");
+        if (!generatedCodeFolder.exists()) {
+            boolean created = generatedCodeFolder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder generated_code/");
+            }
         }
     }
 
