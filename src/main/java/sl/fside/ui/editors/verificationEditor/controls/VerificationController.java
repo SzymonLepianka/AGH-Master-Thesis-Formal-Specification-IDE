@@ -14,6 +14,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import sl.fside.model.Requirement;
 import sl.fside.model.Scenario;
 import sl.fside.model.Verification;
 import sl.fside.services.LoggerService;
@@ -301,20 +302,40 @@ public class VerificationController {
         if (scenario == null) {
             throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
         }
-        String ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
-        if (ltlLogicalSpecification == null) {
-            throw new Exception("LTL Logical Specification was not generated");
-        }
 
-        List<String> convertedFormulas = changeFolToInkresatSyntax(ltlLogicalSpecification);
+        String content = verification.getContent().replace(" ", ""); // remove spaces form content
+        List<String> elements = Arrays.stream(content.split("=>")).toList(); // TODO add others delimiters
+        ArrayList<String> formulas = new ArrayList<>();
+        for (String element : elements) {
+            if (element.equals("LTL")) {
+                String ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
+                if (ltlLogicalSpecification == null) {
+                    throw new Exception("LTL Logical Specification was not generated");
+                }
+                ltlLogicalSpecification = ltlLogicalSpecification.substring(0,
+                        ltlLogicalSpecification.length() - 1); // Remove the last character (comma)
+                ltlLogicalSpecification = ltlLogicalSpecification.replace(" ", ""); // remove spaces
+                List<String> ltlFormulas = Arrays.stream(ltlLogicalSpecification.split(",")).toList();
+                formulas.addAll(ltlFormulas);
+            } else {
+                Requirement requirement = scenario.getRequirements().stream()
+                        .filter(r -> r.getName().equals(element) && r.getLogic().equals("Linear Temporal Logic"))
+                        .findFirst().orElseThrow(() -> new Exception("Unknown requirement '" + element + "' for LTL!"));
+                formulas.add(requirement.getContent());
+            }
+        }
+        List<String> convertedFormulas = changeLtlToInkresatSyntax(formulas);
         StringBuilder proverInput = new StringBuilder();
         proverInput.append("begin\n");
         for (String convertedFormula : convertedFormulas) {
+            System.out.println(convertedFormula);
             proverInput.append(convertedFormula);
             proverInput.append("\n& ");
         }
         proverInput.delete(proverInput.length() - 2, proverInput.length());
         proverInput.append("end\n");
+
+        System.out.println(proverInput);
 
         // Create the folder path
         String folderPath = "prover_input/";
@@ -334,18 +355,25 @@ public class VerificationController {
 //                & [](~(arg0 & arg1))
 //                end
 //                """);
+//        writer.write("""
+//                begin
+//                [](~(ui1 & ui3))
+//                & [](ui1 -> <>(ui2))
+//                & [](ui1 -> <>(ui3))
+//                & [](ui1 -> (<>(ui2) & ~(<>(ui3)) | (~(<>(ui2)) & <>(ui3)))
+//                & <>(ui1)
+//                & [](~(ui1 & ui2))
+//                end
+//                """);
         writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
     }
 
-    private List<String> changeFolToInkresatSyntax(String ltlLogicalSpecification) {
-        ltlLogicalSpecification = ltlLogicalSpecification.substring(0,
-                ltlLogicalSpecification.length() - 1); // Remove the last character (comma)
-        ltlLogicalSpecification = ltlLogicalSpecification.replace(" ", ""); // remove spaces
-        List<String> formulas = Arrays.stream(ltlLogicalSpecification.split(",")).toList();
+    private List<String> changeLtlToInkresatSyntax(List<String> formulas) {
         List<String> results = new ArrayList<>();
         for (String formula : formulas) {
+//            System.out.println(formula);
             String newResult = formula;
             newResult = newResult.replace("ForAll", "[]");
             newResult = newResult.replace("Exist", "<>");
@@ -353,6 +381,7 @@ public class VerificationController {
             newResult = newResult.replace("^", " & ");
             newResult = newResult.replace("|", " | ");
             results.add(newResult);
+//            System.out.println(newResult);
         }
         return results;
     }
