@@ -387,8 +387,9 @@ public class ActivityDiagramEditorController {
         graphEditor.getSelectionManager().getSelectedItems().addListener(selectedNodesListener);
         checkConnectorButtonsToDisable();
 
-        // hide File Menu
+        // hide File Menu and Edit Menu
         menuFile.setVisible(false);
+        menuEdit.setVisible(false);
     }
 
     /**
