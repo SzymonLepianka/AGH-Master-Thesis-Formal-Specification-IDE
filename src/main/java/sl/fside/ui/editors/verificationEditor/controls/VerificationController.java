@@ -83,6 +83,7 @@ public class VerificationController {
         // ustawia możliwość wyświetlenia wyniku
         if (verification.isResultGenerated()) {
             sendToProverButton.setText("Sent!");
+            textArea.setDisable(true);
             sendToProverButton.setDisable(true);
             proverComboBox.setDisable(true);
             showResultButton.setDisable(false);
@@ -155,6 +156,7 @@ public class VerificationController {
 
         verification.setResultGenerated(true);
         sendToProverButton.setText("Sent!");
+        textArea.setDisable(true);
         sendToProverButton.setDisable(true);
         proverComboBox.setDisable(true);
         showResultButton.setDisable(false);
