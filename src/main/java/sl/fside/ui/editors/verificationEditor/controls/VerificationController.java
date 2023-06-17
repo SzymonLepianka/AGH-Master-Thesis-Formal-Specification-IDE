@@ -1,36 +1,23 @@
 package sl.fside.ui.editors.verificationEditor.controls;
 
-import com.google.inject.Inject;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextArea;
+import com.google.inject.*;
+import javafx.fxml.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
+import javafx.scene.paint.*;
 import javafx.stage.Stage;
-import javafx.util.Pair;
-import sl.fside.model.Requirement;
-import sl.fside.model.Scenario;
-import sl.fside.model.Verification;
-import sl.fside.services.LoggerService;
-import sl.fside.services.docker_service.DockerService;
-import sl.fside.ui.MainWindowController;
+import javafx.stage.*;
+import javafx.util.*;
+import sl.fside.model.*;
+import sl.fside.services.*;
+import sl.fside.services.docker_service.*;
+import sl.fside.ui.*;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.function.Function;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.function.*;
 
 
 public class VerificationController {
@@ -298,11 +285,13 @@ public class VerificationController {
 
     private Path createInkresatInput() throws Exception {
 
+        // kontrola czy na pewno jest wybrany scenariusz
         Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
         if (scenario == null) {
             throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
         }
 
+        // stwórz formuły na podstawie verificationContent
         String content = verification.getContent().replace(" ", ""); // remove spaces form content
         List<String> elements = Arrays.stream(content.split("=>")).toList(); // TODO add others delimiters
         ArrayList<String> formulas = new ArrayList<>();
@@ -318,9 +307,23 @@ public class VerificationController {
                 List<String> ltlFormulas = Arrays.stream(ltlLogicalSpecification.split(",")).toList();
                 formulas.addAll(ltlFormulas);
             } else {
-                Requirement requirement = scenario.getRequirements().stream()
-                        .filter(r -> r.getName().equals(element) && r.getLogic().equals("Linear Temporal Logic"))
-                        .findFirst().orElseThrow(() -> new Exception("Unknown requirement '" + element + "' for LTL!"));
+
+                // weź wszystkie Requirements z LTL i niepustą treścią
+                List<Requirement> ltlRequirements = scenario.getRequirements().stream()
+                        .filter(r -> r.getLogic() != null && r.getLogic().equals("Linear Temporal Logic") &&
+                                r.getContent() != null && !r.getContent().isEmpty()).toList();
+                Requirement requirement = ltlRequirements.stream().filter(r -> r.getName().equals(element)).findFirst()
+                        .orElseThrow(() -> {
+                            StringBuilder errorMsg = new StringBuilder(
+                                    "Unknown requirement '" + element + "' for LTL! Available:\n- 'LTL'\n");
+                            if (!ltlRequirements.isEmpty()) {
+                                for (Requirement r : ltlRequirements) {
+                                    errorMsg.append("- '").append(r.getName()).append("'\n");
+                                }
+                            }
+                            errorMsg.append("- '=>'");
+                            return new Exception(errorMsg.toString());
+                        });
                 formulas.add(requirement.getContent());
             }
         }
@@ -334,8 +337,6 @@ public class VerificationController {
         }
         proverInput.delete(proverInput.length() - 2, proverInput.length());
         proverInput.append("end\n");
-
-        System.out.println(proverInput);
 
         // Create the folder path
         String folderPath = "prover_input/";
@@ -373,7 +374,6 @@ public class VerificationController {
     private List<String> changeLtlToInkresatSyntax(List<String> formulas) {
         List<String> results = new ArrayList<>();
         for (String formula : formulas) {
-//            System.out.println(formula);
             String newResult = formula;
             newResult = newResult.replace("ForAll", "[]");
             newResult = newResult.replace("Exist", "<>");
@@ -381,7 +381,6 @@ public class VerificationController {
             newResult = newResult.replace("^", " & ");
             newResult = newResult.replace("|", " | ");
             results.add(newResult);
-//            System.out.println(newResult);
         }
         return results;
     }
