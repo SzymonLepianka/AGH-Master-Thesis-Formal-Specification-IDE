@@ -111,6 +111,10 @@ public class VerificationController {
 
     @FXML
     public void sendToProverButtonClicked() {
+        if (mainWindowController.resultsPanelController.getCurrentScenario() == null) {
+            showErrorMessage("Error during sending to prover!", "Scenario is null! Nigdy nie powinien się tu znaleźć!");
+            return;
+        }
         if (verification.getProver() == null) {
             showErrorMessage("Error during sending to prover!", "Prover not set!");
             return;
@@ -153,24 +157,17 @@ public class VerificationController {
 
     private Path createProver9Input() throws Exception {
 
-        Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
-        if (scenario == null) {
-            throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
-        }
-        String folLogicalSpecification = scenario.getFolLogicalSpecification();
-        if (folLogicalSpecification == null) {
-            throw new Exception("FOL Logical Specification was not generated");
-        }
-
-        List<String> convertedFormulas = changeFolToProver9Syntax(folLogicalSpecification);
-        StringBuilder proverInput = new StringBuilder();
-        proverInput.append("formulas(sos).\n  ");
-        for (String convertedFormula : convertedFormulas) {
-            proverInput.append(convertedFormula);
-            proverInput.append(".\n  ");
-        }
-        proverInput.delete(proverInput.length() - 2, proverInput.length());
-        proverInput.append("end_of_list.\n");
+        // TODO fix converting FOL to Prover9 syntax (compare to InKreSAT)
+//        List<String> convertedFormulas = changeFolToProver9Syntax(folLogicalSpecification);
+//        StringBuilder proverInput = new StringBuilder();
+//        proverInput.append("formulas(sos).\n  ");
+//        for (String convertedFormula : convertedFormulas) {
+//            proverInput.append(convertedFormula);
+//            proverInput.append(".\n  ");
+//        }
+//        proverInput.delete(proverInput.length() - 2, proverInput.length());
+//        proverInput.append("end_of_list.\n");
+        showWarningMessage("Conversion to Prover9 syntax not implemented. A placeholder will be used.");
 
         // Create the folder path
         String folderPath = "prover_input/";
@@ -178,13 +175,13 @@ public class VerificationController {
         Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
-//        writer.write("""
-//                formulas(sos).
-//                  exists x (arg0(x)).
-//                  all x (arg0(x) -> exists y (arg1(y))).
-//                  all x all y (-(arg0(x) & arg1(y))).
-//                end_of_list.
-//                """);
+        writer.write("""
+                formulas(sos).
+                  exists x (arg0(x)).
+                  all x (arg0(x) -> exists y (arg1(y))).
+                  all x all y (-(arg0(x) & arg1(y))).
+                end_of_list.
+                """);
 //        writer.write("""
 //                formulas(sos).
 //                  exists x (arg0(x)).
@@ -193,13 +190,13 @@ public class VerificationController {
 //                  all x all y all z (-(arg0(x) & arg2(z))).
 //                end_of_list.
 //                """);
-        writer.write("""
-                formulas(sos).
-                  all x1 (card1(x1) -> exists x2 (card2(x2))).
-                  exists x1 (card1(x1)).
-                  all x1 all x2( -(card1(x1) & card2(x2))).
-                end_of_list.
-                """);
+//        writer.write("""
+//                formulas(sos).
+//                  all x1 (card1(x1) -> exists x2 (card2(x2))).
+//                  exists x1 (card1(x1)).
+//                  all x1 all x2( -(card1(x1) & card2(x2))).
+//                end_of_list.
+//                """);
 //        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
@@ -249,6 +246,10 @@ public class VerificationController {
     }
 
     private Path createSpassInput() throws Exception {
+
+        // TODO add converting FOL to SPASS syntax (compare to InKreSAT)
+        showWarningMessage("Conversion to SPASS syntax not implemented. A placeholder will be used.");
+
         // Create the folder path
         String folderPath = "prover_input/";
         checkIfFolderExists(folderPath);
@@ -284,12 +285,7 @@ public class VerificationController {
     }
 
     private Path createInkresatInput() throws Exception {
-
-        // kontrola czy na pewno jest wybrany scenariusz
         Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
-        if (scenario == null) {
-            throw new Exception("Scenario is null! Nigdy nie powinien się tu znaleźć!");
-        }
 
         // stwórz formuły na podstawie verificationContent
         String content = verification.getContent().replace(" ", ""); // remove spaces form content
@@ -331,7 +327,6 @@ public class VerificationController {
         StringBuilder proverInput = new StringBuilder();
         proverInput.append("begin\n");
         for (String convertedFormula : convertedFormulas) {
-            System.out.println(convertedFormula);
             proverInput.append(convertedFormula);
             proverInput.append("\n& ");
         }
@@ -480,6 +475,14 @@ public class VerificationController {
 
         final VerificationResultController controller = loader.getController();
         controller.setVerificationResult(fileContent, title);
+    }
+
+    private void showWarningMessage(String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Formal Specification IDE");
+        alert.setHeaderText("Warning");
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     private void showErrorMessage(String headerText, String contentText) {
