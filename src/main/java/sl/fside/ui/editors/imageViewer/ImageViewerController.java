@@ -226,7 +226,7 @@ public class ImageViewerController {
         imageViewerAnchorPane.getChildren().clear();
         project.removeImage();
 
-        // hide add-button and show remove-button
+        // hide remove-button and show add-button
         removeButton.setVisible(false);
         addButton.setVisible(true);
 
@@ -255,6 +255,7 @@ public class ImageViewerController {
             // show add-button and remove remove-button
             addButton.setVisible(true);
             removeButton.setVisible(false);
+            imageViewerAnchorPane.getChildren().clear();
             loggerService.logInfo("Project (" + project.getProjectId() + ") has no image");
         }
     }
