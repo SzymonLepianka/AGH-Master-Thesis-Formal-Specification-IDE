@@ -312,8 +312,8 @@ public class ActivityDiagramPanelController {
         alert.showAndWait();
     }
 
-    private void replaceSpecificPeIfGeneralPeChanged(PatternExpression newGeneralPe, String newFolSpecification,
-                                                     String newLtlSpecification) {
+    private void replaceSpecificPeIfGeneralPeChanged(PatternExpression newGeneralPe, List<String> newFolSpecification,
+                                                     List<String> newLtlSpecification) {
         if (scenario.isMainScenario()) { // TODO tylko dla głównego scenariusza?
             UseCaseDiagram useCaseDiagram = mainWindowController.getCurrentProject().getUseCaseDiagram();
             UseCase generalUseCase = mainWindowController.useCaseSelectorEditorController.getCurrentlySelectedUseCase();

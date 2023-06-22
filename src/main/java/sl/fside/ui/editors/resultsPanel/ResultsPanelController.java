@@ -67,8 +67,8 @@ public class ResultsPanelController {
     public void showResults() {
         if (scenario.getPatternExpression() != null) {
             patternExpressionTextArea.setText(scenario.getPatternExpression().getPeWithProcessedNesting());
-            folTextArea.setText(scenario.getFolLogicalSpecification());
-            ltlTextArea.setText(scenario.getLtlLogicalSpecification());
+            folTextArea.setText(scenario.getFolLogicalSpecificationString());
+            ltlTextArea.setText(scenario.getLtlLogicalSpecificationString());
         } else {
             patternExpressionTextArea.setText("");
             folTextArea.setText("");

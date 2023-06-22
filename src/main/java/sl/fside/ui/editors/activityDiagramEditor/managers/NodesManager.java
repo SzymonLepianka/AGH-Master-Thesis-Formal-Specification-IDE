@@ -16,8 +16,8 @@ public class NodesManager {
     private final Map<Rectangle, Color> colorsOnActivityDiagram = new HashMap<>();
     private Node main;
     private PatternExpression patternExpression;
-    private String folLogicalSpecification;
-    private String ltlLogicalSpecification;
+    private List<String> folLogicalSpecification;
+    private List<String> ltlLogicalSpecification;
     private boolean wasSpecificationGenerated;
     private UseCaseDiagram currentUseCaseDiagram;
     private UseCase currentUseCase;
@@ -104,11 +104,11 @@ public class NodesManager {
         this.ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
     }
 
-    public String getFolLogicalSpecification() {
+    public List<String> getFolLogicalSpecification() {
         return folLogicalSpecification;
     }
 
-    public String getLtlLogicalSpecification() {
+    public List<String> getLtlLogicalSpecification() {
         return ltlLogicalSpecification;
     }
 

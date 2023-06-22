@@ -12,7 +12,7 @@ public class GeneratingLogicalSpecifications {
     //          - predefined pattern property set Σ (non-empty)
     // Output: logical specification L
     //
-    public static String generateLogicalSpecifications(String patternExpression, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
+    public static List<String> generateLogicalSpecifications(String patternExpression, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
         List<String> logicalSpecification = new ArrayList<>();
         String labelledExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
         int highestLabelNumber = getHighestLabel(labelledExpression);
@@ -43,13 +43,13 @@ public class GeneratingLogicalSpecifications {
         Set<String> set = new HashSet<>(logicalSpecification);
         logicalSpecification.clear();
         logicalSpecification.addAll(set);
-        String connectedString = "";
+        StringBuilder connectedString = new StringBuilder();
         System.out.println("\nWynik: ");
         for (String lValue : logicalSpecification) {
-            connectedString = connectedString + lValue + ", ";
+            connectedString.append(lValue).append(", ");
             System.out.println(lValue);
         }
-        return connectedString;
+        return logicalSpecification.stream().toList();
 
     }
 

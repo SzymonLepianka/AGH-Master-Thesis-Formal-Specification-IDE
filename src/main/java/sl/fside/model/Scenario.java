@@ -15,8 +15,8 @@ public class Scenario {
     private int maxRequirementSerialNumber = 0;
     private String content = "";
     private PatternExpression patternExpression;
-    private String folLogicalSpecification;
-    private String ltlLogicalSpecification;
+    private List<String> folLogicalSpecification;
+    private List<String> ltlLogicalSpecification;
     private boolean isMainScenario;
     private String scenarioName;
 
@@ -52,20 +52,44 @@ public class Scenario {
         this.scenarioName = scenarioName;
     }
 
-    public String getFolLogicalSpecification() {
+    public List<String> getFolLogicalSpecification() {
         return folLogicalSpecification;
     }
 
-    public void setFolLogicalSpecification(String folLogicalSpecification) {
+    public void setFolLogicalSpecification(List<String> folLogicalSpecification) {
         this.folLogicalSpecification = folLogicalSpecification;
     }
 
-    public String getLtlLogicalSpecification() {
+    public String getFolLogicalSpecificationString() {
+        if (folLogicalSpecification == null || folLogicalSpecification.isEmpty()) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String formula : folLogicalSpecification) {
+            sb.append(formula);
+            sb.append(", ");
+        }
+        return sb.toString();
+    }
+
+    public List<String> getLtlLogicalSpecification() {
         return ltlLogicalSpecification;
     }
 
-    public void setLtlLogicalSpecification(String ltlLogicalSpecification) {
+    public void setLtlLogicalSpecification(List<String> ltlLogicalSpecification) {
         this.ltlLogicalSpecification = ltlLogicalSpecification;
+    }
+
+    public String getLtlLogicalSpecificationString() {
+        if (ltlLogicalSpecification == null || ltlLogicalSpecification.isEmpty()) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (String formula : ltlLogicalSpecification) {
+            sb.append(formula);
+            sb.append(", ");
+        }
+        return sb.toString();
     }
 
     public void addAtomicActivity(AtomicActivity atomicActivity) {
