@@ -128,8 +128,9 @@ public class VerificationController {
         try {
             switch (verification.getProver()) {
                 case "Prover9" -> {
-                    Path inputFilePath = createProver9Input();
-                    dockerService.executeProver9Command(inputFilePath);
+                    Path inputFilePath = createSpassInput();
+                    Path convertedInputFilePath = dockerService.convertInputFromSpassToProver9(inputFilePath);
+                    dockerService.executeProver9Command(convertedInputFilePath);
                 }
                 case "SPASS" -> {
                     Path inputFilePath = createSpassInput();
@@ -189,13 +190,6 @@ public class VerificationController {
 //                  all x all y all z (arg0(x) -> exists y (arg1(y)) & exists z (arg2(z))).
 //                  all x all y all z (-(arg0(x) & arg1(y))).
 //                  all x all y all z (-(arg0(x) & arg2(z))).
-//                end_of_list.
-//                """);
-//        writer.write("""
-//                formulas(sos).
-//                  all x1 (card1(x1) -> exists x2 (card2(x2))).
-//                  exists x1 (card1(x1)).
-//                  all x1 all x2( -(card1(x1) & card2(x2))).
 //                end_of_list.
 //                """);
 //        writer.write(proverInput.toString());
@@ -326,7 +320,8 @@ public class VerificationController {
         proverInput.append("predicates[(");
 
         for (String atomicActivity : allAtomicActivities) {
-            if (!atomicActivity.contains("<")) { // nie dodawaj aktywności związanych z relacjami, np. <<include>>create_order
+            if (!atomicActivity.contains(
+                    "<")) { // nie dodawaj aktywności związanych z relacjami, np. <<include>>create_order
                 proverInput.append(atomicActivity);
                 proverInput.append(", 1), (");
                 proverInput.append(atomicActivity).append("Plus");
@@ -571,7 +566,10 @@ public class VerificationController {
         Path inputFilePath;
         try {
             switch (verification.getProver()) {
-                case "Prover9" -> inputFilePath = createProver9Input();
+                case "Prover9" -> {
+                    Path spassInputFilePath = createSpassInput();
+                    inputFilePath = dockerService.convertInputFromSpassToProver9(spassInputFilePath);
+                }
                 case "SPASS" -> inputFilePath = createSpassInput();
                 case "InKreSAT" -> inputFilePath = createInkresatInput();
                 default -> throw new Exception("Unknown prover name: " + verification.getProver());
