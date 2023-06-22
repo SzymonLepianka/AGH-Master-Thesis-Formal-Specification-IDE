@@ -4,9 +4,9 @@
     "rules": [
       "arg0",
       "arg1",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
+      "exists([T], arg0(T))",
+      "forall([T], implies(arg0(T), exists([U], arg1(U))))",
+      "forall([T], not(and(arg0(T), arg1(T))))"
     ]
   },
   "SeqSeq": {
