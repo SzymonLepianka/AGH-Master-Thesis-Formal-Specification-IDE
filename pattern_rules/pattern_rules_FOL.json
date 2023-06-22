@@ -34,12 +34,12 @@
     "rules": [
       "arg0",
       "arg1 | arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => (Exist(arg1) ^ ~(Exist(arg2)) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg0 => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg1))",
-      "ForAll(~(arg0 ^ arg2))"
+      "exists([U], arg0(U))",
+      "forall([U], implies(arg0(U), or(and(exists([V], arg1(V)), not(exists([W], arg2(W)))), and(not(exists([V], arg1(V))), exists([W], arg2(W))))))",
+      "forall([U], implies(arg0Plus(U), exists([V], arg1(V))))",
+      "forall([U], implies(arg0Minus(U), exists([V], arg2(V))))",
+      "forall([U], not(and(arg0(U), arg1(U))))",
+      "forall([U], not(and(arg0(U), arg2(U))))"
     ]
   },
   "BranchRe": {

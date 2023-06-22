@@ -317,6 +317,10 @@ public class VerificationController {
         for (AtomicActivity atomicActivity : atomicActivities) {
             proverInput.append(atomicActivity.getContent());
             proverInput.append(", 1), (");
+            proverInput.append(atomicActivity.getContent()).append("Plus");
+            proverInput.append(", 1), (");
+            proverInput.append(atomicActivity.getContent()).append("Minus");
+            proverInput.append(", 1), (");
         }
         proverInput.deleteCharAt(proverInput.length() - 1);
         proverInput.deleteCharAt(proverInput.length() - 1);
