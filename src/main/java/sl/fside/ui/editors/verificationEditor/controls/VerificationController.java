@@ -12,6 +12,7 @@ import javafx.util.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
 import sl.fside.services.docker_service.*;
+import sl.fside.services.logic_formula_generator.*;
 import sl.fside.ui.*;
 
 import java.io.*;
@@ -341,6 +342,7 @@ public class VerificationController {
         proverInput.append("end_of_list.\n");
         proverInput.append("\n");
         proverInput.append("list_of_formulae(axioms).\n");
+        formulaAxioms = replacePipeWithOr(formulaAxioms);
         for (String axiom : formulaAxioms) {
             proverInput.append("formula(");
             proverInput.append(axiom);
@@ -513,6 +515,33 @@ public class VerificationController {
         }
 
         return new ArrayList<>(new HashSet<>(atomicActivities));
+    }
+
+
+    private List<String> replacePipeWithOr(List<String> formulas) {
+        List<String> formulasFixed = new ArrayList<>();
+        for (String formula : formulas) {
+            String[] split = formula.split("\\|");
+            if (split.length > 1) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < split.length - 1; i++) {
+                    int idx = Math.max(split[i].lastIndexOf("("), split[i].lastIndexOf(","));
+                    int idx2 = split[i + 1].indexOf("(");
+                    int idx3 = split[i + 1].indexOf(")");
+                    sb.append(split[i], 0, idx + 1);
+                    sb.append("or(");
+                    sb.append(split[i], idx + 1, split[i].length());
+                    sb.append(split[i + 1], idx2, idx3 + 1);
+                    sb.append(",");
+                    split[i + 1] = split[i + 1].substring(0, idx3 + 1) + ")" + split[i + 1].substring(idx3 + 1);
+                }
+                sb.append(split[split.length - 1]);
+                formulasFixed.add(sb.toString());
+            } else {
+                formulasFixed.add(formula);
+            }
+        }
+        return formulasFixed;
     }
 
     private void checkIfFolderExists(String folderPath) throws Exception {
