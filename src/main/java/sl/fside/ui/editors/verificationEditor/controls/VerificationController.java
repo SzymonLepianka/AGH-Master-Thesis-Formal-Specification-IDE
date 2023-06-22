@@ -247,8 +247,102 @@ public class VerificationController {
 
     private Path createSpassInput() throws Exception {
 
-        // TODO add converting FOL to SPASS syntax (compare to InKreSAT)
-        showWarningMessage("Conversion to SPASS syntax not implemented. A placeholder will be used.");
+        Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
+        List<AtomicActivity> atomicActivities = scenario.getAtomicActivities();
+
+        // stwórz formuły na podstawie verificationContent
+        String content = verification.getContent().replace(" ", ""); // remove spaces form content
+        List<String> elements = Arrays.stream(content.split("=>")).toList(); // TODO add others delimiters
+
+        // check if '=>' appears only ones
+        if (elements.size() > 2) {
+            throw new Exception("'=>' appears more than once");
+        }
+
+        List<String> formulaAxioms = new ArrayList<>();
+        List<String> formulaConjectures = new ArrayList<>();
+        for (int i = 0; i < elements.size(); i++) {
+            String element = elements.get(i);
+
+            if (element.equals("FOL")) {
+                List<String> folFormulas = scenario.getFolLogicalSpecification();
+                if (folFormulas == null) {
+                    throw new Exception("FOL Logical Specification was not generated");
+                }
+                folFormulas = folFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
+
+                if (i == 0) {
+                    formulaAxioms.addAll(folFormulas);
+                } else {
+                    formulaConjectures.addAll(folFormulas);
+                }
+            } else {
+
+                // weź wszystkie Requirements z FOL i niepustą treścią
+                List<Requirement> folRequirements = scenario.getRequirements().stream()
+                        .filter(r -> r.getLogic() != null && r.getLogic().equals("First Order Logic") &&
+                                r.getContent() != null && !r.getContent().isEmpty()).toList();
+                Requirement requirement = folRequirements.stream().filter(r -> r.getName().equals(element)).findFirst()
+                        .orElseThrow(() -> {
+                            StringBuilder errorMsg = new StringBuilder(
+                                    "Unknown requirement '" + element + "' for FOL! Available:\n- 'FOL'\n");
+                            if (!folRequirements.isEmpty()) {
+                                for (Requirement r : folRequirements) {
+                                    errorMsg.append("- '").append(r.getName()).append("'\n");
+                                }
+                            }
+                            errorMsg.append("- '=>'");
+                            return new Exception(errorMsg.toString());
+                        });
+                if (i == 0) {
+                    formulaAxioms.add(requirement.getContent());
+                } else {
+                    formulaConjectures.add(requirement.getContent());
+                }
+            }
+        }
+
+        StringBuilder proverInput = new StringBuilder();
+        proverInput.append("begin_problem(FSIDE).\n");
+        proverInput.append("\n");
+        proverInput.append("list_of_descriptions.\n");
+        proverInput.append("name({*FSIDE-name*}).\n");
+        proverInput.append("author({*SL*}).\n");
+        proverInput.append("status(unsatisfiable).\n");
+        proverInput.append("description({*SPASS test*}).\n");
+        proverInput.append("end_of_list.\n");
+        proverInput.append("\n");
+        proverInput.append("list_of_symbols.\n");
+        proverInput.append("predicates[(");
+        for (AtomicActivity atomicActivity : atomicActivities) {
+            proverInput.append(atomicActivity.getContent());
+            proverInput.append(", 1), (");
+        }
+        proverInput.deleteCharAt(proverInput.length() - 1);
+        proverInput.deleteCharAt(proverInput.length() - 1);
+        proverInput.deleteCharAt(proverInput.length() - 1);
+        proverInput.append("].\n");
+        proverInput.append("end_of_list.\n");
+        proverInput.append("\n");
+        proverInput.append("list_of_formulae(axioms).\n");
+        for (String axiom : formulaAxioms) {
+            proverInput.append("formula(");
+            proverInput.append(axiom);
+            proverInput.append(").\n");
+        }
+        proverInput.append("end_of_list.\n");
+        proverInput.append("\n");
+        if (!formulaConjectures.isEmpty()) {
+            proverInput.append("list_of_formulae(conjectures).\n");
+            for (String conjecture : formulaConjectures) {
+                proverInput.append("formula(");
+                proverInput.append(conjecture);
+                proverInput.append(").\n");
+            }
+            proverInput.append("end_of_list.\n");
+            proverInput.append("\n");
+        }
+        proverInput.append("end_problem.\n");
 
         // Create the folder path
         String folderPath = "prover_input/";
@@ -256,30 +350,6 @@ public class VerificationController {
         Path inputFilePath = Path.of(folderPath + verification.getId() + "_" + verification.getProver().toLowerCase() +
                 "_input.txt");
         BufferedWriter writer = new BufferedWriter(new FileWriter(inputFilePath.toString()));
-        writer.write("""
-                begin_problem(FSIDE).
-                    
-                list_of_descriptions.
-                name({*FSIDE-SPASS*}).
-                author({*SL*}).
-                status(unsatisfiable).
-                description({*SPASS test*}).
-                end_of_list.
-                             
-                list_of_symbols.
-                predicates[(arg0, 1), (arg1, 1)].
-                end_of_list.
-                                
-                list_of_formulae(axioms).
-                formula(exists([T], arg0(T))).
-                formula(forall([T], implies(arg0(T), exists([T1], arg1(T1))))).
-                formula(forall([T], forall([T1], not(and(arg0(T), arg1(T1)))))).
-                end_of_list.
-                                
-                end_problem.
-                                
-                """);
-//            writer.write(verification.getContent());
 //        writer.write("""
 //                begin_problem(FSIDE).
 //
@@ -303,6 +373,7 @@ public class VerificationController {
 //                end_problem.
 //
 //                """);
+        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
     }
@@ -316,14 +387,11 @@ public class VerificationController {
         ArrayList<String> formulas = new ArrayList<>();
         for (String element : elements) {
             if (element.equals("LTL")) {
-                String ltlLogicalSpecification = scenario.getLtlLogicalSpecification();
-                if (ltlLogicalSpecification == null) {
+                List<String> ltlFormulas = scenario.getLtlLogicalSpecification();
+                if (ltlFormulas == null) {
                     throw new Exception("LTL Logical Specification was not generated");
                 }
-                ltlLogicalSpecification = ltlLogicalSpecification.substring(0,
-                        ltlLogicalSpecification.length() - 1); // Remove the last character (comma)
-                ltlLogicalSpecification = ltlLogicalSpecification.replace(" ", ""); // remove spaces
-                List<String> ltlFormulas = Arrays.stream(ltlLogicalSpecification.split(",")).toList();
+                ltlFormulas = ltlFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
                 formulas.addAll(ltlFormulas);
             } else {
 
