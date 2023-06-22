@@ -159,18 +159,6 @@ public class VerificationController {
 
     private Path createProver9Input() throws Exception {
 
-        // TODO fix converting FOL to Prover9 syntax (compare to InKreSAT)
-//        List<String> convertedFormulas = changeFolToProver9Syntax(folLogicalSpecification);
-//        StringBuilder proverInput = new StringBuilder();
-//        proverInput.append("formulas(sos).\n  ");
-//        for (String convertedFormula : convertedFormulas) {
-//            proverInput.append(convertedFormula);
-//            proverInput.append(".\n  ");
-//        }
-//        proverInput.delete(proverInput.length() - 2, proverInput.length());
-//        proverInput.append("end_of_list.\n");
-        showWarningMessage("Conversion to Prover9 syntax not implemented. A placeholder will be used.");
-
         // Create the folder path
         String folderPath = "prover_input/";
         checkIfFolderExists(folderPath);
@@ -184,60 +172,9 @@ public class VerificationController {
                   all x all y (-(arg0(x) & arg1(y))).
                 end_of_list.
                 """);
-//        writer.write("""
-//                formulas(sos).
-//                  exists x (arg0(x)).
-//                  all x all y all z (arg0(x) -> exists y (arg1(y)) & exists z (arg2(z))).
-//                  all x all y all z (-(arg0(x) & arg1(y))).
-//                  all x all y all z (-(arg0(x) & arg2(z))).
-//                end_of_list.
-//                """);
 //        writer.write(proverInput.toString());
         writer.flush();
         return inputFilePath;
-    }
-
-    private List<String> changeFolToProver9Syntax(String folLogicalSpecification) {
-        folLogicalSpecification = folLogicalSpecification.substring(0,
-                folLogicalSpecification.length() - 1); // Remove the last character (comma)
-        folLogicalSpecification = folLogicalSpecification.replace(" ", ""); // remove spaces
-        List<String> formulas = Arrays.stream(folLogicalSpecification.split(",")).toList();
-        List<String> results = new ArrayList<>();
-        for (String formula : formulas) {
-            StringBuilder temp = new StringBuilder();
-            StringBuilder result = new StringBuilder();
-            int index = 0;
-            for (var c : formula.toCharArray()) {
-                if (!Character.isLetter(c) && !Character.isDigit(c) && temp.length() > 0) {
-                    if (temp.toString().equals("ForAll")) {
-                        index++;
-                        result.append("all x").append(index).append(" ");
-                        result.append(c);
-                        temp = new StringBuilder();
-                    } else if (temp.toString().equals("Exist")) {
-                        index++;
-                        result.append("exists x").append(index).append(" ");
-                        result.append(c);
-                        temp = new StringBuilder();
-                    } else {
-                        result.append(temp).append("(x").append(index).append(")");
-                        result.append(c);
-                        temp = new StringBuilder();
-                    }
-                } else if (Character.isLetter(c) || Character.isDigit(c)) {
-                    temp.append(c);
-                } else {
-                    result.append(c);
-                }
-            }
-            String newResult = result.toString();
-            newResult = newResult.replace("=>", " -> ");
-            newResult = newResult.replace("~", " -");
-            newResult = newResult.replace("^", " & ");
-            newResult = newResult.replace("|", " | ");
-            results.add(newResult);
-        }
-        return results;
     }
 
     private Path createSpassInput() throws Exception {
