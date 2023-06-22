@@ -33,10 +33,10 @@
                 <MenuItem text="Add SeqSeq" fx:id="menuItemAddSeqSeq" onAction="#addSeqSeq" accelerator="Shortcut+O"/>
             </Menu>
             <Menu text="Edit" fx:id="menuEdit">
-                <MenuItem text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>
-                <MenuItem text="Redo" onAction="#redo" accelerator="Shortcut+Y"/>
-                <SeparatorMenuItem/>
-                <MenuItem text="Select All          " onAction="#selectAll" accelerator="Shortcut+A"/>
+<!--                <MenuItem text="Undo" onAction="#undo" accelerator="Shortcut+Z"/>-->
+<!--                <MenuItem text="Redo" onAction="#redo" accelerator="Shortcut+Y"/>-->
+<!--                <SeparatorMenuItem/>-->
+<!--                <MenuItem text="Select All          " onAction="#selectAll" accelerator="Shortcut+A"/>-->
                 <MenuItem text="Delete" onAction="#deleteSelection" accelerator="Delete"/>
             </Menu>
             <Menu text="Settings">
