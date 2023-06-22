@@ -191,6 +191,6 @@ codePython.txt
 /java-python-code-generator-develop/*.txt
 /docker/shared/*.txt
 /prover_input/*
-/prover_input_temp/*
 /prover_output/*
 /prover_logs/*
+/prover_converting_logs/*

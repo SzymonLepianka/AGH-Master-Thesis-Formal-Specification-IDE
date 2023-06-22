@@ -17,7 +17,8 @@ import sl.fside.services.LoggerService;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Path;
+import java.nio.charset.*;
+import java.nio.file.*;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -177,5 +178,68 @@ public class DockerService {
             }
         }
         tis.close();
+    }
+
+    public Path convertInputFromSpassToProver9(Path inputFilePath) throws Exception {
+
+        // convert to Prover9 input (from SPASS input)
+        Path convertedInputPath = executeConvertingFromSpassToProver9(inputFilePath);
+
+        // necessary corrections
+        String content = Files.readString(convertedInputPath);
+        content = content.replaceAll("formula_list\\(usable\\)", "formulas(sos)");
+        Files.writeString(inputFilePath, content);
+
+        return inputFilePath;
+    }
+
+    private Path executeConvertingFromSpassToProver9(Path inputFilePath) throws Exception {
+        // copy input file to the container
+        dockerClient.copyArchiveToContainerCmd(CONTAINER_NAME).withHostResource(inputFilePath.toString())
+                .withRemotePath("/shared").exec();
+        loggerService.logInfo(inputFilePath + " copied to container");
+
+        // Create the exec creation request
+        String command = "/opt/SPASS-3.5/dfg2otter /shared/" + inputFilePath.getFileName() +
+                " /shared/convert_from_spass_to_prover9.txt 2> /shared/converting_logs.txt";
+        ExecCreateCmdResponse execCreateCmdResponse =
+                dockerClient.execCreateCmd(CONTAINER_NAME).withCmd("bash", "-c", command).withAttachStdout(true)
+                        .withAttachStderr(true).exec();
+
+        // Start the exec command
+        ExecStartResultCallback callback = new ExecStartResultCallback();
+        dockerClient.execStartCmd(execCreateCmdResponse.getId()).withDetach(false).withTty(true).exec(callback);
+
+        // Wait for the command to complete
+        callback.awaitCompletion();
+
+        // Copy file from container
+        TarArchiveInputStream tarStream = new TarArchiveInputStream(
+                dockerClient.copyArchiveFromContainerCmd(CONTAINER_NAME, "/shared/convert_from_spass_to_prover9.txt")
+                        .exec());
+        String outputFilePath = inputFilePath.toString().replace("input.", "input_converted.");
+        unTar(tarStream, new File(outputFilePath));
+        loggerService.logInfo("Converted output file saved: " + outputFilePath);
+
+
+        // Create converting logs folder if it doesn't exist
+        File proverLogsFolder = new File("prover_converting_logs/");
+        if (!proverLogsFolder.exists()) {
+            boolean created = proverLogsFolder.mkdirs();
+            if (!created) {
+                // Handle the case when folder creation fails
+                throw new Exception("Failed to create the folder prover_converting_logs/");
+            }
+        }
+
+        // Copy logs file from container
+        try (TarArchiveInputStream logsTarStream = new TarArchiveInputStream(
+                dockerClient.copyArchiveFromContainerCmd(CONTAINER_NAME, "/shared/converting_logs.txt").exec())) {
+            String logsFilePath = inputFilePath.toString().replace("input", "converting_logs");
+            unTar(logsTarStream, new File(logsFilePath));
+            loggerService.logInfo("Converting logs file saved: " + logsFilePath);
+        }
+
+        return Path.of(outputFilePath);
     }
 }
