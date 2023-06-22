@@ -280,6 +280,29 @@ public class VerificationController {
                                 
                 """);
 //            writer.write(verification.getContent());
+//        writer.write("""
+//                begin_problem(FSIDE).
+//
+//                list_of_descriptions.
+//                name({*FSIDE-SPASS*}).
+//                author({*SL*}).
+//                status(unsatisfiable).
+//                description({*SPASS test*}).
+//                end_of_list.
+//
+//                list_of_symbols.
+//                predicates[(arg0, 1), (arg1, 1)].
+//                end_of_list.
+//
+//                list_of_formulae(axioms).
+//                formula(exists([T], arg0(T))).
+//                formula(forall([T], implies(arg0(T), exists([T1], arg1(T1))))).
+//                formula(forall([T], not(and(arg0(T), arg1(T))))).
+//                end_of_list.
+//
+//                end_problem.
+//
+//                """);
         writer.flush();
         return inputFilePath;
     }
