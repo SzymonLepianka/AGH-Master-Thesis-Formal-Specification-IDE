@@ -5,28 +5,8 @@
       "arg0",
       "arg1",
       "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
-    ]
-  },
-  "SeqSeq": {
-    "number of args": 3,
-    "rules": [
-      "arg0",
-      "arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
-    ]
-  },
-  "Alt": {
-    "number of args": 3,
-    "rules": [
-      "arg0",
-      "arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
+      "ForAll((arg0) => Exist(arg1))",
+      "ForAll(~((arg0) ^ (arg1)))"
     ]
   },
   "Branch": {
@@ -35,11 +15,11 @@
       "arg0",
       "arg1 | arg2",
       "Exist(arg0)",
-      "ForAll(arg0 => (Exist(arg1) ^ ~(Exist(arg2)) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0Plus => Exist(arg1))",
-      "ForAll(arg0Minus => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg1))",
-      "ForAll(~(arg0 ^ arg2))"
+      "ForAll((arg0) => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
+      "ForAll((arg0Plus) => Exist(arg1))",
+      "ForAll((arg0Minus) => Exist(arg2))",
+      "ForAll(~((arg0) ^ (arg1)))",
+      "ForAll(~((arg0) ^ (arg2)))"
     ]
   },
   "BranchRe": {
@@ -47,10 +27,10 @@
     "rules": [
       "arg0 | arg1",
       "arg2",
-      "(Exist(arg0) ^ ~Exist(arg1)) | (~Exist(arg0) ^ Exist(arg1))",
-      "ForAll(arg0 | arg1 => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg2))",
-      "ForAll(~(arg1 ^ arg2))"
+      "((Exist(arg0) ^ ~(Exist(arg1))) | (~(Exist(arg0)) ^ Exist(arg1)))",
+      "ForAll(((arg0) | (arg1)) => Exist(arg2))",
+      "ForAll(~((arg0) ^ (arg2)))",
+      "ForAll(~((arg1) ^ (arg2)))"
     ]
   },
   "Concur": {
@@ -59,9 +39,9 @@
       "arg0",
       "arg1 | arg2",
       "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1) ^ Exist(arg2))",
-      "ForAll(~(arg0 ^ arg1))",
-      "ForAll(~(arg0 ^ arg2))"
+      "ForAll((arg0) => (Exist(arg1) ^ Exist(arg2)))",
+      "ForAll(~((arg0) ^ (arg1)))",
+      "ForAll(~((arg0) ^ (arg2)))"
     ]
   },
   "ConcurRe": {
@@ -71,10 +51,10 @@
       "arg2",
       "Exist(arg0)",
       "Exist(arg1)",
-      "ForAll(arg0 => Exist(arg2))",
-      "ForAll(arg1 => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg2))",
-      "ForAll(~(arg1 ^ arg2))"
+      "ForAll((arg0) => Exist(arg2))",
+      "ForAll((arg1) => Exist(arg2))",
+      "ForAll(~((arg0) ^ (arg2)))",
+      "ForAll(~((arg1) ^ (arg2)))"
     ]
   },
   "Cond": {
@@ -83,12 +63,12 @@
       "arg0",
       "arg3",
       "Exist(arg0)",
-      "ForAll(arg0 => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0Plus => Exist(arg1))",
-      "ForAll(arg0Minus => Exist(arg2))",
-      "ForAll(arg1 | arg2 => Exist(arg3))",
-      "ForAll(~(arg0 ^ (arg1 | arg2)))",
-      "ForAll(~((arg1 | arg2) ^ arg3))"
+      "ForAll((arg0) => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
+      "ForAll((arg0Plus) => Exist(arg1))",
+      "ForAll((arg0Minus) => Exist(arg2))",
+      "ForAll(((arg1) | (arg2)) => Exist(arg3))",
+      "ForAll(~((arg0) ^ ((arg1) | (arg2))))",
+      "ForAll(~(((arg1) | (arg2)) ^ (arg3)))"
     ]
   },
   "Para": {
@@ -97,11 +77,11 @@
       "arg0",
       "arg3",
       "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1) ^ Exist(arg2))",
-      "ForAll(arg1 => Exist(arg3))",
-      "ForAll(arg2 => Exist(arg3))",
-      "ForAll(~(arg0 ^ (arg1 | arg2)))",
-      "ForAll(~((arg1 | arg2) ^ arg3))"
+      "ForAll((arg0) => (Exist(arg1) ^ Exist(arg2)))",
+      "ForAll((arg1) => Exist(arg3))",
+      "ForAll((arg2) => Exist(arg3))",
+      "ForAll(~((arg0) ^ ((arg1) | (arg2))))",
+      "ForAll(~(((arg1) | (arg2)) ^ (arg3)))"
     ]
   },
   "Loop": {
@@ -110,16 +90,44 @@
       "arg0",
       "arg3",
       "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg1 => (Exist(arg2) ^ Exist(arg3)) | (~Exist(arg2) ^ Exist(arg3)))",
-      "ForAll(arg1 ^ arg1 => Exist(arg2))",
-      "ForAll(arg1 ^ arg1 => ~Exist(arg2) ^ Exist(arg3))",
-      "ForAll(arg2 => Exist(arg1))",
-      "ForAll(arg3 => ~Exist(arg1) ^ ~Exist(arg2))",
-      "ForAll(~(arg0 ^ (arg1 | arg2 | arg3)))",
-      "ForAll(~(arg1 ^ (arg0 | arg2 | arg3)))",
-      "ForAll(~(arg2 ^ (arg0 | arg1 | arg3)))",
-      "ForAll(~(arg3 ^ (arg0 | arg1 | arg2)))"
+      "ForAll((arg0) => Exist(arg1))",
+      "ForAll((arg1) => ((Exist(arg2) ^ Exist(arg3)) | (~(Exist(arg2)) ^ Exist(arg3))))",
+      "ForAll(((arg1) ^ (arg1Plus)) => Exist(arg2))",
+      "ForAll(((arg1) ^ (arg1Minus)) => (~(Exist(arg2)) ^ Exist(arg3)))",
+      "ForAll((arg2) => Exist(arg1))",
+      "ForAll((arg3) => (~(Exist(arg1)) ^ ~(Exist(arg2))))",
+      "ForAll(~((arg0) ^ ((arg1) | (arg2) | (arg3))))",
+      "ForAll(~((arg1) ^ ((arg0) | (arg2) | (arg3))))",
+      "ForAll(~((arg2) ^ ((arg0) | (arg1) | (arg3))))",
+      "ForAll(~((arg3) ^ ((arg0) | (arg1) | (arg2))))"
+    ]
+  },
+  "SeqSeq": {
+    "number of args": 3,
+    "rules": [
+      "arg0",
+      "arg2",
+      "Exist(arg0)",
+      "ForAll((arg0) => Exist(arg1))",
+      "ForAll((arg1) => Exist(arg2))",
+      "ForAll(~((arg0) ^ (arg1)))",
+      "ForAll(~((arg0) ^ (arg2)))",
+      "ForAll(~((arg1) ^ (arg2)))"
+    ]
+  },
+  "Alt": {
+    "number of args": 3,
+    "rules": [
+      "arg0",
+      "arg2",
+      "Exist(arg0)",
+      "ForAll((arg0) => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
+      "ForAll((arg0Plus) => Exist(arg1))",
+      "ForAll((arg0Minus) => Exist(arg2))",
+      "ForAll((arg1) => Exist(arg2))",
+      "ForAll(~((arg0) ^ (arg1)))",
+      "ForAll(~((arg0) ^ (arg2)))",
+      "ForAll(~((arg1) ^ (arg2)))"
     ]
   }
 }
