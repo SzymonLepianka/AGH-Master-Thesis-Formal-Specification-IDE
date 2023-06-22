@@ -248,7 +248,16 @@ public class VerificationController {
     private Path createSpassInput() throws Exception {
 
         Scenario scenario = mainWindowController.resultsPanelController.getCurrentScenario();
-        List<AtomicActivity> atomicActivities = scenario.getAtomicActivities();
+
+        // weź aktywności ze scenariusza + te z wyrażenia
+        List<String> atomicActivities =
+                scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList();
+        List<String> atomicActivitiesFromPatternExpression =
+                getAtomicActivitiesFromPE(scenario.getPatternExpression().getPeWithProcessedNesting().replace(" ", ""));
+        List<String> allAtomicActivities = new ArrayList<>();
+        allAtomicActivities.addAll(atomicActivities);
+        allAtomicActivities.addAll(atomicActivitiesFromPatternExpression);
+        allAtomicActivities = new ArrayList<>(new HashSet<>(allAtomicActivities)); // removes duplicates
 
         // stwórz formuły na podstawie verificationContent
         String content = verification.getContent().replace(" ", ""); // remove spaces form content
@@ -314,13 +323,16 @@ public class VerificationController {
         proverInput.append("\n");
         proverInput.append("list_of_symbols.\n");
         proverInput.append("predicates[(");
-        for (AtomicActivity atomicActivity : atomicActivities) {
-            proverInput.append(atomicActivity.getContent());
-            proverInput.append(", 1), (");
-            proverInput.append(atomicActivity.getContent()).append("Plus");
-            proverInput.append(", 1), (");
-            proverInput.append(atomicActivity.getContent()).append("Minus");
-            proverInput.append(", 1), (");
+
+        for (String atomicActivity : allAtomicActivities) {
+            if (!atomicActivity.contains("<")) { // nie dodawaj aktywności związanych z relacjami, np. <<include>>create_order
+                proverInput.append(atomicActivity);
+                proverInput.append(", 1), (");
+                proverInput.append(atomicActivity).append("Plus");
+                proverInput.append(", 1), (");
+                proverInput.append(atomicActivity).append("Minus");
+                proverInput.append(", 1), (");
+            }
         }
         proverInput.deleteCharAt(proverInput.length() - 1);
         proverInput.deleteCharAt(proverInput.length() - 1);
@@ -473,6 +485,34 @@ public class VerificationController {
             results.add(newResult);
         }
         return results;
+    }
+
+    private List<String> getAtomicActivitiesFromPE(String patternExpression) throws Exception {
+        List<String> atomicActivities = new ArrayList<>();
+
+        String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
+        List<WorkflowPatternTemplate> folPatternPropertySet =
+                WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
+
+        String labeledPatternExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
+        int highestLabel = GeneratingLogicalSpecifications.getHighestLabel(labeledPatternExpression);
+
+        for (int l = highestLabel; l > 0; l--) {
+            int c = 1;
+            WorkflowPattern pat =
+                    GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
+            while (pat != null) {
+                for (String arg : pat.getPatternArguments()) {
+                    if (!WorkflowPattern.isNotAtomic(arg)) {
+                        atomicActivities.add(arg);
+                    }
+                }
+                c++;
+                pat = GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
+            }
+        }
+
+        return new ArrayList<>(new HashSet<>(atomicActivities));
     }
 
     private void checkIfFolderExists(String folderPath) throws Exception {
