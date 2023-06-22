@@ -9,26 +9,6 @@
       "forall([T], not(and(arg0(T), arg1(T))))"
     ]
   },
-  "SeqSeq": {
-    "number of args": 3,
-    "rules": [
-      "arg0",
-      "arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
-    ]
-  },
-  "Alt": {
-    "number of args": 3,
-    "rules": [
-      "arg0",
-      "arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(~(arg0 ^ arg1))"
-    ]
-  },
   "Branch": {
     "number of args": 3,
     "rules": [
@@ -47,10 +27,10 @@
     "rules": [
       "arg0 | arg1",
       "arg2",
-      "(Exist(arg0) ^ ~Exist(arg1)) | (~Exist(arg0) ^ Exist(arg1))",
-      "ForAll(arg0 | arg1 => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg2))",
-      "ForAll(~(arg1 ^ arg2))"
+      "or(and(exists([V], arg0(V)), not(exists([W], arg1(W)))), and(not(exists([V], arg0(V))), exists([W], arg1(W))))",
+      "forall([U], implies(or(arg0(U), arg1(U)), exists([V], arg2(V))))",
+      "forall([U], not(and(arg0(U), arg2(U))))",
+      "forall([U], not(and(arg1(U), arg2(U))))"
     ]
   },
   "Concur": {
@@ -58,10 +38,10 @@
     "rules": [
       "arg0",
       "arg1 | arg2",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1) ^ Exist(arg2))",
-      "ForAll(~(arg0 ^ arg1))",
-      "ForAll(~(arg0 ^ arg2))"
+      "exists([U], arg0(U))",
+      "forall([U], implies(arg0(U), and(exists([V], arg1(V)), exists([W], arg2(W)))))",
+      "forall([U], not(and(arg0(U), arg1(U))))",
+      "forall([U], not(and(arg0(U), arg2(U))))"
     ]
   },
   "ConcurRe": {
@@ -69,12 +49,12 @@
     "rules": [
       "arg0 | arg1",
       "arg2",
-      "Exist(arg0)",
-      "Exist(arg1)",
-      "ForAll(arg0 => Exist(arg2))",
-      "ForAll(arg1 => Exist(arg2))",
-      "ForAll(~(arg0 ^ arg2))",
-      "ForAll(~(arg1 ^ arg2))"
+      "exists([U], arg0(U))",
+      "exists([U], arg1(U))",
+      "forall([U], implies(arg0(U), exists([V], arg2(V))))",
+      "forall([U], implies(arg1(U), exists([V], arg2(V))))",
+      "forall([U], not(and(arg0(U), arg2(U))))",
+      "forall([U], not(and(arg1(U), arg2(U))))"
     ]
   },
   "Cond": {
@@ -82,13 +62,13 @@
     "rules": [
       "arg0",
       "arg3",
-      "Exist(arg0)",
-      "ForAll(arg0 => ((Exist(arg1) ^ ~(Exist(arg2))) | (~(Exist(arg1)) ^ Exist(arg2))))",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg0 => Exist(arg2))",
-      "ForAll(arg1 | arg2 => Exist(arg3))",
-      "ForAll(~(arg0 ^ (arg1 | arg2)))",
-      "ForAll(~((arg1 | arg2) ^ arg3))"
+      "exists([U], arg0(U))",
+      "forall([U], implies(arg0(U), or(and(exists([V], arg1(V)), not(exists([W], arg2(W)))), and(not(exists([V], arg1(V))), exists([W], arg2(W))))))",
+      "forall([U], implies(arg0Plus(U), exists([V], arg1(V))))",
+      "forall([U], implies(arg0Minus(U), exists([V], arg2(V))))",
+      "forall([U], implies(or(arg1(U), arg2(U)), exists([V], arg3(V))))",
+      "forall([U], not(and(arg0(U), or(arg1(U), arg2(U)))))",
+      "forall([U], not(and(or(arg1(U), arg2(U)), arg3(U))))"
     ]
   },
   "Para": {
@@ -96,12 +76,12 @@
     "rules": [
       "arg0",
       "arg3",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1) ^ Exist(arg2))",
-      "ForAll(arg1 => Exist(arg3))",
-      "ForAll(arg2 => Exist(arg3))",
-      "ForAll(~(arg0 ^ (arg1 | arg2)))",
-      "ForAll(~((arg1 | arg2) ^ arg3))"
+      "exists([U], arg0(U))",
+      "forall([U], implies(arg0(U), and(exists([V], arg1(V)), exists([W], arg2(W)))))",
+      "forall([U], implies(arg1(U), exists([V], arg3(V))))",
+      "forall([U], implies(arg2(U), exists([V], arg3(V))))",
+      "forall([U], not(and(arg0(U), or(arg1(U), arg2(U)))))",
+      "forall([U], not(and(or(arg1(U), arg2(U)), arg3(U))))"
     ]
   },
   "Loop": {
@@ -109,17 +89,45 @@
     "rules": [
       "arg0",
       "arg3",
-      "Exist(arg0)",
-      "ForAll(arg0 => Exist(arg1))",
-      "ForAll(arg1 => (Exist(arg2) ^ Exist(arg3)) | (~Exist(arg2) ^ Exist(arg3)))",
-      "ForAll(arg1 ^ arg1 => Exist(arg2))",
-      "ForAll(arg1 ^ arg1 => ~Exist(arg2) ^ Exist(arg3))",
-      "ForAll(arg2 => Exist(arg1))",
-      "ForAll(arg3 => ~Exist(arg1) ^ ~Exist(arg2))",
-      "ForAll(~(arg0 ^ (arg1 | arg2 | arg3)))",
-      "ForAll(~(arg1 ^ (arg0 | arg2 | arg3)))",
-      "ForAll(~(arg2 ^ (arg0 | arg1 | arg3)))",
-      "ForAll(~(arg3 ^ (arg0 | arg1 | arg2)))"
+      "exists([U], arg0(U))",
+      "forall([U], implies(arg0(U), exists([V], arg1(V))))",
+      "forall([U], implies(arg1(U), or(and(exists([V], arg2(V)), exists([W], arg3(W))), and(not(exists([V], arg2(V))), exists([W], arg3(W))))))",
+      "forall([U], implies(and(arg1(U), arg1Plus(U)), exists([V], arg2(V))))",
+      "forall([U], implies(and(arg1(U), arg1Minus(U)), and(not(exists([V], arg2(V))), exists([W], arg3(W)))))",
+      "forall([U], implies(arg2(U), exists([V], arg1(V))))",
+      "forall([U], implies(arg3(U), and(not(exists([V], arg1(V))), not(exists([V], arg2(V))))))",
+      "forall([U], not(and(arg0(U), or(arg1(U), arg2(U), arg3(U)))))",
+      "forall([U], not(and(arg1(U), or(arg0(U), arg2(U), arg3(U)))))",
+      "forall([U], not(and(arg2(U), or(arg0(U), arg1(U), arg3(U)))))",
+      "forall([U], not(and(arg3(U), or(arg0(U), arg1(U), arg2(U)))))"
+    ]
+  },
+  "SeqSeq": {
+    "number of args": 3,
+    "rules": [
+      "arg0",
+      "arg2",
+      "exists([T], arg0(T))",
+      "forall([T], implies(arg0(T), exists([U], arg1(U))))",
+      "forall([T], implies(arg1(T), exists([U], arg2(U))))",
+      "forall([T], not(and(arg0(T), arg1(T))))",
+      "forall([T], not(and(arg0(T), arg2(T))))",
+      "forall([T], not(and(arg1(T), arg2(T))))"
+    ]
+  },
+  "Alt": {
+    "number of args": 3,
+    "rules": [
+      "arg0",
+      "arg2",
+      "exists([T], arg0(T))",
+      "forall([U], implies(arg0(U), or(and(exists([V], arg1(V)), not(exists([W], arg2(W)))), and(not(exists([V], arg1(V))), exists([W], arg2(W))))))",
+      "forall([U], implies(arg0Plus(U), exists([V], arg1(V))))",
+      "forall([U], implies(arg0Minus(U), exists([V], arg2(V))))",
+      "forall([U], implies(arg1(U), exists([V], arg2(V))))",
+      "forall([U], not(and(arg0(U), arg1(U))))",
+      "forall([U], not(and(arg0(U), arg2(U))))",
+      "forall([U], not(and(arg1(U), arg2(U))))"
     ]
   }
 }
