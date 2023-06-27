@@ -19,6 +19,7 @@ import java.io.*;
 import java.util.*;
 
 import static sl.fside.services.code_generator1.functions.GenJava.*;
+import static sl.fside.services.code_generator2.compiler.Compiler.*;
 import static sl.fside.services.code_generator1.functions.GenPython.*;
 
 public class GenerateCodePanelController {
@@ -159,7 +160,8 @@ public class GenerateCodePanelController {
             checkIfGeneratedCodeFolderExists();
             String javaPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(), "Java");
-            String javaCode = genJava(javaPE, UUID.randomUUID().toString());
+//            String javaCode = genJava(javaPE, UUID.randomUUID().toString());
+            String javaCode = compile(javaPE, Language.JAVA);
             showGeneratedCode(javaCode, "Java");
             loggerService.logInfo("Java code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
@@ -185,7 +187,8 @@ public class GenerateCodePanelController {
             String pythonPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(),
                             "Python");
-            String pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
+//            String pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
+            String pythonCode = compile(pythonPE, Language.PYTHON);
             showGeneratedCode(pythonCode, "Python");
             loggerService.logInfo("Python code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
