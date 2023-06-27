@@ -24,6 +24,7 @@ module sl.fside {
     requires com.github.dockerjava.transport;
     requires com.github.dockerjava.transport.jersey;
     requires org.fxmisc.flowless;
+    requires ST4;
 
     opens sl.fside.services to com.google.guice;
     opens sl.fside.services.docker_service to com.google.guice;
