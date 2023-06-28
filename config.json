@@ -30,5 +30,7 @@
         "/Project/Models/ModelRelationshipContainer/ModelChildren/ModelRelationshipContainer/ModelChildren/Generalization"
       ]
     }
-  }
+  },
+  "code_generator_type": "v2",
+  "_comment": "Allowed code geneterator types: 'v1', 'v2'"
 }

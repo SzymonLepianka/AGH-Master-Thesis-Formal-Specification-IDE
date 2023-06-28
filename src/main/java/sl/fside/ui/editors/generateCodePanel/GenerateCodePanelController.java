@@ -9,6 +9,7 @@ import javafx.scene.paint.*;
 import javafx.stage.Stage;
 import javafx.stage.*;
 import javafx.util.*;
+import org.json.*;
 import sl.fside.factories.*;
 import sl.fside.model.*;
 import sl.fside.services.*;
@@ -16,6 +17,7 @@ import sl.fside.ui.*;
 import sl.fside.ui.editors.generateCodePanel.controls.*;
 
 import java.io.*;
+import java.nio.file.*;
 import java.util.*;
 
 import static sl.fside.services.code_generator1.functions.GenJava.*;
@@ -27,10 +29,8 @@ public class GenerateCodePanelController {
     private final IModelFactory modelFactory;
     private final UIElementsFactory uiElementsFactory;
     private final LoggerService loggerService;
-
+    private final String CONFIG_FILENAME = "config.json";
     private final List<Pair<AnchorPane, CodeController>> uiElementCodePairs = new ArrayList<>();
-
-
     @FXML
     public TitledPane generateCodePanelRoot;
     @FXML
@@ -43,7 +43,7 @@ public class GenerateCodePanelController {
     public ListView<AnchorPane> codesList;
     @FXML
     public Button addCodeButton;
-
+    private String codeGeneratorType;
     private Scenario scenario;
 
     @Inject
@@ -66,6 +66,7 @@ public class GenerateCodePanelController {
 //                new BorderStroke(randomColor(), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(2))));
 
         updateGenerateCodePanel();
+        setCodeGeneratorType();
     }
 
     private Color randomColor() {
@@ -74,6 +75,23 @@ public class GenerateCodePanelController {
         double g = rand.nextFloat();
         double b = rand.nextFloat();
         return new Color(r, g, b, 1);
+    }
+
+    private void setCodeGeneratorType() {
+        // get code generator type from config
+        try {
+            String content = Files.readString(Paths.get(CONFIG_FILENAME));
+            JSONObject jsonObject = new JSONObject(content);
+            String codeGeneratorType = jsonObject.getString("code_generator_type");
+            if (codeGeneratorType.equals("v2")) {
+                this.codeGeneratorType = "v2";
+            } else {
+                this.codeGeneratorType = "v1";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            this.codeGeneratorType = "v1";
+        }
     }
 
     @FXML
@@ -160,8 +178,12 @@ public class GenerateCodePanelController {
             checkIfGeneratedCodeFolderExists();
             String javaPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(), "Java");
-//            String javaCode = genJava(javaPE, UUID.randomUUID().toString());
-            String javaCode = compile(javaPE, Language.JAVA);
+            String javaCode;
+            if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
+                javaCode = compile(javaPE, Language.JAVA);
+            } else {
+                javaCode = genJava(javaPE, UUID.randomUUID().toString());
+            }
             showGeneratedCode(javaCode, "Java");
             loggerService.logInfo("Java code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
@@ -187,8 +209,12 @@ public class GenerateCodePanelController {
             String pythonPE =
                     replaceCodeInPatternExpression(scenario.getPatternExpression().getPeWithProcessedNesting(),
                             "Python");
-//            String pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
-            String pythonCode = compile(pythonPE, Language.PYTHON);
+            String pythonCode;
+            if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
+                pythonCode = compile(pythonPE, Language.PYTHON);
+            } else {
+                pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
+            }
             showGeneratedCode(pythonCode, "Python");
             loggerService.logInfo("Python code generated - (scenarioId=" + scenario.getId() + ")");
         } catch (Exception e) {
