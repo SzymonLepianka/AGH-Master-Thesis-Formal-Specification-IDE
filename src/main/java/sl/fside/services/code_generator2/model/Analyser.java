@@ -1,12 +1,8 @@
 package sl.fside.services.code_generator2.model;
 
-import sl.fside.services.code_generator2.PatternBaseVisitor;
-import sl.fside.services.code_generator2.PatternParser;
+import sl.fside.services.code_generator2.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Generates Model by analysing given pattern.
@@ -34,6 +30,8 @@ public class Analyser {
 
             if (ctx.EMPTY() != null) {
                 return new EmptyNode(debugInfo);
+            } else if (ctx.ATOM() != null) {
+                return new StringNode(ctx.ATOM().getText(), debugInfo);
             } else if (ctx.STRING() != null) {
                 return new StringNode(ctx.STRING().getText()
                         .translateEscapes()

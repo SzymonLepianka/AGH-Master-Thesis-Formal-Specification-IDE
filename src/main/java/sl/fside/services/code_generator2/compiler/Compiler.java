@@ -1,20 +1,14 @@
 package sl.fside.services.code_generator2.compiler;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
-import sl.fside.services.code_generator2.PatternLexer;
-import sl.fside.services.code_generator2.PatternParser;
-import sl.fside.services.code_generator2.generator.Generator;
-import sl.fside.services.code_generator2.generator.TargetConfig;
-import sl.fside.services.code_generator2.model.Analyser;
-import sl.fside.services.code_generator2.model.Model;
-import sl.fside.services.code_generator2.validation.DefaultValidator;
+import org.antlr.v4.runtime.*;
+import sl.fside.services.code_generator2.*;
+import sl.fside.services.code_generator2.generator.*;
+import sl.fside.services.code_generator2.model.*;
+import sl.fside.services.code_generator2.validation.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import static java.util.Map.entry;
+import static java.util.Map.*;
 
 /**
  * Compiler for pattern language

@@ -1,6 +1,6 @@
 package sl.fside.services.code_generator2.model;
 
-import java.util.Objects;
+import java.util.*;
 
 public class Type {
     public String name;
