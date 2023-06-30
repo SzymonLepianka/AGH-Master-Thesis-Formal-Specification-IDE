@@ -3,6 +3,7 @@ package sl.fside.services.logic_formula_generator;
 import org.apache.commons.lang3.*;
 
 import java.util.*;
+import java.util.regex.*;
 
 public class GeneratingLogicalSpecifications {
 
@@ -12,7 +13,9 @@ public class GeneratingLogicalSpecifications {
     //          - predefined pattern property set Σ (non-empty)
     // Output: logical specification L
     //
-    public static List<String> generateLogicalSpecifications(String patternExpression, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
+    public static List<String> generateLogicalSpecifications(String patternExpression,
+                                                             List<WorkflowPatternTemplate> patternPropertySet,
+                                                             String type) throws Exception {
         List<String> logicalSpecification = new ArrayList<>();
         String labelledExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
         int highestLabelNumber = getHighestLabel(labelledExpression);
@@ -25,11 +28,35 @@ public class GeneratingLogicalSpecifications {
                 L2.remove(0);
                 for (String arg : pat.getPatternArguments()) {
                     if (WorkflowPattern.isNotAtomic(arg)) {
-                        String cons = CalculatingConsolidatedExpression.generateConsolidatedExpression(arg, "ini", patternPropertySet) + " | " + CalculatingConsolidatedExpression.generateConsolidatedExpression(arg, "fin", patternPropertySet);
+                        String cons = CalculatingConsolidatedExpression.generateConsolidatedExpression(arg, "ini",
+                                patternPropertySet) + " | " +
+                                CalculatingConsolidatedExpression.generateConsolidatedExpression(arg, "fin",
+                                        patternPropertySet);
 
                         List<String> L2_cons = new LinkedList<>();
                         for (String outcome : L2) {
-                            L2_cons.add(outcome.replace(arg, cons));
+                            if (cons.contains("|") && type.equals("FOL")) {
+                                String[] split = outcome.split(Pattern.quote(arg));
+                                if (split.length > 1) {
+                                    StringBuilder sb = new StringBuilder();
+                                    for (int i = 0; i < split.length - 1; i++) {
+                                        int idx2 = split[i + 1].indexOf("(");
+                                        int idx3 = split[i + 1].indexOf(")");
+                                        sb.append(split[i]);
+                                        sb.append("or(");
+                                        String substring = split[i + 1].substring(idx2, idx3 + 1); // np. (T) albo (U)
+                                        sb.append(cons.replace(" |", substring + ","));
+                                        split[i + 1] = split[i + 1].substring(0, idx3 + 1) + ")" +
+                                                split[i + 1].substring(idx3 + 1); // dodaje ) po (T)
+                                    }
+                                    sb.append(split[split.length - 1]);
+                                    L2_cons.add(sb.toString());
+                                } else {
+                                    L2_cons.add(outcome.replace(arg, cons));
+                                }
+                            } else {
+                                L2_cons.add(outcome.replace(arg, cons));
+                            }
                         }
                         L2 = L2_cons;
                     }
@@ -83,7 +110,8 @@ public class GeneratingLogicalSpecifications {
     //
     // Na przykład dla Formuły "Seq(1]a, Seq(2]Concur(3]b,c,d[3), ConcurRe(3]e,f,g[3)[2)[1)" funkcja zwróci:
     //      Concur Re(e,f,g).
-    public static WorkflowPattern getPat(String labelledExpression, int l, int c, List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
+    public static WorkflowPattern getPat(String labelledExpression, int l, int c,
+                                         List<WorkflowPatternTemplate> patternPropertySet) throws Exception {
 
         // sprawdzenie poprawności wyrażenia
         int entryOccurrences = StringUtils.countMatches(labelledExpression, "(" + l + "]");

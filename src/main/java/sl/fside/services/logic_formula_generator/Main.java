@@ -8,8 +8,10 @@ public class Main {
         // Loading of Pattern property set from batch files
         String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
         String patternRulesLtlFile = "./pattern_rules/pattern_rules_LTL.json"; // Linear Temporal Logic
-        List<WorkflowPatternTemplate> folPatternPropertySet = WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
-        List<WorkflowPatternTemplate> ltlPatternPropertySet = WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
+        List<WorkflowPatternTemplate> folPatternPropertySet =
+                WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
+        List<WorkflowPatternTemplate> ltlPatternPropertySet =
+                WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
 
         // Algorithm 1 - Labelling pattern expressions
         String exampleExpression1 = "Seq(a, Seq(Concur(b,c,d), ConcurRe(e,f,g)))";
@@ -20,13 +22,17 @@ public class Main {
         System.out.println(labelledPatternExpression2);
 
         // Algorithm 2 - Calculating consolidated expression
-        String ini = CalculatingConsolidatedExpression.generateConsolidatedExpression(labelledPatternExpression1.replace(" ", ""), "ini", folPatternPropertySet);
+        String ini = CalculatingConsolidatedExpression.generateConsolidatedExpression(
+                labelledPatternExpression1.replace(" ", ""), "ini", folPatternPropertySet);
         System.out.println("ini: " + ini);
-        String fin = CalculatingConsolidatedExpression.generateConsolidatedExpression(labelledPatternExpression1.replace(" ", ""), "fin", folPatternPropertySet);
+        String fin = CalculatingConsolidatedExpression.generateConsolidatedExpression(
+                labelledPatternExpression1.replace(" ", ""), "fin", folPatternPropertySet);
         System.out.println("fin: " + fin);
 
         // Algorithm 3 - Generating logical specifications
-        List<String> s = GeneratingLogicalSpecifications.generateLogicalSpecifications(exampleExpression1.replace(" ", ""), folPatternPropertySet);
+        List<String> s =
+                GeneratingLogicalSpecifications.generateLogicalSpecifications(exampleExpression1.replace(" ", ""),
+                        folPatternPropertySet, "FOL");
         System.out.println(s);
     }
 }

@@ -86,9 +86,9 @@ public class NodesManager {
             List<WorkflowPatternTemplate> ltlPatternPropertySet =
                     WorkflowPatternTemplate.loadPatternPropertySet(patternRulesLtlFile);
             this.folLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(
-                    patternExpression.getPeWithProcessedNesting().replace(" ", ""), folPatternPropertySet);
+                    patternExpression.getPeWithProcessedNesting().replace(" ", ""), folPatternPropertySet, "FOL");
             this.ltlLogicalSpecification = GeneratingLogicalSpecifications.generateLogicalSpecifications(
-                    patternExpression.getPeWithProcessedNesting().replace(" ", ""), ltlPatternPropertySet);
+                    patternExpression.getPeWithProcessedNesting().replace(" ", ""), ltlPatternPropertySet, "LTL");
         } catch (Exception e) {
             e.printStackTrace();
         }
