@@ -184,8 +184,7 @@ public class VerificationController {
         // weź aktywności ze scenariusza + te z wyrażenia
         List<String> atomicActivities =
                 scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList();
-        List<String> atomicActivitiesFromPatternExpression =
-                getAtomicActivitiesFromPE(scenario.getPatternExpression().getPeWithProcessedNesting().replace(" ", ""));
+        List<String> atomicActivitiesFromPatternExpression = scenario.getPatternExpression().getAtomicActivitiesFromPE();
         List<String> allAtomicActivities = new ArrayList<>();
         allAtomicActivities.addAll(atomicActivities);
         allAtomicActivities.addAll(atomicActivitiesFromPatternExpression);
@@ -420,35 +419,6 @@ public class VerificationController {
         }
         return results;
     }
-
-    private List<String> getAtomicActivitiesFromPE(String patternExpression) throws Exception {
-        List<String> atomicActivities = new ArrayList<>();
-
-        String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
-        List<WorkflowPatternTemplate> folPatternPropertySet =
-                WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
-
-        String labeledPatternExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
-        int highestLabel = GeneratingLogicalSpecifications.getHighestLabel(labeledPatternExpression);
-
-        for (int l = highestLabel; l > 0; l--) {
-            int c = 1;
-            WorkflowPattern pat =
-                    GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
-            while (pat != null) {
-                for (String arg : pat.getPatternArguments()) {
-                    if (!WorkflowPattern.isNotAtomic(arg)) {
-                        atomicActivities.add(arg);
-                    }
-                }
-                c++;
-                pat = GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
-            }
-        }
-
-        return new ArrayList<>(new HashSet<>(atomicActivities));
-    }
-
 
     private List<String> replacePipeWithOr(List<String> formulas) {
         List<String> formulasFixed = new ArrayList<>();

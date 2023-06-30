@@ -1,6 +1,7 @@
 package sl.fside.model;
 
 import com.fasterxml.jackson.annotation.*;
+import sl.fside.services.logic_formula_generator.*;
 
 import java.util.*;
 
@@ -60,6 +61,35 @@ public class PatternExpression {
         }
         sb.append(")");
         return sb.toString();
+    }
+
+    public List<String> getAtomicActivitiesFromPE() throws Exception {
+        String patternExpression = this.getPeWithProcessedNesting().replace(" ", "");
+        List<String> atomicActivities = new ArrayList<>();
+
+        String patternRulesFolFile = "./pattern_rules/pattern_rules_FOL.json"; // First Order Logic
+        List<WorkflowPatternTemplate> folPatternPropertySet =
+                WorkflowPatternTemplate.loadPatternPropertySet(patternRulesFolFile);
+
+        String labeledPatternExpression = LabellingPatternExpressions.labelExpressions(patternExpression);
+        int highestLabel = GeneratingLogicalSpecifications.getHighestLabel(labeledPatternExpression);
+
+        for (int l = highestLabel; l > 0; l--) {
+            int c = 1;
+            WorkflowPattern pat =
+                    GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
+            while (pat != null) {
+                for (String arg : pat.getPatternArguments()) {
+                    if (!WorkflowPattern.isNotAtomic(arg)) {
+                        atomicActivities.add(arg);
+                    }
+                }
+                c++;
+                pat = GeneratingLogicalSpecifications.getPat(labeledPatternExpression, l, c, folPatternPropertySet);
+            }
+        }
+
+        return new ArrayList<>(new HashSet<>(atomicActivities));
     }
 
     public enum MainPatternName {
