@@ -181,6 +181,7 @@ public class GenerateCodePanelController {
             String javaCode;
             if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
                 javaCode = compile(javaPE, Language.JAVA);
+                javaCode = addFunctionNames(javaCode, "Java");
             } else {
                 javaCode = genJava(javaPE, UUID.randomUUID().toString());
             }
@@ -212,6 +213,7 @@ public class GenerateCodePanelController {
             String pythonCode;
             if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
                 pythonCode = compile(pythonPE, Language.PYTHON);
+                pythonCode = addFunctionNames(pythonCode, "Python");
             } else {
                 pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
             }
@@ -221,6 +223,16 @@ public class GenerateCodePanelController {
             e.printStackTrace();
             showMessage(e.getMessage(), Alert.AlertType.ERROR);
         }
+    }
+
+    private String addFunctionNames(String code, String language) {
+        List<Code> languageCodes = scenario.getCodes().stream()
+                .filter(c -> c.getLanguage() != null && c.getLanguage().equals(language) && c.getCode().endsWith("()"))
+                .toList();
+        for (Code c : languageCodes) {
+            code = code.replaceFirst(" \\(\\)", " " + c.getCode());
+        }
+        return code;
     }
 
     private void checkIfGeneratedCodeFolderExists() throws Exception {

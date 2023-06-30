@@ -184,7 +184,8 @@ public class VerificationController {
         // weź aktywności ze scenariusza + te z wyrażenia
         List<String> atomicActivities =
                 scenario.getAtomicActivities().stream().map(AtomicActivity::getContent).toList();
-        List<String> atomicActivitiesFromPatternExpression = scenario.getPatternExpression().getAtomicActivitiesFromPE();
+        List<String> atomicActivitiesFromPatternExpression =
+                scenario.getPatternExpression().getAtomicActivitiesFromPE();
         List<String> allAtomicActivities = new ArrayList<>();
         allAtomicActivities.addAll(atomicActivities);
         allAtomicActivities.addAll(atomicActivitiesFromPatternExpression);
