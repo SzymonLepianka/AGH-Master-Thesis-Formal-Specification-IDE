@@ -1,1 +1,0 @@
-Cond(atomic7,Para(atomic3P,atomic4P,atomic5P,atomic6P),Alt(warunek, Seq(atomic1P,atomic2P), null),atomic8)
