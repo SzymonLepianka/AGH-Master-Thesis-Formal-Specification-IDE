@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_33j0gB27Ee6XB7IKjUVJvw" name="paymentGeneralization">
+    <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+      <eAnnotations xmi:id="_33j0gB27Ee6XB7IKjUVJvw0" source="genmymodel">
+        <details xmi:id="_33j0gB27Ee6XB7IKjUVJvw00" key="uuid" value="_33j0gB27Ee6XB7IKjUVJvw"/>
+        <details xmi:id="_33j0gB27Ee6XB7IKjUVJvw01" key="author" value="slepianka"/>
+      </eAnnotations>
+    </xmi:Extension>
+    <packageImport xmi:id="_33j0gR27Ee6XB7IKjUVJvw" importingNamespace="_33j0gB27Ee6XB7IKjUVJvw">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_33j0gR27Ee6XB7IKjUVJvw0" source="genmymodel">
+          <details xmi:id="_33j0gR27Ee6XB7IKjUVJvw00" key="uuid" value="_33j0gR27Ee6XB7IKjUVJvw"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <importedPackage href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#/"/>
+    </packageImport>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_6I3SAP_pEDuKN9OBDD3boQ" name="Płatność za rejestrację">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I3SAP_pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I3SAP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I3SAP_pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_6I3SAf_pEDuKN9OBDD3boQ" name="Płatność przez Internet">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I3SAf_pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I3SAf_pEDuKN9OBDD3boQ00" key="uuid" value="_6I3SAf_pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <generalization xmi:id="_6I3SAv_pEDuKN9OBDD3boQ" general="_6I3SAP_pEDuKN9OBDD3boQ" specific="_6I3SAf_pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I3SAv_pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I3SAv_pEDuKN9OBDD3boQ00" key="uuid" value="_6I3SAv_pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </generalization>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_6I3SA__pEDuKN9OBDD3boQ" name="Płatność telefonem">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I3SA__pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I3SA__pEDuKN9OBDD3boQ00" key="uuid" value="_6I3SA__pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <generalization xmi:id="_6I35EP_pEDuKN9OBDD3boQ" general="_6I3SAP_pEDuKN9OBDD3boQ" specific="_6I3SA__pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I35EP_pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I35EP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35EP_pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </generalization>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_6I35Ef_pEDuKN9OBDD3boQ" name="Student">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I35Ef_pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I35Ef_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35Ef_pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_6I35Ev_pEDuKN9OBDD3boQ" name="Student_Płatność przez Internet" memberEnd="_6I35E__pEDuKN9OBDD3boQ _6I35Fv_pEDuKN9OBDD3boQ" navigableOwnedEnd="_6I35E__pEDuKN9OBDD3boQ _6I35Fv_pEDuKN9OBDD3boQ">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I35Ev_pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I35Ev_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35Ev_pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_6I35E__pEDuKN9OBDD3boQ" name="student" type="_6I35Ef_pEDuKN9OBDD3boQ" owningAssociation="_6I35Ev_pEDuKN9OBDD3boQ" association="_6I35Ev_pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I35E__pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I35E__pEDuKN9OBDD3boQ00" key="uuid" value="_6I35E__pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6I35FP_pEDuKN9OBDD3boQ">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I35FP_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I35FP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35FP_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_6I35Ff_pEDuKN9OBDD3boQ" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I35Ff_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I35Ff_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35Ff_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_6I35Fv_pEDuKN9OBDD3boQ" name="płatność przez Internet" type="_6I3SAf_pEDuKN9OBDD3boQ" owningAssociation="_6I35Ev_pEDuKN9OBDD3boQ" association="_6I35Ev_pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I35Fv_pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I35Fv_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35Fv_pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6I35F__pEDuKN9OBDD3boQ">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I35F__pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I35F__pEDuKN9OBDD3boQ00" key="uuid" value="_6I35F__pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_6I35GP_pEDuKN9OBDD3boQ" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I35GP_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I35GP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35GP_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_6I35Gf_pEDuKN9OBDD3boQ" name="Student_Płatność telefonem" memberEnd="_6I4gIP_pEDuKN9OBDD3boQ _6I4gI__pEDuKN9OBDD3boQ" navigableOwnedEnd="_6I4gIP_pEDuKN9OBDD3boQ _6I4gI__pEDuKN9OBDD3boQ">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_6I35Gf_pEDuKN9OBDD3boQ0" source="genmymodel">
+          <details xmi:id="_6I35Gf_pEDuKN9OBDD3boQ00" key="uuid" value="_6I35Gf_pEDuKN9OBDD3boQ"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_6I4gIP_pEDuKN9OBDD3boQ" name="student" type="_6I35Ef_pEDuKN9OBDD3boQ" owningAssociation="_6I35Gf_pEDuKN9OBDD3boQ" association="_6I35Gf_pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I4gIP_pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I4gIP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gIP_pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6I4gIf_pEDuKN9OBDD3boQ">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I4gIf_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I4gIf_pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gIf_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_6I4gIv_pEDuKN9OBDD3boQ" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I4gIv_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I4gIv_pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gIv_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_6I4gI__pEDuKN9OBDD3boQ" name="płatność telefonem" type="_6I3SA__pEDuKN9OBDD3boQ" owningAssociation="_6I35Gf_pEDuKN9OBDD3boQ" association="_6I35Gf_pEDuKN9OBDD3boQ">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_6I4gI__pEDuKN9OBDD3boQ0" source="genmymodel">
+            <details xmi:id="_6I4gI__pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gI__pEDuKN9OBDD3boQ"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_6I4gJP_pEDuKN9OBDD3boQ">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I4gJP_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I4gJP_pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gJP_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_6I4gJf_pEDuKN9OBDD3boQ" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_6I4gJf_pEDuKN9OBDD3boQ0" source="genmymodel">
+              <details xmi:id="_6I4gJf_pEDuKN9OBDD3boQ00" key="uuid" value="_6I4gJf_pEDuKN9OBDD3boQ"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>
