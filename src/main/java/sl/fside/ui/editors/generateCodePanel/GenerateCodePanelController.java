@@ -254,7 +254,10 @@ public class GenerateCodePanelController {
                 scenario.getCodes().stream().filter(c -> c.getLanguage() != null && c.getLanguage().equals(language))
                         .toList();
         for (Code code : languageCodes) {
-            languagePatternExpression = languagePatternExpression.replace(code.getAtomicActivity(), code.getCode());
+            languagePatternExpression =
+                    languagePatternExpression.replace(code.getAtomicActivity() + ",", code.getCode() + ",");
+            languagePatternExpression =
+                    languagePatternExpression.replace(code.getAtomicActivity() + ")", code.getCode() + ")");
         }
         return languagePatternExpression;
     }
