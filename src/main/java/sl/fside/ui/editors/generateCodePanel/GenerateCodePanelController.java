@@ -182,6 +182,7 @@ public class GenerateCodePanelController {
             if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
                 javaCode = compile(javaPE, Language.JAVA);
                 javaCode = addFunctionNames(javaCode, "Java");
+                saveGeneratedCodeToFile("codeJava_" + UUID.randomUUID() + ".java", javaCode);
             } else {
                 javaCode = genJava(javaPE, UUID.randomUUID().toString());
             }
@@ -214,6 +215,7 @@ public class GenerateCodePanelController {
             if (codeGeneratorType != null && codeGeneratorType.equals("v2")) {
                 pythonCode = compile(pythonPE, Language.PYTHON);
                 pythonCode = addFunctionNames(pythonCode, "Python");
+                saveGeneratedCodeToFile("codePython_" + UUID.randomUUID() + ".py", pythonCode);
             } else {
                 pythonCode = genPython(pythonPE, UUID.randomUUID().toString());
             }
@@ -233,6 +235,13 @@ public class GenerateCodePanelController {
             code = code.replaceFirst(" \\(\\)", " " + c.getCode());
         }
         return code;
+    }
+
+    private void saveGeneratedCodeToFile(String filename, String code) throws Exception {
+        FileWriter writerTxt = new FileWriter("generated_code/" + filename);
+        writerTxt.write(code);
+        writerTxt.close();
+        loggerService.logInfo("Generated code has been saved to file generated_code/" + filename);
     }
 
     private void checkIfGeneratedCodeFolderExists() throws Exception {
