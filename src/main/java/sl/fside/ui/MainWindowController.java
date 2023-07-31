@@ -107,6 +107,7 @@ public class MainWindowController {
         try {
             dockerService.initialize();
         } catch (Exception e) {
+            e.printStackTrace();
             showErrorMessage("Error during Docker service initialization", e.toString());
         }
 
