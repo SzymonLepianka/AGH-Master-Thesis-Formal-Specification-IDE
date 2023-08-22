@@ -338,45 +338,81 @@ public class VerificationController {
 
         // stwórz formuły na podstawie verificationContent
         String content = verification.getContent().replace(" ", ""); // remove spaces form content
-        List<String> elements = Arrays.stream(content.split("=>")).toList(); // TODO add others delimiters
-        ArrayList<String> formulas = new ArrayList<>();
-        for (String element : elements) {
-            if (element.equals("LTL")) {
-                List<String> ltlFormulas = scenario.getLtlLogicalSpecification();
-                if (ltlFormulas == null) {
-                    throw new Exception("LTL Logical Specification was not generated");
-                }
-                ltlFormulas = ltlFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
-                formulas.addAll(ltlFormulas);
-            } else {
+        List<String> elementsAfterImplication = Arrays.stream(content.split("=>")).toList();
 
-                // weź wszystkie Requirements z LTL i niepustą treścią
-                List<Requirement> ltlRequirements = scenario.getRequirements().stream()
-                        .filter(r -> r.getLogic() != null && r.getLogic().equals("Linear Temporal Logic") &&
-                                r.getContent() != null && !r.getContent().isEmpty()).toList();
-                Requirement requirement = ltlRequirements.stream().filter(r -> r.getName().equals(element)).findFirst()
-                        .orElseThrow(() -> {
-                            StringBuilder errorMsg = new StringBuilder(
-                                    "Unknown requirement '" + element + "' for LTL! Available:\n- 'LTL'\n");
-                            if (!ltlRequirements.isEmpty()) {
-                                for (Requirement r : ltlRequirements) {
-                                    errorMsg.append("- '").append(r.getName()).append("'\n");
-                                }
-                            }
-                            errorMsg.append("- '=>'");
-                            return new Exception(errorMsg.toString());
-                        });
-                formulas.add(requirement.getContent());
+        // check if '=>' appears only ones
+        if (elementsAfterImplication.size() > 2) {
+            throw new Exception("'=>' appears more than once");
+        }
+
+        List<String> formulaAxioms = new ArrayList<>();
+        List<String> formulaConjectures = new ArrayList<>();
+        for (int i = 0; i < elementsAfterImplication.size(); i++) {
+            String elementAfterImplication = elementsAfterImplication.get(i);
+            List<String> elementsAfterConjunction = Arrays.stream(elementAfterImplication.split("\\^")).toList();
+            for (String elementAfterConjunction : elementsAfterConjunction) {
+                if (elementAfterConjunction.equals("LTL")) {
+                    List<String> ltlFormulas = scenario.getLtlLogicalSpecification();
+                    if (ltlFormulas == null) {
+                        throw new Exception("LTL Logical Specification was not generated");
+                    }
+                    ltlFormulas = ltlFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
+                    if (i == 0) {
+                        formulaAxioms.addAll(ltlFormulas);
+                    } else {
+                        formulaConjectures.addAll(ltlFormulas);
+                    }
+                } else {
+
+                    // weź wszystkie Requirements z LTL i niepustą treścią
+                    List<Requirement> ltlRequirements = scenario.getRequirements().stream()
+                            .filter(r -> r.getLogic() != null && r.getLogic().equals("Linear Temporal Logic") &&
+                                    r.getContent() != null && !r.getContent().isEmpty()).toList();
+                    Requirement requirement =
+                            ltlRequirements.stream().filter(r -> r.getName().equals(elementAfterConjunction))
+                                    .findFirst().orElseThrow(() -> {
+                                        StringBuilder errorMsg = new StringBuilder(
+                                                "Unknown requirement '" + elementAfterConjunction +
+                                                        "' for LTL! Available:\n- 'LTL'\n");
+                                        if (!ltlRequirements.isEmpty()) {
+                                            for (Requirement r : ltlRequirements) {
+                                                errorMsg.append("- '").append(r.getName()).append("'\n");
+                                            }
+                                        }
+                                        errorMsg.append("- '=>'\n");
+                                        errorMsg.append("- '^'");
+                                        return new Exception(errorMsg.toString());
+                                    });
+                    if (i == 0) {
+                        formulaAxioms.add(requirement.getContent());
+                    } else {
+                        formulaConjectures.add(requirement.getContent());
+                    }
+                }
             }
         }
-        List<String> convertedFormulas = changeLtlToInkresatSyntax(formulas);
+        List<String> convertedFormulaAxioms = changeLtlToInkresatSyntax(formulaAxioms);
+        List<String> convertedFormulaConjectures = changeLtlToInkresatSyntax(formulaConjectures);
         StringBuilder proverInput = new StringBuilder();
         proverInput.append("begin\n");
-        for (String convertedFormula : convertedFormulas) {
+        for (String convertedFormula : convertedFormulaAxioms) {
             proverInput.append(convertedFormula);
             proverInput.append("\n& ");
         }
-        proverInput.delete(proverInput.length() - 2, proverInput.length());
+        if (!convertedFormulaConjectures.isEmpty()) {
+            proverInput.append("(");
+        }
+        for (String convertedFormula : convertedFormulaConjectures) {
+            proverInput.append("~");
+            proverInput.append(convertedFormula);
+            proverInput.append(" | ");
+        }
+        if (!convertedFormulaConjectures.isEmpty()) {
+            proverInput.delete(proverInput.length() - 3, proverInput.length());
+            proverInput.append(")\n");
+        } else {
+            proverInput.delete(proverInput.length() - 2, proverInput.length());
+        }
         proverInput.append("end\n");
 
         // Create the folder path
@@ -402,9 +438,10 @@ public class VerificationController {
 //                [](~(ui1 & ui3))
 //                & [](ui1 -> <>(ui2))
 //                & [](ui1 -> <>(ui3))
-//                & [](ui1 -> (<>(ui2) & ~(<>(ui3)) | (~(<>(ui2)) & <>(ui3)))
+//                & [](ui1 -> (<>(ui2) & ~(<>(ui3)) | (~(<>(ui2)) & <>(ui3))))
 //                & <>(ui1)
 //                & [](~(ui1 & ui2))
+//                & (-<>(ui1) | -<>(ui2))
 //                end
 //                """);
         writer.write(proverInput.toString());
