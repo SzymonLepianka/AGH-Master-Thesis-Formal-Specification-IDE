@@ -193,52 +193,57 @@ public class VerificationController {
 
         // stwórz formuły na podstawie verificationContent
         String content = verification.getContent().replace(" ", ""); // remove spaces form content
-        List<String> elements = Arrays.stream(content.split("=>")).toList(); // TODO add others delimiters
+        List<String> elementsAfterImplication = Arrays.stream(content.split("=>")).toList();
 
         // check if '=>' appears only ones
-        if (elements.size() > 2) {
+        if (elementsAfterImplication.size() > 2) {
             throw new Exception("'=>' appears more than once");
         }
 
         List<String> formulaAxioms = new ArrayList<>();
         List<String> formulaConjectures = new ArrayList<>();
-        for (int i = 0; i < elements.size(); i++) {
-            String element = elements.get(i);
+        for (int i = 0; i < elementsAfterImplication.size(); i++) {
+            String elementAfterImplication = elementsAfterImplication.get(i);
+            List<String> elementsAfterConjunction = Arrays.stream(elementAfterImplication.split("\\^")).toList();
+            for (String elementAfterConjunction : elementsAfterConjunction) {
+                if (elementAfterConjunction.equals("FOL")) {
+                    List<String> folFormulas = scenario.getFolLogicalSpecification();
+                    if (folFormulas == null) {
+                        throw new Exception("FOL Logical Specification was not generated");
+                    }
+                    folFormulas = folFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
 
-            if (element.equals("FOL")) {
-                List<String> folFormulas = scenario.getFolLogicalSpecification();
-                if (folFormulas == null) {
-                    throw new Exception("FOL Logical Specification was not generated");
-                }
-                folFormulas = folFormulas.stream().map(f -> f.replace(" ", "")).toList(); // remove spaces
-
-                if (i == 0) {
-                    formulaAxioms.addAll(folFormulas);
+                    if (i == 0) {
+                        formulaAxioms.addAll(folFormulas);
+                    } else {
+                        formulaConjectures.addAll(folFormulas);
+                    }
                 } else {
-                    formulaConjectures.addAll(folFormulas);
-                }
-            } else {
 
-                // weź wszystkie Requirements z FOL i niepustą treścią
-                List<Requirement> folRequirements = scenario.getRequirements().stream()
-                        .filter(r -> r.getLogic() != null && r.getLogic().equals("First Order Logic") &&
-                                r.getContent() != null && !r.getContent().isEmpty()).toList();
-                Requirement requirement = folRequirements.stream().filter(r -> r.getName().equals(element)).findFirst()
-                        .orElseThrow(() -> {
-                            StringBuilder errorMsg = new StringBuilder(
-                                    "Unknown requirement '" + element + "' for FOL! Available:\n- 'FOL'\n");
-                            if (!folRequirements.isEmpty()) {
-                                for (Requirement r : folRequirements) {
-                                    errorMsg.append("- '").append(r.getName()).append("'\n");
-                                }
-                            }
-                            errorMsg.append("- '=>'");
-                            return new Exception(errorMsg.toString());
-                        });
-                if (i == 0) {
-                    formulaAxioms.add(requirement.getContent());
-                } else {
-                    formulaConjectures.add(requirement.getContent());
+                    // weź wszystkie Requirements z FOL i niepustą treścią
+                    List<Requirement> folRequirements = scenario.getRequirements().stream()
+                            .filter(r -> r.getLogic() != null && r.getLogic().equals("First Order Logic") &&
+                                    r.getContent() != null && !r.getContent().isEmpty()).toList();
+                    Requirement requirement =
+                            folRequirements.stream().filter(r -> r.getName().equals(elementAfterConjunction))
+                                    .findFirst().orElseThrow(() -> {
+                                        StringBuilder errorMsg = new StringBuilder(
+                                                "Unknown requirement '" + elementAfterConjunction +
+                                                        "' for FOL! Available:\n- 'FOL'\n");
+                                        if (!folRequirements.isEmpty()) {
+                                            for (Requirement r : folRequirements) {
+                                                errorMsg.append("- '").append(r.getName()).append("'\n");
+                                            }
+                                        }
+                                        errorMsg.append("- '=>'\n");
+                                        errorMsg.append("- '^'");
+                                        return new Exception(errorMsg.toString());
+                                    });
+                    if (i == 0) {
+                        formulaAxioms.add(requirement.getContent());
+                    } else {
+                        formulaConjectures.add(requirement.getContent());
+                    }
                 }
             }
         }
