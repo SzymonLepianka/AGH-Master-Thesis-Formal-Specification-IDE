@@ -1,2 +1,0 @@
-- prover 9 must be installed and added to PATH
-- target files must be readable and/or writeable
