@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML">
+  <uml:Model xmi:id="_lzO_YE2-Ee6SCbCxmAtZhg" name="airportPassengerService1">
+    <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+      <eAnnotations xmi:id="_lzO_YE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+        <details xmi:id="_lzO_YE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzO_YE2-Ee6SCbCxmAtZhg"/>
+        <details xmi:id="_lzO_YE2-Ee6SCbCxmAtZhg01" key="author" value="slepianka"/>
+      </eAnnotations>
+    </xmi:Extension>
+    <packageImport xmi:id="_lzSC4E2-Ee6SCbCxmAtZhg" importingNamespace="_lzO_YE2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC4E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC4E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC4E2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <importedPackage href="http://www.omg.org/spec/UML/20131001/PrimitiveTypes.xmi#/"/>
+    </packageImport>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSC4U2-Ee6SCbCxmAtZhg" name="Check-in">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC4U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC4U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC4U2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <include xmi:id="_lzSC4k2-Ee6SCbCxmAtZhg" addition="_lzSC502-Ee6SCbCxmAtZhg" includingCase="_lzSC4U2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC4k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC4k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC4k2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </include>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSC402-Ee6SCbCxmAtZhg" name="Automated check-in">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC402-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC402-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC402-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <include xmi:id="_lzSC5E2-Ee6SCbCxmAtZhg" addition="_lzSC502-Ee6SCbCxmAtZhg" includingCase="_lzSC402-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC5E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC5E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC5E2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </include>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSC5U2-Ee6SCbCxmAtZhg" name="Express check-in">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC5U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC5U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC5U2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <include xmi:id="_lzSC5k2-Ee6SCbCxmAtZhg" addition="_lzSC502-Ee6SCbCxmAtZhg" includingCase="_lzSC5U2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC5k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC5k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC5k2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+      </include>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSC502-Ee6SCbCxmAtZhg" name="Preparation of the boarding pass">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC502-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC502-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC502-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_lzSC6E2-Ee6SCbCxmAtZhg" name="Passenger">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC6E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC6E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC6E2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_lzSC6U2-Ee6SCbCxmAtZhg" name="Passenger check-in worker">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC6U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC6U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC6U2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSC6k2-Ee6SCbCxmAtZhg" name="Security control">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC6k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC6k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC6k2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSC602-Ee6SCbCxmAtZhg" name="Pracownik odprawy pasażerów_Odprawa" memberEnd="_lzSC7E2-Ee6SCbCxmAtZhg _lzSC702-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSC7E2-Ee6SCbCxmAtZhg _lzSC702-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC602-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC602-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC602-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSC7E2-Ee6SCbCxmAtZhg" name="pracownik odprawy pasażerów" type="_lzSC6U2-Ee6SCbCxmAtZhg" owningAssociation="_lzSC602-Ee6SCbCxmAtZhg" association="_lzSC602-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC7E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC7E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC7E2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC7U2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC7U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC7U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC7U2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC7k2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC7k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC7k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC7k2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSC702-Ee6SCbCxmAtZhg" name="odprawa" type="_lzSC4U2-Ee6SCbCxmAtZhg" owningAssociation="_lzSC602-Ee6SCbCxmAtZhg" association="_lzSC602-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC702-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC702-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC702-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC8E2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC8E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC8E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC8E2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC8U2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC8U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC8U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC8U2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSC8k2-Ee6SCbCxmAtZhg" name="Ekspresowa odprawa_Pasażer" memberEnd="_lzSC802-Ee6SCbCxmAtZhg _lzSC9k2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSC802-Ee6SCbCxmAtZhg _lzSC9k2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC8k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC8k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC8k2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSC802-Ee6SCbCxmAtZhg" name="ekspresowa odprawa" type="_lzSC5U2-Ee6SCbCxmAtZhg" owningAssociation="_lzSC8k2-Ee6SCbCxmAtZhg" association="_lzSC8k2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC802-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC802-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC802-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC9E2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC9E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC9E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC9E2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC9U2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC9U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC9U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC9U2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSC9k2-Ee6SCbCxmAtZhg" name="pasażer" type="_lzSC6E2-Ee6SCbCxmAtZhg" owningAssociation="_lzSC8k2-Ee6SCbCxmAtZhg" association="_lzSC8k2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC9k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC9k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC9k2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC902-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC902-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC902-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC902-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC-E2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC-E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC-E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC-E2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSC-U2-Ee6SCbCxmAtZhg" name="Zautomatyzowana odprawa_Pasażer" memberEnd="_lzSC-k2-Ee6SCbCxmAtZhg _lzSC_U2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSC-k2-Ee6SCbCxmAtZhg _lzSC_U2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSC-U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSC-U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC-U2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSC-k2-Ee6SCbCxmAtZhg" name="zautomatyzowana odprawa" type="_lzSC402-Ee6SCbCxmAtZhg" owningAssociation="_lzSC-U2-Ee6SCbCxmAtZhg" association="_lzSC-U2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC-k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC-k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC-k2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC-02-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC-02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC-02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC-02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC_E2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC_E2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC_E2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC_E2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSC_U2-Ee6SCbCxmAtZhg" name="pasażer" type="_lzSC6E2-Ee6SCbCxmAtZhg" owningAssociation="_lzSC-U2-Ee6SCbCxmAtZhg" association="_lzSC-U2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSC_U2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSC_U2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC_U2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC_k2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC_k2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC_k2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC_k2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSC_02-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSC_02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSC_02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSC_02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSDAE2-Ee6SCbCxmAtZhg" name="Odprawa_Pasażer" memberEnd="_lzSDAU2-Ee6SCbCxmAtZhg _lzSDBE2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSDAU2-Ee6SCbCxmAtZhg _lzSDBE2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDAE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDAE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDAE2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSDAU2-Ee6SCbCxmAtZhg" name="odprawa" type="_lzSC4U2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDAE2-Ee6SCbCxmAtZhg" association="_lzSDAE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDAU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDAU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDAU2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDAk2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDAk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDAk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDAk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDA02-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDA02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDA02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDA02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSDBE2-Ee6SCbCxmAtZhg" name="pasażer" type="_lzSC6E2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDAE2-Ee6SCbCxmAtZhg" association="_lzSDAE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDBE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDBE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDBE2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDBU2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDBU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDBU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDBU2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDBk2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDBk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDBk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDBk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSDB02-Ee6SCbCxmAtZhg" name="Boarding_Pasażer" memberEnd="_lzSDCE2-Ee6SCbCxmAtZhg _lzSDC02-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSDCE2-Ee6SCbCxmAtZhg _lzSDC02-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDB02-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDB02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDB02-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSDCE2-Ee6SCbCxmAtZhg" name="boarding" type="_lzSC6k2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDB02-Ee6SCbCxmAtZhg" association="_lzSDB02-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDCE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDCE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDCE2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDCU2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDCU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDCU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDCU2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDCk2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDCk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDCk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDCk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSDC02-Ee6SCbCxmAtZhg" name="pasażer" type="_lzSC6E2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDB02-Ee6SCbCxmAtZhg" association="_lzSDB02-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDC02-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDC02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDC02-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDDE2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDDE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDDE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDDE2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDDU2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDDU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDDU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDDU2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_lzSDDk2-Ee6SCbCxmAtZhg" name="Luggage transportation">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDDk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDDk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDDk2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:UseCase" xmi:id="_lzSDD02-Ee6SCbCxmAtZhg" name="Passenger list request">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDD02-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDD02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDD02-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_lzSDEE2-Ee6SCbCxmAtZhg" name="Customs clearance of the destination airport">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDEE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDEE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDEE2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSDEU2-Ee6SCbCxmAtZhg" name="Odprawa celna lotniska docelowego_Prośba o listę pasażerów" memberEnd="_lzSDEk2-Ee6SCbCxmAtZhg _lzSDFU2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSDEk2-Ee6SCbCxmAtZhg _lzSDFU2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDEU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDEU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDEU2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSDEk2-Ee6SCbCxmAtZhg" name="odprawa celna lotniska docelowego" type="_lzSDEE2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDEU2-Ee6SCbCxmAtZhg" association="_lzSDEU2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDEk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDEk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDEk2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDE02-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDE02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDE02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDE02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDFE2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDFE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDFE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDFE2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSDFU2-Ee6SCbCxmAtZhg" name="prośba o listę pasażerów" type="_lzSDD02-Ee6SCbCxmAtZhg" owningAssociation="_lzSDEU2-Ee6SCbCxmAtZhg" association="_lzSDEU2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDFU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDFU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDFU2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDFk2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDFk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDFk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDFk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDF02-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDF02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDF02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDF02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSDGE2-Ee6SCbCxmAtZhg" name="Prośba o listę pasażerów_Transport bagażu" memberEnd="_lzSDGU2-Ee6SCbCxmAtZhg _lzSDHE2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSDGU2-Ee6SCbCxmAtZhg _lzSDHE2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDGE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDGE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDGE2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSDGU2-Ee6SCbCxmAtZhg" name="prośba o listę pasażerów" type="_lzSDD02-Ee6SCbCxmAtZhg" owningAssociation="_lzSDGE2-Ee6SCbCxmAtZhg" association="_lzSDGE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDGU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDGU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDGU2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDGk2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDGk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDGk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDGk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDG02-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDG02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDG02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDG02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSDHE2-Ee6SCbCxmAtZhg" name="transport bagażu" type="_lzSDDk2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDGE2-Ee6SCbCxmAtZhg" association="_lzSDGE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDHE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDHE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDHE2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDHU2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDHU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDHU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDHU2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDHk2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDHk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDHk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDHk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Actor" xmi:id="_lzSDH02-Ee6SCbCxmAtZhg" name="Security control worker">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDH02-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDH02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDH02-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+    </packagedElement>
+    <packagedElement xsi:type="uml:Association" xmi:id="_lzSDIE2-Ee6SCbCxmAtZhg" name="Kontrola bezpieczeństwa_Pracownik kontroli bezpieczeństwa" memberEnd="_lzSDIU2-Ee6SCbCxmAtZhg _lzSDJE2-Ee6SCbCxmAtZhg" navigableOwnedEnd="_lzSDIU2-Ee6SCbCxmAtZhg _lzSDJE2-Ee6SCbCxmAtZhg">
+      <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+        <eAnnotations xmi:id="_lzSDIE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+          <details xmi:id="_lzSDIE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDIE2-Ee6SCbCxmAtZhg"/>
+        </eAnnotations>
+      </xmi:Extension>
+      <ownedEnd xmi:id="_lzSDIU2-Ee6SCbCxmAtZhg" name="kontrola bezpieczeństwa" type="_lzSC6k2-Ee6SCbCxmAtZhg" owningAssociation="_lzSDIE2-Ee6SCbCxmAtZhg" association="_lzSDIE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDIU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDIU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDIU2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDIk2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDIk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDIk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDIk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDI02-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDI02-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDI02-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDI02-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+      <ownedEnd xmi:id="_lzSDJE2-Ee6SCbCxmAtZhg" name="pracownik kontroli bezpieczeństwa" type="_lzSDH02-Ee6SCbCxmAtZhg" owningAssociation="_lzSDIE2-Ee6SCbCxmAtZhg" association="_lzSDIE2-Ee6SCbCxmAtZhg">
+        <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+          <eAnnotations xmi:id="_lzSDJE2-Ee6SCbCxmAtZhg0" source="genmymodel">
+            <details xmi:id="_lzSDJE2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDJE2-Ee6SCbCxmAtZhg"/>
+          </eAnnotations>
+        </xmi:Extension>
+        <lowerValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDJU2-Ee6SCbCxmAtZhg">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDJU2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDJU2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDJU2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </lowerValue>
+        <upperValue xsi:type="uml:LiteralInteger" xmi:id="_lzSDJk2-Ee6SCbCxmAtZhg" value="1">
+          <xmi:Extension extender="http://www.eclipse.org/emf/2002/Ecore">
+            <eAnnotations xmi:id="_lzSDJk2-Ee6SCbCxmAtZhg0" source="genmymodel">
+              <details xmi:id="_lzSDJk2-Ee6SCbCxmAtZhg00" key="uuid" value="_lzSDJk2-Ee6SCbCxmAtZhg"/>
+            </eAnnotations>
+          </xmi:Extension>
+        </upperValue>
+      </ownedEnd>
+    </packagedElement>
+  </uml:Model>
+</xmi:XMI>
